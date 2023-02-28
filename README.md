@@ -1,7 +1,8 @@
 # mitrobo
 <b>Steps to run:</b>
 
-Install mongodb - https://www.mongodb.com/try/download/community
+Install and run mongodb - https://www.mongodb.com/try/download/community
+ /c/Program\ Files/MongoDB/Server/6.0/bin/mongod.exe --dbpath="/c/Users/dikshashukla/Documents/db"
 
 <b>Run Backend:</b>
 
