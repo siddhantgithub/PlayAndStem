@@ -1,15 +1,15 @@
 # mitrobo
-Steps to run:
+<b>Steps to run:</b>
 
 Install mongodb - https://www.mongodb.com/try/download/community
 
-Backend - 
+<b>Run Backend:</b>
 
 cd backend
 
 npm start dev
 
-Frontend -
+<b>Run Frontend: </b>
 
 cd next_frontend
 
