@@ -22,6 +22,12 @@ import Image from 'next/image'
 import { deepOrange, deepPurple } from '@mui/material/colors';
 import Fade from '@mui/material/Fade';
 import DoneIcon from '@mui/icons-material/Done';
+import dynamic from 'next/dynamic'
+
+const PythonEditor = dynamic(
+  () => import("../ace-editor/PythonEditor"),
+  { ssr: false }
+)
 
 
 export  function TopScreenComponent (props) {
@@ -47,6 +53,40 @@ export  function TopScreenComponent (props) {
     );
 }
 
+export function PythonCodeComponent (props) {
+    const {value,onChange} = props;
+    return (
+
+    <Fade in={true} timeout = {1000}>
+    <Grid container spacing={0} sx={{alignItems: 'center'} }>
+        <Grid item xs={12} md={1} lg={1} sx={{maxHeight:"40px"} } >
+        </Grid>
+        <Grid item xs={12} md={11} lg={11}>
+            <Paper
+                            sx={{
+                                p: 2,
+                                mt:2,
+                                mr:2,
+                                display: 'flex',
+                                flexDirection: 'column',
+                            } } elevation = {5}
+                            >
+                 <Box
+        sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            mb:2,
+        }}>Please Type Code Below     </Box>          
+                <PythonEditor onChange = {onChange} value={value}/>   
+            </Paper>
+        </Grid>
+    </Grid> 
+    </Fade>
+    );
+
+}
+
 
 
 export  function ChatBotMessage (props) {
@@ -55,7 +95,7 @@ export  function ChatBotMessage (props) {
     return (
         <Fade in={true} timeout = {1000}>
         <Grid container spacing={0} sx={{alignItems: 'center'} }>
-            <Grid item xs={12} md={1} lg={1} sx={{maxWidth:"40px"} } >
+            <Grid item xs={12} md={1} lg={1} sx={{maxHeight:"40px"} } >
                 <Image
                                 src={ChatBotImage}
                                 alt="Chatbot Image"
@@ -138,7 +178,7 @@ export  const OptionsWithButtons = React.forwardRef((props, ref) =>{
                         options.map((option) => {                 
                             return(
                                 <Fade in={true} timeout = {1000} key = {key++}>
-                                <Button variant="outlined" onClick={option.onClick} >{option.text}</Button>
+                                <Button variant="outlined" onClick={option.onClick} sx={{textTransform: "none"}}>{option.text}</Button>
                                 </Fade>
                             )
                         })
