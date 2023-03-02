@@ -61,6 +61,32 @@ const noticeIfThenElseStructure = [
     {text:"No", onClickResponse:{type: "TMR", message: "No worries. See in step 2, if it is day then we do something, else we do something else as mentioned in step 3"}},
 ];
 
+const IfBlockFirstQuestion = [
+    {text:"A is greater than B", onClickResponse:{type: "TMR", message: "Great"}},
+    {text:"Nothing", onClickResponse:{type: "TMR", message: "Since a > b is true in this case \'A is greater than B\' will be printed"}},
+];
+
+const IfBlockSecondQuestion = [
+    {text:"A is greater than B", onClickResponse:{type: "TMR", message: "Since a > b is not true in this case nothing will be printed"}},
+    {text:"Nothing", onClickResponse:{type: "TMR", message: "Great"}},
+];
+
+const IfBlockThirdQuestion = [
+    {text:"A is greater than B", onClickResponse:{type: "TMR", message: "This program has an error. Any if statement in Python should have an idented block that it can execute if the condition is true"}},
+    {text:"Error since the code below if block is not indented further", onClickResponse:{type: "TMR", message: "Great"}},
+];
+
+const messageStack =["Please write the import statement that gets all the help from microbit and press check when you are done",
+"Remember the syntax of the import statement is:",
+"from \'<where to import>\' import \'<what to import>\'",
+];
+
+const firstPythonCodeResponseActionN = {
+    correct: ["Awesome job", "Congratulations you completed your first line of code", "Press Next To proceed further"],
+    incorrect:["Not exactly. the syntax is: from \'<where to import>\' import \'<what to import>\'", "Since we are using microbit, where to import is microbit",
+    "Since we want to import everything, we will use \'*\' for what to import","So the correct answer is: from microbit import *", "Please note that that there is a space between import and '*'"],
+};
+
 export let LessonText1 = [
     {id:0, type: "TMR", message: "Hi <learnername>, I hope you are doing great"},
     {id:1, type: "TM", message: "Planet Zacobia needs our urgent help"},
@@ -70,23 +96,26 @@ export let LessonText1 = [
     {id:1, type: "ack", message:"Click next to know more about the mission"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
+    {id:1, type: "chpycon", messageStack:messageStack, correctCode:"from microbit import *",responseAction:firstPythonCodeResponseActionN},
+    {id:1, type: "ack", message:"Click next to know more about the mission"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
     {id:5, type: "TM", message: "Zacobians mostly work during the night"},
-    {id:6, type: "TM", message: "To see in the night, Zacobia have lights that are always on, wasting a lot of energy during the day"},
+    {id:6, type: "TM", message: "For work, Zacobia have lights that are always on, wasting a lot of energy during the day"},
     {id:7, type: "TM", message: "Because of the energy wastage, Zacobians will soon run out of the energy"},
     {id:7, type: "TM", message: "How can we solve Zacobians' energy problem?"},
     {id:8, type: "QWBOL", message: "Provide your response", options:howWeSolveZacobiaProblem},
     {id:1, type: "ack", message:"Click next to solve Zacobian's problems"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
-    {id:12, type: "TM", message: "We can help them save energy by building lights that automatically switch off during the day when there is enough sunlight"},
-    {id:12, type: "TM", message: "We will use Micro:bit to develop lights that will automatically switch off during the day"},
+    {id:12, type: "TM", message: "We can help them save energy by building lights that automatically switch off during the day by using Micro:bit controller"},
     {id:1, type: "ack", message:"Click next to see how to switch off the lights when sunlight is high"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
     {id:13, type: "TM", message: "To use Micro:bit, first we need to learn how to talk to it"},
-    {id:14, type: "TM", message: "Talking to a computer or a machine to use them for solving a problem is called computer programming"},
-    {id:14, type: "TM", message: "We can use different languages to talk to a computer or program a computer"},
-    {id:14, type: "TM", message: "For this mission, we will use Python programming language"},
+    {id:14, type: "TM", message: "We can use different languages to talk to a computer"},
+    {id:14, type: "TM", message: "For this mission, we will use Python language"},
+    {id:14, type: "TM", message: "Talking to a computer or a machine to use it for solving a problem is called computer programming"},
     {id:1, type: "ack", message:"Let's get started"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
@@ -104,12 +133,14 @@ export let LessonText1 = [
     {id:11, type: "TM", message: "The first term is \'statement\'"},
     {id:11, type: "TM", message: "In computer programming, we use statements to tell the computer what to do"},
     {id:11, type: "TM", message: "Statements usually comprise of normal english words such as - for, while, and if"},
+    {id:11, type: "TM", message: "Computer program is a set of statement that together solve a problem"},
     {id:1, type: "ack", message:"Click next to proceed"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
-    {id:11, type: "TM", message: "The second term is syntax"},
-    {id:11, type: "TM", message: "Syntax is the way statements have to be used so that computers can understand them"},
-    {id:11, type: "TM", message: "Just like, for us, if we don't have the proper order, english words will stop making sense"},
+    {id:11, type: "TM", message: "The second term is \'syntax\'"},
+    {id:11, type: "TM", message: "Syntax is the order in which which we should use statements so that computers can understand them"},
+    {id:11, type: "TM", message: "Like we need to use English words in a certain order for them to make sense"},
+    {id:11, type: "TM", message: "Let's take an example"},
     {id:1, type: "ack", message:"Next"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
@@ -124,12 +155,12 @@ export let LessonText1 = [
     {id:11, type: "TM", message: "To summarize:"},
     {id:11, type: "TM", message: "Statements tell computers what to do"},
     {id:11, type: "TM", message: "Syntax is the order in which statements should be used so that statements make sense to the computers"},
-    {id:1, type: "TM", message:  "Computer program is a set of statements that teach computers to solve a problem"},
+    {id:1, type: "TM", message:  "Computer program is a set of statements that tell computers to solve a problem"},
     {id:1, type: "ack", message: "Let's start writing our first program"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
-    {id:11, type: "TM", message: "Generally, the first satement in a computer program is for brining in more help"},
-    {id:11, type: "TM", message: "To understand, let's imagine you want to organize a party for your friends and you want to have good food for them"},
+    {id:11, type: "TM", message: "Generally, the first satement in a computer program is for bringing in more help"},
+    {id:11, type: "TM", message: "To understand, let's imagine you want to organize a party with delicious food for your friends"},
     {id:11, type: "TM", message: "Instead of cooking the food yourself, you decided to get help from of a Chef"},
     {id:11, type: "TM", message: "Similarily, When writing computer programs, you need to get additional help to complete different tasks"},
     {id:11, type: "TM", message: "Let's learn how to bring in additional help in Python"},
@@ -139,6 +170,7 @@ export let LessonText1 = [
     {id:12, type:"TM", message: "You bring additional help in Python by using import statement"},
     {id:12, type:"TM", message: "The syntax for using the import statement is:"},
     {id:12, type:"TM", message: "from <place you need help from> import <what help you need>"},
+    {id:12, type:"TM", message: "In syntax a section with arrow brackets \'<>\' means that section has to be replaced"},
     {id:12, type:"TM", message: "For example, suppose you have to bring a Chef from New York, you will write in Python"},
     {id:12, type:"TM", message: "from NewYork import Chef"},
     {id:1, type: "ack", message:"Next"},
@@ -146,18 +178,18 @@ export let LessonText1 = [
     {id:1, type: "showpage"},
     {id:12, type:"TM", message: "Now to solve the energy problem for Zacobians, we need help from Microbit"},
     {id:12, type:"TM", message: <p>So In our case 'from' will be <b>microbit</b></p>},
-    {id:12, type:"TM", message: "For \'what help you need\', we need all the help we can get or everything"},
+    {id:12, type:"TM", message: "For <what help you need> part in the syntax, we need all the help we can get or everything"},
     {id:12, type:"TM", message: "When we need everything instead of saying everything we use the character \'*\'"},
     {id:1, type: "ack", message:"Next"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
     {id:12, type:"TM", message: "Based on what we just discussed, how do you think in Python we will get all the help from microbit"},
-    {id:12, type:"TM", message: "Remember the syntax is - from <place you need help from> import <what help you need>"},
+    {id:12, type:"TM", message: "Remember the syntax is - "},
     {id:12, type:"TM", message: "from <place you need help from> import <what help you need>"},
     {id:12, type:"TM", message: "the place is \'microbit\' and we need all the help, for which we should use \'*\'"},
     {id:8, type: "QWBOL", message: "Provide your response", options:pythonImportQuestion},
     {id:1, type: "donothing"},
-    {id:12, type:"TM", message: "Given from what we have learned. Let's start writing the code"},
+    {id:12, type:"TM", message: "Given from what we have learned. Let's start writing some code"},
     {id:1, type: "ack", message:"Got It"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
@@ -170,8 +202,9 @@ export let LessonText1 = [
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
     {id:12, type:"TM", message: "When we do an import, we get helpers that in Python are called modules"},
-    {id:12, type:"TM", message: "just like helpers have different skills such as a chef can make pasta or a pizza"},
-    {id:12, type:"TM", message: "Modules have different skills which we call function or API"},
+    {id:12, type:"TM", message: "You can imagine a module is like a Chef"},
+    {id:12, type:"TM", message: "just like a Chef can have different skills such making pasta or a pizza"},
+    {id:12, type:"TM", message: "Modules have different skills which we call functions or APIs"},
     {id:1, type: "ack", message:"Click next to proceed"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
@@ -180,7 +213,7 @@ export let LessonText1 = [
     {id:1, type: "ack", message:"Got It"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
-    {id:12, type:"TM", message: "Now since we have got all the help, now it is time to use the help to solve the energy problem"},
+    {id:12, type:"TM", message: "We have got all the help, now it is time to use the help to solve our mission"},
     {id:12, type:"TM", message: "Let's revisit the three steps that we need to take to solve the problem"},
     {id:15, type: "TM", message: "Step 1: Get the sunlight level"},
     {id:15, type: "TM", message: "Step 2: If it is low then switch on the lights"},
@@ -191,13 +224,13 @@ export let LessonText1 = [
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
     {id:15, type: "TM", message: "Fort the first step, we have to first get the light level from Microbit"},
-    {id:15, type: "TM", message: "To get the light level we will use the \'display\' module that we got from the import statement"},
+    {id:15, type: "TM", message: "To get the light level we will use the \'display\' module"},
     {id:15, type: "TM", message: "Remember modules have different skills or APIs or functions"},
     {id:15, type: "TM", message: "Here we will use api or function called \'read_light_level()\'"},
     {id:1, type: "ack", message:"Click next to proceed"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
-    {id:15, type: "TM", message:"To better understand API or function, let's again let's take the example of a chef. Imagine a chef as a module"},
+    {id:15, type: "TM", message:"To better understand API or function, let's again take the example of a chef. Imagine a chef as a module"},
     {id:12, type:"TM", message: "Now a chef can make multiple dishes such as pasta, and spinch salad. You can imagine each of these dishes as different API or services"},
     {id:12, type:"TM", message: "so if you have to want pasta, you will use pasta API"},
     {id:12, type:"TM", message: "Similarily the display module in Micro:bit offers multiple services or API or functions"},
@@ -208,13 +241,13 @@ export let LessonText1 = [
     {id:12, type:"TM", message: "Now how do we use an API?"},
     {id:12, type:"TM", message: "In Python we use an API by the following syntax"},
     {id:12, type:"TM", message: "Syntax: <Module Name>.<api name>()"},
-    {id:12, type:"TM", message: "name of the module followed by a dot \'.\' followed by api name followed by two brackets"},
+    {id:12, type:"TM", message: "name of the module followed by a dot \'.\' followed by api name followed by two round brackets"},
     {id:12, type:"TM", message: "For getting the light level, the api name is read_light_level()"},
     {id:12, type:"TM", message: "So the code to get light level will be display.read_light_level()"},
     {id:1, type: "ack", message:"Click next to proceed"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
-    {id:12, type:"TM", message: "We now know how to get the light level but we should also store it somewhere to use it"},
+    {id:12, type:"TM", message: "We know how to get the light level but we should also store it somewhere to use it"},
     {id:12, type:"TM", message: "We store the values by using variables"},
     {id:12, type:"TM", message: "Think of variables as containers"},
     {id:12, type:"TM", message: "If a chef has made pasta then you have to put it in a container to serve it"},
@@ -238,7 +271,7 @@ export let LessonText1 = [
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
     {id:12, type:"TM", message: "So we know now how to read light level"},
-    {id:12, type:"TM", message: "Let's now learn how to switch on the display"},
+    {id:12, type:"TM", message: "Let's now learn how to switch on and clear the display"},
     {id:12, type:"TM", message: "To switch on the display, we will use the \'show\' api of display module"},
     {id:1, type: "ack", message:"Click next to proceed"},
     {id:1, type: "clearpage"},
@@ -250,20 +283,20 @@ export let LessonText1 = [
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
     {id:12, type:"TM", message: "For this mission we will display a heart when the sunlight level is low"},
-    {id:12, type:"TM", message: "So along with calling the \'show\' API of module display we also have to tell to display heart"},
+    {id:12, type:"TM", message: "So we need to tell the \'show\' API to display heart"},
     {id:12, type:"TM", message: "The code to display the heart is: \'display.show(Image.HEART)\'"},
-    {id:12, type:"TM", message: "Please notice we are telling api \'show\' to display heart by passing the value \'Image.HEART\' between the ending brackets"},
+    {id:12, type:"TM", message: "Please notice we are telling api \'show\' to display heart by passing the value \'Image.HEART\' between the round brackets at the end"},
     {id:12, type:"TM", message: "Now we know how to show a heart, next let's learn how to switch off the display"},
     {id:1, type: "ack", message:"Click next to proceed"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
     {id:12, type:"TM", message: "In this case we will use the api \'clear\' of display module"},
     {id:12, type:"TM", message: "The Python code to clear the display will be \'display.clear()\'"},
-    {id:12, type:"TM", message: "We now know how to show heart and clear the display"},
+    {id:12, type:"TM", message: "Please notice we are not passing any value between the circle brackets here"},
     {id:1, type: "ack", message:"Click next to proceed"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
-    {id:12, type:"TM", message: "Now we need to write the code to make the decision based on the light level"},
+    {id:12, type:"TM", message: "Now we need to write the code to make the decision based on the sunlight level"},
     {id:12, type:"TM", message: "In Python programming one way to make a decision is by using \'if\' statement"},
     {id:12, type:"TM", message: "But before we learn if statement, we need to learn about two things:"},
     {id:12, type:"TM", message: "1. Conditions"},
@@ -287,12 +320,12 @@ export let LessonText1 = [
     {id:12, type:"TM", message: "In Python, blocks are a set of statements that have the same spaces before them"},
     {id:12, type:"TM", message: "For example, refer to the following Python code"},
     {id:10, type: "pycb", value: `
-    print ("This is code block 1")
-    print ("This is code block 1")
-        print ("This belongs to code block 2")
-        print ("This belongs to code block 2")
-            print ("This belongs to code block 3")
-            print ("This belongs to code block 3")
+    print ("Line 1 is in code block A")
+    print ("Line 2 is in code block A")
+        print ("Line 3 is in code block B")
+        print ("Line 4 is in code block B")
+            print ("Line 5 is in code block C")
+            print ("Line 6 is in code block C")
     `},
     {id:12, type:"TM", message: "Line 1 and 2 are in the same block as they have the same whitespaces"},
     {id:12, type:"TM", message: "Similarily line 3 and 4 and so on"},
@@ -303,7 +336,19 @@ export let LessonText1 = [
     {id:12, type:"TM", message: "if  <\'condition\'>:"},
     {id:12, type:"TM", message: "Followed by the block to execute"},
     {id:12, type:"TM", message: "Please note that the block to be executed should have extra indentation or spacing then if block"},
-    {id:12, type:"TM", message: "Let's go through few examples to understand this better"},
+    {id:12, type:"TM", message: "Let's go through few examples"},
+    {id:1, type: "ack", message:"Click next to proceed"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
+    {id:12, type:"TM", message: "In the code below we are using variables in greater than condition"},
+    {id:10, type: "pycb", value: `
+    a = 17
+    b = 10
+    if a > b:
+        print ("A is greater than B")
+    `},
+    {id:12, type:"TM", message: "What do you think the output of the above code will be"},
+    {id:1, type: "QWBO", message: "Provide your response", options:IfBlockFirstQuestion},
     {id:1, type: "ack", message:"Click next to proceed"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
@@ -313,19 +358,34 @@ export let LessonText1 = [
     b = 10
     if a > b:
         print ("A is greater than B")
-    print ("This belongs to code block 2")
     `},
-    {id:12, type:"TM", message: "What do you think the output of the code will be"},
-    {id:12, type:"TM", message: "if  <\'condition\'>:"},
-    {id:12, type:"TM", message: "Followed by the block to execute"},
-    {id:12, type:"TM", message: "Let's go through few examples to understand this better"},
+    {id:12, type:"TM", message: "What do you think the output of the above code will be"},
+    {id:1, type: "QWBO", message: "Provide your response", options:IfBlockSecondQuestion},
+    {id:1, type: "ack", message:"Click next to proceed"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
+    {id:12, type:"TM", message: "In the code below we are using variables in greater than condition"},
+    {id:10, type: "pycb", value: `
+    a = 7
+    b = 10
+    if a > b:
+    print ("A is greater than B")
+    `},
+    {id:12, type:"TM", message: "What do you think the output of the above code will be"},
+    {id:1, type: "QWBO", message: "Provide your response", options:IfBlockThirdQuestion},
     {id:1, type: "ack", message:"Click next to proceed"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
     {id:12, type:"TM", message: "With if statement we can also provide else statment followed by the block to execute when if condition fails"},
     {id:12, type:"TM", message: "Now that we know how to write if statement, we have learned all the individual pieces to program Micro:bit"},
-    {id:12, type:"TM", message: "Next it is time to put all our knowledge together"},
-    {id:15, type: "TM", message: "Did you notice, how we have a simple if-else structure?"},
+    {id:12, type:"TM", message: "Next it is time to write the code to conditionally switch on the lights"},
+    {id:1, type: "ack", message:"Click next to proceed"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
+    {id:15, type: "TM", message: "We will go step by to write the program"},
+    {id:15, type: "TM", message: "We will first discuss what we should write and then you will write the code in the editor to the rigth"},
+    {id:15, type: "TM", message: "Click Done below when you are done and we will proceed"},
+    {id:15, type: "TM", message: "There are different types of loops in Python. For this mission we will use While loop"},
     {id:1, type: "QWBO", message: "Provide your response", options:noticeIfThenElseStructure},
     {id:15, type: "TM", message: "Now let's learn how to write a loop in Python"},
     {id:15, type: "TM", message: "There are different types of loops in Python. For this mission we will use While loop"},
@@ -357,7 +417,6 @@ export let LessonText1 = [
     {id:1, type: "ack", message:"Got It"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
-    
     {id:15, type: "TM", message: "Till now we have a while loop that will continuously execute something"},
     {id:15, type: "TM", message: "Now we can implement step 2 in our algorithm which is check whether it is day or not"},
     {id:15, type: "TM", message: "Now time to implement our first step"},

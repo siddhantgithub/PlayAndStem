@@ -31,7 +31,6 @@ const PythonEditor = dynamic(
 
 
 export  function TopScreenComponent (props) {
-
     const {learnersname} = props;
     return (
         <Box
@@ -72,6 +71,41 @@ export function PythonCodeComponent (props) {
                             } } elevation = {5}
                             >
                  <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        mb:2,
+                    }}>
+                        Please Type Code Below     
+                 </Box>          
+                <PythonEditor onChange = {onChange} value={value}/>   
+            </Paper>
+        </Grid>
+    </Grid> 
+    </Fade>
+    );
+}
+
+export function PythonCodeComponentWithDialogInSide (props) {
+    const {value,onChange} = props;
+    return (
+
+    <Fade in={true} timeout = {1000}>
+    <Grid container spacing={0} sx={{alignItems: 'center'} }>
+        <Grid item xs={12} md={1} lg={1} sx={{maxHeight:"40px"} } >
+        </Grid>
+        <Grid item xs={12} md={11} lg={11}>
+            <Paper
+                            sx={{
+                                p: 2,
+                                mt:2,
+                                mr:2,
+                                display: 'flex',
+                                flexDirection: 'column',
+                            } } elevation = {5}
+                            >
+                 <Box
         sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -84,7 +118,6 @@ export function PythonCodeComponent (props) {
     </Grid> 
     </Fade>
     );
-
 }
 
 

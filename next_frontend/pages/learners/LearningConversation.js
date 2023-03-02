@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import Container from '@mui/material/Container';
 import {TopScreenComponent,ChatBotMessage,LearnerMessage,OptionsWithButtons,AcknowledgementQuestion,LongOptionsWithButtons,PythonCodeComponent} from '../../components/ChatInterface/MessageTypeComponents'
+import LayoutForCodeCheck from '../../components/ChatInterface/CodeCheckLayout'
 import {LessonText} from '../../assets/lessons/introduction'
 import {LessonText1} from '../../assets/lessons/MicroBitMissionIntroduction'
 import Fade from '@mui/material/Fade';
@@ -15,6 +16,7 @@ export default function LearningConversation() {
     const [displayNextComponent,setDisplayNextComponent] = React.useState (true);
     const [clearLastQuestion,setClearLastQuestion] = React.useState (false);
     const [clearPage,setClearPage] = React.useState (false);
+    const [maxWidth, setMaxWidth] = React.useState("sm");
 
     
     var displayNextComponentRef = React.useRef();
@@ -68,7 +70,7 @@ export default function LearningConversation() {
                 setComponentArray([]);
                 return;
             }
-            if (arrayElem.type == "QWBO" || arrayElem.type == "QWBOL" || arrayElem.type == "ack" || arrayElem.type == "chpyco")
+            if (arrayElem.type == "QWBO" || arrayElem.type == "QWBOL" || arrayElem.type == "ack" || arrayElem.type == "chpyco" || arrayElem.type == "chpycon")
                 setDisplayNextComponent(false);
             setComponentArray(componentArray => {
                 return [...componentArray,ConvertJsonToComponent(arrayElem,handleOptionClick)]});
@@ -123,6 +125,12 @@ export default function LearningConversation() {
         if (response == "chpyco")
         {
             checkPythonCode(data);
+            return;
+        }
+        if (response == "chpycon")
+        {
+            setDisplayNextComponent(true);
+            setMaxWidth("sm");
             return;
         }
         setClearLastQuestion(true);
@@ -197,6 +205,14 @@ export default function LearningConversation() {
                     break;
                 }
 
+                case "chpycon":
+                    {
+                        const onClick = (e) => {clickHandler(e,"chpycon",arrayElem)} ;
+                        setMaxWidth("xl");
+                        return <LayoutForCodeCheck blockToExecute={arrayElem} onDone={onClick}/>; 
+                        break;
+                    }
+
             case "block":
                 lessonBlock.current = arrayElem.block;
 
@@ -217,7 +233,7 @@ export default function LearningConversation() {
 
     return (
         
-        <Container component="main" maxWidth="sm" sx={{ display: 'flex', flexDirection:'column' }}>
+        <Container component="main" maxWidth={maxWidth} sx={{ display: 'flex', flexDirection:'column' }}>
             <TopScreenComponent learnersname = "Daksh"/>
                 <Fade in={!clearPage} timeout = {1000}>
                     <Box>
