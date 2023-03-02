@@ -8,11 +8,15 @@ Install and run mongodb - https://www.mongodb.com/try/download/community
 
 cd backend
 
+npm install
+
 npm start dev
 
 <b>Run Frontend: </b>
 
 cd next_frontend
+
+npm install
 
 npm run dev
 
