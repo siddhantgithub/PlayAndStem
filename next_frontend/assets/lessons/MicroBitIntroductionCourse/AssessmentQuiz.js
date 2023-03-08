@@ -14,7 +14,6 @@ const Question2 = [
     else:
         print("x is less than or equal to 10")
     `},},
-
     {key:1, option:{id:10, type: "TM", value: `x is greater than 10`},},
     {key:1, option:{id:10, type: "TM", value: `x is less than or equal to 10`},},
     {key:1, option:{id:10, type: "TM", value: `The code will produce an error`},},
@@ -61,21 +60,21 @@ const Question6 = [
 
 const Question7 = [
     {answer:1},
-    {questionPrompt:{type: "TM", value: `What is an algorithm?`},},
+    {questionPrompt:{type: "TM", value: `What is the purpose of indentation in Python?`},},
 
-    {key:1, option:{id:10, type: "TM", value: `A person who is skilled in computer programming`},},
-    {key:1, option:{id:10, type: "TM", value: `A set of instructions for solving a problem`},},
-    {key:1, option:{id:10, type: "TM", value: `A type of computer language`},},
+    {key:1, option:{id:10, type: "TM", value: `To make the code look pretty`},},
+    {key:1, option:{id:10, type: "TM", value: `To make the code easier to read`},},
+    {key:1, option:{id:10, type: "TM", value: `To separate blocks of code`},},
     {key:1, option:{id:10, type: "TM", value: `I don't know`},},
 ];
 
 const Question8 = [
     {answer:1},
-    {questionPrompt:{type: "TM", value: `What is an algorithm?`},},
+    {questionPrompt:{type: "TM", value: `What is the purpose of the "if" statement in Python?`},},
 
-    {key:1, option:{id:10, type: "TM", value: `A person who is skilled in computer programming`},},
-    {key:1, option:{id:10, type: "TM", value: `A set of instructions for solving a problem`},},
-    {key:1, option:{id:10, type: "TM", value: `A type of computer language`},},
+    {key:1, option:{id:10, type: "TM", value: `To repeat a block of code a certain number of times`},},
+    {key:1, option:{id:10, type: "TM", value: `To define a function in Python`},},
+    {key:1, option:{id:10, type: "TM", value: `To execute a block of code if a certain condition is met`},},
     {key:1, option:{id:10, type: "TM", value: `I don't know`},},
 ];
 
@@ -96,6 +95,36 @@ const Question10 = [
     {key:1, option:{id:10, type: "TM", value: `A type of switch used to turn the Micro:bit on and off`},},
     {key:1, option:{id:10, type: "TM", value: `A device used to measure a physical quantity and convert it into an electrical signal`},},
     {key:1, option:{id:10, type: "TM", value: `A type of display used to show text and images`},},
+    {key:1, option:{id:10, type: "TM", value: `I don't know`},},
+];
+
+const Question11 = [
+    {answer:1},
+    {questionPrompt:{type: "TM", value: `What is the purpose of comments in Python code?`},},
+
+    {key:1, option:{id:10, type: "TM", value: `To execute a specific command in the program`},},
+    {key:1, option:{id:10, type: "TM", value: `To provide context and explanations for the code`},},
+    {key:1, option:{id:10, type: "TM", value: `To display information to the user`},},
+    {key:1, option:{id:10, type: "TM", value: `I don't know`},},
+];
+
+const Question12 = [
+    {answer:1},
+    {questionPrompt:{type: "TM", value: `What is the purpose of comments in Python code?`},},
+
+    {key:1, option:{id:10, type: "TM", value: `To execute a specific command in the program`},},
+    {key:1, option:{id:10, type: "TM", value: `To provide context and explanations for the code`},},
+    {key:1, option:{id:10, type: "TM", value: `To display information to the user`},},
+    {key:1, option:{id:10, type: "TM", value: `I don't know`},},
+];
+
+const Question13 = [
+    {answer:1},
+    {questionPrompt:{type: "TM", value: `What is a module in Python?`},},
+
+    {key:1, option:{id:10, type: "TM", value: `A type of data structure`},},
+    {key:1, option:{id:10, type: "TM", value: `A type of function`},},
+    {key:1, option:{id:10, type: "TM", value: `A way to organize code into reusable files`},},
     {key:1, option:{id:10, type: "TM", value: `I don't know`},},
 ];
 
