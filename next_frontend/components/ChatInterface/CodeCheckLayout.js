@@ -145,7 +145,7 @@ function PythonCodeComponentWithMessages (props) {
 
     <Fade in={true} timeout = {1000}>
         <Grid container spacing={0}  alignItems= "center" justifyContent="center">
-            <Grid item xs={12} md={11} lg={3} justifyContent="center">
+            <Grid item xs={12} md={11} lg={6} justifyContent="center">
                 <Grid container spacing={0} alignItems= "center" justifyContent="center" direction="column">
                     <Grid item xs={12} md={12} lg={12} justifyContent="center">
                         <ChatBotConversation messageStack = {chatBotMsgStack} />
@@ -158,7 +158,7 @@ function PythonCodeComponentWithMessages (props) {
                 </Grid>
             </Grid>
             
-            <Grid item xs={12} md={11} lg={5}>
+            <Grid item xs={12} md={11} lg={6}>
                 <PythonCodeComponent onChange={onChangePythonCode} value={value}/>
             </Grid>
         </Grid> 

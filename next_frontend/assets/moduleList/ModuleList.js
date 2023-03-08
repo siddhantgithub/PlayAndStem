@@ -1,0 +1,15 @@
+export const ModuleList = [
+    {name:"Mission Introduction",   fileName:"MissionIntroduction.js",  description: "This module provides an overview of the mission - planet Zacobia's problem and how we can solve it",topicsCovered:"Problem Introduction",image:"MissionIntroduction.png"},
+    {name:"Let's Break It Down",    fileName:"BreakingIntoSteps.js",    description: "This module explains why and how to break down a problem statement into smaller parts",             topicsCovered:"Problem solving",image:"BreakItDown.png"},
+    {name:"Statements and Syntax",  fileName:"ProgramStmtsSyntax.js",   description: "The module covers statements and syntax and their importance in computer programming",             topicsCovered:"Statements, Syntax",image:"StmtsAndSyntax.png"},
+    {name:"Let's get help",         fileName:"ModuleImport.js",         description: "In this module we will discuss how to import modules in Python", topicsCovered:"Python Import Statement",image:"Help.png"},
+    {name:"Reading light level",    fileName:"LightLevel.js",           description: "In this module we will learn how to measure light level using Micro:bit",topicsCovered:"Calling API",image:"ReadLightLevel.png"},
+    {name:"Switch on and clear the display",fileName:"ShowClearDisplay.js",description: "This module covers the APIs to switch on and off Microbit's display",topicsCovered:"Switching on and off display",image:"ShowAndClearDisplay.png"},
+    {name:"Conditions",fileName:"Conditions.js",description: "In this module we will explore what conditional statements are",topicsCovered:"Conditional statements",image:"Conditions.png"},
+    {name:"Blocks",fileName:"Blocks.js",description: "This module talks about blocks and how we define a block in Python",topicsCovered:"Indentation, Blocks",image:"Blocks.png"},
+    {name:"Learning About If",fileName:"IfStatement.js",description: "In this module we will cover syntax of If statement",topicsCovered:"If statement in Python",image:"LearnIf.png"},
+    {name:"Switch display only if",fileName:"ConditionOnOffDisplay.js",description: "In this module we will learn how to conditionally switch on and off a display",topicsCovered:"If statement implementation",image:"ConditionOnOff.png"},
+    {name:"Loops - Doing again",fileName:"WhileLoop.js",description: "In this module we will discuss loops and how to run an infinite While loop in Python",topicsCovered:"Problem Introduction",image:"Loops.png"},
+    {name:"Sleep - Time to take rest",fileName:"Sleep.js",description: "This module discusses Python sleep statement and its use to add a delay",topicsCovered:"Sleep statement in Python",image:"Sleep.png"},
+    {name:"Yay!!! We have done it",fileName:"Conclusion.js",description: "In this module we summarize our journey in solving the mission and the topics we learned along the way",topicsCovered:"Problem Introduction",image:"Conclusion.png"},
+];

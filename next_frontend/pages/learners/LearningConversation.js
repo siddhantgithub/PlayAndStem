@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import Container from '@mui/material/Container';
 import {TopScreenComponent,ChatBotMessage,LearnerMessage,OptionsWithButtons,AcknowledgementQuestion,LongOptionsWithButtons,PythonCodeComponent} from '../../components/ChatInterface/MessageTypeComponents'
 import LayoutForCodeCheck from '../../components/ChatInterface/CodeCheckLayout'
-import {LessonText} from '../../assets/lessons/introduction'
 import {LessonText1} from '../../assets/lessons/MicroBitMissionIntroduction'
 import Fade from '@mui/material/Fade';
 import Box from '@mui/material/Box';
@@ -67,6 +66,7 @@ export default function LearningConversation() {
             if (arrayElem.type == "showpage")
             {
                 setClearPage(false);
+                setMaxWidth("sm");
                 setComponentArray([]);
                 return;
             }
@@ -130,7 +130,7 @@ export default function LearningConversation() {
         if (response == "chpycon")
         {
             setDisplayNextComponent(true);
-            setMaxWidth("sm");
+            
             return;
         }
         setClearLastQuestion(true);
