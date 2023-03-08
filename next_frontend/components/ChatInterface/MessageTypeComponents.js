@@ -35,7 +35,6 @@ export  function TopScreenComponent (props) {
     return (
         <Box
         sx={{
-            marginTop: 8,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -238,7 +237,7 @@ export  const LongOptionsWithButtons = React.forwardRef((props, ref) =>{
                 {
                     options.map((option) => {                 
                         return(
-                            <Paper
+                            <Paper  
                                 sx={{
                                     p: 2,
                                     mt:2,
@@ -249,7 +248,7 @@ export  const LongOptionsWithButtons = React.forwardRef((props, ref) =>{
                                 >
                             {
                                         <Fade in={true} timeout = {1000}  >
-                                            <Button variant="outlined" onClick={option.onClick}>{option.text}</Button>
+                                            <Button variant="outlined" onClick={option.onClick} sx={{textTransform: "none"}}>{option.text}</Button>
                                         </Fade>
                                     
         
