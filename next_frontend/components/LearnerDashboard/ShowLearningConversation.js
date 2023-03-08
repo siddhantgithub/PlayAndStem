@@ -17,6 +17,7 @@ export default function LearningConversation(props) {
     const [clearLastQuestion,setClearLastQuestion] = React.useState (false);
     const [clearPage,setClearPage] = React.useState (false);
     const [maxWidth, setMaxWidth] = React.useState("sm");
+    
 
     
     var displayNextComponentRef = React.useRef();
@@ -26,6 +27,11 @@ export default function LearningConversation(props) {
     var currentPythonCode = React.useRef("");
     displayNextComponentRef.current = displayNextComponent;
     var currentIndexToDisplay = React.useRef (0);
+    const messagesEndRef = React.useRef(null);
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block:"end" })
+      }
 
     useEffect(() => {
       // setComponentArray(setInitialConversation());
@@ -36,6 +42,10 @@ export default function LearningConversation(props) {
       }, 1000);
       return () => clearInterval(interval);
     }, []);
+
+    useEffect(() => {
+        scrollToBottom()
+      }, [componentArray]);
     
     const addComponentEverySecond = () => {
         console.log('This will run every second!',displayNextComponentRef.current);
@@ -240,8 +250,9 @@ export default function LearningConversation(props) {
                 <Fade in={!clearPage} timeout = {1000}>
                     <Box>
                         {componentArray}
+                        <div ref={messagesEndRef} />
                     </Box>
-                </Fade>
+                </Fade>     
         </Container>
     );
 }
