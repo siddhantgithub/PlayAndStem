@@ -34,6 +34,7 @@ export default function SignIn() {
   const [openSnackBar, setOpenSnackBar] = React.useState(false);
   const [severity, setSeverity] = React.useState('success');
   const [message, setMessage] = React.useState('');
+  const router = useRouter()
 
   const handleSnackBarClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -46,12 +47,13 @@ export default function SignIn() {
   const onSubmit = userdata => {
     console.log(userdata);
     const {username,password} = userdata;
-    signIn("credentials", {username:username,password:password, callbackUrl: '/test/LearnerDashboard'}).then(data => {
+    signIn("credentials", {username:username,password:password, redirect: false}).then(data => {
+      console.log ("The data received is ", data);
       setOpenSnackBar(true);
-      if (!!data) {
+      if (!!data.error) {
           //setValues({ ...values, error: data.error, loading: false });
           setSeverity("error");
-          setMessage("Cannot Login now. Please try again");
+          setMessage("Cannot Login now. Check your password or create an account using SignUp");
       } else {
           // save user token to cookie
           // save user info to localstorage
@@ -59,6 +61,7 @@ export default function SignIn() {
           setSeverity("success");
           setMessage("Login successful. Redirecting to Learner Dashboard");
           reset();
+          router.push("/test/LearnerDashboard");
       }
     });
     /*sendSigninRequest(userdata).then(data => {

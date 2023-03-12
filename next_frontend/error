@@ -1,0 +1,19 @@
+
+> build
+> next build
+
+info  - Loaded env from C:\Users\dikshashukla\Desktop\Development\mitrobo\next_frontend\.env.local
+info  - Linting and checking validity of types...
+Failed to compile.
+
+./pages/api/auth/[...nextauth].ts:59:43
+Type error: This expression is not callable.
+  Each member of the union type '{ <ResultDoc = Document<unknown, {}, { username: string; firstname: string; lastname: string; parentemail: any; hashed_password: string; salt?: string; }> & Omit<{ username: string; firstname: string; lastname: string; parentemail: any; hashed_password: string; salt?: string; } & { ...; }, never>>(filter?: FilterQue...' has signatures, but none of those signatures are compatible with each other.
+
+[0m [90m 57 | [39m          [90m// check if user exist[39m[0m
+[0m [90m 58 | [39m          [36mtry[39m {[0m
+[0m[31m[1m>[22m[39m[90m 59 | [39m              [36mlet[39m learner [33m=[39m [36mawait[39m [33mLearner[39m[33m.[39mfindOne({ username })[33m.[39mexec()[33m;[39m[0m
+[0m [90m    | [39m                                          [31m[1m^[22m[39m[0m
+[0m [90m 60 | [39m              [36mif[39m (learner)[0m
+[0m [90m 61 | [39m              {[0m
+[0m [90m 62 | [39m                  [36mif[39m ([33m![39mlearner[33m.[39mauthenticate(password)) {[0m

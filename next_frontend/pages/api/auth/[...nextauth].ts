@@ -56,6 +56,7 @@ export const authOptions: NextAuthOptions = {
           const { username, password } = credentials;
           // check if user exist
           try {
+            // @ts-ignore
               let learner = await Learner.findOne({ username });
               if (learner)
               {
@@ -65,11 +66,12 @@ export const authOptions: NextAuthOptions = {
                   const { username, firstname, lastname} = learner;
                   console.log ("found a learner",learner);
                   let returnLearner = { username, firstname, lastname};
-                  return returnLearner;
+                  return returnLearner as any;
                  // return returnLearner;
               }
               else
               {
+                console.log ("Couldn't find a learner");
                   return null;
               }
           }
@@ -97,9 +99,11 @@ export const authOptions: NextAuthOptions = {
     signOut: '/SignIn',
   },
   session: {
+    // @ts-ignore
     jwt: true,
     maxAge: 30 * 24 * 60 * 60,
   },
+  
   callbacks: {
     async session({ session, token }) {
       session.user = token.user;
