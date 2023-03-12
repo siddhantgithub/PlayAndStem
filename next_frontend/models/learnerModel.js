@@ -34,11 +34,6 @@ const LearnerSchema = new mongoose.Schema(
             required: true
         },
         salt: String,
-        statics: {
-            findByName(name) {
-              return this.find({ username:name  });
-            }
-          },
     },
     { timestamp: true }
 );
