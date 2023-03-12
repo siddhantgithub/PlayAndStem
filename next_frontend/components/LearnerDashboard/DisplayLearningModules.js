@@ -22,7 +22,7 @@ export  const LinearProgressWithLabel = React.forwardRef((props, ref) =>{
   const progress = (completed/total) * 100;
   const compeletedString = `${completed} of ${total}`;
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+    <Box sx={{ display: 'flex', alignItems: 'center', pt:2}}>
        <Typography variant="body2" color="text.secondary">Progress</Typography>
       <Box sx={{ width: '80%', m: 1 }}>
         <LinearProgress variant="determinate" value={progress} />
@@ -71,9 +71,13 @@ function ModuleCard(props) {
 
 function AllModuleList (props) {
 
-  const {onLessonClicked} = props;
+  const {onLessonClicked, showInitialDashboard} = props;
+  const backToModulesClicked = (props) => {
+    showInitialDashboard();
+  }
   return (
     <React.Fragment>
+       <Button variant="outlined" onClick = {backToModulesClicked} startIcon={<ArrowBackIcon />}>Learning Home</Button>
     <LinearProgressWithLabel completed={0} total={13}/>
     <Fade in={true} timeout = {1000}>
 
@@ -96,7 +100,7 @@ function AllModuleList (props) {
 }
 
 
-const ModuleListDisplay = (props) => {
+const ModuleListDisplay = ({showInitialDashboard}) => {
 
   const onLessonClicked = (lessonName,fileName) => {
     console.log ("Lesson clicked is", lessonName, fileName );
@@ -134,7 +138,7 @@ const ModuleListDisplay = (props) => {
               {/*<Button variant="outlined" startIcon={<ArrowBackIcon />}>Mission Modules</Button>*/}
             </Grid>
             <Grid item xs={12} md={12} lg={12}>   
-              <AllModuleList onLessonClicked={onLessonClicked}/> 
+              <AllModuleList onLessonClicked={onLessonClicked } showInitialDashboard={showInitialDashboard}/> 
             </Grid>
           </Grid>         
         );

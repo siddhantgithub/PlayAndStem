@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
+import Button from '@mui/material/Button'
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
@@ -19,19 +20,8 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, secondaryListItems } from '../../components/LearnerDashboard/listItems';
 import ModuleListDisplay from '../../components/LearnerDashboard/DisplayLearningModules'
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import {HomeDashboard} from '../../components/LearnerDashboard/LearnerHomeDashboard'
+import { signIn, signOut, useSession } from "next-auth/react"
 
 const drawerWidth = 240;
 
@@ -81,13 +71,14 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 const mdTheme = createTheme();
 
-function DashboardContent(props) {
+function ShowPostLoginContent({learnerName, signedUser})
+{
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
-  const {learnerName} = props;
+console.log ("The signed user is", signedUser);
 
   return (
     <ThemeProvider theme={mdTheme}>
@@ -118,13 +109,14 @@ function DashboardContent(props) {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Welcome {learnerName}
+              Welcome {signedUser.username}
             </Typography>
-            <IconButton color="inherit">
+            <Button variant="contained" onClick={()=>signOut()}>Log Out</Button>
+            {/*<IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <NotificationsIcon />
               </Badge>
-            </IconButton>
+            </IconButton>*/}
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -170,17 +162,45 @@ function DashboardContent(props) {
                     minHeight: "1200px"
                   }}
                 >
-                  <ModuleListDisplay/>
+                  {/* <ModuleListDisplay/> */}
+                  <HomeDashboard/>
                 </Paper>
               </Grid>
               {/* Recent Deposits */}
             </Grid>
-            <Copyright sx={{ pt: 4 }} />
           </Container>
         </Box>
       </Box>
     </ThemeProvider>
   );
+
+}
+
+function DashboardContent(props) {
+
+  const { data: session, status } = useSession();
+  const isUser = !!session && session.user;
+  const loading = status === "loading"
+
+  React.useEffect(() => {
+    if (loading) return // Do nothing while loading
+    if (!isUser) signIn() // If not authenticated, force log in
+    console.log ("The value of session is", session);
+  }, [isUser, loading])
+
+
+
+  const {learnerName} = props;
+  
+  return (
+    <Box>
+      {!session && <Typography variant="h6" component="h2"> Please Login </Typography>}
+      {session && <ShowPostLoginContent {...props} signedUser = {session.user}/>}
+    </Box>
+
+  );
+
+  
 }
 
 export default function Dashboard() {

@@ -5,7 +5,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -14,31 +13,56 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useForm, Controller } from "react-hook-form";
 import {sendSignupPostRequest} from "../actions/authRequestHandlers";
+import Link from '../src/Link';
+import Copyright from '../components/Copyright'
+import { useRouter } from 'next/router'
+import AlertTitle from '@mui/material/AlertTitle';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
-const theme = createTheme();
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
-export default function SignUp() {
+export default function SignUp({}) {
 
-  const { register, handleSubmit, watch, control, formState: { errors } } = useForm();
+  const { register, handleSubmit, watch, control, formState: { errors },reset } = useForm();
+  const router = useRouter();
+  const [openSnackBar, setOpenSnackBar] = React.useState(false);
+  const [severity, setSeverity] = React.useState('success');
+  const [message, setMessage] = React.useState('');
 
   const onSubmit = data => {
-    console.log(data);
-    sendSignupPostRequest(data).then(data => {}
-  );
+      sendSignupPostRequest(data).then(data => {
+        if (Object.keys(data)[0] == "error")
+        {
+          console.log ("Error occurred", data.error)
+          setSeverity("error");
+          setMessage(data.error);
+        }
+        else
+        {
+          //Operation was successful
+          //router.push("/SignIn")
+          setSeverity("success");
+          setMessage(data.message);
+          reset();
+        }
+        setOpenSnackBar(true);
+      });
   };
+
+  const handleSnackBarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnackBar(false);
+  };
+
+  //console.log ("Is Connected", isConnected)
+  //console.log (watch())
 
   return (
       <Container component="main" maxWidth="xs">
@@ -60,7 +84,7 @@ export default function SignUp() {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
               <Controller
-                name="firstName"
+                name="firstname"
                 control={control}
                 defaultValue=""
                 rules={{ required: 'First name required' }}
@@ -84,7 +108,7 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12} sm={6}>
               <Controller
-                name="lastName"
+                name="lastname"
                 control={control}
                 defaultValue=""
                 rules={{ required: 'Last name required' }}
@@ -95,7 +119,7 @@ export default function SignUp() {
                       id="lastName"
                       label="Last Name"
                       name="lastName"
-                      autoComplete="family-name"
+                      autoComplete="off"
                       value={value}
                       onChange={onChange}
                       error={!!error}
@@ -107,10 +131,32 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
               <Controller
-                name="email"
+                name="username"
                 control={control}
                 defaultValue=""
-                rules={{ required: 'Email required', pattern: {
+                render={({ field: { onChange, value }, fieldState: { error } }) => (
+                    <TextField
+                      required
+                      fullWidth
+                      id="username"
+                      label="Username"
+                      name="Username"
+                      autoComplete="User Name"
+                      value={value}
+                      onChange={onChange}
+                      error={!!error}
+                      helperText={error ? error.message : null}
+                      autoFocus
+                    />
+                )}
+              />
+              </Grid>
+              <Grid item xs={12}>
+              <Controller
+                name="parentemail"
+                control={control}
+                defaultValue=""
+                rules={{ required: "Parent's Email required", pattern: {
                   value: /\S+@\S+\.\S+/,
                   message: "Entered value does not match email format"
                 }}}
@@ -118,10 +164,10 @@ export default function SignUp() {
                     <TextField
                       required
                       fullWidth
-                      id="email"
-                      label="Email Address"
-                      name="email"
-                      autoComplete="email"
+                      id="peml"
+                      label="Parent's Email Address"
+                      name="parentseml"
+                      autoComplete="Parent's Email"
                       value={value}
                       onChange={onChange}
                       error={!!error}
@@ -132,41 +178,50 @@ export default function SignUp() {
               />
               </Grid>
               <Grid item xs={12}>
-              <Controller
-                name="password"
-                control={control}
-                defaultValue=""
-                rules={{ required: 'Password required' }}
-                render={({ field: { onChange, value }, fieldState: { error } }) => (
-                    <TextField
-                      required
-                      fullWidth
-                      name="password"
-                      label="Password"
-                      type="password"
-                      id="password"
-                      value={value}
-                      onChange={onChange}
-                      error={!!error}
-                      helperText={error ? error.message : null}
-                      autoFocus
-                    />
-                )}
-              />
-              </Grid>
-              <Grid item xs={12}>
-              <Controller
-                name="password"
-                control={control}
-                defaultValue=""
-                rules={{ required: 'Password required' }}
-                render={({ field: { onChange, value }, fieldState: { error } }) => (
-                  <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
+                <Controller
+                  name="password"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: 'Password required', validate: (val) => {if (watch ('confirmpassword') != val) return "Your passwords do not match"}}}
+                  render={({ field: { onChange, value }, fieldState: { error } }) => (
+                      <TextField
+                        required
+                        fullWidth
+                        name="password"
+                        label="Password"
+                        type="password"
+                        id="password"
+                        value={value}
+                        onChange={onChange}
+                        autoComplete="Learner's Password"
+                        error={!!error}
+                        helperText={error ? error.message : null}
+                        autoFocus
+                      />
+                  )}
                 />
-                )}
-              />
+              </Grid>
+              <Grid item xs={12}>
+                <Controller
+                  name="confirmpassword"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: 'Confirm Password required' }}
+                  render={({ field: { onChange, value }, fieldState: { error } }) => (
+                      <TextField
+                        required
+                        fullWidth
+                        name="confirmpassword"
+                        label="Confirm Password"
+                        id="confirmpassword"
+                        value={value}
+                        onChange={onChange}
+                        error={!!error}
+                        helperText={error ? error.message : null}
+                        autoFocus
+                      />
+                  )}
+                />
               </Grid>
             </Grid>
             <Button
@@ -177,6 +232,11 @@ export default function SignUp() {
             >
               Sign Up
             </Button>
+            <Snackbar open={openSnackBar} autoHideDuration={6000} onClose={handleSnackBarClose} anchorOrigin={{ vertical:'top', horizontal:'center' }}>
+              <Alert onClose={handleSnackBarClose} severity={severity} sx={{ width: '100%' }}>
+                {message}
+              </Alert>
+            </Snackbar>
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/SignIn" variant="body2">

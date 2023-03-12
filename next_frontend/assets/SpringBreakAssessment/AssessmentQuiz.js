@@ -128,7 +128,18 @@ const Question13 = [
     {key:1, option:{id:10, type: "TM", value: `I don't know`},},
 ];
 
-export const LessonText = [
-    {id:8, type: "QWBOL", message: "Provide your response", options:pythonImportQuestion},
-    {id:1, type: "donothing"},
+export const AssessmentArray = [
+    Question1,
+    Question2,
+    Question3,
+    Question4,
+    Question5,
+    Question6,
+    Question7,
+    Question8,
+    Question9,
+    Question10,
+    Question11,
+    Question12,
+    Question13
 ]

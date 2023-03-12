@@ -3,7 +3,7 @@ import cookie from 'js-cookie';
 
 export const sendSignupPostRequest = user => {
     //console.log ("sdfasdfsa",user);
-    return fetch(`http://127.0.0.1:8000/api/signup`, {
+    return fetch(`/api/UserSignUp`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
@@ -12,13 +12,14 @@ export const sendSignupPostRequest = user => {
         body: JSON.stringify(user)
     })
         .then(response => {
+            console.log (response.status);
             return response.json();
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log("here is the error",err));
 };
 
 export const sendSigninRequest = user => {
-    return fetch(`http://127.0.0.1:8000/api/signin`, {
+    return fetch(`/api/UserSignIn`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
