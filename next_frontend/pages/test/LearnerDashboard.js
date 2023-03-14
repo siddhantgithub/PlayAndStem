@@ -185,7 +185,7 @@ function DashboardContent(props) {
   React.useEffect(() => {
     if (loading) return // Do nothing while loading
     if (!isUser) signIn() // If not authenticated, force log in
-    console.log ("The value of session is", session);
+    //console.log ("The value of session is", session);
   }, [isUser, loading])
 
 

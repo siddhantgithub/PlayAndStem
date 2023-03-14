@@ -76,7 +76,7 @@ function AssessmentCard({onClick}) {
         </CardActionArea>
         <CardActions>
           <Button size="small" onClick= {onClick}>Start</Button>
-          <Chip label="Completed" color="success" variant="outlined" sx={{ margin: 1 }}/>
+         {/* <Chip label="Completed" color="success" variant="outlined" sx={{ margin: 1 }}/>*/}
         </CardActions>
   
       </Card>
@@ -91,7 +91,7 @@ function ShowInitialDashboard ({assessmentClicked,zacobiaMissionClicked})
         <Grid container spacing={0}  alignItems= "center" justifyContent="left">
             <Grid item xs={12} md={11} lg={12} justifyContent="center">
             </Grid>
-            <AssessmentCard onClick={assessmentClicked}/>
+            {/*<AssessmentCard onClick={assessmentClicked}/>*/}
             <ZacobiaMissionCard onClick={zacobiaMissionClicked}/>
 
             

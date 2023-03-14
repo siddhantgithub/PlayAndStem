@@ -20,6 +20,9 @@ export const LessonText = [
     {id:12, type:"TM", message: "In our case since we have to continuously check whether it is day or night we will simply right 'while True:'"},
     {id:12, type:"TM", message: "Now we know how to write a while loop, let's change our program from the previous section so that it repeates continuously"},
     {id:1, type: "ack", message:"Got It"},
+    {id:1, type: "ack", message:"Click next to proceed"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
     {id:12, type:"TM", message: "In our last section we got to the following program that conditionally switches on or off the display:"},
     {id:10, type: "pycb", value: `from microbit import *
 
@@ -40,5 +43,8 @@ export const LessonText = [
     `},
     {id:12, type:"TM", message: "Please observe that all the statements after while statement have extra spaces than the while block"},
     {id:12, type:"TM", message: "Those extra spaces are important to tell the while block that we have to repeat all those statements"},
+    {id:1, type: "ack", message:"Click next to proceed"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
     {id:1, type: "endmessage"}
 ]

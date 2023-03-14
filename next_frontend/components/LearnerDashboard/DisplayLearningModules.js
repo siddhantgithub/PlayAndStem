@@ -60,7 +60,7 @@ function ModuleCard(props) {
       </CardActionArea>
       <CardActions>
         <Button size="small" onClick= {onClick}>Start</Button>
-        <Chip label="Completed" color="success" variant="outlined" sx={{ margin: 1 }}/>
+        {/* <Chip label="Completed" color="success" variant="outlined" sx={{ margin: 1 }}/>*/}
       </CardActions>
 
     </Card>

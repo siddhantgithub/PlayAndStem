@@ -6,12 +6,14 @@ import LayoutForCodeCheck from '../ChatInterface/CodeCheckLayout'
 import Fade from '@mui/material/Fade';
 import Box from '@mui/material/Box';
 import Router from 'next/router';
+import { useSession } from "next-auth/react"
 //TODO: Show loading
 //What is the flow here: read one, show animation
 //UseEffect - Initialize the conversation
 export default function LearningConversation(props) {
 
     const {LessonText, OnLessonEnd} = props;
+    const { data: session, status } = useSession();
     const [componentArray,setComponentArray] = React.useState ([]);
     const [displayNextComponent,setDisplayNextComponent] = React.useState (true);
     const [clearLastQuestion,setClearLastQuestion] = React.useState (false);
@@ -239,14 +241,14 @@ export default function LearningConversation(props) {
         switch (arrayElem.type)
         {
             case "TMR":
-                return arrayElem.message.replace("<learnername>","Daksh");
+                return arrayElem.message.replace("<learnername>",session.user.username);
         }
     }
 
     return (
         
         <Container component="main" maxWidth={maxWidth} sx={{ display: 'flex', flexDirection:'column' }}>
-            <TopScreenComponent learnersname = "Daksh"/>
+            <TopScreenComponent learnersname = {session.user.username}/>
                 <Fade in={!clearPage} timeout = {1000}>
                     <Box>
                         {componentArray}
