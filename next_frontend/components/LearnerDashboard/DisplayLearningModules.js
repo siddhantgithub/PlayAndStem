@@ -71,7 +71,7 @@ function ModuleCard(props) {
 
 function AllModuleList (props) {
 
-  const {onLessonClicked, showInitialDashboard} = props;
+  const {onLessonClicked, showInitialDashboard, moduleList} = props;
   const backToModulesClicked = (props) => {
     showInitialDashboard();
   }
@@ -85,7 +85,7 @@ function AllModuleList (props) {
             <Grid item xs={12} md={11} lg={12} justifyContent="center">
             </Grid>
             {
-              ModuleList.map((module) => {
+              moduleList.map((module) => {
                 return <ModuleCard name={module.name} fileName={module.fileName} imageName={module.image} onLessonClicked = {onLessonClicked} description = {module.description}/>
               })
             }
@@ -100,13 +100,13 @@ function AllModuleList (props) {
 }
 
 
-const ModuleListDisplay = ({showInitialDashboard}) => {
+const ModuleListDisplay = ({showInitialDashboard, moduleList}) => {
 
   const onLessonClicked = (lessonName,fileName) => {
     console.log ("Lesson clicked is", lessonName, fileName );
     
     (async function () {
-      const response = await require(`../../assets/lessons/MicroBitIntroductionCourse/${fileName}`);
+      const response = await require(`../../assets/lessons/${fileName}`);
       console.log ("hereerere",response.LessonText);
       setLessonText(response.LessonText);
       setLessonInProgress(true);
@@ -138,7 +138,7 @@ const ModuleListDisplay = ({showInitialDashboard}) => {
               {/*<Button variant="outlined" startIcon={<ArrowBackIcon />}>Mission Modules</Button>*/}
             </Grid>
             <Grid item xs={12} md={12} lg={12}>   
-              <AllModuleList onLessonClicked={onLessonClicked } showInitialDashboard={showInitialDashboard}/> 
+              <AllModuleList onLessonClicked={onLessonClicked } moduleList = {moduleList} showInitialDashboard={showInitialDashboard}/> 
             </Grid>
           </Grid>         
         );
