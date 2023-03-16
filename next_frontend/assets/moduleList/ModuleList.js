@@ -1,4 +1,4 @@
-export const ModuleList = [
+export const ZacobiaModuleList = [
     {name:"Mission Introduction",   fileName:"ZacobiaMission/MissionIntroduction.js",  description: "This module provides an overview of the mission - planet Zacobia's problem and how we can solve it",topicsCovered:"Problem Introduction",image:"MissionIntroduction.png"},
     {name:"Let's Break It Down",    fileName:"ZacobiaMission/BreakingIntoSteps.js",    description: "This module explains why and how to break down a problem statement into smaller parts",             topicsCovered:"Problem solving",image:"BreakItDown.png"},
     {name:"Statements and Syntax",  fileName:"ZacobiaMission/ProgramStmtsSyntax.js",   description: "The module covers statements and syntax and their importance in computer programming",             topicsCovered:"Statements, Syntax",image:"StmtsAndSyntax.png"},
@@ -17,11 +17,13 @@ export const ModuleList = [
 export const NoNumModuleList = [
     {name:"Mission Introduction",   fileName:"NoNumMission/MissionIntroduction.js",  description: "This module provides an overview of the mission - Problem of numbers for the planet NoNum",topicsCovered:"Problem Introduction",image:"MissionIntroduction.png"},
     {name:"Loop For Numbers",    fileName:"NoNumMission/ForLoopGeneratingNumbers.js",    description: "Learn how to generate numbers using a for loop",topicsCovered:"For Loop",image:"BreakItDown.png"},
+    {name:"Functions for Code Reuse",   fileName:"NoNumMission/IntroductionToFunction.js",  description: "This module introduces the use of functions for reusing code",topicsCovered:"Functions",image:"MissionIntroduction.png"},
+    {name:"Create A Module",    fileName:"NoNumMission/CreatingModules.js",    description: "Module covers how to create our own modules",topicsCovered:"Creating Modules",image:"BreakItDown.png"},
 ];
 
 
 
 export const CourseList = [
-    {name:"Mission 1: Save Planet Zacobia", image:"/zacobiamission.png", moduleList: ModuleList,description:"We save planet Zacobia and start learning Python programming with Microbit"},
+    {name:"Mission 1: Save Planet Zacobia", image:"/zacobiamission.png", moduleList: ZacobiaModuleList,description:"We save planet Zacobia and start learning Python programming with Microbit"},
     {name:"Mission 2: Number For NoNums", image:"/nonummission.png", moduleList: NoNumModuleList,description:"We generate numbers for NoNums and also the code to do so on their own"},
 ]
