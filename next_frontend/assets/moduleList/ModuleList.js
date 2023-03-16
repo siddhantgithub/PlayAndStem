@@ -15,10 +15,10 @@ export const ZacobiaModuleList = [
 ];
 
 export const NoNumModuleList = [
-    {name:"Mission Introduction",   fileName:"NoNumMission/MissionIntroduction.js",  description: "This module provides an overview of the mission - Problem of numbers for the planet NoNum",topicsCovered:"Problem Introduction",image:"MissionIntroduction.png"},
-    {name:"Loop For Numbers",    fileName:"NoNumMission/ForLoopGeneratingNumbers.js",    description: "Learn how to generate numbers using a for loop",topicsCovered:"For Loop",image:"BreakItDown.png"},
-    {name:"Functions for Code Reuse",   fileName:"NoNumMission/IntroductionToFunction.js",  description: "This module introduces the use of functions for reusing code",topicsCovered:"Functions",image:"MissionIntroduction.png"},
-    {name:"Create A Module",    fileName:"NoNumMission/CreatingModules.js",    description: "Module covers how to create our own modules",topicsCovered:"Creating Modules",image:"BreakItDown.png"},
+    {name:"Mission Introduction",   fileName:"NoNumMission/MissionIntroduction.js",  description: "This module provides an overview of the mission - Problem of numbers for the planet NoNum",topicsCovered:"Problem Introduction",image:"NoNums1.png"},
+    {name:"Loop For Numbers",    fileName:"NoNumMission/ForLoopGeneratingNumbers.js",    description: "Learn how to generate numbers using a for loop",topicsCovered:"For Loop",image:"NoNums2.png"},
+    {name:"Functions for Code Reuse",   fileName:"NoNumMission/IntroductionToFunction.js",  description: "This module introduces the use of functions for reusing code",topicsCovered:"Functions",image:"NoNums3.png"},
+    {name:"Create A Module",    fileName:"NoNumMission/CreatingModules.js",    description: "Module covers how to create our own modules",topicsCovered:"Creating Modules",image:"NoNums4.png"},
 ];
 
 
