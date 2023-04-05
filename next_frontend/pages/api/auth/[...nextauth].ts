@@ -5,7 +5,6 @@ import GithubProvider from "next-auth/providers/github"
 import TwitterProvider from "next-auth/providers/twitter"
 import Auth0Provider from "next-auth/providers/auth0"
 import CredentialsProvider from "next-auth/providers/credentials"
-import {sendSigninRequest} from "../../../actions/authRequestHandlers";
 import dbConnect from '../../../lib/dbConnect'
 import Learner from '../../../models/learnerModel';
 // import AppleProvider from "next-auth/providers/apple"
@@ -63,9 +62,9 @@ export const authOptions: NextAuthOptions = {
                   if (!learner.authenticate(password)) {
                       return null;
                   }
-                  const { username, firstname, lastname} = learner;
+                  const { _id, missionProgress, username, firstname, lastname} = learner;
                   console.log ("found a learner",learner);
-                  let returnLearner = { username, firstname, lastname};
+                  let returnLearner = { username, firstname, lastname, _id, missionProgress};
                   return returnLearner as any;
                  // return returnLearner;
               }

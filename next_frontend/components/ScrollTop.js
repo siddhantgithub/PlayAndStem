@@ -1,12 +1,14 @@
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useRouter } from 'next/router';
 
 // ==============================|| NAVIGATION - SCROLL TO TOP ||============================== //
 
 const ScrollTop = ({ children }) => {
-    const location = useLocation();
-    const { pathname } = location;
+    const router = useRouter();
+    //const location = router.asPath;
+    const { pathname } = router;
+    console.log ("Pathname is ", pathname);
 
     useEffect(() => {
         window.scrollTo({

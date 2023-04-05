@@ -4,17 +4,18 @@ import Fade from '@mui/material/Fade';
 import Card from '@mui/material/Card'
 import CardMedia from '@mui/material/CardMedia'
 import CardContent from '@mui/material/CardContent'
-import {ModuleList} from '../../assets/moduleList/ModuleList'
+import {ModuleList} from '../../assets/moduleList/AllMissionChapterList'
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import Typography from '@mui/material/Typography';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
-import LearningConversation from './ShowLearningConversation';
+import LearningConversation from '../ChatInterface/ShowLearningConversation';
 import { CardActionArea } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Chip from '@mui/material/Chip';
 import LinearProgress from '@mui/material/LinearProgress';
 import Box from '@mui/material/Box';
+import { GetSetLearnerDataThroughAPI } from '../../actions/LearnerMissionProgressRequestHandler';
 
 export  const LinearProgressWithLabel = React.forwardRef((props, ref) =>{
 
@@ -70,14 +71,21 @@ function ModuleCard(props) {
 
 
 function AllModuleList (props) {
+  const messagesEndRef = React.useRef(null);
 
   const {onLessonClicked, showInitialDashboard, moduleList} = props;
   const backToModulesClicked = (props) => {
     showInitialDashboard();
   }
+
+  useEffect(() => {
+    console.log ("Here scrolling");
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block:"end" })
+  }, []);
+
   return (
     <React.Fragment>
-       <Button variant="outlined" onClick = {backToModulesClicked} startIcon={<ArrowBackIcon />}>Learning Home</Button>
+       <Button variant="outlined" ref = {messagesEndRef} onClick = {backToModulesClicked} startIcon={<ArrowBackIcon />}>Learning Home</Button>
     <LinearProgressWithLabel completed={0} total={13}/>
     <Fade in={true} timeout = {1000}>
 
@@ -86,7 +94,7 @@ function AllModuleList (props) {
             </Grid>
             {
               moduleList.map((module) => {
-                return <ModuleCard name={module.name} fileName={module.fileName} imageName={module.image} onLessonClicked = {onLessonClicked} description = {module.description}/>
+                return <ModuleCard key={module.name} name={module.name} fileName={module.fileName} imageName={module.image} onLessonClicked = {onLessonClicked} description = {module.description}/>
               })
             }
             
@@ -100,20 +108,22 @@ function AllModuleList (props) {
 }
 
 
-const ModuleListDisplay = ({showInitialDashboard, moduleList}) => {
+const ModuleListDisplay = ({showInitialDashboard, clickedMission,learnerId}) => {
 
   const onLessonClicked = (lessonName,fileName) => {
     console.log ("Lesson clicked is", lessonName, fileName );
     
     (async function () {
       const response = await require(`../../assets/lessons/${fileName}`);
-      console.log ("hereerere",response.LessonText);
+      //console.log ("hereerere",response.LessonText);
       setLessonText(response.LessonText);
       setLessonInProgress(true);
 
     })()
     
   };
+
+  var moduleList = clickedMission.moduleList;
 
   const backToModulesClicked = (props) => {
     setLessonInProgress(false);
@@ -125,8 +135,14 @@ const ModuleListDisplay = ({showInitialDashboard, moduleList}) => {
   
 
     useEffect(() => {
+      var reqType = "GETCHAPTERPROGRESS";
+      var _id = learnerId;
+      var reqObj = {reqType,_id};
+      GetSetLearnerDataThroughAPI(reqObj).then ((resp => {console.log ("resp is", resp);}))
         
       }, []);
+
+
 
       const [lessonInProgress,setLessonInProgress] = React.useState(false);
       const [lessonText,setLessonText] = React.useState([]);

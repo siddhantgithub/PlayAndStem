@@ -18,7 +18,9 @@ export const sendSignupPostRequest = user => {
         .catch(err => console.log("here is the error",err));
 };
 
-export const sendSigninRequest = user => {
+
+
+/*export const sendSigninRequest = user => {
     return fetch(`/api/UserSignIn`, {
         method: 'POST',
         headers: {
@@ -32,7 +34,7 @@ export const sendSigninRequest = user => {
             return response.json();
         })
         .catch(err => console.log(err));
-};
+};*/
 
 export const signout = next => {
     removeCookie('token');

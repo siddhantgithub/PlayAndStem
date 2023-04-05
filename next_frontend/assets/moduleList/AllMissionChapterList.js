@@ -21,9 +21,14 @@ export const NoNumModuleList = [
     {name:"Create A Module",    fileName:"NoNumMission/CreatingModules.js",    description: "Module covers how to create our own modules",topicsCovered:"Creating Modules",image:"NoNums4.png"},
 ];
 
+export const AllMissionList = [
+    {id: 1, dependency: [], category: "Robotics,Intermediate,Python,Micro:bit",name:"Zacobian Lights", image:"/zacobiamission.png", moduleList: ZacobiaModuleList,description:"Solve planet Zacobia's light problems"},
+    {id: 2, dependency: [1], category:"Robotics,Intermediate,Python,Micro:bit",name:"NoNums' Number", image:"/nonummission.png", moduleList: NoNumModuleList,description:"Generate numbers for NoNums"},
+    {id: 3, dependency: [],category: "Robotics,Intermediate,Python,Micro:bit",name:"Sados want music", image:"/missionImages/MissionSados.png", moduleList: NoNumModuleList,description:"Make a piano for Planet Sados"},
+    {id: 4, dependency: [],category: "Scratch Games,Beginner",name:"ABC Tutor", image:"/missionImages/MissionABCTutor.png", moduleList: NoNumModuleList,description:"A simple game that teaches English alphabets"},
+    {id: 5, dependency: [],category: "Scratch Games,Intermediate",name:"Run Robo Run", image:"/missionImages/MissionRoboRun.png", moduleList: NoNumModuleList,description:"Robo is running and we have to help it run past obstacles"},
+    {id: 6, dependency: [],category: "Scratch Games,Advanced",name:"Your Own Quiz Game", image:"/missionImages/MissionQuizGame.png", moduleList: NoNumModuleList,description:"Create your own small quiz game and share it with friends"},
+   
+];
 
-
-export const CourseList = [
-    {name:"Mission 1: Save Planet Zacobia", image:"/zacobiamission.png", moduleList: ZacobiaModuleList,description:"We save planet Zacobia and start learning Python programming with Microbit"},
-    {name:"Mission 2: Number For NoNums", image:"/nonummission.png", moduleList: NoNumModuleList,description:"We generate numbers for NoNums and also the code to do so on their own"},
-]
+export const CategoryList = ["In Progress", "Robotics"];

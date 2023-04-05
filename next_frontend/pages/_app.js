@@ -7,6 +7,7 @@ import { CacheProvider } from '@emotion/react';
 import theme from '../src/theme';
 import createEmotionCache from '../src/createEmotionCache';
 import { SessionProvider } from "next-auth/react"
+import ScrollTop from '../components/ScrollTop';
 
 
 // Client-side cache, shared for the whole session of the user in the browser.

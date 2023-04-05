@@ -33,6 +33,16 @@ const LearnerSchema = new mongoose.Schema(
             type: String,
             required: true
         },
+        missionProgress: {
+            type:Array,
+            required: true
+
+        },
+        chapterProgress: {
+            type:Array,
+            required: true
+
+        },
         salt: String,
     },
     { timestamp: true }

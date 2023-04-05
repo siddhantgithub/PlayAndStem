@@ -19,9 +19,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, secondaryListItems } from '../../components/LearnerDashboard/listItems';
-import ModuleListDisplay from '../../components/LearnerDashboard/DisplayLearningModules'
 import {HomeDashboard} from '../../components/LearnerDashboard/LearnerHomeDashboard'
 import { signIn, signOut, useSession } from "next-auth/react"
+
 
 const drawerWidth = 240;
 
@@ -71,14 +71,22 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 const mdTheme = createTheme();
 
-function ShowPostLoginContent({learnerName, signedUser})
+const style = {
+  height: 200,
+};
+
+const Example = () => {
+  return <Lottie animationData={groovyWalkAnimation} style={style}/>;
+};
+
+function ShowPostLoginContent({signedUser})
 {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
+  console.log ("Signed User We got is", signedUser);
 
-console.log ("The signed user is", signedUser);
 
   return (
     <ThemeProvider theme={mdTheme}>
@@ -163,7 +171,7 @@ console.log ("The signed user is", signedUser);
                   }}
                 >
                   {/* <ModuleListDisplay/> */}
-                  <HomeDashboard/>
+                  <HomeDashboard signedInLearner={signedUser}/>
                 </Paper>
               </Grid>
               {/* Recent Deposits */}
@@ -188,9 +196,6 @@ function DashboardContent(props) {
     //console.log ("The value of session is", session);
   }, [isUser, loading])
 
-
-
-  const {learnerName} = props;
   
   return (
     <Box>
@@ -199,8 +204,6 @@ function DashboardContent(props) {
     </Box>
 
   );
-
-  
 }
 
 export default function Dashboard() {

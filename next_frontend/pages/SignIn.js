@@ -61,7 +61,7 @@ export default function SignIn() {
           setSeverity("success");
           setMessage("Login successful. Redirecting to Learner Dashboard");
           reset();
-          router.push("/test/LearnerDashboard");
+          router.push("/test/LearnerDashboard_new");
       }
     });
     /*sendSigninRequest(userdata).then(data => {

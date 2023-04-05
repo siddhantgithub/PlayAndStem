@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import Container from '@mui/material/Container';
-import {TopScreenComponent,ChatBotMessage,LearnerMessage,OptionsWithButtons,AcknowledgementQuestion,LongOptionsWithButtons,PythonCodeComponent} from '../ChatInterface/MessageTypeComponents'
-import LayoutForCodeCheck from '../ChatInterface/CodeCheckLayout'
+import {TopScreenComponent,ChatBotMessage,LearnerMessage,OptionsWithButtons,AcknowledgementQuestion,LongOptionsWithButtons,PythonCodeComponent} from './MessageTypeComponents'
+import LayoutForCodeCheck from './CodeCheckLayout'
 import Fade from '@mui/material/Fade';
 import Box from '@mui/material/Box';
 import Router from 'next/router';
@@ -87,7 +87,7 @@ export default function LearningConversation(props) {
             if (arrayElem.type == "QWBO" || arrayElem.type == "QWBOL" || arrayElem.type == "ack" || arrayElem.type == "chpyco" || arrayElem.type == "chpycon")
                 setDisplayNextComponent(false);
             setComponentArray(componentArray => {
-                return [...componentArray,ConvertJsonToComponent(arrayElem,handleOptionClick)]});
+                return [...componentArray,ConvertJsonToComponent(arrayElem,handleOptionClick,session,componentKey.current++)]});
         }
     }
 
@@ -102,7 +102,7 @@ export default function LearningConversation(props) {
                 setDisplayNextComponent(true);
                 componentArray.pop();
                 //console.log ("component array till now",componentArray);
-                return [...componentArray,ConvertJsonToComponent (data.responseAction.correct, null)]
+                return [...componentArray,ConvertJsonToComponent (data.responseAction.correct, null,session,componentKey.current++)]
             });
         }
         else
@@ -120,7 +120,7 @@ export default function LearningConversation(props) {
                 lessonBlockBuffer.current.push({id:1, type: "clearpage"});
                 lessonBlockBuffer.current.push({id:1, type: "showpage"});
                 let ackElem = {id:1, type: "ack", message:"Click next to proceed"}
-                return [...componentArray,ConvertJsonToComponent (data.responseAction.incorrect, null),ConvertJsonToComponent(ackElem,handleOptionClick)]
+                return [...componentArray,ConvertJsonToComponent (data.responseAction.incorrect, null,session),ConvertJsonToComponent(ackElem,handleOptionClick,session,componentKey.current++)]
             });
         }
         return;
@@ -154,7 +154,7 @@ export default function LearningConversation(props) {
             componentArray.pop();
             //console.log ("component array till now",componentArray);
             //Remove the question, answer block, show the clicked message as Learner's response, then add the response for the option selected
-            return [...componentArray,<LearnerMessage message = {response} key={componentKey.current++}/>,ConvertJsonToComponent (data, null)]
+            return [...componentArray,<LearnerMessage message = {response} key={componentKey.current++}/>,ConvertJsonToComponent (data, null,session,componentKey.current++)]
         });
     }
 
@@ -169,92 +169,94 @@ export default function LearningConversation(props) {
         currentPythonCode.current = value;
     }
 
-    //Problem: clicking option changes component structure conditionally 
-    //Problme: What to do?
-    //There are two options: a) one component with conditions
-    //second change dom only after clicked -- how to do it?? have a callback from original class
-    //Need to decide
-    function ConvertJsonToComponent (arrayElem,clickHandler)
+    function replaceTextInMessage (arrayElem,session)
+{
+    switch (arrayElem.type)
     {
-        var reactElement;
-        switch (arrayElem.type)
-        {
-            case "TM":
-                return <ChatBotMessage message = {arrayElem.message} key={componentKey.current++}/>;
-            break;
+        case "TMR":
+            return arrayElem.message.replace("<learnername>",session.user.username);
+    }
+}
 
-            case "TMR":
-                return <ChatBotMessage message = {replaceTextInMessage(arrayElem) }  key={componentKey.current++}/>;
-            break;
+//Problem: clicking option changes component structure conditionally 
+//Problme: What to do?
+//There are two options: a) one component with conditions
+//second change dom only after clicked -- how to do it?? have a callback from original class
+//Need to decide
+function ConvertJsonToComponent (arrayElem,clickHandler,session,key)
+{
+    var reactElement;
+    switch (arrayElem.type)
+    {
+        case "TM":
+            return <ChatBotMessage message = {arrayElem.message} key={key}/>;
+        break;
 
-            case "QWBO":
-                var optionsArray = arrayElem.options.map( (option) =>  {return {
-                            text:option.text, 
-                            onClick:(e) => {clickHandler(e,option.text,option.onClickResponse)}
-                        }}
-                    );  
-                    reactElement = <OptionsWithButtons options = {optionsArray} key={componentKey.current++}/>  
-                return  reactElement;
-            break; 
-            case "QWBOL":
-                var optionsArray = arrayElem.options.map( (option) =>  {return {
-                            text:option.text, 
-                            onClick:(e) => {clickHandler(e,option.text,option.onClickResponse)}
-                        }}
-                    );  
-                    reactElement = <Fade in={clearLastQuestion}><LongOptionsWithButtons options = {optionsArray} key={componentKey.current++}/></Fade>   
-                return  reactElement;
-            break; 
-            case "ack":
-                {
-                const onClick = (e) => {clickHandler(e,"ackclick")} ;
-                return <AcknowledgementQuestion message = {arrayElem.message} onClick = {onClick} key={componentKey.current++}/>; 
+        case "TMR":
+            return <ChatBotMessage message = {replaceTextInMessage(arrayElem,session) }  key={key}/>;
+        break;
+
+        case "QWBO":
+            var optionsArray = arrayElem.options.map( (option) =>  {return {
+                        text:option.text, 
+                        onClick:(e) => {clickHandler(e,option.text,option.onClickResponse)}
+                    }}
+                );  
+                reactElement = <OptionsWithButtons options = {optionsArray} key={key}/>  
+            return  reactElement;
+        break; 
+        case "QWBOL":
+            var optionsArray = arrayElem.options.map( (option) =>  {return {
+                        text:option.text, 
+                        onClick:(e) => {clickHandler(e,option.text,option.onClickResponse)}
+                    }}
+                );  
+                reactElement = <Fade in={clearLastQuestion}><LongOptionsWithButtons options = {optionsArray} key={key}/></Fade>   
+            return  reactElement;
+        break; 
+        case "ack":
+            {
+            const onClick = (e) => {clickHandler(e,"ackclick")} ;
+            return <AcknowledgementQuestion message = {arrayElem.message} onClick = {onClick} key={key}/>; 
+            break;
+            }
+
+        case "chpyco":
+            {
+                const onClick = (e) => {clickHandler(e,"chpyco",arrayElem)} ;
+                return <AcknowledgementQuestion message = {arrayElem.message} onClick = {onClick} key={key}/>; 
                 break;
-                }
+            }
 
-            case "chpyco":
+            case "chpycon":
                 {
-                    const onClick = (e) => {clickHandler(e,"chpyco",arrayElem)} ;
-                    return <AcknowledgementQuestion message = {arrayElem.message} onClick = {onClick} key={componentKey.current++}/>; 
+                    const onClick = (e) => {clickHandler(e,"chpycon",arrayElem)} ;
+                    setMaxWidth("lg");
+                    return <LayoutForCodeCheck blockToExecute={arrayElem} onDone={onClick}/>; 
                     break;
                 }
 
-                case "chpycon":
-                    {
-                        const onClick = (e) => {clickHandler(e,"chpycon",arrayElem)} ;
-                        setMaxWidth("lg");
-                        return <LayoutForCodeCheck blockToExecute={arrayElem} onDone={onClick}/>; 
-                        break;
-                    }
+        case "block":
+            lessonBlock.current = arrayElem.block;
 
-            case "block":
-                lessonBlock.current = arrayElem.block;
-
-            case "pycb":
-                return <PythonCodeComponent onChange={onChangePythonCode} value={arrayElem.value}/>;
-                //we need to replace the current block with 
-        }
+        case "pycb":
+            return <PythonCodeComponent onChange={onChangePythonCode} value={arrayElem.value}/>;
+            //we need to replace the current block with 
     }
+}
 
-    function replaceTextInMessage (arrayElem)
-    {
-        switch (arrayElem.type)
-        {
-            case "TMR":
-                return arrayElem.message.replace("<learnername>",session.user.username);
-        }
-    }
 
-    return (
+      return (
         
         <Container component="main" maxWidth={maxWidth} sx={{ display: 'flex', flexDirection:'column' }}>
             <TopScreenComponent learnersname = {session.user.username}/>
-                <Fade in={!clearPage} timeout = {1000}>
-                    <Box>
-                        {componentArray}
-                        <div ref={messagesEndRef} />
-                    </Box>
-                </Fade>     
+            <Fade in={!clearPage} timeout = {1000}>
+                <Box>
+                    {componentArray}
+                    <div ref={messagesEndRef} />
+                </Box>
+            </Fade>     
         </Container>
     );
 }
+
