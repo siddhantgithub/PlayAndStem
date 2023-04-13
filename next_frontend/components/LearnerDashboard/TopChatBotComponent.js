@@ -76,4 +76,4 @@ const TopChatBotComponent = React.forwardRef((props, ref) =>{
     );
   })
 
-  export default TopChatBotComponent;
+  export default React.memo(TopChatBotComponent);

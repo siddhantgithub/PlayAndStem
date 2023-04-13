@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import Container from '@mui/material/Container';
-import {TopScreenComponent,ChatBotMessage,LearnerMessage,OptionsWithButtons,AcknowledgementQuestion,LongOptionsWithButtons,PythonCodeComponent} from './MessageTypeComponentsWithAnimation'
+import {QuestionBlockWithAnswerClicked, TopScreenComponent,ChatBotMessage,LearnerMessage,OptionsWithButtons,AcknowledgementQuestion,LongOptionsWithButtons,PythonCodeComponent} from './MessageTypeComponentsWithAnimation'
 import LayoutForCodeCheck from './CodeCheckLayout'
 import Fade from '@mui/material/Fade';
 import Box from '@mui/material/Box';
@@ -13,6 +13,8 @@ import Typewriter from 'typewriter-effect';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import { ConvertJsonToComponent } from './JsonToComponent';
 import Typography from '@mui/material/Typography';
+import { CommonChapterEndBlock } from '../../assets/lessons/ZacobiaMission/0_CommonModules';
+import { returnQuizBlockFromText, QuizController } from '../../Controllers/QuizController';
 
 const style = {
     height: 300,
@@ -27,13 +29,14 @@ const style = {
 //UseEffect - Initialize the conversation
 export default function LearningConversation(props) {
 
-    const {LessonText, OnLessonEnd, performLearnerActionFromMission,onEventAck} = props;
+    const {LessonText, OnLessonEnd, onEventAck} = props;
     const { data: session, status } = useSession();
     const [componentArray,setComponentArray] = React.useState ([]);
     //const [displayNextComponent,setDisplayNextComponent] = React.useState (true);
     const [clearLastQuestion,setClearLastQuestion] = React.useState (false);
     const [clearPage,setClearPage] = React.useState (false);
     const [maxWidth, setMaxWidth] = React.useState("lg");
+    //console.log ("Lesson text is", LessonText);
     
 
     
@@ -42,9 +45,11 @@ export default function LearningConversation(props) {
     var lessonBlock = React.useRef(LessonText);
     var lessonBlockBuffer = React.useRef([]); //A block to hold temporary elements without affecting the main flow
     var currentPythonCode = React.useRef("");
+    var isQuizMode = React.useRef(false);
    
     var currentIndexToDisplay = React.useRef (0);
     const messagesEndRef = React.useRef(null);
+    var quizController = React.useRef (null);
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block:"end" })
@@ -56,11 +61,17 @@ export default function LearningConversation(props) {
         //console.log ("Seeting display next component to ",shouldDisplay);
       }
 
+      function setQuizMode(mode)
+      {
+        isQuizMode.current = mode;
+      }
+
     useEffect(() => {
       // setComponentArray(setInitialConversation());
       //console.log ("Lesson text is ", LessonText1);
      // console.log ("On event ack is ", onEventAck);
       displayNextComponentRef.current = true;
+      isQuizMode.current = false;
       addComponentEverySecond(); //calling to avoid initial delay
        const interval = setInterval(() => {
         
@@ -72,8 +83,31 @@ export default function LearningConversation(props) {
     useEffect(() => {
         scrollToBottom()
       }, [componentArray]);
-    
 
+
+    function stopNextComponentDisplayForResponseElements(arrayElem)
+    {
+        if (arrayElem.type == "QWBO" || arrayElem.type == "QWBOL" || 
+        arrayElem.type == "ack" || arrayElem.type == "acksp" || arrayElem.type == "chpyco" || 
+        arrayElem.type == "chpycon" || arrayElem.type == "QUESTION")
+            setDisplayNextComponent(false);
+
+    }
+
+    function getNextArrayElem()
+    {
+        if (isQuizMode.current)
+        {
+            //console.log ("Infor about quiz controller",quizController.current,quizController.current.returnNextQuestion);
+            return quizController.current.returnNextQuestion();
+        }
+
+        var arrayElem = lessonBlockBuffer.current.length > 0 ? 
+            lessonBlockBuffer.current.shift(): 
+            lessonBlock.current[currentIndexToDisplay.current++];
+
+        return arrayElem;
+    }
 
     const addComponentEverySecond = () => {
         //console.log('This will run every second!',displayNextComponentRef.current);
@@ -82,17 +116,47 @@ export default function LearningConversation(props) {
 
         if (displayNextComponentRef.current)
         {
-            var arrayElem = lessonBlockBuffer.current.length > 0 ? lessonBlockBuffer.current.shift(): lessonBlock.current[currentIndexToDisplay.current++];
+            var arrayElem = getNextArrayElem();
             //console.log ("Using Index", lessonBlock,arrayElem, currentIndexToDisplay.current);
+            if (arrayElem.type == "quiz")
+            {
+                
+                quizController.current = new QuizController(arrayElem.text);
+                setQuizMode(true);
+                addComponentEverySecond(); //calling to avoid initial delay
+                //lessonBlockBuffer.current = returnQuizBlockFromText(arrayElem.text);
+                //console.log ("lessonBlock buffer is", lessonBlockBuffer);
+                return;
+            }
+            if (arrayElem.type == "poplastelem")
+            {
+                setComponentArray(componentArray => {
+                    componentArray.pop();
+                    return [...componentArray];
+                });
+                addComponentEverySecond();
+                return;
+
+            }
+            if (arrayElem.type == "quizend")
+            {
+                setQuizMode(false);
+                //addComponentEverySecond();
+                return;
+            }
             if (arrayElem.type == "donothing")
             {
+                //addComponentEverySecond(); //calling to avoid initial delay
                 return;
             }
 
             if (arrayElem.type == "endmessage")
             {
+                lessonBlock.current = CommonChapterEndBlock;
+                currentIndexToDisplay.current = 0;
+                addComponentEverySecond(); //calling to avoid initial delay
                 OnLessonEnd();
-                setDisplayNextComponent(false);
+                //setDisplayNextComponent(false);
                 /*Router.push({
                     pathname: '/parent/ParentDashboard',
                 });*/
@@ -102,6 +166,24 @@ export default function LearningConversation(props) {
             if (arrayElem.type == "clearpage")
             {
                 setClearPage(true);
+                return;
+            }
+            if (arrayElem.type == "learnerevent")
+            {
+                //setDisplayNextComponent(true);
+                setDisplayNextComponent(false);
+                setComponentArray(componentArray => {
+                    //setDisplayNextComponent(true);
+                    //componentArray.pop();
+                    //console.log ("component array till now",componentArray);
+                    //Remove the question, answer block, show the clicked message as Learner's response, then add the response for the option selected
+                    return [...componentArray,<ChatBotMessage message = "Loading..." key={componentKey.current++}/>]
+                    //return [...componentArray,<ChatBotMessage message = "Loading..." key={componentKey.current++}/>]
+                });
+                onEventAck(arrayElem.data);
+                //setTimeout (() => {onEventAck(data.data)}, 1000);
+                //addComponentEverySecond(); //calling to avoid initial delay
+               // performLearnerActionFromMission("addcourses", arrayElem.missions);
                 return;
             }
             if (arrayElem.type == "showpage")
@@ -119,16 +201,8 @@ export default function LearningConversation(props) {
                 addComponentEverySecond(); //calling to avoid initial delay
                 return;
             }
-            if (arrayElem.type == "ADD")
-            {
-                onEventAck(arrayElem.data);
-                addComponentEverySecond(); //calling to avoid initial delay
-               // performLearnerActionFromMission("addcourses", arrayElem.missions);
-                return;
-            }
 
-            if (arrayElem.type == "QWBO" || arrayElem.type == "QWBOL" || arrayElem.type == "ack" || arrayElem.type == "acksp" || arrayElem.type == "chpyco" || arrayElem.type == "chpycon")
-                setDisplayNextComponent(false);
+            stopNextComponentDisplayForResponseElements(arrayElem);
             setComponentArray(componentArray => {
                 return [...componentArray,ConvertJsonToComponent(arrayElem,handleOptionClick,session,componentKey.current++)]});
         }
@@ -169,11 +243,43 @@ export default function LearningConversation(props) {
         return;
     }
 
+    function handleOptionClickInQuizMode (response,data)
+    {
+        if (response == "quiznextclicked")
+        {
+            setDisplayNextComponent(true);
+            addComponentEverySecond();
+            return;
+        }
+        //console.log ("The response is",data);
+        if (quizController.current.optionClicked(data))
+            console.log ("correct clicked");
+
+        setComponentArray(componentArray => {
+            setDisplayNextComponent(false);
+            componentArray.pop();
+            var lastQuestionBlock = quizController.current.currentQuestion;
+            //console.log ("component array till now",componentArray);
+            //Remove the question, answer block, show the clicked message as Learner's response, then add the response for the option selected
+            return [...componentArray,<QuestionBlockWithAnswerClicked optionClicked = {response} key={componentKey.current++}
+                        question={lastQuestionBlock.question} options={lastQuestionBlock.options}
+                        onClick = {(e) =>{handleOptionClick(e,"quiznextclicked")} }/>];
+            //return [...componentArray];
+        });
+    }
+
     //When the question has been answered, remove the question and show the answer as if Learner has answered it
+    //response is the text selected
+    //data is response obj
     function handleOptionClick(e,response,data)
     {
-        //console.log ("event is",e);
-        
+        if (isQuizMode.current)
+        {
+            handleOptionClickInQuizMode(response,data);
+            return;
+        }
+
+
 
         if (response == "ackclick")
         {
@@ -188,6 +294,23 @@ export default function LearningConversation(props) {
             addComponentEverySecond(); //calling to avoid initial delay
             return;
         } 
+        if (data.type == "learnerevent")
+        {
+            //setDisplayNextComponent(true);
+            setComponentArray(componentArray => {
+                //setDisplayNextComponent(true);
+                componentArray.pop();
+                //console.log ("component array till now",componentArray);
+                //Remove the question, answer block, show the clicked message as Learner's response, then add the response for the option selected
+                return [...componentArray,<LearnerMessage message = {response} key={componentKey.current++}/>,<ChatBotMessage message = "Loading..." key={componentKey.current++}/>]
+                //return [...componentArray,<ChatBotMessage message = "Loading..." key={componentKey.current++}/>]
+            });
+            onEventAck(data.data);
+            //setTimeout (() => {onEventAck(data.data)}, 1000);
+            //addComponentEverySecond(); //calling to avoid initial delay
+           // performLearnerActionFromMission("addcourses", arrayElem.missions);
+            return;
+        }
         if (response == "ackspclick")
         {
            /* setDisplayNextComponent(true);
@@ -252,7 +375,6 @@ export default function LearningConversation(props) {
         console.log("change", value);
         currentPythonCode.current = value;
     }
-
 
     return (      
         <Container component="main" maxWidth={maxWidth} sx={{ display: 'flex', flexDirection:'column' }}>

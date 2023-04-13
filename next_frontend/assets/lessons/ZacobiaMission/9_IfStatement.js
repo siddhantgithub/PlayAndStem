@@ -14,6 +14,12 @@ const IfBlockThirdQuestion = [
 ];
 
 export const LessonText = [
+    {id:15, type: "TM", message: "Hi, welcome to the ninth chapter in our mission"},
+    {id:15, type: "TM", message: "In this chapter we will learn about \'if\' statment"},
+    {id:15, type: "TM", message: "and how to use to use it"},
+    {id:1, type: "ack", message:"Click Next"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
     {id:12, type:"TM", message: "Now that we know about conditions and blocks, it is time to learn about the if statement"},
     {id:12, type:"TM", message: "The syntax for if statement is"},
     {id:12, type:"TM", message: "if  \'<condition>\':"},

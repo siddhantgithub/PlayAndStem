@@ -1,9 +1,15 @@
 const milliSecondsToASecond = [
-    {text:"1000", onClickResponse:{type: "TMR", message: "Awesome! You know it all"}},
-    {text:"100", onClickResponse:{type: "TMR", message: "Not exactly. Milli means one thousandth, which means if you divde a second into thousand parts then one part will be a milli second. So we need 1000 milli seconds to make a second"}},
+    {text:"1000", onClickResponse:{type: "TM", message: "Awesome! You know it all"}},
+    {text:"100", onClickResponse:{type: "TM", message: "Not exactly. Milli means one thousandth, which means if you divde a second into thousand parts then one part will be a milli second. So we need 1000 milli seconds to make a second"}},
 ];
 
 export const LessonText = [
+    {id:15, type: "TM", message: "Hi, welcome to the twelth chapter in our mission"},
+    {id:15, type: "TM", message: "This is the second last chapter and we are very close to complete our mission"},
+    {id:15, type: "TM", message: "In this chapter we will learn about sleep statement"},
+    {id:1, type: "ack", message:"Click Next"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
     {id:12, type:"TM", message: "From the previous sections, we have a code that checks for the light level continously"},
     {id:12, type:"TM", message: "We don't really need to do that. Microbit can take a break in between"},
     {id:1, type: "ack", message:"Click next to to make the last change"},

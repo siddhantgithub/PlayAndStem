@@ -1,4 +1,9 @@
 export const LessonText = [
+    {id:15, type: "TM", message: "Hi, welcome to the seventh chapter in our mission"},
+    {id:15, type: "TM", message: "In this chapter we will learn about conditions in programming"},
+    {id:1, type: "ack", message:"Click Next"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
     {id:12, type:"TM", message: "From the previous section we learned how to switch on and switch off the display"},
     {id:12, type:"TM", message: "But remember from our steps that we should only switch on or off the display when the light level is low or high"},
     {id:12, type:"TM", message: "So first we have to check the light level and then depending on the level, we have to make a deciion of whether to switch on or off a display"},
@@ -11,7 +16,7 @@ export const LessonText = [
     {id:1, type: "showpage"},
     {id:12, type:"TM", message: "Conditions are statements that result in a value of true or false"},
     {id:12, type:"TM", message: "Statements result in a value of true when the statement is correct and false otherwise"},
-    {id:12, type:"TM", message: "In Python you represent true by \'True\' and false by \'False\'"},
+    {id:12, type:"TM", message: "In Python we represent true by \'True\' and false by \'False\'"},
     {id:12, type:"TM", message: "Python supports many different condition statements"},
     {id:12, type:"TM", message: "For our current mission, we will use \'greater than\' condition statement"},
     {id:1, type: "ack", message:"Click next to proceed"},

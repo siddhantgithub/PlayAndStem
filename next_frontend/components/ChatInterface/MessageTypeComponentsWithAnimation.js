@@ -25,6 +25,8 @@ import DoneIcon from '@mui/icons-material/Done';
 import dynamic from 'next/dynamic'
 import groovyWalkAnimation from "../../assets/lottie-animations/main-buddy.json";
 import Typewriter from 'typewriter-effect';
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
 
 const PythonEditor = dynamic(
   () => import("../ace-editor/PythonEditor"),
@@ -139,7 +141,7 @@ export function PythonCodeComponentWithDialogInSide (props) {
 
 export  function ChatBotMessage (props) {
 
-    const {message} = props;
+    const {message,noTypewriter} = props;
     return (
         <Fade in={true} timeout = {1000}>
         <Grid container spacing={0} sx={{alignItems: 'center'} }>
@@ -153,8 +155,7 @@ export  function ChatBotMessage (props) {
                                     flexDirection: 'column',
                                 } } elevation = {5}
                                 >
-
-                    <Typewriter
+               <Typewriter
                     options={{
                         delay: 30,
                         cursor:""
@@ -165,10 +166,35 @@ export  function ChatBotMessage (props) {
                           .start();
                       }}
                     />
+
                 </Paper>
             </Grid>
         </Grid> 
         </Fade>
+    );
+}
+
+export  function ChatBotMessageWithoutTypewriter (props) {
+
+    const {message,noTypewriter} = props;
+    return (
+
+        <Grid container spacing={0} sx={{alignItems: 'center'} }>
+            <Grid item xs={12} md={11} lg={11}>
+                <Paper
+                                sx={{
+                                    p: 2,
+                                    mt:2,
+                                    mr:2,
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                } } elevation = {5}
+                                >
+                                {message}
+
+                </Paper>
+            </Grid>
+        </Grid> 
     );
 }
 
@@ -207,11 +233,8 @@ export  const OptionsWithButtons = React.forwardRef((props, ref) =>{
     var key = 0;
 
     return (  
-        <Grid container spacing={0} sx={{alignItems: 'center'} }>    
-            <Divider sx={{ mt: 3, mb: 2 }}>
-                <Typography variant= "body3"> Provide your response</Typography>
-            </Divider>  
-             <Grid item xs={12} md={11} lg={11}>
+        <Grid container spacing={0} sx={{alignItems: 'center', mt:2} }>    
+            <Grid item xs={11} md={11} lg={11}>
                     <Paper
                                     sx={{
                                         p: 2,
@@ -225,7 +248,7 @@ export  const OptionsWithButtons = React.forwardRef((props, ref) =>{
                         options.map((option) => {                 
                             return(
                                 <Fade in={true} timeout = {1000} key = {key++}>
-                                <Button variant="outlined" onClick={option.onClick} sx={{textTransform: "none"}}>{option.text}</Button>
+                                    <Button variant="outlined" onClick={option.onClick} sx={{textTransform: "none"}}>{option.text}</Button>
                                 </Fade>
                             )
                         })
@@ -239,27 +262,86 @@ export  const OptionsWithButtons = React.forwardRef((props, ref) =>{
 export  const LongOptionsWithButtons = React.forwardRef((props, ref) =>{
 
     const {options} = props;
-    var key = 0;
+    var key = 10000;
 
     return (
         <Box ref={ref}>
-            <Grid container  sx={{alignItems: 'center'} }>    
-               
-                
+            <Grid container  sx={{alignItems: 'center'} }>
                     {
                     options.map((option) => {                 
                         return(
-                            <Fade in={true} timeout = {1000}  >
-                                 <Grid item xs={11} md={11} lg={11}>
-                                <Button variant="outlined" onClick={option.onClick} sx={{mt:2, textTransform: "none"}}>{option.text}</Button>
-                                </Grid>
-                            </Fade>                
+                                 <Grid item xs={11} md={11} lg={11} key={key++}>
+                                    <Button variant="outlined" key={key++} onClick={option.onClick} sx={{mt:2, textTransform: "none"}}>{option.text}</Button>
+                                </Grid>              
                     );
                     })}
-    
             </Grid>
         </Box>
     );
+})
+
+export  const QuestionBlock = React.forwardRef((props, ref) =>{
+
+    const {question,options} = props;
+    var key = 10000;
+
+    return (
+        <Box ref={ref} key={question}>
+            <ChatBotMessage message = {question} key={key++} />
+            <LongOptionsWithButtons options = {options} key={key++}/>
+        </Box>
+    );
+})
+
+export const QuestionBlockWithAnswerClicked = React.forwardRef((props, ref) =>{
+    const {question,options,optionClicked,onClick} = props;
+    var key = 10000;
+
+    return (
+        <Box ref={ref} key={question}>
+            <ChatBotMessageWithoutTypewriter message = {question} key={key++} />
+            <Grid container alignItems="center" sx={{alignItems: 'center'}  } direction="row">
+                    {
+                    options.map((option) => {
+                        var color = "primary";
+                        var variant = "outlined";
+                        var Icon = <ClearIcon color="error"/>;
+
+                        if (option.onClickResponse.type == "correct")
+                        {
+                                color = "success";
+                                Icon = <CheckIcon color="success"/>
+                        }
+                        else
+                                color ="error";
+                           
+                        if(option.text == optionClicked)   
+                        {
+                            variant = "contained";
+                        }           
+                            return(
+                                <React.Fragment key={key++}>
+                                    <Grid item xs={2} md={2} lg={2} key={key++}>
+                                     {Icon}
+                                    </Grid>  
+                                    <Grid item xs={10} md={10} lg={10} key={key++}>
+                                        <Button variant={variant} color={color} key={key++}  sx={{mt:2, textTransform: "none"}}>{option.text}</Button>
+                                    </Grid> 
+
+                                      
+
+                                </React.Fragment>          
+                        );                           
+                    })}
+                    <Grid item xs={10} md={10} lg={10} key={key++} sx={{mt:2}}>
+                    <Button variant="contained" startIcon={<DoneIcon />} onClick={onClick}>
+                                    Next
+                            </Button>
+                    </Grid>     
+            </Grid>
+        </Box>
+    );
+
 })
 
 export function AcknowledgementQuestion (props)

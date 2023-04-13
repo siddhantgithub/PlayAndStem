@@ -15,7 +15,13 @@ const firstPythonCodeResponseAction = {
 };
 
 export const LessonText = [
-    {id:11, type: "TM", message: "We know that computer program is a group of statements"},
+    {id:15, type: "TM", message: "Hi, welcome to the fourth chapter in our mission"},
+    {id:15, type: "TM", message: "In this chapter we will start writing Python code to solve the mission"},
+    {id:15, type: "TM", message: "By writing the statement to bring in additional help"},
+    {id:1, type: "ack", message:"Click Next"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
+    {id:11, type: "TM", message: "From earlier chapter we know that computer program is a group of statements"},
     {id:11, type: "TM", message: "Let's discuss what the first statement can be"},
     {id:11, type: "TM", message: "Generally, the first satement in a computer program is for bringing in more help"},
     {id:11, type: "TM", message: "Why do we need help, let's imagine you want to organize a party with delicious food for your friends"},

@@ -4,10 +4,16 @@ const whenShouldCheckDayOrNight = [
 ];
 
 export const LessonText = [
+    {id:15, type: "TM", message: "Hi, welcome to the eleventh chapter in our mission"},
+    {id:15, type: "TM", message: "In this chapter we will learn about while loop"},
+    {id:15, type: "TM", message: "and we will use it to improve our existing code"},
+    {id:1, type: "ack", message:"Click Next"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
     {id:15, type: "TM", message: "Till now we have the code to check the light level and accordingly switch on or off the display"},
     {id:15, type: "TM", message: "In our program we are checking the light level only once but checking only once will not solve our problem"},
     {id:15, type: "TM", message: "What do you think how often should the light level?"},
-    {id:1, type: "QWBO", message: "Provide your response", options:whenShouldCheckDayOrNight},
+    {id:1, type: "QWBOL", message: "Provide your response", options:whenShouldCheckDayOrNight},
     {id:15, type: "TM", message: "We have to check continuously or always because otherwise the lights will stay on or off"},
     {id:15, type: "TM", message: "To check continuously we will have to check regularly or repeat the process of check"},
     {id:15, type: "TM", message: "If we have to repeat something again and again we say we have to do it in a loop"},

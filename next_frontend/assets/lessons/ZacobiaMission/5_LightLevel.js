@@ -10,7 +10,13 @@ const variableLightLevelResponseAction = {
 };
 
 export const LessonText = [
-    {id:12, type:"TM", message: "In the last section we learned how to get help, now it is time to use the help to solve our mission"},
+    {id:15, type: "TM", message: "Hi, welcome to the 5th chapter in our mission"},
+    {id:15, type: "TM", message: "In this chapter we will learn about APIs and how to use them"},
+    {id:15, type: "TM", message: "We will also learn about the API to read light level and store the value in a variable"},
+    {id:1, type: "ack", message:"Click Next"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
+    {id:12, type:"TM", message: "In the last section we learned how to get help, now it is time to use it to solve our mission"},
     {id:12, type:"TM", message: "Let's revisit the three steps that we need to take to solve the problem"},
     {id:15, type: "TM", message: "Step 1: Get the sunlight level"},
     {id:15, type: "TM", message: "Step 2: If it is low then switch on the lights"},
@@ -22,7 +28,7 @@ export const LessonText = [
     {id:1, type: "showpage"},
     {id:15, type: "TM", message: "Fort the first step, we have to first get the light level from Microbit"},
     {id:15, type: "TM", message: "To get the light level we will use the \'display\' module"},
-    {id:15, type: "TM", message: "Remember modules have different skills or APIs or functions"},
+    {id:15, type: "TM", message: "Remember modules have different APIs or functions"},
     {id:15, type: "TM", message: "Here we will use api or function called \'read_light_level()\'"},
     {id:1, type: "ack", message:"Click next to proceed"},
     {id:1, type: "clearpage"},

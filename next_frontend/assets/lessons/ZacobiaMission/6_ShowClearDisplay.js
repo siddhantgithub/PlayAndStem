@@ -1,4 +1,10 @@
 export const LessonText = [
+    {id:15, type: "TM", message: "Hi, welcome to the sixth chapter in our mission"},
+    {id:15, type: "TM", message: "In this chapter we will learn how to use the display"},
+    {id:15, type: "TM", message: " and switch it on and off"},
+    {id:1, type: "ack", message:"Click Next"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
     {id:12, type:"TM", message: "Let's now learn how to switch on and clear the display"},
     {id:12, type:"TM", message: "To switch on the display, we will use the \'show\' api of display module"},
     {id:1, type: "ack", message:"Click next to proceed"},

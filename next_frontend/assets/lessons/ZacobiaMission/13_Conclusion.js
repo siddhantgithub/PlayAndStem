@@ -1,3 +1,4 @@
+//Need to write questions and answers based on the assessment
 const Question1 = [
     {answer:1},
     {questionPrompt:"Which of the following is a valid Python comment?"},
@@ -142,28 +143,20 @@ export const AssessmentArray = [
     Question11,
     Question12,
     Question13
-]
+];
 
-export const quizText = `What is a variable in programming?
-A) A type of computer
-B) A container that stores data
-C) A tool used for debugging code
-D) A type of programming language
-
-What is a loop in programming?
-A) A type of knot used in string art
-B) A set of instructions that are executed repeatedly
-C) A type of function used to create graphics
-D) A tool used to measure the length of code
-
-What is a conditional statement in programming?
-A) A type of function used for mathematical operations
-B) A set of instructions that is executed only if a certain condition is met
-C) A tool used to create animations in games
-D) A type of data structure used to store information
-
-What is a function in programming?
-A) A set of instructions that performs a specific task
-B) A type of loop used to repeat a set of instructions
-C) A tool used to debug code
-D) A type of data structure used to store information`;
+export const LessonText = [
+    {id:15, type: "TM", message: "Hi, awesome job. We are almost done as this is the last chapter in the mission"},
+    {id:15, type: "TM", message: "In this chapter we will go through few questions"},
+    {id:15, type: "TM", message: "to revise all the concepts we have learned"},
+    {id:1, type: "ack", message:"Click Next"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
+    {id:12, type:"TM", message: "Great job in solving the mission"},
+    {id:12, type:"TM", message: "We not only solved Zacobians' light problem but alo learned several new things along the way"},
+    {id:12, type:"TM", message: "More importantly we coded a Python program together"},
+    {id:12, type:"TM", message: "Let's go through few questions and answers together to just revise the topics we covered in this mission"},
+    {id:1, type: "ack", message:"Let's get started"},
+    {id:10, type:"quiz", questionArray:AssessmentArray},
+    {id:1, type: "endmessage"}
+];

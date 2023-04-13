@@ -1,4 +1,4 @@
-import {TopScreenComponent,ChatBotMessage,LearnerMessage,OptionsWithButtons,AcknowledgementQuestion,LongOptionsWithButtons,PythonCodeComponent} from './MessageTypeComponentsWithAnimation'
+import {QuestionBlock, TopScreenComponent,ChatBotMessage,LearnerMessage,OptionsWithButtons,AcknowledgementQuestion,LongOptionsWithButtons,PythonCodeComponent} from './MessageTypeComponentsWithAnimation'
 import Fade from '@mui/material/Fade';
 
 function replaceTextInMessage (arrayElem,session)
@@ -43,7 +43,16 @@ export function ConvertJsonToComponent (arrayElem,clickHandler,session,key)
                         onClick:(e) => {clickHandler(e,option.text,option.onClickResponse)}
                     }}
                 );  
-                reactElement = <Fade in={true}><LongOptionsWithButtons options = {optionsArray} key={key}/></Fade>   
+                reactElement = <Fade in={true} key={key}><LongOptionsWithButtons options = {optionsArray} /></Fade>   
+            return  reactElement;
+        break; 
+        case "QUESTION":
+            var optionsArray = arrayElem.options.map( (option) =>  {return {
+                        text:option.text, 
+                        onClick:(e) => {clickHandler(e,option.text,option.onClickResponse)}
+                    }}
+                );  
+                reactElement = <Fade in={true} key={key}><QuestionBlock question = {arrayElem.question} options = {optionsArray} /></Fade>   
             return  reactElement;
         break; 
         case "ack":

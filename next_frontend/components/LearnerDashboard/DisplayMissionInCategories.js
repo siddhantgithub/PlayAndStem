@@ -35,7 +35,7 @@ function MissionCard({learnerMissionProgress, onMissionClick,missionName,mission
 
   function returnChipColor (ms)
   {
-    console.log ("Value of ms is",ms);
+    //console.log ("Value of ms is",ms);
 
     switch (ms)
     {
@@ -54,7 +54,7 @@ function MissionCard({learnerMissionProgress, onMissionClick,missionName,mission
   }
 
  //console.log ("Mission status got is ", learnerMissionProgress);
- console.log ("Chip color is", returnChipColor(learnerMissionProgress));
+// console.log ("Chip color is", returnChipColor(learnerMissionProgress));
   return (
     <Card sx={{ width: 220, height: 290,margin: 1}}>
       <CardActionArea onClick = {onMissionClick}>
@@ -165,18 +165,16 @@ export default function DisplayMissionsInCategories ({onMissionClicked, learnerM
             
             categoryMap && CategoryList.map ((category => {
               if (categoryMap.has(category))
-              {
+              { 
                 return (
                   <React.Fragment key={category}>
-
                     {
                       categoryMap.get(category).map(mission => {
                         var key = category + mission.id;
-                        //console.log ("mission id is " + mission.id);
+                       // console.log ("mission id is " + mission.id);
                         return (
-                          learnerMissionProgress && <MissionCard learnerMissionProgress = {learnerMissionProgress[mission.id - 1]} key={key} missionName={mission.name} missionImage={mission.image} onMissionClick = {() => {onMissionClicked(mission)}} description = {mission.description}/>
+                          learnerMissionProgress && <MissionCard learnerMissionProgress = {learnerMissionProgress[mission.id]} key={key} missionName={mission.name} missionImage={mission.image} onMissionClick = {() => {onMissionClicked(mission)}} description = {mission.description}/>
                         )
-
                       })
                     }
                     </React.Fragment>

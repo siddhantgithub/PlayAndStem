@@ -1,7 +1,13 @@
 export const LessonText = [
+    {id:15, type: "TM", message: "Hi, welcome to the tenth chapter in our mission"},
+    {id:15, type: "TM", message: "In this chapter we will learn how to use if statement to switch on and off the display"},
+    {id:15, type: "TM", message: "depending on the light level"},
+    {id:1, type: "ack", message:"Click Next"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
     {id:12, type:"TM", message: "Let's start writing the code to switch on and off the display depending on the light level"},
     {id:12, type:"TM", message: "We use the if statement with read_light_level api to check the light level"},
-    {id:12, type:"TM", message: "We will switch on the lights if light level are less than 100"},
+    {id:12, type:"TM", message: "We will switch on the lights if light level is less than 100"},
     {id:12, type:"TM", message: "With this check, the code then becomes"},
     {id:10, type: "pycb", value: 
     `from microbit import *
