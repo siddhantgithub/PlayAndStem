@@ -16,14 +16,23 @@ import Chip from '@mui/material/Chip';
 import LinearProgress from '@mui/material/LinearProgress';
 import Box from '@mui/material/Box';
 import { GetSetLearnerDataThroughAPI } from '../../actions/LearnerMissionProgressRequestHandler';
-import Image from 'next/image'
+import Image from 'next/image';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 
 export const ChapterState = {
   AvailableLater: 0, 
   Available: 1, 
   InProgress:2,
   Completed:3
+}
 
+export const ViewState = {
+  AvailableLater: 0, 
+  Available: 2, //Represents both available and in-progress as both will be visible in the same tab 
+  InProgress:2,
+  Completed:3,
+  All:4
 }
 
 export  const LinearProgressWithLabel = React.forwardRef((props, ref) =>{
@@ -63,7 +72,7 @@ function ModuleCard(props) {
         return "primary";
 
       case ChapterState.InProgress:
-        return "secondary";
+        return "info";
 
       case ChapterState.Completed:
           return "success";
@@ -90,12 +99,31 @@ function ModuleCard(props) {
     }
   }
 
+  function returnButtonText (ms)
+  {
+    //console.log ("Value of ms is",ms);
 
+    switch (ms)
+    {
+      case ChapterState.AvailableLater:
+        return "Available Later";
 
+      case ChapterState.Available:
+        return "Continue";
+
+      case ChapterState.InProgress:
+        return "Continue";
+
+      case ChapterState.Completed:
+        return "Revisit";
+    }
+  }
+
+  if (progress != ChapterState.AvailableLater)
   return (
     <Card sx={{ width: 200, height: 310,margin: 2}}>
-      <CardActionArea onClick = {onClick}>
 
+    <CardActionArea onClick = {progress != ChapterState.AvailableLater && onClick}>
       <Image alt = {name} src = {`/lessonImages/${image}`}  width={200} height={150}></Image>
       
       <CardContent>
@@ -108,18 +136,38 @@ function ModuleCard(props) {
       </CardContent>
       </CardActionArea>
 
-        <Button size="small" onClick= {onClick}>Start</Button>
+      <Button size="small" onClick= {onClick} sx={{ margin: 1 }}>{returnButtonText(progress)}</Button>
         {<Chip label={returnChipLabel(progress)} color={returnChipColor(progress)} variant="outlined" sx={{ margin: 1 }}/>}
-
     </Card>
   );
-}
+  else
+  return (
+    <Card sx={{ width: 200, height: 310,margin: 2}}>
 
+
+      <Image alt = {name} src = {`/lessonImages/${image}`}  width={200} height={150}></Image>
+      
+      <CardContent>
+        <Typography gutterBottom variant="body1" component="div">
+          {name}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {description}
+        </Typography>
+      </CardContent>
+        {<Chip label={returnChipLabel(progress)} color={returnChipColor(progress)} variant="outlined" sx={{ margin: 1 }}/>}
+    </Card>
+
+  );
+
+}
 
 
 function AllModuleList (props) {
   const messagesEndRef = React.useRef(null);
-  var categoryMissionMap;
+  var categoryMissionMapG = React.useRef(null);
+  const [tabSelected, setTabSelected] = React.useState(ViewState.All);
+  const [chapterCompleted, setChapterCompleted] = React.useState(0);
 
   const {onLessonClicked, showInitialDashboard, moduleList, chapterProgress} = props;
   const backToModulesClicked = (props) => {
@@ -131,12 +179,27 @@ function AllModuleList (props) {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block:"end" })
   }, []);
 
+  function a11yProps(index) {
+    return {
+      id: `simple-tab-${index}`,
+      'aria-controls': `simple-tabpanel-${index}`,
+    };
+  }
+  
+  const handleChange = (event, newValue) => {
+    setTabSelected(newValue);
+  };
+
   function distributChaptersInCategories ()
   {
-    categoryMissionMap = new Map();
-    categoryMissionMap.set ("InProgress", []);
+    var numChapterCompleted = 0;
+    categoryMissionMapG.current = new Map();
+    var categoryMissionMap = categoryMissionMapG.current;
+    categoryMissionMap.set ("In Progress/Up Next", []);
     categoryMissionMap.set ("Completed", []);
-    categoryMissionMap.set ("AvailableLater", []);
+    categoryMissionMap.set ("Available Later", []);
+    categoryMissionMap.set ("Available", []);
+    console.log ("Module list is ", moduleList);
     for (var i = 0; i < moduleList.length; ++i)
     {
       //Iterate over all the missions
@@ -146,48 +209,67 @@ function AllModuleList (props) {
       {
   
         case ChapterState.AvailableLater:
-          categoryMissionMap.get("AvailableLater").push(module);
+          categoryMissionMap.get("Available Later").push(module);
           break;
         case ChapterState.Available:
+          categoryMissionMap.get("Available").push(module);
+          break;
         case ChapterState.InProgress:
-          categoryMissionMap.get("InProgress").push(module);
+          categoryMissionMap.get("In Progress/Up Next").push(module);
           break;
         case ChapterState.Completed:
+          numChapterCompleted++;
           categoryMissionMap.get("Completed").push(module);
           break;
       }
     }
+    setChapterCompleted(numChapterCompleted);
   }
-  distributChaptersInCategories();
+  //distributChaptersInCategories();
   useEffect(() => {
-    //distributChaptersInCategories();
+    distributChaptersInCategories();
     //console.log ("Distributed chapters are",categoryMissionMap );
       
-  }, []);
+  }, [chapterProgress]);
 
+  //Ideal view state should be
+  //First should be visible, what is in-progress or up next
+  //Second should be visible completed
+  //Third Avalilable later
   return (
     <React.Fragment>
        <Button variant="outlined" ref = {messagesEndRef} onClick = {backToModulesClicked} startIcon={<ArrowBackIcon />}>Learning Home</Button>
-    <LinearProgressWithLabel completed={0} total={13}/>
+    <LinearProgressWithLabel completed={chapterCompleted} total={13}/>
     <Fade in={true} timeout = {1000}>
+    
 
         <Grid container spacing={0}  alignItems= "center" justifyContent="left">
+          <Grid item xs={12} md={12} lg={12} sx ={{mt:2}} >
+          <Tabs value={tabSelected} onChange={handleChange} aria-label="basic tabs example">
+            <Tab label="All" value = {ViewState.All} {...a11yProps(2)} />
+            <Tab label="In Progress/Up Next" value = {ViewState.Available}  />
+            <Tab label="Completed" value = {ViewState.Completed}  />
+            <Tab label="Available Later" value = {ViewState.AvailableLater}  />      
+          </Tabs>
+          </Grid>
         {
-            ["InProgress","Completed","AvailableLater"].map ((category => {
+
+            ["In Progress/Up Next","Completed", "Available", "Available Later",].map ((category => {
+              var categoryMissionMap = categoryMissionMapG.current;
               //console.log ("Categories are",category, "category mission map is ", categoryMissionMap.get(category).length);
               if (categoryMissionMap && categoryMissionMap.has(category) && categoryMissionMap.get(category).length> 0)
               {
                 return (
                   <React.Fragment key={category}>
-                  <Grid item xs={12} md={12} lg={12} sx ={{mt:2}} >
+                  {tabSelected == ViewState.All && categoryMissionMap.get(category).length > 0 && <Grid item xs={12} md={12} lg={12} sx ={{mt:2}} >
                       <Typography gutterBottom variant="h5" component="div">
                         {category}
                       </Typography>
-                   </Grid>
+                   </Grid>}
                 
                    { categoryMissionMap.get(category).map(chapter => {
                       //console.log ("Chapter is ", chapter);
-                        return <ModuleCard key={chapter.id} progress = {chapterProgress[chapter.id]} module={chapter} onLessonClicked = {onLessonClicked} />
+                        return (chapterProgress[chapter.id] == tabSelected || tabSelected == ViewState.All) && <ModuleCard key={chapter.id} progress = {chapterProgress[chapter.id]} module={chapter} onLessonClicked = {onLessonClicked} />
                     })}
                   </React.Fragment>
                 )
@@ -205,6 +287,7 @@ function AllModuleList (props) {
 const ModuleListDisplay = ({showInitialDashboard, clickedMission,learnerId, onChapterClicked}) => {
 
   const [chapterProgress, setChapterProgress] = React.useState(null);
+
   
   function onLessonClicked (lessonName,fileName,id)  {
     //console.log ("Lesson clicked is", setChapterProgress );
@@ -230,6 +313,8 @@ const ModuleListDisplay = ({showInitialDashboard, clickedMission,learnerId, onCh
     
   };
 
+
+
   var moduleList = clickedMission.moduleList;
 
   const backToModulesClicked = (props) => {
@@ -239,6 +324,8 @@ const ModuleListDisplay = ({showInitialDashboard, clickedMission,learnerId, onCh
   const lessonEndReached = (props) => {
     setLessonInProgress(false);
   }
+
+
   
 
   useEffect(() => {
@@ -254,29 +341,15 @@ const ModuleListDisplay = ({showInitialDashboard, clickedMission,learnerId, onCh
       
   }, []);
 
-     // if (!lessonInProgress)
-        return (  
-          <Grid container spacing={0}  alignItems= "center" justifyContent="left">   
-            <Grid item xs={12} md={12} lg={12}>
-              {/*<Button variant="outlined" startIcon={<ArrowBackIcon />}>Mission Modules</Button>*/}
-            </Grid>
-            <Grid item xs={12} md={12} lg={12}>   
-              {chapterProgress && <AllModuleList chapterProgress = {chapterProgress[clickedMission.id]} onLessonClicked={onChapterClicked } moduleList = {moduleList} showInitialDashboard={showInitialDashboard}/> }
-            </Grid>
-          </Grid>         
-        );
-    /*  else
-        return (
-          <Grid container spacing={0}  alignItems= "center" justifyContent="left" sx={{ display: 'flex', flexDirection:'column' }}>   
-          <Grid item xs={12} md={12} lg={12}>
-            <Button variant="outlined" onClick = {backToModulesClicked} startIcon={<ArrowBackIcon />}>Mission Modules</Button>
-          </Grid>
-          <Grid item xs={12} md={12} lg={12}>   
-            <LearningConversation LessonText={lessonText} OnLessonEnd = {lessonEndReached} onEventAck={onLearnerEvent}/>
-          </Grid>
-        </Grid>  
-          
-        ); */     
+    return (  
+      <Grid container spacing={0}  alignItems= "center" justifyContent="left">   
+        <Grid item xs={12} md={12} lg={12}>
+        </Grid>
+        <Grid item xs={12} md={12} lg={12}>   
+          {chapterProgress && <AllModuleList chapterProgress = {chapterProgress[clickedMission.id]} onLessonClicked={onChapterClicked } moduleList = {moduleList} showInitialDashboard={showInitialDashboard}/> }
+        </Grid>
+      </Grid>         
+    );    
 }
 
 export default ModuleListDisplay;

@@ -15,6 +15,8 @@ import { ConvertJsonToComponent } from './JsonToComponent';
 import Typography from '@mui/material/Typography';
 import { CommonChapterEndBlock } from '../../assets/lessons/ZacobiaMission/0_CommonModules';
 import { returnQuizBlockFromText, QuizController } from '../../Controllers/QuizController';
+import { GetSetLearnerDataThroughAPI } from '../../actions/LearnerMissionProgressRequestHandler';
+import { PythonCodeCheckController } from '../../Controllers/PythonCodeCheckController';
 
 const style = {
     height: 300,
@@ -27,9 +29,15 @@ const style = {
 //TODO: Show loading
 //What is the flow here: read one, show animation
 //UseEffect - Initialize the conversation
+
+const ConversationState = {
+    Normal:0,
+    Quiz:1,
+    CHPYCON:2
+};
 export default function LearningConversation(props) {
 
-    const {LessonText, OnLessonEnd, onEventAck} = props;
+    const {LessonText, OnLessonEnd, onEventAck,learnerQuizProgress} = props;
     const { data: session, status } = useSession();
     const [componentArray,setComponentArray] = React.useState ([]);
     //const [displayNextComponent,setDisplayNextComponent] = React.useState (true);
@@ -37,6 +45,7 @@ export default function LearningConversation(props) {
     const [clearPage,setClearPage] = React.useState (false);
     const [maxWidth, setMaxWidth] = React.useState("lg");
     //console.log ("Lesson text is", LessonText);
+    //console.log ("Learner quiz progress got is ", learnerQuizProgress);
     
 
     
@@ -45,11 +54,14 @@ export default function LearningConversation(props) {
     var lessonBlock = React.useRef(LessonText);
     var lessonBlockBuffer = React.useRef([]); //A block to hold temporary elements without affecting the main flow
     var currentPythonCode = React.useRef("");
-    var isQuizMode = React.useRef(false);
+    var conversationState = React.useRef(ConversationState.Normal);
    
     var currentIndexToDisplay = React.useRef (0);
     const messagesEndRef = React.useRef(null);
     var quizController = React.useRef (null);
+    var pythonCodeCheckController = React.useRef (null);
+    var quizProgress = React.useRef(null);
+    quizProgress.current = learnerQuizProgress;
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block:"end" })
@@ -61,9 +73,9 @@ export default function LearningConversation(props) {
         //console.log ("Seeting display next component to ",shouldDisplay);
       }
 
-      function setQuizMode(mode)
+      function setConversationState(newState)
       {
-        isQuizMode.current = mode;
+        conversationState.current = newState;
       }
 
     useEffect(() => {
@@ -71,7 +83,7 @@ export default function LearningConversation(props) {
       //console.log ("Lesson text is ", LessonText1);
      // console.log ("On event ack is ", onEventAck);
       displayNextComponentRef.current = true;
-      isQuizMode.current = false;
+      conversationState.current = ConversationState.Normal;
       addComponentEverySecond(); //calling to avoid initial delay
        const interval = setInterval(() => {
         
@@ -85,34 +97,71 @@ export default function LearningConversation(props) {
       }, [componentArray]);
 
 
+    function updateQuizProgressForLearner (quizId, score)
+    {
+        //console.log ("Learner quiz progress got it", learnerQuizProgress,quizId, score);
+        var reqType = "UPDATEQUIZPROGRESS";
+        var _id = session.user._id;
+        quizProgress.current[quizId] = score;
+        var data = quizProgress.current;
+        var reqObj = {reqType,_id,data};
+        GetSetLearnerDataThroughAPI(reqObj).then (
+            (resp => {
+            //console.log ("resp is", resp, );
+            //setChapterProgress(resp.chapterProgress);
+            //console.log ("Chapter progress xxxxx", chapterProgress, resp.chapterProgress[clickedMission.id]);
+        }));
+    }
+
     function stopNextComponentDisplayForResponseElements(arrayElem)
     {
         if (arrayElem.type == "QWBO" || arrayElem.type == "QWBOL" || 
         arrayElem.type == "ack" || arrayElem.type == "acksp" || arrayElem.type == "chpyco" || 
         arrayElem.type == "chpycon" || arrayElem.type == "QUESTION")
             setDisplayNextComponent(false);
-
     }
 
     function getNextArrayElem()
     {
-        if (isQuizMode.current)
+        switch (conversationState.current)
         {
-            //console.log ("Infor about quiz controller",quizController.current,quizController.current.returnNextQuestion);
-            return quizController.current.returnNextQuestion();
+            case ConversationState.Quiz:
+                return quizController.current.returnNextQuestion();
+
+            case ConversationState.Normal:    
+                var arrayElem = lessonBlockBuffer.current.length > 0 ? 
+                lessonBlockBuffer.current.shift(): 
+                lessonBlock.current[currentIndexToDisplay.current++];
+                return arrayElem;
+
+            case ConversationState.CHPYCON:
+                var arrayElem = pythonCodeCheckController.current.returnNextElem();
+                console.log ("Array elem got is", arrayElem);
+                return arrayElem;
         }
+    }
 
-        var arrayElem = lessonBlockBuffer.current.length > 0 ? 
-            lessonBlockBuffer.current.shift(): 
-            lessonBlock.current[currentIndexToDisplay.current++];
+    function onChangePythonCode (value) {
+        console.log("change", value);
+        //currentPythonCode = value;   
+        switch (conversationState.current)
+        {
+            case ConversationState.Quiz:
+                return quizController.current.onChangePythonCode(value);
 
-        return arrayElem;
+            case ConversationState.Normal:  
+                return;  
+
+            case ConversationState.CHPYCON:
+                return;
+
+        }
+        //currentPythonCode.current = value;
     }
 
     const addComponentEverySecond = () => {
         //console.log('This will run every second!',displayNextComponentRef.current);
         //setDisplayNextComponent((displayNextComponent) => !displayNextComponent);
-
 
         if (displayNextComponentRef.current)
         {
@@ -121,11 +170,28 @@ export default function LearningConversation(props) {
             if (arrayElem.type == "quiz")
             {
                 
-                quizController.current = new QuizController(arrayElem.text);
-                setQuizMode(true);
+                quizController.current = new QuizController(arrayElem.id,updateQuizProgressForLearner);
+                setConversationState(ConversationState.Quiz);
+                setComponentArray(componentArray => {
+                    //setDisplayNextComponent(true);
+                    //componentArray.pop();
+                    //console.log ("component array till now",componentArray);
+                    //Remove the question, answer block, show the clicked message as Learner's response, then add the response for the option selected
+                    //return [...componentArray,<ChatBotMessage message = "Loading..." key={componentKey.current++}/>]
+                    return [...componentArray,<ChatBotMessage message = "Loading Quiz..." key={componentKey.current++}/>]
+                });
                 addComponentEverySecond(); //calling to avoid initial delay
                 //lessonBlockBuffer.current = returnQuizBlockFromText(arrayElem.text);
                 //console.log ("lessonBlock buffer is", lessonBlockBuffer);
+                return;
+            }
+            if (arrayElem.type == "chpycon")
+            {
+                const {correctCode,messageStack,responseAction} = arrayElem;
+                pythonCodeCheckController.current = new PythonCodeCheckController(correctCode,messageStack, responseAction.correct, responseAction.incorrect);
+                setConversationState(ConversationState.CHPYCON);
+                addComponentEverySecond(); //calling to avoid initial delay
+                //setDisplayNextComponent(false);
                 return;
             }
             if (arrayElem.type == "poplastelem")
@@ -140,7 +206,21 @@ export default function LearningConversation(props) {
             }
             if (arrayElem.type == "quizend")
             {
-                setQuizMode(false);
+                setComponentArray(componentArray => {
+                    //setDisplayNextComponent(true);
+                    //componentArray.pop();
+                    //console.log ("component array till now",componentArray);
+                    //Remove the question, answer block, show the clicked message as Learner's response, then add the response for the option selected
+                    //return [...componentArray,<ChatBotMessage message = "Loading..." key={componentKey.current++}/>]
+                    return [...componentArray,<ChatBotMessage message = {"Quiz has ended. Your score is " + arrayElem.data + "%"} key={componentKey.current++}/>]
+                });
+                setConversationState(ConversationState.Normal);
+                //addComponentEverySecond();
+                return;
+            }
+            if (arrayElem.type == "pythoncodecheckend")
+            {
+                setConversationState(ConversationState.Normal);
                 //addComponentEverySecond();
                 return;
             }
@@ -171,15 +251,15 @@ export default function LearningConversation(props) {
             if (arrayElem.type == "learnerevent")
             {
                 //setDisplayNextComponent(true);
-                setDisplayNextComponent(false);
-                setComponentArray(componentArray => {
+                //setDisplayNextComponent(false);
+                //setComponentArray(componentArray => {
                     //setDisplayNextComponent(true);
                     //componentArray.pop();
                     //console.log ("component array till now",componentArray);
                     //Remove the question, answer block, show the clicked message as Learner's response, then add the response for the option selected
-                    return [...componentArray,<ChatBotMessage message = "Loading..." key={componentKey.current++}/>]
                     //return [...componentArray,<ChatBotMessage message = "Loading..." key={componentKey.current++}/>]
-                });
+                    //return [...componentArray,<ChatBotMessage message = "Loading..." key={componentKey.current++}/>]
+                //});
                 onEventAck(arrayElem.data);
                 //setTimeout (() => {onEventAck(data.data)}, 1000);
                 //addComponentEverySecond(); //calling to avoid initial delay
@@ -189,7 +269,7 @@ export default function LearningConversation(props) {
             if (arrayElem.type == "showpage")
             {
                 setClearPage(false);
-                setMaxWidth("lg");
+                //setMaxWidth("lg");
                 setComponentArray([]);
                 addComponentEverySecond(); //calling to avoid initial delay
                 return;
@@ -202,9 +282,10 @@ export default function LearningConversation(props) {
                 return;
             }
 
+
             stopNextComponentDisplayForResponseElements(arrayElem);
             setComponentArray(componentArray => {
-                return [...componentArray,ConvertJsonToComponent(arrayElem,handleOptionClick,session,componentKey.current++)]});
+                return [...componentArray,ConvertJsonToComponent(arrayElem,handleOptionClick,session,componentKey.current++,onChangePythonCode)]});
         }
     }
 
@@ -268,14 +349,28 @@ export default function LearningConversation(props) {
         });
     }
 
+    function handleOptionClickInPythonCheckMode (response,data)
+    {
+        if (pythonCodeCheckController.current.onClick(response,data))
+            setConversationState(ConversationState.Normal);;
+        setDisplayNextComponent(true);
+        addComponentEverySecond(); //calling to avoid initial delay
+
+    }
+
     //When the question has been answered, remove the question and show the answer as if Learner has answered it
     //response is the text selected
     //data is response obj
     function handleOptionClick(e,response,data)
     {
-        if (isQuizMode.current)
+        if (conversationState.current == ConversationState.Quiz)
         {
             handleOptionClickInQuizMode(response,data);
+            return;
+        }
+        if (conversationState.current == ConversationState.CHPYCON)
+        {
+            handleOptionClickInPythonCheckMode(response,data);
             return;
         }
 
@@ -372,8 +467,20 @@ export default function LearningConversation(props) {
     }
 
     function onChangePythonCode (value) {
-        console.log("change", value);
-        currentPythonCode.current = value;
+       // console.log("change", value);
+        //currentPythonCode.current = value;
+        switch (conversationState.current)
+        {
+            case ConversationState.Quiz:
+                return;
+
+            case ConversationState.Normal:  
+                return;  
+
+            case ConversationState.CHPYCON:
+                return pythonCodeCheckController.current.onChangePythonCode(value);
+
+        }
     }
 
     return (      
@@ -388,7 +495,7 @@ export default function LearningConversation(props) {
           <Fade in={!clearPage} timeout = {1000}>
                 <Box>
                     {componentArray}
-                    <div ref={messagesEndRef} />
+                    <div ref={messagesEndRef} autoFocus />
                 </Box>
             </Fade> 
             

@@ -41,7 +41,10 @@ const LearnerSchema = new mongoose.Schema(
         chapterProgress: {
             type:Array,
             required: true
-
+        },
+        quizProgress: {
+            type:Array,
+            required: true
         },
         salt: String,
     },

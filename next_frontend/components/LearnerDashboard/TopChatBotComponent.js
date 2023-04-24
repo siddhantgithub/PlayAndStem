@@ -35,7 +35,7 @@ const TopChatBotComponent = React.forwardRef((props, ref) =>{
     const { data: session, status } = useSession();
     const isUser = !!session && session.user;
     const loading = status === "loading"
-    const {onEventAck} = props;
+    const {onEventAck,learnerQuizProgress} = props;
   
     React.useEffect(() => {
       if (loading) return // Do nothing while loading
@@ -72,7 +72,7 @@ const TopChatBotComponent = React.forwardRef((props, ref) =>{
 
     return (
             <LearningConversationWithAnimation performLearnerActionFromMission={performLearnerActionFromMission} 
-                LessonText={LessonText} OnLessonEnd = {lessonEndReached} onEventAck={onEventAck}/>
+                LessonText={LessonText} OnLessonEnd = {lessonEndReached} onEventAck={onEventAck} learnerQuizProgress={learnerQuizProgress}/>
     );
   })
 

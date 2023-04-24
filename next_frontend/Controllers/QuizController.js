@@ -1,4 +1,6 @@
 // Function to parse the quiz questions and answers from plain text
+import { AllQuizList } from "../assets/quizData/AllQuizList";
+
 function parseQuizQuestions(quizText) {
 const quizQuestions = [];
 const questions = quizText.split("Question:");
@@ -59,14 +61,44 @@ export class QuizController
     currentQuestion;
     quizScore = 0;
     lastClicked = false;
-    constructor (quizText)
+    quizBlock = null;
+    numQuestions = 0;
+    learnerScoreUpdater = null;
+    quizId = -1;
+    constructor (id,updateQuizProgressForLearner)
     {
-        this.quizBlock = returnQuizBlockFromText(quizText);
+        var thisClass = this;
+        this.quizId = id;
+        this.waitingForText = true;
+        this.lastClicked = true;
+        this.learnerScoreUpdater = updateQuizProgressForLearner;
+        (async function () {
+            var completePath = `../assets/quizData/${AllQuizList[id].path}`;
+            console.log ("Complete path is ", completePath);
+            const response = await require(`../assets/quizData/${AllQuizList[id].path}`);
+            return response;
+            
+        }) ().then ((response) => {
+            //console.log ("hereerere",response.quizText); 
+            thisClass.quizBlock = returnQuizBlockFromText(response.quizText);
+            this.waitingForText = false;
+            this.numQuestions = thisClass.quizBlock.length;
+        })
         //console.log ("Quiz block is", this.quizBlock);
+    }
+
+    performQuizEndTask()
+    {
+        var finalPScore = (this.quizScore/this.numQuestions) * 100;
+        this.learnerScoreUpdater(this.quizId, finalPScore);
+        return finalPScore;
     }
 
     returnNextQuestion ()
     {
+        if (this.waitingForText)
+            return {type:"donothing"};
+
         if (this.lastClicked)
         {
             this.lastClicked = false;
@@ -78,7 +110,10 @@ export class QuizController
             return this.currentQuestion;
         }
         else
-            return {type:"quizend"};
+        {
+            var finalPercentScore = this.performQuizEndTask();
+            return {type:"quizend", data:finalPercentScore};
+        }
     }
 
     optionClicked(response)
@@ -89,7 +124,6 @@ export class QuizController
             this.quizScore++;
             //console.log ("returning true");
             return true;
-
         }
         else
         {

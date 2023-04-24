@@ -160,8 +160,38 @@ const quizText = `
     Answer: C
     `;
 
+    const firstCodeMessageStack =[
+        {id:1, type: "clearpage"},
+        {id:1, type: "showpage"},
+        {id:15, type: "TM", message: "Please write the import statement that gets all the help from microbit and click check when you are done"},
+        {id:15, type: "TM", message: "Remember the syntax of the import statement is:"},
+        {id:15, type: "TM", message: "from \'where to import\' import \'what to import\'"}
+    ];
+    
+    const firstPythonCodeResponseAction = {
+        correct: [
+            {id:1, type: "clearpage"},
+            {id:1, type: "showpage"},
+            {id:15, type: "TM", message: "Awesome job"},
+            {id:15, type: "TM", message: "Congratulations you completed your first line of code"},
+            {id:15, type: "TM", message: "Press Next To proceed further"}
+        ],
+        incorrect:[
+            {id:1, type: "clearpage"},
+            {id:1, type: "showpage"},
+            {id:15, type: "TM", message: "Not exactly. the syntax is: from \'<where to import>\' import \'<what to import>\'"},
+            {id:15, type: "TM", message: "Since we are using microbit, where to import is microbit"},
+            {id:15, type: "TM", message: "Since we want to import everything, we will use \'*\' for what to import"},
+            {id:15, type: "TM", message: "So the correct answer is: from microbit import *"},
+            {id:15, type: "TM", message: "Please note that that there is a space between import and '*'"}
+        ],
+    };
 export let LessonText = [
-    {type:"quiz", text: quizText},
+   //{type:"quiz", id: 0},
+    //{id:1, type: "ack"},
+    //{id:1, type: "clearpage"},
+    //{id:1, type: "showpage"},
+    //{id:1, type: "chpycon", messageStack:firstCodeMessageStack, correctCode:"from microbit import *",responseAction:firstPythonCodeResponseAction},
     {id:0, type: "TMR", message:"Hi <learnername>, it is great to see you here"},
     {id:5, type: "TM", message: "I am cairo and together we will solve exciting missions"},
     {id:5, type: "TM", message: "To solve the mission we will use Python and Micro:bit"},

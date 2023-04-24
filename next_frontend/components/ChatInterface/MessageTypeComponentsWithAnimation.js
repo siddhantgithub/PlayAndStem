@@ -40,6 +40,7 @@ function TypewriterText ({initFunction})
         <Typography gutterBottom variant="heading6" component="div" >
             <Typewriter options={{
             delay: 30,
+            cursor: "",
             }}
         onInit={initFunction}/>
         </Typography>
@@ -74,9 +75,7 @@ export function PythonCodeComponent (props) {
     return (
 
     <Fade in={true} timeout = {1000}>
-    <Grid container spacing={0} sx={{alignItems: 'center'} }>
-        <Grid item xs={12} md={1} lg={1} sx={{maxHeight:"40px"} } >
-        </Grid>
+    <Grid container spacing={0} sx={{alignItems: 'left'} }>
         <Grid item xs={12} md={11} lg={11}>
             <Paper
                             sx={{
@@ -271,7 +270,7 @@ export  const LongOptionsWithButtons = React.forwardRef((props, ref) =>{
                     options.map((option) => {                 
                         return(
                                  <Grid item xs={11} md={11} lg={11} key={key++}>
-                                    <Button variant="outlined" key={key++} onClick={option.onClick} sx={{mt:2, textTransform: "none"}}>{option.text}</Button>
+                                    <Button variant="outlined" key={key++} onClick={option.onClick} sx={{textAlign:"left", mt:2, textTransform: "none"}}>{option.text}</Button>
                                 </Grid>              
                     );
                     })}
@@ -325,11 +324,8 @@ export const QuestionBlockWithAnswerClicked = React.forwardRef((props, ref) =>{
                                      {Icon}
                                     </Grid>  
                                     <Grid item xs={10} md={10} lg={10} key={key++}>
-                                        <Button variant={variant} color={color} key={key++}  sx={{mt:2, textTransform: "none"}}>{option.text}</Button>
+                                        <Button variant={variant} color={color} key={key++}  sx={{textAlign:"left",mt:2, textTransform: "none"}}>{option.text}</Button>
                                     </Grid> 
-
-                                      
-
                                 </React.Fragment>          
                         );                           
                     })}
@@ -346,19 +342,18 @@ export const QuestionBlockWithAnswerClicked = React.forwardRef((props, ref) =>{
 
 export function AcknowledgementQuestion (props)
 {
-    const {message,onClick} = props;
+    const {message,onClick,buttonText} = props;
     return (
-            <Grid container  sx={{alignItems: 'center', pt:2} }>    
-                <Grid item xs={11} md={11} lg={11}>
-                    
-                        <Fade in={true} timeout = {1000}>
-                            <Box sx={{ justifyContent: 'left', width:1, display: 'flex' }}>
-                                <Button variant="contained" startIcon={<DoneIcon />} onClick = {onClick}>
-                                    Next
-                            </Button>
-                            </Box>
-                        </Fade>
-                </Grid>
-            </Grid>
+    <Grid container  sx={{alignItems: 'center', pt:2} }>    
+        <Grid item xs={11} md={11} lg={11}>
+                <Fade in={true} timeout = {1000}>
+                    <Box sx={{ justifyContent: 'left', width:1, display: 'flex' }}>
+                        <Button variant="contained" startIcon={<DoneIcon />} onClick = {onClick}>
+                            {buttonText}
+                    </Button>
+                    </Box>
+                </Fade>
+        </Grid>
+    </Grid>
     );
 }

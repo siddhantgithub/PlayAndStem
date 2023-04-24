@@ -11,13 +11,10 @@ export const GetSetLearnerDataThroughAPI =  (data) => {
             apiURL =  `/api/missionManager/UpdateAssignedMissionToLearner`;
             break;
 
-        case "GETCHAPTERPROGRESS":
+        default:
             apiURL =  `/api/missionManager/APILearnerProgress`;
             break;
-    
-        case "UPDATECHAPTERPROGRESS":
-            apiURL =  `/api/missionManager/APILearnerProgress`;
-            break;
+            
     }
 
     return fetch(apiURL, {

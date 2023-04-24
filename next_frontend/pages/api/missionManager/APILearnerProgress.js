@@ -12,6 +12,10 @@ function getUpdatedLearnerFromRequest (learner, data, reqType)
         case "UPDATECHAPTERPROGRESS":
             learner.chapterProgress = data;
             break;
+
+        case "UPDATEQUIZPROGRESS":
+            learner.quizProgress = data;
+            break;
     }
     return learner;
 }
@@ -27,6 +31,14 @@ function getDataToSendToLearner (learner,reqType)
 
         case "GETCHAPTERPROGRESS":
             data = {chapterProgress: learner.chapterProgress};
+            break;  
+            
+        case "GETQUIZPROGRESS":
+            data = {quizProgress: learner.quizProgress};
+            break;
+
+        case "GETALLPROGRESS":
+            data = {missionProgress: learner.missionProgress,chapterProgress: learner.chapterProgress, quizProgress: learner.quizProgress};
             break;    
     }
     return data;
@@ -41,7 +53,7 @@ export default async (req, res) => {
         if (learner)
         {
             //Check whether update needs to happen
-            if (reqType == "UPDATEMISSIONPROGRESS" || reqType == "UPDATECHAPTERPROGRESS" )
+            if (reqType == "UPDATEMISSIONPROGRESS" || reqType == "UPDATECHAPTERPROGRESS" || reqType == "UPDATEQUIZPROGRESS" )
             {
                 learner = getUpdatedLearnerFromRequest(learner,data,reqType )
                 //learner.missionProgress = missions;

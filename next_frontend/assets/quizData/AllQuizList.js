@@ -1,0 +1,15 @@
+export const AllQuizList = [
+  {id:0, name:"Programming language", path:"quizzes/1_ProgrammingLanguage_quiz.js", image: '/zacobiamission.jpg'},
+  {id:1, name:"Breaking It Down", path:"quizzes/2_BreakingItDown_quiz.js", image: '/zacobiamission.jpg'},
+  {id:2, name:"Statements and Syntax", path:"quizzes/3_StmtsSyntax_quiz.js", image: '/zacobiamission.jpg'},
+  {id:3, name:"Module Import", path:"quizzes/4_ModuleImport_quiz.js", image: '/zacobiamission.jpg'},
+  {id:4, name:"Light Level", path:"quizzes/5_LightLevel_quiz.js", image: '/zacobiamission.jpg'},
+  {id:5, name:"Show Clear Display", path:"quizzes/6_ShowClearDisplay_quiz.js", image: '/zacobiamission.jpg'},
+  {id:6, name:"Conditions", path:"quizzes/7_Conditions_quiz.js", image: '/zacobiamission.jpg'},
+  {id:7, name:"Blocks", path:"quizzes/8_Blocks_quiz.js", image: '/zacobiamission.jpg'},
+  {id:8, name:"If Statement", path:"quizzes/9_IfStatement_quiz.js", image: '/zacobiamission.jpg'},
+  {id:9, name:"Conditional execution", path:"quizzes/10_ConditionOnOffDisplay_quiz.js", image: '/zacobiamission.jpg'},
+  {id:10, name:"While loop", path:"quizzes/11_WhileLoop_quiz.js", image: '/zacobiamission.jpg'},
+  {id:11, name:"Sleep", path:"quizzes/12_Sleep_quiz.js", image: '/zacobiamission.jpg'},
+  {id:12, name:"Conclusion", path:"quizzes/13_Conclusion_quiz.js", image: '/zacobiamission.jpg'},
+];

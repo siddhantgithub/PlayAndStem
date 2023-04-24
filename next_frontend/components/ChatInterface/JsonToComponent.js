@@ -1,5 +1,6 @@
 import {QuestionBlock, TopScreenComponent,ChatBotMessage,LearnerMessage,OptionsWithButtons,AcknowledgementQuestion,LongOptionsWithButtons,PythonCodeComponent} from './MessageTypeComponentsWithAnimation'
 import Fade from '@mui/material/Fade';
+import LayoutForCodeCheck from './CodeCheckLayout';
 
 function replaceTextInMessage (arrayElem,session)
 {
@@ -15,7 +16,7 @@ function replaceTextInMessage (arrayElem,session)
 //There are two options: a) one component with conditions
 //second change dom only after clicked -- how to do it?? have a callback from original class
 //Need to decide
-export function ConvertJsonToComponent (arrayElem,clickHandler,session,key)
+export function ConvertJsonToComponent (arrayElem,clickHandler,session,key,onChangePythonCode = null)
 {
     var reactElement;
     switch (arrayElem.type)
@@ -57,8 +58,15 @@ export function ConvertJsonToComponent (arrayElem,clickHandler,session,key)
         break; 
         case "ack":
             {
+                
             const onClick = (e) => {clickHandler(e,"ackclick")} ;
-            return <AcknowledgementQuestion message = {arrayElem.message} onClick = {onClick} key={key}/>; 
+            var buttonText;
+            if (arrayElem.buttonText === undefined)
+                buttonText = "Next";
+            else
+                buttonText = arrayElem.buttonText;
+                
+            return <AcknowledgementQuestion buttonText = {buttonText} message = {arrayElem.message} onClick = {onClick} key={key}/>; 
             break;
             }
 
@@ -79,7 +87,7 @@ export function ConvertJsonToComponent (arrayElem,clickHandler,session,key)
             case "chpycon":
                 {
                     const onClick = (e) => {clickHandler(e,"chpycon",arrayElem)} ;
-                    setMaxWidth("lg");
+                    //setMaxWidth("lg");
                     return <LayoutForCodeCheck blockToExecute={arrayElem} onDone={onClick}/>; 
                     break;
                 }
@@ -88,7 +96,7 @@ export function ConvertJsonToComponent (arrayElem,clickHandler,session,key)
             lessonBlock.current = arrayElem.block;
 
         case "pycb":
-            return <PythonCodeComponent onChange={onChangePythonCode} value={arrayElem.value}/>;
+            return <PythonCodeComponent onChange={onChangePythonCode} value={arrayElem.value}  key={key}/>;
             //we need to replace the current block with 
     }
 }

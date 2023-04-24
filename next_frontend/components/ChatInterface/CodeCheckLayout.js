@@ -11,7 +11,7 @@ import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 //import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper'
 import dynamic from 'next/dynamic'
-import {PythonCodeComponent,ChatBotMessage} from './MessageTypeComponents'
+import {PythonCodeComponent,ChatBotMessage} from './MessageTypeComponentsWithAnimation'
 import Button from '@mui/material/Button';
 
 const PythonEditor = dynamic(
@@ -25,19 +25,50 @@ const AnswerStatus = {
     Answered_Correct: "answeredcorrect",
   }
 
-//Need to rended with delay
+//Need to render with a delay
 //Can add set time out but need to think of a better way
+//Ways to add delay
+//1) Add setTimeOut like in showlearninganimation
 const ChatBotConversation = (props,ref) => {
-    const {messageStack} = props;
+    const {messageStack,type} = props;
+    console.log ("Message stacks is", messageStack);
+    var [renderMsgStack,setRenderMsgStack] = React.useState([]);
+    var key = React.useRef(0);
+    var showStack = React.useRef(messageStack);
+    showStack.current = messageStack;
+    useEffect(() => {
+        key.current = 0;
+        addComponentEverySecond(); //calling to avoid initial delay
+         const interval = setInterval(() => {
+          
+          addComponentEverySecond();
+        }, 3000);
+        console.log ("Calling here and setting setInterval for type",type);
+
+        return () => {clearInterval(interval); console.log ("Here called removing setInterval")};
+      }, []);
+
+      const addComponentEverySecond = () => {
+        console.log ("calling component every second. The type is",type, "Key.current value is", key.current, " msg stack is ", showStack.current);
+        if (key.current < showStack.current.length)
+        {
+            setRenderMsgStack ((renderMsgStack) => {
+                renderMsgStack.push (<ChatBotMessage message = {showStack.current[key.current]} key = {key.current++} />);
+                return [...renderMsgStack];
+            });
+        }
+        if (showStack.current.length == 0)
+        {
+            setRenderMsgStack([]);
+            key.current = 0;
+        }
+
+      };
 
     return (
         <Box>
         {
-            messageStack.map((msg) => {
-                return (
-                    <ChatBotMessage message = {msg } />
-                )
-            })
+            renderMsgStack
         }
         </Box>
     )
@@ -59,9 +90,18 @@ function PythonCodeComponentWithMessages (props) {
 
 
     const [chatBotMsgStack,setChatBotMsgStack] = React.useState (blockToExecute.messageStack);
+    const [codeCheckResponse,setCodeCheckResponse] = React.useState ([]);
     const [currentState,setCurrentState] = React.useState (AnswerStatus.Not_Answered);
 
     correctCode.current = blockToExecute.correctCode;
+    const messagesEndRef = React.useRef(null);
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block:"end" })
+      }
+
+    useEffect(() => {
+        scrollToBottom()
+      }, [codeCheckResponse]);
 
     function getButtonTextFromState(currentState)
     {
@@ -88,14 +128,17 @@ function PythonCodeComponentWithMessages (props) {
         if (currentPythonCode.current.localeCompare(correctCode.current) == 0)
         { 
             console.log ("Code is correct");
-            setChatBotMsgStack(correctMessageStack);
+            setChatBotMsgStack([]);
+            setCodeCheckResponse(blockToExecute.responseAction.correct);
+            //setChatBotMsgStack(correctMessageStack);
             setCurrentState(AnswerStatus.Answered_Correct);
             //We can now move on with the next steps
         }
         else
         {
             console.log ("Code is not correct")
-            setChatBotMsgStack(incorrectMessageStack.current);
+            setChatBotMsgStack([]);
+            setCodeCheckResponse([...blockToExecute.responseAction.incorrect]);
             setCurrentState(AnswerStatus.Answered_Incorrect);
             //The problem, code can be termed incorrect even if the number of spaces don't match
             //We need to figure out how to overcome that
@@ -106,8 +149,7 @@ function PythonCodeComponentWithMessages (props) {
 
     function onChangePythonCode (value) {
         console.log("change", value);
-        currentPythonCode.current = value;
-        
+        currentPythonCode.current = value;   
         //currentPythonCode.current = value;
     }
 
@@ -130,6 +172,7 @@ function PythonCodeComponentWithMessages (props) {
                 //Try again clicked
                 setChatBotMsgStack(initialMessageStack);
                 setCurrentState(AnswerStatus.Not_Answered);
+                setCodeCheckResponse([]);
                 break;
         }
     };
@@ -145,21 +188,20 @@ function PythonCodeComponentWithMessages (props) {
 
     <Fade in={true} timeout = {1000}>
         <Grid container spacing={0}  alignItems= "center" justifyContent="center">
-            <Grid item xs={12} md={11} lg={6} justifyContent="center">
-                <Grid container spacing={0} alignItems= "center" justifyContent="center" direction="column">
-                    <Grid item xs={12} md={12} lg={12} justifyContent="center">
-                        <ChatBotConversation messageStack = {chatBotMsgStack} />
-                    </Grid>    
-                    <Grid item xs={12} md={12} lg={12} alignItems= "center" justifyContent="center" sx={{pt: 2} }>
-                        <Box sx={{ justifyContent: 'center', width:1, display: 'flex' }}>
-                            <Button variant="outlined"  onClick={handleCheckClicked} sx={{textTransform: "none"}} >{ getButtonTextFromState(currentState)}</Button>
-                        </Box>
-                    </Grid>
-                </Grid>
+            <Grid item xs={12} md={12} lg={12} justifyContent="center">
+                <ChatBotConversation messageStack = {chatBotMsgStack} type={"topmessage"} />
+            </Grid>    
+            <Grid item xs={12} md={12} lg={12}>
+                {(currentState == AnswerStatus.Not_Answered) && <PythonCodeComponent onChange={onChangePythonCode} value={value}/>}
             </Grid>
-            
-            <Grid item xs={12} md={11} lg={6}>
-                <PythonCodeComponent onChange={onChangePythonCode} value={value}/>
+            <Grid item xs={12} md={12} lg={12} justifyContent="center">
+                <ChatBotConversation messageStack = {codeCheckResponse} type={"bottommessage"}/>
+            </Grid>  
+            <Grid item xs={12} md={12} lg={12} alignItems= "center" justifyContent="center" sx={{pt: 2} }>
+                    <Button variant="contained"  onClick={handleCheckClicked} sx={{textTransform: "none", mb: 2}} >{ getButtonTextFromState(currentState)}</Button>
+            </Grid>
+            <Grid item xs={12} md={12} lg={12} alignItems= "center" justifyContent="center" sx={{pt: 2} }>
+            <div ref={messagesEndRef} />
             </Grid>
         </Grid> 
     </Fade>

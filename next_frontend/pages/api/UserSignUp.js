@@ -35,7 +35,8 @@ export default async (req, res) => {
         const { firstname, lastname, username, parentemail, password } = req.body;
         let missionProgress = ["Not Available", "Not Available", "Not Available"];
         let chapterProgress = [[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0]];
-        let newlearner = new Learner({ firstname, lastname, username, password, parentemail,missionProgress,chapterProgress});
+        let quizProgress = Array(20).fill(-1);
+        let newlearner = new Learner({ firstname, lastname, username, password, parentemail,missionProgress,chapterProgress,quizProgress});
 
         try {
             let saveResult = await newlearner.save();

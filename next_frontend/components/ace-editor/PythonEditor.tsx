@@ -25,7 +25,7 @@ const Editor = (props) => {
         theme="github"
         onChange={onChange}
         name="example"
-        width="450px"
+        width="500px"
         height="200px"
         value= {value}
         editorProps={{ $blockScrolling: true }}
