@@ -1,162 +1,63 @@
-//Need to write questions and answers based on the assessment
-const Question1 = [
-    {answer:1},
-    {questionPrompt:"Which of the following is a valid Python comment?"},
-    {key:1, option:{type: "TM", message:"This is a comment"}},
-    {key:2, option:{type: "TM", message:"#This is a comment"}},
-    {key:3, option:{type: "TM", message:"//This is a comment"}},
-];
-
-const Question2 = [
-    {answer:1},
-    {questionPrompt:{id:10, type: "pycb", value: `x = 5
-    if x > 10:
-        print("x is greater than 10")
-    else:
-        print("x is less than or equal to 10")
-    `},},
-    {key:1, option:{id:10, type: "TM", value: `x is greater than 10`},},
-    {key:1, option:{id:10, type: "TM", value: `x is less than or equal to 10`},},
-    {key:1, option:{id:10, type: "TM", value: `The code will produce an error`},},
-];
-
-const Question3 = [
-    {answer:1},
-    {questionPrompt:{type: "TM", value: `What is the correct syntax for defining a function in Python?`},},
-
-    {key:1, option:{id:10, type: "TM", value: `def my_function():`},},
-    {key:1, option:{id:10, type: "TM", value: `function my_function():`},},
-    {key:1, option:{id:10, type: "TM", value: `my_function(): def`},},
-];
-
-const Question4 = [
-    {answer:1},
-    {questionPrompt:{type: "TM", value: `What is the correct way to declare a variable in Python?`},},
-
-    {key:1, option:{id:10, type: "TM", value: `variable = value`},},
-    {key:1, option:{id:10, type: "TM", value: `variable: value`},},
-    {key:1, option:{id:10, type: "TM", value: `value = variable`},},
-    {key:1, option:{id:10, type: "TM", value: `I don't know`},},
-];
-
-const Question5 = [
-    {answer:1},
-    {questionPrompt:{type: "TM", value: `What is a loop?`},},
-
-    {key:1, option:{id:10, type: "TM", value: `A type of algorithm`},},
-    {key:1, option:{id:10, type: "TM", value: `A repeating sequence of instructions`},},
-    {key:1, option:{id:10, type: "TM", value: `A way to organize data in a computer program`},},
-    {key:1, option:{id:10, type: "TM", value: `I don't know`},},
-];
-
-const Question6 = [
-    {answer:1},
-    {questionPrompt:{type: "TM", value: `What is an algorithm?`},},
-
-    {key:1, option:{id:10, type: "TM", value: `A person who is skilled in computer programming`},},
-    {key:1, option:{id:10, type: "TM", value: `A set of instructions for solving a problem`},},
-    {key:1, option:{id:10, type: "TM", value: `A type of computer language`},},
-    {key:1, option:{id:10, type: "TM", value: `I don't know`},},
-];
-
-const Question7 = [
-    {answer:1},
-    {questionPrompt:{type: "TM", value: `What is the purpose of indentation in Python?`},},
-
-    {key:1, option:{id:10, type: "TM", value: `To make the code look pretty`},},
-    {key:1, option:{id:10, type: "TM", value: `To make the code easier to read`},},
-    {key:1, option:{id:10, type: "TM", value: `To separate blocks of code`},},
-    {key:1, option:{id:10, type: "TM", value: `I don't know`},},
-];
-
-const Question8 = [
-    {answer:1},
-    {questionPrompt:{type: "TM", value: `What is the purpose of the "if" statement in Python?`},},
-
-    {key:1, option:{id:10, type: "TM", value: `To repeat a block of code a certain number of times`},},
-    {key:1, option:{id:10, type: "TM", value: `To define a function in Python`},},
-    {key:1, option:{id:10, type: "TM", value: `To execute a block of code if a certain condition is met`},},
-    {key:1, option:{id:10, type: "TM", value: `I don't know`},},
-];
-
-const Question9 = [
-    {answer:1},
-    {questionPrompt:{type: "TM", value: `What is a breadboard?`},},
-
-    {key:1, option:{id:10, type: "TM", value: `A type of circuit board used to prototype electronic circuits`},},
-    {key:1, option:{id:10, type: "TM", value: `A type of bread-making machine`},},
-    {key:1, option:{id:10, type: "TM", value: `A type of baking sheet`},},
-    {key:1, option:{id:10, type: "TM", value: `I don't know`},},
-];
-
-const Question10 = [
-    {answer:1},
-    {questionPrompt:{type: "TM", value: `What is a sensor?`},},
-
-    {key:1, option:{id:10, type: "TM", value: `A type of switch used to turn the Micro:bit on and off`},},
-    {key:1, option:{id:10, type: "TM", value: `A device used to measure a physical quantity and convert it into an electrical signal`},},
-    {key:1, option:{id:10, type: "TM", value: `A type of display used to show text and images`},},
-    {key:1, option:{id:10, type: "TM", value: `I don't know`},},
-];
-
-const Question11 = [
-    {answer:1},
-    {questionPrompt:{type: "TM", value: `What is the purpose of comments in Python code?`},},
-
-    {key:1, option:{id:10, type: "TM", value: `To execute a specific command in the program`},},
-    {key:1, option:{id:10, type: "TM", value: `To provide context and explanations for the code`},},
-    {key:1, option:{id:10, type: "TM", value: `To display information to the user`},},
-    {key:1, option:{id:10, type: "TM", value: `I don't know`},},
-];
-
-const Question12 = [
-    {answer:1},
-    {questionPrompt:{type: "TM", value: `What is the purpose of comments in Python code?`},},
-
-    {key:1, option:{id:10, type: "TM", value: `To execute a specific command in the program`},},
-    {key:1, option:{id:10, type: "TM", value: `To provide context and explanations for the code`},},
-    {key:1, option:{id:10, type: "TM", value: `To display information to the user`},},
-    {key:1, option:{id:10, type: "TM", value: `I don't know`},},
-];
-
-const Question13 = [
-    {answer:1},
-    {questionPrompt:{type: "TM", value: `What is a module in Python?`},},
-
-    {key:1, option:{id:10, type: "TM", value: `A type of data structure`},},
-    {key:1, option:{id:10, type: "TM", value: `A type of function`},},
-    {key:1, option:{id:10, type: "TM", value: `A way to organize code into reusable files`},},
-    {key:1, option:{id:10, type: "TM", value: `I don't know`},},
-];
-
-export const AssessmentArray = [
-    Question1,
-    Question2,
-    Question3,
-    Question4,
-    Question5,
-    Question6,
-    Question7,
-    Question8,
-    Question9,
-    Question10,
-    Question11,
-    Question12,
-    Question13
-];
-
 export const LessonText = [
-    {id:15, type: "TM", message: "Hi, awesome job. We are almost done as this is the last chapter in the mission"},
-    {id:15, type: "TM", message: "In this chapter we will go through few questions"},
-    {id:15, type: "TM", message: "to revise all the concepts we have learned"},
+    {id:15, type: "TM", message: "Hi, welcome to the last chapter in our mission"},
+    {id:15, type: "TM", message: "In this chapter we will learn about comments in Python and with that our mission will end"},
     {id:1, type: "ack", message:"Click Next"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
-    {id:12, type:"TM", message: "Great job in solving the mission"},
+    {id:15, type: "TM", message: "What are comments in programming language?"},
+    {id:15, type: "TM", message: "Comments are like notes you write to yourself or others to help them understand your code."},
+    {id:15, type: "TM", message: "To understand better, let's take an example"},
+    {id:1, type: "ack", message:"Click Next"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
+    {id:15, type: "TM", message: "Imagine you cook a great pizza and your friends asks for your recipe"},
+    {id:15, type: "TM", message: "Apart from writing down your recipe, and giving it to him"},
+    {id:15, type: "TM", message: "You would also like to add comments to the recipe, such as, even if you cook for 5 more minutes it is fine, etc.."},
+    {id:1, type: "donothing"},
+    {id:15, type: "TM", message: "Those comments are not a part of recipe but help your friend in cooking"},
+    {id:1, type: "ack", message:"Click Next"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
+    {id:15, type: "TM", message: "Similarly, you write comments in code to make code more readable"},
+    {id:15, type: "TM", message: "They are words or sentences in your code that the computer will ignore when it runs the program"},
+    {id:1, type: "ack", message:"Click Next"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
+    {id:15, type: "TM", message: "How do you write a comment in Python?"},
+    {id:15, type: "TM", message: "By using <b>#</b> symbol"},
+    {id:15, type: "TM", message: "In a Python program, any line of code written after # will be ignored by computer"},
+    {id:1, type: "ack", message:"Click Next"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
+    {id:15, type: "TM", message: "For example, we have the code from the last chapter with comments in it"},
+    {id:10, type: "pycb", value: `from microbit import *
+#We run a while loop to continuously check the light level
+while True:
+    lightLevel = display.read_light_level();
+    #We use if statement to check whether the light level is low enough to switch on the display
+    if lightLevel <= 100:
+        display.show(Image.HEART)
+    else:
+        display.clear()
+    #we put a sleep of 2 seconds to give microbit a break between two runs of the loop
+    sleep(2000)
+    `},
+    {id:15, type: "TM", message: "Please notice the comments starting with # symbol and how they make our code more readable"},
+    {id:1, type: "ack", message:"Click Next"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
+    {id:12, type:"TM", message: "That is all. Great job in solving the mission"},
     {id:12, type:"TM", message: "We not only solved Zacobians' light problem but alo learned several new things along the way"},
+    {id:1, type: "donothing"},
     {id:12, type:"TM", message: "More importantly we coded a Python program together"},
-    {id:12, type:"TM", message: "Let's go through few questions and answers together to just revise the topics we covered in this mission"},
+    {id:12, type:"TM", message: "Let's go through few questions to revise the topics we covered in this mission"},
+    {id:1, type: "donothing"},
     {id:1, type: "ack", message:"Let's get started"},
-    {id:10, type:"quiz", questionArray:AssessmentArray},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
+    {type:"quiz", id: 12},
+    {id:1, type: "ack"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
     {id:1, type: "endmessage"}
 ];

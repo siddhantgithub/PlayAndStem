@@ -53,7 +53,14 @@ export function ConvertJsonToComponent (arrayElem,clickHandler,session,key,onCha
                         onClick:(e) => {clickHandler(e,option.text,option.onClickResponse)}
                     }}
                 );  
-                reactElement = <Fade in={true} key={key}><QuestionBlock question = {arrayElem.question} options = {optionsArray} /></Fade>   
+                var codeBlock = null;
+                console.log ("Array elem is", arrayElem);
+                if (arrayElem.codeblock.length > 0)
+                {
+                    codeBlock = arrayElem.codeblock.join ("\n");
+                    console.log ("Value of codeblock is",codeBlock);
+                }
+                reactElement = <Fade in={true} key={key}><QuestionBlock question = {arrayElem.question} options = {optionsArray} codeBlock = {codeBlock}/></Fade>   
             return  reactElement;
         break; 
         case "ack":

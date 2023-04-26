@@ -71,7 +71,7 @@ export  function TopScreenComponent (props) {
 }
 
 export function PythonCodeComponent (props) {
-    const {value,onChange} = props;
+    const {value,onChange,height = "150px"} = props;
     return (
 
     <Fade in={true} timeout = {1000}>
@@ -93,9 +93,9 @@ export function PythonCodeComponent (props) {
                         alignItems: 'center',
                         mb:2,
                     }}>
-                        Please Type Code Below     
+                        Python Code    
                  </Box>          
-                <PythonEditor onChange = {onChange} value={value}/>   
+                <PythonEditor onChange = {onChange} value={value} height={height}/>   
             </Paper>
         </Grid>
     </Grid> 
@@ -281,12 +281,16 @@ export  const LongOptionsWithButtons = React.forwardRef((props, ref) =>{
 
 export  const QuestionBlock = React.forwardRef((props, ref) =>{
 
-    const {question,options} = props;
+    const {question,options,codeBlock} = props;
     var key = 10000;
 
     return (
         <Box ref={ref} key={question}>
             <ChatBotMessage message = {question} key={key++} />
+            {
+                codeBlock && <PythonCodeComponent onChange={null} value={codeBlock}  key={key++} height={"150px"}/>
+
+            }
             <LongOptionsWithButtons options = {options} key={key++}/>
         </Box>
     );

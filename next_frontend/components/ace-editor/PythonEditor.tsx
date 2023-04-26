@@ -16,7 +16,7 @@ while True:`
 ]
 
 const Editor = (props) => {
-  const {onChange,value} = props;
+  const {onChange,value,height = "200px"} = props;
   return (
     <Box>
       <Box id="example"></Box>
@@ -26,7 +26,7 @@ const Editor = (props) => {
         onChange={onChange}
         name="example"
         width="500px"
-        height="200px"
+        height={height}
         value= {value}
         editorProps={{ $blockScrolling: true }}
       />

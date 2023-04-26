@@ -13,7 +13,7 @@ export const quizText = `
     D. value = name
     Answer: C
 
-    Question: What is the correct syntax for calling the API read_light_level() from module display?
+    Question: What is the correct syntax for calling the function read_light_level() from module display?
     A. display = read_light_level()
     B. display.read_light_level
     C. display.read_light_level()

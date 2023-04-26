@@ -187,7 +187,7 @@ const quizText = `
         ],
     };
 export let LessonText = [
-   //{type:"quiz", id: 0},
+   //{type:"quiz", id: 8},
     //{id:1, type: "ack"},
     //{id:1, type: "clearpage"},
     //{id:1, type: "showpage"},

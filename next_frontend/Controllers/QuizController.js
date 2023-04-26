@@ -11,26 +11,45 @@ questions.forEach(question => {
     const questionObj = {
         question: lines[0].trim(),
         options: [],
-        answer: ""
+        answer: "",
+        codeblock:[]
     };
-    lines = lines.map (line => line.trim());
+    //lines = lines.map (line => line.trim());
+    var parsingcode = false;
     //console.log ("Lines is ", lines);
     for (let i = 1; i < lines.length; i++) {
+        //let parsingcode = false; 
+
+        if (parsingcode)
+        {
+            if (lines[i].indexOf("codeend:") != -1)
+            {
+                parsingcode = false;
+            }
+            else
+                questionObj.codeblock.push(lines[i]);
+            continue;
+        }
+        else if (lines[i].indexOf("codestart:") != -1)
+        {
+            parsingcode = true;
+        }
+        lines[i] = lines[i].trim();
 
         if (lines[i].startsWith("A.") || lines[i].startsWith("B.") ||
             lines[i].startsWith("C.") || lines[i].startsWith("D.")) {
                 //console.log ("Line has an option");
-        questionObj.options.push(lines[i].trim());
+            questionObj.options.push(lines[i].trim());
         } else if (lines[i].startsWith("Answer:")) {
             //console.log ("Line has an answer");
-        questionObj.answer = lines[i].replace("Answer:", "").trim();
+            questionObj.answer = lines[i].replace("Answer:", "").trim();
         }
+
     }
     quizQuestions.push(questionObj);
     }
 });
-
-return quizQuestions;
+    return quizQuestions;
 }
 
 function returnBlockFromParsedQuestions (quizQuestions)
@@ -42,7 +61,7 @@ function returnBlockFromParsedQuestions (quizQuestions)
             else
                 return {text:option, onClickResponse:{type: "incorrect"}};
         })
-        return {type: "QUESTION", question:question.question, options:optionBlock, answer:question.answer};
+        return {type: "QUESTION", question:question.question, options:optionBlock, answer:question.answer,codeblock:question.codeblock};
     });
     return questionBlock;
 }
@@ -74,7 +93,7 @@ export class QuizController
         this.learnerScoreUpdater = updateQuizProgressForLearner;
         (async function () {
             var completePath = `../assets/quizData/${AllQuizList[id].path}`;
-            console.log ("Complete path is ", completePath);
+            //console.log ("Complete path is ", completePath);
             const response = await require(`../assets/quizData/${AllQuizList[id].path}`);
             return response;
             
@@ -122,7 +141,6 @@ export class QuizController
         if (response.type.trim() == "correct")
         {
             this.quizScore++;
-            //console.log ("returning true");
             return true;
         }
         else
