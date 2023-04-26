@@ -1,115 +1,207 @@
-import Head from 'next/head';
-import styles from '../styles/Home.module.css';
+import * as React from 'react';
+import { useEffect } from 'react';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '../src/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import FirebaseSocial from './auth-forms/FirebaseSocial';
+import { useForm, Controller } from "react-hook-form";
+import {sendSigninRequest,setLocalDataPostSignIn,isAuth} from "../actions/authRequestHandlers";
+import Router from 'next/router';
+import Copyright from '../components/Copyright'
+import { useRouter } from 'next/router'
+import AlertTitle from '@mui/material/AlertTitle';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import { signIn, signOut, useSession } from "next-auth/react"
 
-export default function Home() {
+//TODO: Show loading
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+export default function SignIn() {
+
+  const { register, handleSubmit, watch, control, formState: { errors },reset } = useForm();
+  const [openSnackBar, setOpenSnackBar] = React.useState(false);
+  const [severity, setSeverity] = React.useState('success');
+  const [message, setMessage] = React.useState('');
+  const router = useRouter()
+  const { data: session, status } = useSession();
+  const isUser = !!session && session.user;
+  const loading = status === "loading"
+
+  
+  React.useEffect(() => {
+    //console.log ("Use effect called");
+    if (loading) return // Do nothing while loading
+    if (!isUser) return // If not authenticated, force log in
+    //console.log ("The value of session is", session);
+    if (isUser)
+    {
+      router.push("/main/LearnerDashboard_new");
+    }
+  }, [isUser, loading])
+  
+  const handleSnackBarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnackBar(false);
+  };
+
+  const onSubmit = userdata => {
+    console.log(userdata);
+    const {username,password} = userdata;
+    signIn("credentials", {username:username,password:password, redirect: false}).then(data => {
+      console.log ("The data received is ", data);
+      setOpenSnackBar(true);
+      if (!!data.error) {
+          //setValues({ ...values, error: data.error, loading: false });
+          setSeverity("error");
+          setMessage("Cannot Login now. Check your password or create an account using SignUp");
+      } else {
+          // save user token to cookie
+          // save user info to localstorage
+          // authenticate user
+          setSeverity("success");
+          setMessage("Login successful. Redirecting to Learner Dashboard");
+          reset();
+          router.push("/main/LearnerDashboard_new");
+      }
+    });
+    /*sendSigninRequest(userdata).then(data => {
+      setOpenSnackBar(true);  
+      if (data.error) {
+          //setValues({ ...values, error: data.error, loading: false });
+          setSeverity("error");
+          setMessage(data.error);
+      } else {
+          // save user token to cookie
+          // save user info to localstorage
+          // authenticate user
+          console.log(data);
+          setSeverity("success");
+          setMessage("Login successful. Redirecting to Learner Dashboard");
+          reset();
+      }
+    });*/
+  };
+
+  useEffect(() => {
+   
+}, []);
+  
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing <code>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+      <Container component="main" maxWidth="xs">
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
         >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel" className={styles.logo} />
-        </a>
-      </footer>
-
-      <style jsx>{`
-        main {
-          padding: 5rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-        footer {
-          width: 100%;
-          height: 100px;
-          border-top: 1px solid #eaeaea;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-        footer img {
-          margin-left: 0.5rem;
-        }
-        footer a {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          text-decoration: none;
-          color: inherit;
-        }
-        code {
-          background: #fafafa;
-          border-radius: 5px;
-          padding: 0.75rem;
-          font-size: 1.1rem;
-          font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-            DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-        }
-      `}</style>
-
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
-        }
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
-    </div>
-  )
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign in
+          </Typography>
+          <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
+          <Controller
+                name="username"
+                control={control}
+                defaultValue=""
+                rules={{ required: 'Username required'}}
+                render={({ field: { onChange, value }, fieldState: { error } }) => (
+                    <TextField
+                      margin="normal"
+                      required
+                      fullWidth
+                      id="username"
+                      label="Username"
+                      name="username"
+                      autoComplete="username"
+                      value={value}
+                      onChange={onChange}
+                      error={!!error}
+                      helperText={error ? error.message : null}
+                      autoFocus
+                      InputLabelProps={{
+                        shrink: true,
+                    }}
+                    />
+                )}
+              />
+              <Controller
+                name="password"
+                control={control}
+                defaultValue=""
+                rules={{ required: 'Password required' }}
+                render={({ field: { onChange, value }, fieldState: { error } }) => (
+                    <TextField
+                      margin="normal"
+                      required
+                      fullWidth
+                      name="password"
+                      label="Password"
+                      type="password"
+                      id="password"
+                      autoComplete="current-password"
+                      value={value}
+                      onChange={onChange}
+                      error={!!error}
+                      helperText={error ? error.message : null}
+                      autoFocus
+                      InputLabelProps={{
+                        shrink: true,
+                    }}
+                    />
+                )}
+              />
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              label="Remember me"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign In
+            </Button>
+            <Grid container>
+              <Grid item>
+                <Link href="/SignUp" variant="body2">
+                  {"Forgot Password or Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
+            </Grid>
+            <Grid item>
+             { /*<Divider sx={{ mt: 3, mb: 2 }}>
+                <Typography variant= "body3"> Login with</Typography>
+                </Divider> */}
+            </Grid>
+              {/*<FirebaseSocial />*/}
+          </Box>
+        </Box>
+        <Snackbar open={openSnackBar} autoHideDuration={6000} onClose={handleSnackBarClose} anchorOrigin={{ vertical:'top', horizontal:'center' }}>
+            <Alert onClose={handleSnackBarClose} severity={severity} sx={{ width: '100%' }}>
+              {message}
+            </Alert>
+        </Snackbar>
+        <Copyright sx={{ mt: 8, mb: 4 }} />
+      </Container>
+  );
 }

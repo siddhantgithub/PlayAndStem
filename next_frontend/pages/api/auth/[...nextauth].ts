@@ -94,8 +94,8 @@ export const authOptions: NextAuthOptions = {
     },
   },*/
   pages: {
-    signIn: '/SignIn',
-    signOut: '/SignIn',
+    signIn: '/',
+    signOut: '/',
   },
   session: {
     // @ts-ignore
