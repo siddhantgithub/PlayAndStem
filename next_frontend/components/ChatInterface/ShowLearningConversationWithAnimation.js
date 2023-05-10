@@ -375,7 +375,6 @@ export default function LearningConversation(props) {
         }
 
 
-
         if (response == "ackclick")
         {
             setDisplayNextComponent(true);
@@ -389,7 +388,7 @@ export default function LearningConversation(props) {
             addComponentEverySecond(); //calling to avoid initial delay
             return;
         } 
-        if (data.type == "learnerevent")
+        if (response != "ackspclick" && data.type == "learnerevent")
         {
             //setDisplayNextComponent(true);
             setComponentArray(componentArray => {

@@ -20,7 +20,7 @@ import DisplayMissionsInCategories from "../../components/LearnerDashboard/Displ
 import QuizAndScore from '../../components/LearnerDashboard/QuizAndScore';
 import { LearnerScores } from '../../components/LearnerDashboard/LearnerScores';
 import { LearnerConceptsLearned } from '../../components/LearnerDashboard/LearnerConceptsLearned';
-import ModuleListDisplay,  {ChapterState} from '../../components/LearnerDashboard/DisplayChaptersWithinMission';
+import { AllModuleList, ChapterState } from '../../components/LearnerDashboard/DisplayChaptersWithinMission';
 import {AllMissionList} from '../../assets/moduleList/AllMissionChapterList'
 import { UpdateLearnerMissionProgress } from '../../actions/LearnerMissionProgressRequestHandler';
 import { GetLearnerMissionProgress } from '../../actions/LearnerMissionProgressRequestHandler';
@@ -33,6 +33,10 @@ import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { AllQuizList } from '../../assets/quizData/AllQuizList';
+import { TopQuizGames } from '../../components/LearnerDashboard/TopQuizGames';
+import { MissionWithFriends } from '../../components/LearnerDashboard/JoinMissionWithFriends';
+import { deepPurple, deepOrange, cyan } from '@mui/material/colors';
+import { AllKeyConceptList } from '../../assets/lessons/ZacobiaMission/keyConcepts/AllKeyConceptList';
 
 
 const drawerWidth = 240;
@@ -174,14 +178,33 @@ function ShowPostLoginContent({quizProgress, signedUser, onMissionClicked,onEven
                 </Paper>
               </Grid>
 
-             { quizProgress && <Grid item xs={12} md={4} lg={4} >
-                <LearnerScores
-                    products={AllQuizList.slice(0,3)}
+             { <Grid item xs={12} md={4} lg={4} >
+                <MissionWithFriends
+                    products={[
+                      {
+                        id: '1',
+                        image: '/zacobiamission.jpg',
+                        name: 'Create a digital piano',
+                        updatedAt: '2/3 places available'
+                      },
+                      {
+                        id: '2',
+                        image: '/nonummission.png',
+                        name: 'Make a driving car',
+                        updatedAt: '1/2 positions available'
+                      },
+                      {
+                        id: '3',
+                        image: '/missionImages/MissionSados.png',
+                        name: 'Make a dancing robot',
+                        updatedAt: 'Basic introduction to loops'
+                      }
+                    ]}
                     quizProgress={quizProgress}
                     sx={{ width: 360, height: 350 }}
                     retryQuizClicked={callBackHandlers[0]} 
                     viewAllQuizClicked={callBackHandlers[1]}
-            />
+                />
               </Grid>}
 
               <Grid item xs={12} md={8} lg={8}>
@@ -202,7 +225,36 @@ function ShowPostLoginContent({quizProgress, signedUser, onMissionClicked,onEven
                     display: 'flex',
                     flexDirection: 'column',
                   }}>
-                <LearnerReviseConcepts reviewConceptClicked={callBackHandlers[2]} viewAllConceptsClicked={callBackHandlers[3]}/>
+                <TopQuizGames  products={[
+                      {
+                        id: '1',
+                        image: '/zacobiamission.jpg',
+                        name: 'Remid Sharpner',
+                        score: '12000',
+                        color: deepOrange[500]
+                      },
+                      {
+                        id: '2',
+                        image: '/nonummission.png',
+                        name: 'Travio Hoggards',
+                        score: '8000',
+                        color: deepPurple[500]
+                      },
+                      {
+                        id: '3',
+                        image: '/missionImages/MissionSados.png',
+                        name: 'Agnes Molarity',
+                        score: '7000',
+                        color: cyan[500]
+                      },
+                      {
+                        id: 'b393ce1b09c1254c3a92c827',
+                        image: '/missionImages/MissionSados.png',
+                        name: 'Clara Montana',
+                        score: '6900',
+                        color: cyan[500]
+                      }
+                    ]} sx={{ width: 360, height: 360 }} reviewConceptClicked={callBackHandlers[2]} viewAllConceptsClicked={callBackHandlers[3]}/>
               </Grid>
             </Grid>
   );
@@ -281,6 +333,26 @@ function ShowAllQuizScreen({showInitialDashboard,quizProgress,retryQuizClicked})
             quizProgress={quizProgress}
             sx={{ width: 360}}
             retryQuizClicked={retryQuizClicked} 
+            hideViewAll
+      />
+    </Grid>
+  </Grid>  
+  ); 
+}
+
+function ShowAllConceptsScreen({showInitialDashboard,quizProgress,reviewConceptClicked})
+{
+  return (
+    <Grid container spacing={2}  alignItems= "left" sx={{ display: 'flex', flexDirection:'column' }}>   
+    <Grid item xs={12} md={12} lg={12}>
+      <Button variant="outlined" onClick = {showInitialDashboard} startIcon={<ArrowBackIcon />}>Dashboard</Button>
+    </Grid>
+    <Grid item xs={12} md={12} lg={12}>   
+      <LearnerConceptsLearned
+            products={AllKeyConceptList}
+            quizProgress={quizProgress}
+            sx={{ width: 360}}
+            reviewConceptClicked={reviewConceptClicked} 
             hideViewAll
       />
     </Grid>
@@ -369,25 +441,35 @@ function DashboardContent(props) {
   function viewAllQuizClicked ()
   {
     setComponentState("showallquiz");
-
   }
 
-  function reviewConceptClicked(conceptid)
+  function reviewConceptClicked(concept)
   {
+    console.log ("Concept review clicked with id ", concept);
+    (async function () {
+      const response = await require(`../../assets/lessons/ZacobiaMission/keyConcepts/${concept.path}`);
+      console.log ("hereerere",response.LessonText);
+      setChapterText([...response.LessonText]);
+    })()
     setComponentState("showreviseconcepts");
-
   }
 
   function viewAllConceptsClicked()
   {
+    console.log ("View all concepts clicked");
     setComponentState("showallconcepts");
-
   }
 
   function showInitialDashboard (evt)
   {
       //setShowMission (false);
       setComponentState("showinitialdashboard")
+  }
+
+  function showMissionDashboard (evt)
+  {
+      //setShowMission (false);
+      setComponentState("showchaptersinmission")
   }
 
   //This function is called when a special action is needed on a learner event
@@ -456,10 +538,10 @@ function DashboardContent(props) {
         else
         {
           setDialogText("Please complete earlier missions first");
-
         }
         return;
       }
+
       setClickedMission(mission);
       setComponentState("showchaptersinmission");
       //setShowMission(true);  
@@ -476,9 +558,12 @@ function DashboardContent(props) {
   }
 
   const chapterEndReached = (props) => {
+    if (chapterProgress[clickedMission.id][currentChapter.id] == ChapterState.Completed)
+    //Means the chapter was already completed before so nothing to be done here
+      return;
     setChapterProgress((chapterProgress) => {
       chapterProgress[clickedMission.id][currentChapter.id] = ChapterState.Completed; 
-      if (chapterProgress[clickedMission.id].length > currentChapter.id - 1)
+      if (chapterProgress[clickedMission.id].length > currentChapter.id - 1 && chapterProgress[clickedMission.id][currentChapter.id + 1] != ChapterState.Completed)
         chapterProgress[clickedMission.id][currentChapter.id + 1] = ChapterState.InProgress;
       updateChapterProgressForLearner(chapterProgress); 
       return [...chapterProgress]
@@ -488,7 +573,7 @@ function DashboardContent(props) {
   }
 
   const quizEnded = (props) => {
-    setComponentState("showinitialdashboard");
+    //setComponentState("showchaptersinmission");
     //setChapterInProgress(false);
     //setComponentState("showchaptersinmission");
   }
@@ -553,25 +638,35 @@ function DashboardContent(props) {
             }
             { 
               (componentState == "showchaptersinmission") && 
-              <ModuleListDisplay showInitialDashboard={showInitialDashboard} onChapterClicked = {onChapterClicked} clickedMission = {clickedMission} learnerId = {session.user._id}/>
+              <AllModuleList retryQuizClicked = {retryQuizClicked} showInitialDashboard={showInitialDashboard} quizProgress = {quizProgress} 
+              onLessonClicked = {onChapterClicked} moduleList = {clickedMission.moduleList} chapterProgress={chapterProgress[clickedMission.id]}
+                      viewAllQuizClicked = {viewAllQuizClicked} learnerId = {session.user._id}
+                      reviewConceptClicked = {reviewConceptClicked} viewAllConceptsClicked = {viewAllConceptsClicked} />  
             }
             { 
               (componentState == "chapterinprogress") && 
-              <ShowLearningConversationForAChapter chapterText ={chapterText} chapterEndReached={chapterEndReached} onLearnerEvent={onLearnerEvent} backToModulesClicked={backToModulesClicked} learnerQuizProgress={quizProgress}/>
+                <ShowLearningConversationForAChapter chapterText ={chapterText} chapterEndReached={chapterEndReached} onLearnerEvent={onLearnerEvent} backToModulesClicked={backToModulesClicked} learnerQuizProgress={quizProgress}/>
             }
             { 
               (componentState == "chapterinprogress_new") && 
-              <ShowLearningConversationForAChapter chapterText ={chapterText} chapterEndReached={chapterEndReached} onLearnerEvent={onLearnerEvent} backToModulesClicked={backToModulesClicked} learnerQuizProgress={quizProgress}/>
+                <ShowLearningConversationForAChapter chapterText ={chapterText} chapterEndReached={chapterEndReached} onLearnerEvent={onLearnerEvent} backToModulesClicked={backToModulesClicked} learnerQuizProgress={quizProgress}/>
             }
             { 
               (componentState == "showretryquiz") && 
-              <ShowLearningConversationForAQuiz chapterText ={chapterText} chapterEndReached={quizEnded} onLearnerEvent={onLearnerEvent} showInitialDashboard={showInitialDashboard} learnerQuizProgress={quizProgress}/>
+                <ShowLearningConversationForAQuiz chapterText ={chapterText} chapterEndReached={quizEnded} onLearnerEvent={onLearnerEvent} showInitialDashboard={showMissionDashboard} learnerQuizProgress={quizProgress}/>
             }
             { 
               (componentState == "showallquiz") && 
-              <ShowAllQuizScreen showInitialDashboard ={showInitialDashboard} quizProgress={quizProgress} retryQuizClicked={retryQuizClicked}/>
+                <ShowAllQuizScreen showInitialDashboard ={showMissionDashboard} quizProgress={quizProgress} retryQuizClicked={retryQuizClicked}/>
             }
-            
+            { 
+              (componentState == "showreviseconcepts") && 
+              <ShowLearningConversationForAChapter chapterText ={chapterText} chapterEndReached={quizEnded} onLearnerEvent={onLearnerEvent} backToModulesClicked={backToModulesClicked} learnerQuizProgress={quizProgress}/>
+            }
+            { 
+              (componentState == "showallconcepts") && 
+                <ShowAllConceptsScreen showInitialDashboard ={showMissionDashboard} quizProgress={quizProgress} reviewConceptClicked={reviewConceptClicked}/>
+            }           
       </DashboardAppBar>}
     </React.Fragment>
   );

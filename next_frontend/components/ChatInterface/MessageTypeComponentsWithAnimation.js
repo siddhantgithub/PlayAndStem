@@ -352,7 +352,7 @@ export function AcknowledgementQuestion (props)
         <Grid item xs={11} md={11} lg={11}>
                 <Fade in={true} timeout = {1000}>
                     <Box sx={{ justifyContent: 'left', width:1, display: 'flex' }}>
-                        <Button variant="contained" startIcon={<DoneIcon />} onClick = {onClick}>
+                        <Button variant="contained" startIcon={<DoneIcon />} onClick = {onClick} sx={{textTransform: "none"}}>
                             {buttonText}
                     </Button>
                     </Box>

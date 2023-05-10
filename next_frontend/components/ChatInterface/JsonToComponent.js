@@ -79,11 +79,14 @@ export function ConvertJsonToComponent (arrayElem,clickHandler,session,key,onCha
 
         case "acksp":
             {
+                if (arrayElem.buttonText === undefined)
+                    buttonText = "Next";
+                else
+                    buttonText = arrayElem.buttonText;
                 const onClick = (e) => {clickHandler(e,"ackspclick",arrayElem.data)} ;
-                return <AcknowledgementQuestion message = {arrayElem.message} onClick = {onClick} key={key}/>; 
+                return <AcknowledgementQuestion buttonText = {buttonText} message = {arrayElem.message} onClick = {onClick} key={key}/>; 
                 break;
             }
-
         case "chpyco":
             {
                 const onClick = (e) => {clickHandler(e,"chpyco",arrayElem)} ;

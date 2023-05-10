@@ -6,6 +6,9 @@ import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Image from 'next/image';
+import * as React from 'react';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 
 import {
   Box,
@@ -22,21 +25,40 @@ import {
   SvgIcon
 } from '@mui/material';
 
-export const LearnerConceptsLearned = (props) => {
-  const { products = [], sx,reviewConceptClicked,viewAllConceptsClicked, hideViewAll= false } = props;
+export const MWF_ViewState = {
+    JoinMission: 0, 
+    OnGoingMissions: 1, //Represents both available and in-progress as both will be visible in the same tab 
+  }
 
-  if (!hideViewAll) 
+export const MissionWithFriends = (props) => {
+  const { products = [], sx, quizProgress,retryQuizClicked, viewAllQuizClicked, hideViewAll= false} = props;
+  const [tabSelected, setTabSelected] = React.useState(MWF_ViewState.JoinMission);
+  //console.log ("Quiz progress is ", quizProgress);
+
+  const handleChange = (event, newValue) => {
+    setTabSelected(newValue);
+  };
+
+  function a11yProps(index) {
+    return {
+      id: `simple-tab-${index}`,
+      'aria-controls': `simple-tabpanel-${index}`,
+    };
+  }
+
+
+
   return (
     <Card sx={sx}>
-      <CardHeader title="Key Concepts Covered" />
+      <CardHeader title="Learn With Friends" />
+      <Tabs value={tabSelected} onChange={handleChange} aria-label="basic tabs example">
+            <Tab label="Join A Mission" value = {MWF_ViewState.JoinMission} {...a11yProps(0)} />
+            <Tab label="Your Missions" value = {MWF_ViewState.OnGoingMissions} {...a11yProps(1)} />     
+      </Tabs>
       <List>
         {products.map((product, index) => {
           const hasDivider = index < products.length - 1;
-          const ago = product.description;
-          var reviewClickHandler = () => {
-            //console.log ("Retry quiz handler is", retryQuizClicked);
-            reviewConceptClicked(product);
-          }
+          const ago = product.updatedAt;
 
           return (
             <ListItem
@@ -75,7 +97,7 @@ export const LearnerConceptsLearned = (props) => {
                 secondary={ago}
                 secondaryTypographyProps={{ variant: 'body2' }}
               />
-              <Button size="small" onClick={reviewClickHandler}>Revise</Button>
+              <Button size="small">Join</Button>
             </ListItem>
           );
         })}
@@ -91,54 +113,11 @@ export const LearnerConceptsLearned = (props) => {
           )}
           size="small"
           variant="text"
-          onClick = {viewAllConceptsClicked}
         >
           View all
         </Button>
       </CardActions>
     </Card>
-  );
-  else
-  return (
-    <Grid container spacing={0}  alignItems= "flex-start" justifyContent="left">   
-        <Grid item xs={12} md={12} lg={12} sx ={{mt:2}} >
-            <Typography gutterBottom variant="h5" component="div">
-                Key Concepts Covered
-             </Typography>
-        </Grid>
-      
-      {        
-          products.map((product, index) => {
-            const ago = product.description;
-            var reviewClickHandler = () => {
-            //console.log ("Retry quiz handler is", retryQuizClicked);
-            reviewConceptClicked(product);
-          }
-          
-          return (
-            <Grid item > 
-              <Card sx={{ width: 200, height: 270,margin: 1}}>
-              <CardActionArea onClick = {reviewClickHandler}>
-        
-              <Image alt = {product.name} src = {product.image}  width={200} height={150}></Image>
-              
-              <CardContent>
-                <Typography gutterBottom variant="body1" component="div">
-                  {product.name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {ago}
-                </Typography>
-              </CardContent>
-              </CardActionArea>
-                <Button size="small" onClick= {reviewClickHandler}>Review</Button>
-            </Card>
-          </Grid>
-            
-          );
-        })}
-   
-  </Grid>   
   );
 
 };

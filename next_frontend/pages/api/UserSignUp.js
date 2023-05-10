@@ -34,7 +34,7 @@ export default async (req, res) => {
     
         const { firstname, lastname, username, parentemail, password } = req.body;
         let missionProgress = ["Not Available", "Not Available", "Not Available"];
-        let chapterProgress = [[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0]];
+        let chapterProgress = [[2,0,0,0,0,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,0,0,0,0,0,0,0]];
         let quizProgress = Array(20).fill(-1);
         let newlearner = new Learner({ firstname, lastname, username, password, parentemail,missionProgress,chapterProgress,quizProgress});
 

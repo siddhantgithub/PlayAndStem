@@ -192,6 +192,11 @@ export let LessonText = [
     //{id:1, type: "clearpage"},
     //{id:1, type: "showpage"},
     //{id:1, type: "chpycon", messageStack:firstCodeMessageStack, correctCode:"from microbit import *",responseAction:firstPythonCodeResponseAction},
+    //{id:1, type: "acksp", data: {type:"learnerevent", subtype:"loadmission", data:0}}, buttonText
+    {id:0, type: "TMR", message:"Meet Cairo, Your Virtual Buddy"},
+    {id:1, type: "ack", buttonText: "Say Hi"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
     {id:0, type: "TMR", message:"Hi <learnername>, it is great to see you here"},
     {id:5, type: "TM", message: "I am cairo and together we will solve exciting missions"},
     {id:5, type: "TM", message: "To solve the mission we will use Python and Micro:bit"},
