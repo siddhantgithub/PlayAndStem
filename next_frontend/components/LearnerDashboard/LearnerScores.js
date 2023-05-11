@@ -30,7 +30,7 @@ export const LearnerScores = (props) => {
   if (!hideViewAll) 
   return (
     <Card sx={sx}>
-      <CardHeader title="Quizes & Scores" />
+      <CardHeader title="Quizzes & Scores" />
       <List>
         {
         products.map((product, index) => {
