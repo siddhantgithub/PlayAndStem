@@ -40,6 +40,7 @@ import { TopQuizGames } from "../../components/LearnerDashboard/TopQuizGames";
 import { MissionWithFriends } from "../../components/LearnerDashboard/JoinMissionWithFriends";
 import { deepPurple, deepOrange, cyan } from "@mui/material/colors";
 import { AllKeyConceptList } from "../../assets/lessons/ZacobiaMission/keyConcepts/AllKeyConceptList";
+import JokePopUp from "../../components/LearnerDashboard/JokePopUp";
 
 const drawerWidth = 240;
 function stringToColor(string) {
@@ -186,6 +187,18 @@ function ShowPostLoginContent({
           />
         </Paper>
       </Grid>
+      {quizProgress && (
+        <Grid item xs={12} md={4} lg={4}>
+          <JokePopUp />
+          <LearnerScores
+            products={AllQuizList.slice(0, 3)}
+            quizProgress={quizProgress}
+            sx={{ width: 360, height: 350 }}
+            retryQuizClicked={callBackHandlers[0]}
+            viewAllQuizClicked={callBackHandlers[1]}
+          />
+        </Grid>
+      )}
 
       {
         <Grid item xs={12} md={4} lg={4}>
