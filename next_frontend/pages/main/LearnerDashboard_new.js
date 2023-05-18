@@ -189,7 +189,7 @@ function ShowPostLoginContent({
       </Grid>
       {quizProgress && (
         <Grid item xs={12} md={4} lg={4}>
-          <JokePopUp />
+          {/* <JokePopUp /> */}
           <LearnerScores
             products={AllQuizList.slice(0, 3)}
             quizProgress={quizProgress}

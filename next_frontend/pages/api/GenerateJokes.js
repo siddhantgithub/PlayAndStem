@@ -3,13 +3,12 @@ import openai from "../../utils/OpenAI";
 export default async (req, res) => {
   console.log("OPenAI working!!!!!!!");
 
-  if (req.method !== "POST") {
-    return res.status(400).json({ error: "Invalid request" });
-  }
+  // if (req.method !== "POST") {
+  //   return res.status(400).json({ error: "Invalid request" });
+  // }
 
   const response = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
-    // prompt: "Tell me a joke on Javascript",
     messages: [
       {
         role: "user",
@@ -21,14 +20,13 @@ export default async (req, res) => {
     // prompt: "Tell me a joke.",
   });
 
-  console.log(response);
   const responseJoke = response.data.choices[0].message.content;
 
-  console.log(responseJoke);
+  console.log("Getting Responses-   " + responseJoke.replace("/^\n+/", ""));
   return res.status(200).json({
     data: {
-      ...responseJoke,
-      text: responseJoke.text.replace(/^\n+/, ""),
+      text: responseJoke.replace("/^\n+/", ""),
     },
+    message: "Joke Recevied Successfully!",
   });
 };

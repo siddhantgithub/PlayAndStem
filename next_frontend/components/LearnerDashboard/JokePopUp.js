@@ -12,15 +12,26 @@ export default function BasicPopover() {
 
   const handleClick = async (event) => {
     event.preventDefault();
-    const res = await fetch("/api/GenerateJokes", {
+    const response = await fetch("/api/GenerateJokes", {
       method: "POST",
       headers: {
+        Accept: "application/json",
         "Content-Type": "application/json",
       },
       body: JSON.stringify(prompt),
-    }).then((res) => res.json());
+    });
+    const result = await response.json();
+    console.log("This is the json response : ", result);
+    // .then((res) => {
+    //   console.log("Jokes Response");
+    //   // console.log(res);
+    //   // console.log(response);
 
-    setResponse(res.data.text);
+    //   // console.log(res.formData.text);
+    //   // setResponse(res.json());
+    //   console.log("This is the json response : ", res.json());
+    // });
+
     setAnchorEl(event.currentTarget);
   };
 
