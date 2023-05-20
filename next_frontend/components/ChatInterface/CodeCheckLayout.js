@@ -14,10 +14,6 @@ import dynamic from 'next/dynamic'
 import {PythonCodeComponent,ChatBotMessage} from './MessageTypeComponentsWithAnimation'
 import Button from '@mui/material/Button';
 
-const PythonEditor = dynamic(
-    () => import("../ace-editor/PythonEditor"),
-    { ssr: false }
-  )
 
 const AnswerStatus = {
     Not_Answered: "notanswered",
@@ -31,7 +27,7 @@ const AnswerStatus = {
 //1) Add setTimeOut like in showlearninganimation
 const ChatBotConversation = (props,ref) => {
     const {messageStack,type} = props;
-    console.log ("Message stacks is", messageStack);
+   // console.log ("Message stacks is", messageStack);
     var [renderMsgStack,setRenderMsgStack] = React.useState([]);
     var key = React.useRef(0);
     var showStack = React.useRef(messageStack);
@@ -49,7 +45,7 @@ const ChatBotConversation = (props,ref) => {
       }, []);
 
       const addComponentEverySecond = () => {
-        console.log ("calling component every second. The type is",type, "Key.current value is", key.current, " msg stack is ", showStack.current);
+       // console.log ("calling component every second. The type is",type, "Key.current value is", key.current, " msg stack is ", showStack.current);
         if (key.current < showStack.current.length)
         {
             setRenderMsgStack ((renderMsgStack) => {
@@ -192,7 +188,7 @@ function PythonCodeComponentWithMessages (props) {
                 <ChatBotConversation messageStack = {chatBotMsgStack} type={"topmessage"} />
             </Grid>    
             <Grid item xs={12} md={12} lg={12}>
-                {(currentState == AnswerStatus.Not_Answered) && <PythonCodeComponent onChange={onChangePythonCode} value={value}/>}
+                {(currentState == AnswerStatus.Not_Answered) && <PythonCodeComponent onChange={onChangePythonCode} value={"sdfgsdfgsdfgsdfg"}/>}
             </Grid>
             <Grid item xs={12} md={12} lg={12} justifyContent="center">
                 <ChatBotConversation messageStack = {codeCheckResponse} type={"bottommessage"}/>

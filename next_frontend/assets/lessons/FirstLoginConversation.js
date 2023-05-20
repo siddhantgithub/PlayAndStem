@@ -186,6 +186,11 @@ const quizText = `
             {id:15, type: "TM", message: "Please note that that there is a space between import and '*'"}
         ],
     };
+
+    const testOptions = [
+        {text:"Tell A Joke", onClickResponse:{type:"learnerevent", data:{subtype:"loadmission", data:0}}},
+        {text:"Proceed", onClickResponse:{type: "TMR", message: "Not exactly. First we have to specify from where we have to import and then what. Since from microbit we want to get everything it should be \"from microbit import *\""}},
+    ];
 export let LessonText = [
    //{type:"quiz", id: 8},
     //{id:1, type: "ack"},
@@ -193,7 +198,9 @@ export let LessonText = [
     //{id:1, type: "showpage"},
     //{id:1, type: "chpycon", messageStack:firstCodeMessageStack, correctCode:"from microbit import *",responseAction:firstPythonCodeResponseAction},
     //{id:1, type: "acksp", data: {type:"learnerevent", subtype:"loadmission", data:0}}, buttonText
-    {id:0, type: "TMR", message:"Meet Cairo, Your Virtual Buddy"},
+    //{id:1, type: "image", path:"/lessonImages/Blocks.png", altText:"testImage"},
+    //{id:1, type: "acksp", buttonText: "Tell A Joke", data: {type:"openaievent", subtype:"openaievent", data:0}},
+    {id:0, type: "TM", message:"Meet Cairo, Your Virtual Buddy"},
     {id:1, type: "ack", buttonText: "Say Hi"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},

@@ -23,6 +23,7 @@ const firstPythonCodeResponseAction = {
     incorrect:[
         {id:1, type: "clearpage"},
         {id:1, type: "showpage"},
+        {id:12, type:"TM", message: "The syntax for the import statement is"},
         {id:12, type:"TM", message: "from <b>place you need help</b> import <b>what help you need</b>"},
         {id:15, type: "TM", message: "Since we are using microbit, place will be microbit"},
         {id:15, type: "TM", message: "Since we want to import everything, we will use \'*\' for what help we need"},
@@ -32,6 +33,7 @@ const firstPythonCodeResponseAction = {
 };
 
 export const LessonText = [
+    {id:1, type: "chpycon", messageStack:firstCodeMessageStack, correctCode:`from microbit import *`,responseAction:firstPythonCodeResponseAction},
     {id:15, type: "TM", message: "Hi, welcome to the fourth chapter in our mission"},
     {id:15, type: "TM", message: "In this chapter, we will start writing the Python code for solving the mission"},
     {id:1, type: "ack", message:"Click Next"},

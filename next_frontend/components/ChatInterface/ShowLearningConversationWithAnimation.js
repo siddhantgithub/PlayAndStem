@@ -17,12 +17,19 @@ import { CommonChapterEndBlock } from '../../assets/lessons/ZacobiaMission/0_Com
 import { returnQuizBlockFromText, QuizController } from '../../Controllers/QuizController';
 import { GetSetLearnerDataThroughAPI } from '../../actions/LearnerMissionProgressRequestHandler';
 import { PythonCodeCheckController } from '../../Controllers/PythonCodeCheckController';
+import SettingsIcon from '@mui/icons-material/Settings';
+import IconButton from '@mui/material/IconButton';
+import CairoSettingDialog from '../dialogBoxes/CairoSettingsDialog';
+import LearnerStore from '../../store/LearnerStore';
+import Stack from '@mui/material/Stack';
+import VolumeOffIcon from '@mui/icons-material/VolumeOff';
+import { pink } from '@mui/material/colors';
 
 const style = {
     height: 300,
   };
   
-  const Example = () => {
+  const CairoAnimation = () => {
     return <Lottie animationData={groovyWalkAnimation} style={style}/>;
   };
 
@@ -44,6 +51,10 @@ export default function LearningConversation(props) {
     const [clearLastQuestion,setClearLastQuestion] = React.useState (false);
     const [clearPage,setClearPage] = React.useState (false);
     const [maxWidth, setMaxWidth] = React.useState("lg");
+    const [csdOpen, setCSDOpen] = React.useState(false); //CSD stands for Cairo Setting Dialog
+    const [speechVolume,updateSpeechVolume,isCairoMuted,updateCairoMuted, cairoVoice, updateCairoVoice] = LearnerStore (
+        (state) => [state.speechVolume,state.updateSpeechVolume, state.isCairoMuted, state.updateCairoMuted, state.cairoVoice, state.updateCairoVoice]
+      );
     //console.log ("Lesson text is", LessonText);
     //console.log ("Learner quiz progress got is ", learnerQuizProgress);
     
@@ -136,7 +147,7 @@ export default function LearningConversation(props) {
 
             case ConversationState.CHPYCON:
                 var arrayElem = pythonCodeCheckController.current.returnNextElem();
-                console.log ("Array elem got is", arrayElem);
+                //console.log ("Array elem got is", arrayElem);
                 return arrayElem;
         }
     }
@@ -383,7 +394,7 @@ export default function LearningConversation(props) {
                 componentArray.pop();
                 //console.log ("component array till now",componentArray);
                 //Remove the question, answer block, show the clicked message as Learner's response, then add the response for the option selected
-                return [...componentArray,<ChatBotMessage message = "Loading..." key={componentKey.current++}/>]
+                return [...componentArray]
             });
             addComponentEverySecond(); //calling to avoid initial delay
             return;
@@ -435,7 +446,7 @@ export default function LearningConversation(props) {
             lessonBlock.current = data.block;
             console.log ("Data is",data, "lsessonBlock.current is", lessonBlock);
             currentIndexToDisplay.current = 0;
-            //setDisplayNextComponent(true);
+            //setDisplayNextComponent(true);l
             setClearLastQuestion(true);
             setComponentArray(componentArray => {
                 setDisplayNextComponent(true);
@@ -482,13 +493,43 @@ export default function LearningConversation(props) {
         }
     }
 
+    function onCairoSettingClosed (volumeValue,voice)
+    {
+        setCSDOpen(false);
+        if (volumeValue == -1)
+            return;
+        updateSpeechVolume(volumeValue/100);
+        updateCairoVoice(voice);
+
+    }
+
+    function openCairoSettingDialog ()
+    {
+        setCSDOpen(true);
+    }
+
+    function muteButtonPress()
+    {
+        updateCairoMuted(!isCairoMuted);
+    }
+
     return (      
         <Container component="main" maxWidth={maxWidth} sx={{ display: 'flex', flexDirection:'column' }}>
            {/* <TopScreenComponent learnersname = {session.user.username}/>*/}
 
             <Grid container spacing={0}  alignItems= "top" justifyContent="left">
           <Grid item xs={3} md={3} lg={5}>
-            <Example/>
+            <CairoAnimation/>
+            <Stack  direction="row" sx={{ mb: 1, mt:2 }} alignItems="center">
+                <IconButton aria-label="delete" onClick = {openCairoSettingDialog}>
+                    <SettingsIcon />
+                </IconButton>
+                <IconButton aria-label="delete" onClick = {muteButtonPress}>
+                    {isCairoMuted? <VolumeOffIcon  sx={{ color: pink[500] }}/> : <VolumeOffIcon/>}
+                </IconButton>
+            </Stack>
+
+            <CairoSettingDialog open = {csdOpen} onClose = {onCairoSettingClosed} value = {speechVolume*100} currentVoice = {cairoVoice}/>
           </Grid>
           <Grid item xs={9} md={9} lg={7}>
           <Fade in={!clearPage} timeout = {1000}>

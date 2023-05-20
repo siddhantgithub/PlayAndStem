@@ -1,4 +1,4 @@
-import {QuestionBlock, TopScreenComponent,ChatBotMessage,LearnerMessage,OptionsWithButtons,AcknowledgementQuestion,LongOptionsWithButtons,PythonCodeComponent} from './MessageTypeComponentsWithAnimation'
+import {QuestionBlock, TopScreenComponent,ChatBotMessage,LearnerMessage,OptionsWithButtons,AcknowledgementQuestion,LongOptionsWithButtons,PythonCodeComponent,ShowImage} from './MessageTypeComponentsWithAnimation'
 import Fade from '@mui/material/Fade';
 import LayoutForCodeCheck from './CodeCheckLayout';
 
@@ -107,6 +107,10 @@ export function ConvertJsonToComponent (arrayElem,clickHandler,session,key,onCha
 
         case "pycb":
             return <PythonCodeComponent onChange={onChangePythonCode} value={arrayElem.value}  key={key}/>;
+
+        case "image":
+            return <ShowImage imagePath={arrayElem.path} altText = {arrayElem.altText}/>;
+            break;
             //we need to replace the current block with 
     }
 }

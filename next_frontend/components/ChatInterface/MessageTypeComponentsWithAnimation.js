@@ -27,6 +27,13 @@ import groovyWalkAnimation from "../../assets/lottie-animations/main-buddy.json"
 import Typewriter from 'typewriter-effect';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
+import Card from '@mui/material/Card'
+import CardMedia from '@mui/material/CardMedia'
+import CardContent from '@mui/material/CardContent'
+import { CardActionArea } from '@mui/material';
+import ImageShowPopup from '../dialogBoxes/ImageShowPopup';
+import TextToSpeech from './textToSpeech/TextToSpeech';
+import LearnerStore from '../../store/LearnerStore';
 
 const PythonEditor = dynamic(
   () => import("../ace-editor/PythonEditor"),
@@ -72,6 +79,7 @@ export  function TopScreenComponent (props) {
 
 export function PythonCodeComponent (props) {
     const {value,onChange,height = "150px"} = props;
+    console.log ("Value got is ", value);
     return (
 
     <Fade in={true} timeout = {1000}>
@@ -138,37 +146,112 @@ export function PythonCodeComponentWithDialogInSide (props) {
 
 
 
-export  function ChatBotMessage (props) {
-
+export  function ChatBotMessage (props) 
+{
     const {message,noTypewriter} = props;
+    const [speechVolume,typewriterDelay,isCairoMuted, cairoVoice] = LearnerStore (
+        (state) => [state.speechVolume,state.typewriterDelay,state.isCairoMuted, state.cairoVoice]
+      );
+
+      const [isPaused, setIsPaused] = React.useState(false);
+      const [utterance, setUtterance] = React.useState(null);
+      const [voice, setVoice] = React.useState(null);
+      const [pitch, setPitch] = React.useState(1);
+      const [rate, setRate] = React.useState(1);
+      const [typeWriterEffect, setTypewriterEffect] = React.useState(null);
+      const [synth, setSynth] = React.useState(null);
+
+
+    useEffect ( () => {
+        const synth = window.speechSynthesis;
+        const u = new SpeechSynthesisUtterance(message);
+        
+    
+        /*         // Add an event listener to the speechSynthesis object to listen for the voiceschanged event
+                synth.addEventListener("voiceschanged", () => {
+                  const voices = synth.getVoices();
+                  setVoice(voices[0]);
+                }); */
+        
+                const voices = synth.getVoices();
+                u.voice = voices.find((v) => v.name === cairoVoice);
+                u.pitch = pitch;
+                u.rate = rate;
+                u.volume = isCairoMuted === true? 0 : speechVolume;
+                setUtterance(u);
+                setSynth(synth);
+
+                return () => {
+                    synth.cancel();
+                    synth.removeEventListener("voiceschanged", () => {
+                      setVoice(null);
+                    });
+                  };
+
+        }, []
+    );  
+
+    useEffect ( () => {
+        if (typeWriterEffect && synth && utterance)
+        {
+            console.log ("Calling typewriter effect");
+            typeWriterEffect.typeString(message)
+                            .stop()
+                            .start();
+           // const synth = window.speechSynthesis;
+            synth.speak(utterance);
+        }
+
+    }, [typeWriterEffect,synth, utterance, message]
+ 
+    ); 
+
+
+/*     useEffect(() => {
+        if (utterance)
+        {
+            console.log ("Setting synth volume");
+            utterance.volume = isCairoMuted === true? 0 : speechVolume;
+            //synth.speak(utterance);
+
+        }
+      }, [speechVolume,typewriterDelay,isCairoMuted]
+    ); */
+
     return (
         <Fade in={true} timeout = {1000}>
-        <Grid container spacing={0} sx={{alignItems: 'center'} }>
-            <Grid item xs={12} md={11} lg={11}>
-                <Paper
-                                sx={{
-                                    p: 2,
-                                    mt:2,
-                                    mr:2,
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                } } elevation = {5}
-                                >
-               <Typewriter
-                    options={{
-                        delay: 30,
-                        cursor:""
-                    }}
-                    onInit={(typewriter) => {
-                        typewriter.typeString(message)
-                          .stop()
-                          .start();
-                      }}
-                    />
+            
+            <Grid container spacing={0} sx={{alignItems: 'center'} }>
+                <Grid item xs={12} md={11} lg={11}>
+                {console.count('counter')}
+                    <Paper
+                                    sx={{
+                                        p: 2,
+                                        mt:2,
+                                        mr:2,
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                    } } elevation = {5}
+                                    >
+                {<Typewriter
+                        options={{
+                            delay: 30,
+                            cursor:""
+                        }}
+                        onInit={(typewriter) => {
+                            if (!typeWriterEffect)
+                                setTypewriterEffect (typewriter);
+                            //typewriter.typeString(message)
+                            //.stop()
+                            //.start();
+                            
+                        }}
+                        />}
+                    
 
-                </Paper>
-            </Grid>
-        </Grid> 
+                    </Paper>
+                </Grid>
+            </Grid> 
         </Fade>
     );
 }
@@ -312,11 +395,11 @@ export const QuestionBlockWithAnswerClicked = React.forwardRef((props, ref) =>{
 
                         if (option.onClickResponse.type == "correct")
                         {
-                                color = "success";
-                                Icon = <CheckIcon color="success"/>
+                            color = "success";
+                            Icon = <CheckIcon color="success"/>
                         }
                         else
-                                color ="error";
+                            color ="error";
                            
                         if(option.text == optionClicked)   
                         {
@@ -359,5 +442,49 @@ export function AcknowledgementQuestion (props)
                 </Fade>
         </Grid>
     </Grid>
+    );
+}
+
+export function ShowImage (props)
+{
+    const {imagePath,altText} = props;
+    function onImageClicked()
+    {
+        console.log ("Show image in a popup here");
+    }
+
+    const [dialogOpen, setDialogOpen] = React.useState (false);
+    function handleDialogClose ()
+    {
+        setDialogOpen(false);
+    }
+
+    return (
+        <Grid container  sx={{alignItems: 'center', pt:2} }>   
+        <ImageShowPopup open={dialogOpen} imagePath = {imagePath} onClose={handleDialogClose} altText={altText}/> 
+            <Grid item xs={11} md={11} lg={11}>
+                    <Fade in={true} timeout = {1000}>
+                        <Box sx={{ justifyContent: 'left', width:1, display: 'flex' }}>
+                               <Card sx={{ width: 152, height: 190}}>
+
+                                    <CardActionArea onClick = {onImageClicked}>
+                                    <Image
+                                        src={imagePath}
+                                        width = {150}
+                                        height = {150}
+                                        alt={altText}
+                                        onClick = {() => {setDialogOpen(true);}}
+                                    />
+
+                                        <Typography variant="body2" color="text.secondary">
+                                        Click To Enlarge
+                                        </Typography>
+
+                                    </CardActionArea>
+                                </Card>
+                        </Box>
+                    </Fade>
+            </Grid>
+        </Grid>
     );
 }

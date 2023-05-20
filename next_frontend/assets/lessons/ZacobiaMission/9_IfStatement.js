@@ -120,14 +120,14 @@ export const LessonText = [
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
     {id:10, type: "pycb", value: `
-    a = 9
-    b = 10
-    if a > b:
-        print ("A is greater than B")
-    elif a == b:
-        print ("A is equal to B")
-    else:
-        print ("A is less than B")
+a = 9
+b = 10
+if a > b:
+    print ("A is greater than B")
+elif a == b:
+    print ("A is equal to B")
+else:
+    print ("A is less than B")
     `},
     {id:12, type:"TM", message: "The output of the code above will be <b>A is less than B</b>"},
     {id:12, type:"TM", message: "The block under if statement will not be executed as the condition a > b is not true"},

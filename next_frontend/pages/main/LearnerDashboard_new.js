@@ -37,6 +37,7 @@ import { TopQuizGames } from '../../components/LearnerDashboard/TopQuizGames';
 import { MissionWithFriends } from '../../components/LearnerDashboard/JoinMissionWithFriends';
 import { deepPurple, deepOrange, cyan } from '@mui/material/colors';
 import { AllKeyConceptList } from '../../assets/lessons/ZacobiaMission/keyConcepts/AllKeyConceptList';
+import LearnerStore, {LearnerActivityState} from '../../store/LearnerStore';
 
 
 const drawerWidth = 240;
@@ -363,6 +364,17 @@ function ShowAllConceptsScreen({showInitialDashboard,quizProgress,reviewConceptC
 //Main component that shows or replaces the components based on the state
 function DashboardContent(props) {
 
+  const DashboardState = {
+    UserDataLoading: 0,
+    ShowInitialDashboard: 1,
+    ChapterInprogress: 2,
+    ShowRetryQuiz: 3,
+    ShowAllQuiz: 4,
+    ShowReviseConcepts: 5,
+    ShowAllConcepts:6,
+    ShowChaptersInMission:7,
+    ChapterInprogress_New: 8
+  };
   const { data: session, status } = useSession();
   const isUser = !!session && session.user;
   const loading = status === "loading"
@@ -374,10 +386,16 @@ function DashboardContent(props) {
   const [chapterProgress, setChapterProgress] = React.useState(null);
   const [quizProgress, setQuizProgress] = React.useState(null);
   const [chapterText, setChapterText] = React.useState(null);
-  const [componentState, setComponentState] = React.useState("showinitialdashboard");
+  const [componentState, setComponentState] = React.useState(DashboardState.UserDataLoading);
   const [ currentChapter, setCurrentChapter] = React.useState(0);
 
   var updatedLearnerMissionProgress = React.useRef();
+
+
+
+  const [currentActivityState,updateMissionProgress,updateChapterProgress,updateQuizProgress,updateCurrrentActivityState] = LearnerStore (
+    (state) => [state.currentActivityState, state.updateMissionProgress,state.updateChapterProgress, state.updateQuizProgress, state.updateCurrrentActivityState]
+  );
 
   //React useeffect for initial signing up the user
   React.useEffect(() => {
@@ -395,6 +413,10 @@ function DashboardContent(props) {
         setLearnerMissionProgress(resp.missionProgress);
         setChapterProgress(resp.chapterProgress);
         setQuizProgress(resp.quizProgress);
+        updateMissionProgress(resp.missionProgress);
+        updateChapterProgress(resp.chapterProgress);
+        updateQuizProgress(resp.quizProgress);
+        setComponentState(DashboardState.ShowInitialDashboard);
       });
     }
   }, [isUser, loading])
@@ -425,22 +447,22 @@ function DashboardContent(props) {
     //React useeffect for changing the temporary state for showing chapter conversation
   React.useEffect (() => {
       //console.log ("here", componentState);
-      if (componentState == "chapterinprogress_new")
-        setComponentState("chapterinprogress");
+      if (componentState == DashboardState.ChapterInprogress_New)
+        setComponentState(DashboardState.ChapterInprogress);
       //console.log ("Setting the value of updated mission progress here", learnerMissionProgress);
   }, [componentState])
 
   function retryQuizClicked (quizId)
   {
     //console.log ("Retry quiz clicked", quizId);
-    setComponentState("showretryquiz");
+    setComponentState(DashboardState.ShowRetryQuiz);
     var chapterTextForQuiz = [{type:"quiz", id: quizId},{id:1, type: "endmessage"}];
     setChapterText(chapterTextForQuiz);
   }
 
   function viewAllQuizClicked ()
   {
-    setComponentState("showallquiz");
+    setComponentState(DashboardState.ShowAllQuiz);
   }
 
   function reviewConceptClicked(concept)
@@ -451,25 +473,25 @@ function DashboardContent(props) {
       console.log ("hereerere",response.LessonText);
       setChapterText([...response.LessonText]);
     })()
-    setComponentState("showreviseconcepts");
+    setComponentState(DashboardState.ShowReviseConcepts);
   }
 
   function viewAllConceptsClicked()
   {
     console.log ("View all concepts clicked");
-    setComponentState("showallconcepts");
+    setComponentState(DashboardState.ShowAllConcepts);
   }
 
   function showInitialDashboard (evt)
   {
       //setShowMission (false);
-      setComponentState("showinitialdashboard")
+      setComponentState(DashboardState.ShowInitialDashboard)
   }
 
   function showMissionDashboard (evt)
   {
       //setShowMission (false);
-      setComponentState("showchaptersinmission")
+      setComponentState(DashboardState.ShowChaptersInMission)
   }
 
   //This function is called when a special action is needed on a learner event
@@ -495,8 +517,12 @@ function DashboardContent(props) {
         console.log ("clicked mission is ",clickedMission, "current chapter is",currentChapter, "state", componentState );
         var nextChapter = clickedMission.moduleList[currentChapter.id + 1];
         onChapterClicked(nextChapter);
-        //setComponentState("chapterinprogress_new"); //creating this new state to force re-render
-        //setComponentState((lastState) => {console.log ("Component state called"); return "chapterinprogress_new"});
+        break;
+
+      case "loadchapter":
+        console.log ("clicked mission is ",clickedMission, "current chapter is",currentChapter, "state", componentState );
+        var nextChapter = clickedMission.moduleList[currentChapter.id];
+        onChapterClicked(nextChapter);
         break;
 
       case "showmissiondashboard":
@@ -543,7 +569,8 @@ function DashboardContent(props) {
       }
 
       setClickedMission(mission);
-      setComponentState("showchaptersinmission");
+      setComponentState(DashboardState.ShowChaptersInMission);
+      updateCurrrentActivityState({state:LearnerActivityState.MissionStarted, data:mission});
       //setShowMission(true);  
   }
 
@@ -553,14 +580,17 @@ function DashboardContent(props) {
   }
 
   const backToModulesClicked = (props) => {
-    setComponentState("showchaptersinmission");
+    setComponentState(DashboardState.ShowChaptersInMission);
    // setChapterInProgress(false);
   }
 
   const chapterEndReached = (props) => {
+    
     if (chapterProgress[clickedMission.id][currentChapter.id] == ChapterState.Completed)
     //Means the chapter was already completed before so nothing to be done here
       return;
+
+    updateCurrrentActivityState({state:LearnerActivityState.ChapterEnded, data:currentChapter});
     setChapterProgress((chapterProgress) => {
       chapterProgress[clickedMission.id][currentChapter.id] = ChapterState.Completed; 
       if (chapterProgress[clickedMission.id].length > currentChapter.id - 1 && chapterProgress[clickedMission.id][currentChapter.id + 1] != ChapterState.Completed)
@@ -599,6 +629,7 @@ function DashboardContent(props) {
     //console.log ("Chapter progressed is", chapterProgress);
     //console.log ("Clicked mission is", clickedMission);
     setCurrentChapter(chapter);
+    updateCurrrentActivityState({state:LearnerActivityState.ChapterStarted, data:chapter.id});
 
     if (chapterProgress[clickedMission.id][chapter.id] == ChapterState.Available )
     {
@@ -617,9 +648,9 @@ function DashboardContent(props) {
       //console.log ("hereerere",response.LessonText);
       setChapterText([...response.LessonText]);
       //setComponentState("chapterinprogress_new");
-      setComponentState((componentState) =>  {if (componentState == "chapterinprogress")
-                                           return "chapterinprogress_new";
-                                         else return "chapterinprogress";})
+      setComponentState((componentState) =>  {if (componentState ==  DashboardState.ChapterInprogress)
+                                           return DashboardState.ChapterInprogress_New;
+                                         else return DashboardState.ChapterInprogress;})
                                            
       //setChapterInProgress(true);
     })() 
@@ -632,39 +663,39 @@ function DashboardContent(props) {
       {session && <DashboardAppBar signedUser={session.user}>
             <MissionLockedDialog open={dialogOpen} dialogText = {dialogText} onClose={handleDialogClose}/>
             {
-              (componentState == "showinitialdashboard") && 
+              (componentState == DashboardState.ShowInitialDashboard) && 
               <ShowPostLoginContent {...props} quizProgress={quizProgress} learnerMissionProgress = {learnerMissionProgress} 
                       callBackHandlers = {[retryQuizClicked, viewAllQuizClicked, reviewConceptClicked, viewAllConceptsClicked]} signedUser = {session.user} onMissionClicked={onMissionClicked} onEventAck={onLearnerEvent}/>
             }
             { 
-              (componentState == "showchaptersinmission") && 
+              (componentState == DashboardState.ShowChaptersInMission) && 
               <AllModuleList retryQuizClicked = {retryQuizClicked} showInitialDashboard={showInitialDashboard} quizProgress = {quizProgress} 
               onLessonClicked = {onChapterClicked} moduleList = {clickedMission.moduleList} chapterProgress={chapterProgress[clickedMission.id]}
                       viewAllQuizClicked = {viewAllQuizClicked} learnerId = {session.user._id}
                       reviewConceptClicked = {reviewConceptClicked} viewAllConceptsClicked = {viewAllConceptsClicked} />  
             }
             { 
-              (componentState == "chapterinprogress") && 
+              (componentState == DashboardState.ChapterInprogress) && 
                 <ShowLearningConversationForAChapter chapterText ={chapterText} chapterEndReached={chapterEndReached} onLearnerEvent={onLearnerEvent} backToModulesClicked={backToModulesClicked} learnerQuizProgress={quizProgress}/>
             }
             { 
-              (componentState == "chapterinprogress_new") && 
+              (componentState == DashboardState.ChapterInprogress_New) && 
                 <ShowLearningConversationForAChapter chapterText ={chapterText} chapterEndReached={chapterEndReached} onLearnerEvent={onLearnerEvent} backToModulesClicked={backToModulesClicked} learnerQuizProgress={quizProgress}/>
             }
             { 
-              (componentState == "showretryquiz") && 
+              (componentState == DashboardState.ShowRetryQuiz) && 
                 <ShowLearningConversationForAQuiz chapterText ={chapterText} chapterEndReached={quizEnded} onLearnerEvent={onLearnerEvent} showInitialDashboard={showMissionDashboard} learnerQuizProgress={quizProgress}/>
             }
             { 
-              (componentState == "showallquiz") && 
+              (componentState == DashboardState.ShowAllQuiz) && 
                 <ShowAllQuizScreen showInitialDashboard ={showMissionDashboard} quizProgress={quizProgress} retryQuizClicked={retryQuizClicked}/>
             }
             { 
-              (componentState == "showreviseconcepts") && 
+              (componentState == DashboardState.ShowReviseConcepts) && 
               <ShowLearningConversationForAChapter chapterText ={chapterText} chapterEndReached={quizEnded} onLearnerEvent={onLearnerEvent} backToModulesClicked={backToModulesClicked} learnerQuizProgress={quizProgress}/>
             }
             { 
-              (componentState == "showallconcepts") && 
+              (componentState == DashboardState.ShowAllConcepts) && 
                 <ShowAllConceptsScreen showInitialDashboard ={showMissionDashboard} quizProgress={quizProgress} reviewConceptClicked={reviewConceptClicked}/>
             }           
       </DashboardAppBar>}

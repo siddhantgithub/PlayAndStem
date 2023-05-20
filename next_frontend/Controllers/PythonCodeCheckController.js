@@ -62,7 +62,7 @@ export class PythonCodeCheckController
 
     returnNextElem()
     {
-        console.log ("Return next elem called with current state", this.state, " this.messageStackCounter ", this.messageStackCounter,this.initialMessageStack.length);
+        //console.log ("Return next elem called with current state", this.state, " this.messageStackCounter ", this.messageStackCounter,this.initialMessageStack.length);
         switch (this.state)
         {
             case AnswerStatus.Not_Answered:
@@ -93,7 +93,6 @@ export class PythonCodeCheckController
                 {
                     this.messageStackCounter++;
                     return {type:"ack", buttonText:"Next"};
-                    
                 }
                 else
                     return {type:"donothing"};
@@ -106,7 +105,18 @@ export class PythonCodeCheckController
                 }
                 else if (this.messageStackCounter == this.incorrectResponseStack.length)
                 {
-                    return {type:"ack", buttonText:"Retry"};
+                    this.messageStackCounter++
+                    return {type: "TM", message:"What would you like to do next?"};
+
+                }
+                else if (this.messageStackCounter == this.incorrectResponseStack.length + 1)
+                {
+                    const optionsAfterIncorrect = [
+                        {text:"Retry", onClickResponse:{type: "TM", message:"You are correct. Congratulations on identifying the first line of the code"}},
+                        {text:"Skip Question", onClickResponse:{type: "TMR", message: "Not exactly. First we have to specify from where we have to import and then what. Since from microbit we want to get everything it should be \"from microbit import *\""}},
+                    ];
+                    return {id:8, type: "QWBOL", message: "Provide your response", options:optionsAfterIncorrect};
+                   // return {type:"ack", buttonText:"Retry"};
                 }
                 else
                     return {type:"donothing"};
@@ -129,9 +139,14 @@ export class PythonCodeCheckController
                 break;
 
             case AnswerStatus.Answered_Incorrect:
-                this.state = AnswerStatus.Not_Answered;
-                this.messageStackCounter = 0;
-                return false;
+                if (response == "Retry")
+                {
+                    this.state = AnswerStatus.Not_Answered;
+                    this.messageStackCounter = 0;
+                    return false;
+                }
+                else
+                    return true;
                 break;
         }
 

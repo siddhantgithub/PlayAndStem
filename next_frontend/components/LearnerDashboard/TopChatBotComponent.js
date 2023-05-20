@@ -9,28 +9,18 @@ import { ConvertJsonToComponent } from "../ChatInterface/ShowLearningConversatio
 import LearningConversationWithAnimation from '../ChatInterface/ShowLearningConversationWithAnimation';
 import {LessonText} from '../../assets/lessons/FirstLoginConversation'
 import { UpdateLearnerMissionProgress } from '../../actions/LearnerMissionProgressRequestHandler';
+import LearnerStore, {LearnerActivityState} from "../../store/LearnerStore";
+import {AllMissionList} from '../../assets/moduleList/AllMissionChapterList';
+import { ChapterState } from "./DisplayChaptersWithinMission";
 
-//Options for TopChatBot
-//We can just show a learning conversation for now and then all the missions at the bottom
-//We need to decide different states for the top chatbot
-//State 1: Initial - Take assessment and identify a level
-//State 2: Assessment done: Offer few options
-//State 3: Started a mission - Ask to complete the next module in the mission or take a quiz to reinforce learning
-//State 4: Completed a mission - Ask t take a quiz or start a new mission
-//If nothing completed also given an option to select a mission at random
-//This file displays the top chatbot on Learner's dashboard
-//What this chatbot should show
-//Say hi each time a user logs in
-//Bascially this chatbot will be a guide for the learners to navigate courses
-//The message displayed by chatbot will be dependent on the state of the user
-//For example, if initial assessment not done then asks the learner to complete the initial assessment
-//Otherwise, suggest course or a quiz that the learner needs to take
-//At this stage important that this interface should be able to show any text passed from outside
-
-//Need a function which can add typewriter text, questions, whatever is needed
-//For now keep it as simple as it can be
-//Recommendation what has to be done next
-//First thing to implement, if you add a text, it gets displayed. one by one
+//Need to rethink how TopChatbotComponent works as this is crucial for engagement
+//How the engagement will change. Let's identify different states
+//State 1 - Initial conversation
+//State 2 - Suggest a mission or a chapter - Started a mission - you have started this mission, want to go to the next chapter
+//State 3 - Suggest to revise a concept 
+//State 4 - Recently completed a chapter or a quiz 
+//State 5 - Answer a question --> Later
+//Jokes and stories should be at the start of a chapter
 const TopChatBotComponent = React.forwardRef((props, ref) =>{
     const { data: session, status } = useSession();
     const isUser = !!session && session.user;
@@ -40,40 +30,108 @@ const TopChatBotComponent = React.forwardRef((props, ref) =>{
     React.useEffect(() => {
       if (loading) return // Do nothing while loading
       if (!isUser) signIn() // If not authenticated, force log in
-      //console.log ("The value of session is", session);
     }, [isUser, loading])
+
+    const [activityState,missionProgress, chapterProgress] = LearnerStore ((state) => [state.currentActivityState, state.missionProgress, state.chapterProgress]);
+    console.log ("The user activity state", activityState);
 
     const lessonEndReached = (props) => {
     //setLessonInProgress(false);
     }
 
-    function performLearnerActionFromMission (actionType, data)
-    {
-        switch (actionType)
-        {
-            case "addcourses":
-                var missionAdded = false;
-                for (var i =0; i < data.length; ++i)
-                {
-                    if (session.user.missionProgress.indexOf(data[i]) != -1)
-                    {
-                        missionAdded = true;
-                        session.user.missionProgress.push(data[i])
-                    }
-                }
-                if (missionAdded)
-                {
-                    var dataObj = {_id: session.user._id, missions:data}
-                    UpdateLearnerMissionProgress(dataObj);
-                }
-                break;
-        }
-    }
+    const conversationText = returnConversationForLearnerState(activityState,missionProgress, chapterProgress);
+    console.log ("Conversation text is", conversationText);
 
     return (
-            <LearningConversationWithAnimation performLearnerActionFromMission={performLearnerActionFromMission} 
-                LessonText={LessonText} OnLessonEnd = {lessonEndReached} onEventAck={onEventAck} learnerQuizProgress={learnerQuizProgress}/>
+            <LearningConversationWithAnimation
+                LessonText={conversationText} OnLessonEnd = {lessonEndReached} onEventAck={onEventAck} learnerQuizProgress={learnerQuizProgress}/>
     );
   })
+
+  //Algorithn show a message for in-progress mission first
+  //Then depending on the state
+  function returnConversationForLearnerState(activityState,missionProgress,chapterProgress)
+  { 
+    if (activityState.state == LearnerActivityState.FirstLogin)
+        return LessonText;
+    //TODO: Deal with multiple in-progress missions
+    //Right now just look for which one is in progress and which chapter is available next
+    if (missionProgress.length == 0)
+    {
+        const WaitingBlock = [
+            {type: "TM", message: "Getting User Data"},
+            {type: "TM", message: "Please Wait"},
+            {id:1, type: "acksp", data: {type:"learnerevent", subtype:"loadmission", data:activityState.data}},
+        ];
+        return WaitingBlock;
+    }
+    //console.log ("hererererereerer", activityState,missionProgress,chapterProgress);
+    const firstAvailableMissionIndex = missionProgress.findIndex ((elem) => elem == "Available");
+    if (firstAvailableMissionIndex != -1 )
+    {
+        console.log ("First available mission Index", firstAvailableMissionIndex);
+        const missionAvailable = AllMissionList[firstAvailableMissionIndex];
+        var firstAvailableChapterIndex = chapterProgress[firstAvailableMissionIndex].findIndex ((elem) => elem == ChapterState.Available || elem == ChapterState.InProgress);
+        if (firstAvailableChapterIndex != -1)
+        {
+            var firstAvailableChapter = missionAvailable.moduleList[firstAvailableChapterIndex];
+            console.log ("Firs mission is", missionAvailable.name, " first chapter available is", firstAvailableChapter.name);
+            const MissionProgressBlock = [
+                {type: "TM", message: "Hey, mission<b> " + missionAvailable.name + "</b> is in progress"  },
+                {type: "TM", message: "Click next to go to the mission dashboard"},
+                {id:1, type: "acksp", data: {type:"learnerevent", subtype:"loadmission", data:missionAvailable.id}},
+            ];
+            return MissionProgressBlock;
+        }
+    }
+    
+    const MissionAvailableBlock = [
+        {type: "TM", message: "Hey, mission<b> " + activityState.data.name + "</b> is in progress"  },
+        {type: "TM", message: "Click next to go to the mission dashboard"},
+        {id:1, type: "acksp", data: {type:"learnerevent", subtype:"loadmission", data:activityState.data.id}},
+    ];
+
+    const ChapterStartedBlock = [
+        {type: "TM", message: "Hey, you recently started the chapter " + activityState.data.name + ", want to go to it now"},
+        {type: "TM", message: "Click on the next button to go to the chapter"},
+        {id:1, type: "acksp", data: {type:"learnerevent", subtype:"loadchapter", data:activityState.data.id}},
+    ];
+
+    const ChapterEndedBlock = [
+        {type: "TM", message: "Hey, great job in completing the chapter " + activityState.data.name},
+        {type: "TM", message: "Click next below to go to the next chapter"},
+        {id:1, type: "acksp", data: {type:"learnerevent", subtype:"loadnextchapter", data:activityState.data.id}},
+    ];
+
+    const MissionEndedBlock = [
+        {type: "TM", message: "Great job in completing all the missions"},
+        {type: "TM", message: "You can now either retry quizzes or revise concepts in the completed mission"},
+        {type: "TM", message: "Click on the missions below to go to their dashboards"}
+    ];
+
+    switch (activityState.state)
+    {
+        case LearnerActivityState.FirstLogin:
+            return LessonText;
+        break;
+
+        case LearnerActivityState.MissionStarted:
+            return MissionAvailableBlock;
+        break;
+
+        case LearnerActivityState.ChapterStarted:
+            return ChapterStartedBlock;
+        break;
+
+        case LearnerActivityState.ChapterEnded:
+            return ChapterEndedBlock;
+        break;
+
+        case LearnerActivityState.MissionEnded:
+            return MissionEndedBlock;
+        break;
+    }
+
+  }
 
   export default React.memo(TopChatBotComponent);

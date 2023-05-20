@@ -20,6 +20,12 @@ import Divider from '@mui/material/Divider';
 import { signIn, signOut, useSession } from "next-auth/react"
 import { GetLearnerMissionProgress } from '../../actions/LearnerMissionProgressRequestHandler';
 
+export const MissionState = {
+  Available: 0, 
+  In_Progress: 1, 
+  Not_Available:2,
+  Completed:3
+}
 //This file displays all the missions displayed across different categories
 //Categories:
 //1) In-progress

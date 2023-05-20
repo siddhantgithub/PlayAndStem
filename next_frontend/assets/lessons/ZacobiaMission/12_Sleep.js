@@ -42,7 +42,7 @@ export const LessonText = [
     {id:12, type:"TM", message: "Now we add sleep(2000) to our code and now our code becomes"},
     {id:10, type: "pycb", value: `from microbit import *
 while True:
-    lightLevel = display.read_light_level();
+    lightLevel = display.read_light_level()
     if lightLevel <= 100:
         display.show(Image.HEART)
     else:
