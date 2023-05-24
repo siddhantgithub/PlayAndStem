@@ -58,7 +58,7 @@ export  const LinearProgressWithLabel = React.forwardRef((props, ref) =>{
   );
 })
 
-function ModuleCard(props) {
+export function ModuleCard(props) {
   const {module,onLessonClicked,progress} = props;
   const {name,fileName, image, description,id} = module;
 
@@ -203,7 +203,7 @@ export function AllModuleList (props) {
     categoryMissionMap.set ("Completed", []);
     categoryMissionMap.set ("Available Later", []);
     categoryMissionMap.set ("Available", []);
-    console.log ("Module list is ", moduleList);
+    //console.log ("Module list is ", moduleList);
     for (var i = 0; i < moduleList.length; ++i)
     {
       //Iterate over all the missions
@@ -243,18 +243,15 @@ export function AllModuleList (props) {
   return (
     <React.Fragment>
        <Button variant="outlined" ref = {messagesEndRef} onClick = {backToModulesClicked} startIcon={<ArrowBackIcon />}>Learning Home</Button>
-       <LinearProgressWithLabel completed={chapterCompleted} total={13}/>        
+       <LinearProgressWithLabel completed={chapterCompleted} total={chapterProgress.length}/>        
        <Fade in={true} timeout = {1000}>
     
 
         <Grid container spacing={0}  alignItems= "center" justifyContent="left">
         { quizProgress && <Grid item xs={12} md={4} lg={4} >
                 <MissionMessageDashboard
-                    products={AllQuizList.slice(0,3)}
-                    quizProgress={quizProgress}
+                    chapterProgress= {chapterProgress} chapterlist = {moduleList} onLessonClicked = {onLessonClicked}
                     sx={{ width: 360, height: 350, mt:2}}
-                    retryQuizClicked={null} 
-                    viewAllQuizClicked={null}
                 />
               </Grid>}
               { quizProgress && <Grid item xs={12} md={4} lg={4} >

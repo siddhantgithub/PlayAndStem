@@ -18,13 +18,18 @@ import VolumeUp from '@mui/icons-material/VolumeUp';
 import Stack from '@mui/material/Stack';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+
 
 
 export default function CairoSettingDialog(props) {
-  const { onClose, value: valueProp, open, currentVoice, ...other } = props;
+  const {onClose, value: valueProp, open, currentVoice, currentSpeed,...other } = props;
   const [volumeValue, setVolumeValue] = React.useState(valueProp);
   const [voice, setVoice] = React.useState(currentVoice);
   const [voiceArray, setVoiceArray] = React.useState(null);
+  const [speedLevel, setSpeedLevel] = React.useState(currentSpeed);
+  //console.log ("Value of speed level is", currentSpeed);
 
   React.useEffect(() => {
     if (!open) {
@@ -32,7 +37,7 @@ export default function CairoSettingDialog(props) {
     }
 
     const va = window.speechSynthesis.getVoices();
-    console.log ("Voice array is", va);
+    //console.log ("Voice array is", va);
     if (va.length > 0)
     {
         setVoiceArray(va);
@@ -46,7 +51,7 @@ export default function CairoSettingDialog(props) {
   };
 
   const handleOk = () => {
-    onClose(volumeValue,voice);
+    onClose(volumeValue,voice,speedLevel);
   };
 
   const handleVolumeChange = (event, newValue) => {
@@ -55,6 +60,10 @@ export default function CairoSettingDialog(props) {
 
   const handleVoiceChange = (event) => {
     setVoice(event.target.value);
+  };
+
+  const handleSpeedChange = (event) => {
+    setSpeedLevel(event.target.value);
   };
 
   return (
@@ -87,6 +96,20 @@ export default function CairoSettingDialog(props) {
                 
         </Select>
      </Stack>
+    { /*<FormControl>
+      <FormLabel id="demo-row-radio-buttons-group-label">Speed</FormLabel>
+      <RadioGroup
+        row
+        aria-labelledby="demo-row-radio-buttons-group-label"
+        name="row-radio-buttons-group"
+        value={speedLevel}
+        onChange = {handleSpeedChange}
+      >
+        <FormControlLabel value={.8} control={<Radio />} label="Slow" />
+        <FormControlLabel value={1.0} control={<Radio />} label="Normal" />
+        <FormControlLabel value={1.2} control={<Radio />} label="Fast" />
+      </RadioGroup>
+</FormControl>*/}
       </DialogContent>
       <DialogActions>
         <Button autoFocus onClick={handleCancel}>

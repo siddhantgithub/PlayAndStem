@@ -54,7 +54,7 @@ function MissionCard({learnerMissionProgress, onMissionClick,missionName,mission
       case "Not Available":
         return "warning";
 
-        case "Done":
+        case "Completed":
         return "success";
     }
   }

@@ -31,7 +31,7 @@ export const LessonText = [
     {id:1, type: "showpage"},
     {id:13, type: "TM", message: "Using programming language to talk to a machine is also called computer programming or coding"},
     {id:13, type: "donothing"},
-    {id:1, type: "TM", message:"It is time to go to the next chapter but before we end, we will go through a quize to revise the concepts we discussed"},
+    {id:1, type: "TM", message:"It is time to go to the next chapter but before we end, we will go through a quiz to revise the concepts we discussed"},
     {id:13, type: "donothing"},
     {id:1, type: "ack"},
     {id:1, type: "clearpage"},

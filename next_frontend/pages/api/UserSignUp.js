@@ -36,7 +36,8 @@ export default async (req, res) => {
         let missionProgress = ["Not Available", "Not Available", "Not Available"];
         let chapterProgress = [[2,0,0,0,0,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,0,0,0,0,0,0,0]];
         let quizProgress = Array(20).fill(-1);
-        let newlearner = new Learner({ firstname, lastname, username, password, parentemail,missionProgress,chapterProgress,quizProgress});
+        let newlearner = new Learner({ firstname, lastname, username, password, parentemail,missionProgress,chapterProgress,quizProgress,currentActivityState:0,
+                                        speechVolume:1, typeWriterDealy:50, forwardSpeed:1, isCairoMuted:false, cairoVoice: 'Google UK English Female'});
 
         try {
             let saveResult = await newlearner.save();

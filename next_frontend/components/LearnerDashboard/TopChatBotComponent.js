@@ -32,15 +32,15 @@ const TopChatBotComponent = React.forwardRef((props, ref) =>{
       if (!isUser) signIn() // If not authenticated, force log in
     }, [isUser, loading])
 
-    const [activityState,missionProgress, chapterProgress] = LearnerStore ((state) => [state.currentActivityState, state.missionProgress, state.chapterProgress]);
-    console.log ("The user activity state", activityState);
+    const [activityState,missionProgress, chapterProgress,updateCurrrentActivityState] = LearnerStore ((state) => [state.currentActivityState, state.missionProgress, state.chapterProgress, state.updateCurrrentActivityState]);
+    console.log ("The user activity state", activityState,updateCurrrentActivityState);
 
     const lessonEndReached = (props) => {
     //setLessonInProgress(false);
     }
 
-    const conversationText = returnConversationForLearnerState(activityState,missionProgress, chapterProgress);
-    console.log ("Conversation text is", conversationText);
+    const conversationText = returnConversationForLearnerState(activityState,missionProgress, chapterProgress,updateCurrrentActivityState);
+    //console.log ("Conversation text is", conversationText);
 
     return (
             <LearningConversationWithAnimation
@@ -50,7 +50,7 @@ const TopChatBotComponent = React.forwardRef((props, ref) =>{
 
   //Algorithn show a message for in-progress mission first
   //Then depending on the state
-  function returnConversationForLearnerState(activityState,missionProgress,chapterProgress)
+  function returnConversationForLearnerState(activityState,missionProgress,chapterProgress,updateCurrrentActivityState)
   { 
     if (activityState.state == LearnerActivityState.FirstLogin)
         return LessonText;
@@ -65,15 +65,16 @@ const TopChatBotComponent = React.forwardRef((props, ref) =>{
         ];
         return WaitingBlock;
     }
-    //console.log ("hererererereerer", activityState,missionProgress,chapterProgress);
+   // console.log ("hererererereerer", activityState,missionProgress,chapterProgress);
     const firstAvailableMissionIndex = missionProgress.findIndex ((elem) => elem == "Available");
     if (firstAvailableMissionIndex != -1 )
     {
-        console.log ("First available mission Index", firstAvailableMissionIndex);
+        //console.log ("First available mission Index", firstAvailableMissionIndex);
         const missionAvailable = AllMissionList[firstAvailableMissionIndex];
         var firstAvailableChapterIndex = chapterProgress[firstAvailableMissionIndex].findIndex ((elem) => elem == ChapterState.Available || elem == ChapterState.InProgress);
         if (firstAvailableChapterIndex != -1)
         {
+            console.log ("First available chapter index is", firstAvailableChapterIndex);
             var firstAvailableChapter = missionAvailable.moduleList[firstAvailableChapterIndex];
             console.log ("Firs mission is", missionAvailable.name, " first chapter available is", firstAvailableChapter.name);
             const MissionProgressBlock = [
@@ -84,30 +85,12 @@ const TopChatBotComponent = React.forwardRef((props, ref) =>{
             return MissionProgressBlock;
         }
     }
-    
-    const MissionAvailableBlock = [
-        {type: "TM", message: "Hey, mission<b> " + activityState.data.name + "</b> is in progress"  },
-        {type: "TM", message: "Click next to go to the mission dashboard"},
-        {id:1, type: "acksp", data: {type:"learnerevent", subtype:"loadmission", data:activityState.data.id}},
-    ];
-
-    const ChapterStartedBlock = [
-        {type: "TM", message: "Hey, you recently started the chapter " + activityState.data.name + ", want to go to it now"},
-        {type: "TM", message: "Click on the next button to go to the chapter"},
-        {id:1, type: "acksp", data: {type:"learnerevent", subtype:"loadchapter", data:activityState.data.id}},
-    ];
-
-    const ChapterEndedBlock = [
-        {type: "TM", message: "Hey, great job in completing the chapter " + activityState.data.name},
-        {type: "TM", message: "Click next below to go to the next chapter"},
-        {id:1, type: "acksp", data: {type:"learnerevent", subtype:"loadnextchapter", data:activityState.data.id}},
-    ];
-
-    const MissionEndedBlock = [
-        {type: "TM", message: "Great job in completing all the missions"},
-        {type: "TM", message: "You can now either retry quizzes or revise concepts in the completed mission"},
-        {type: "TM", message: "Click on the missions below to go to their dashboards"}
-    ];
+    else
+    {
+        console.log ("The user activity state xxxx", activityState,updateCurrrentActivityState);
+        activityState.state = LearnerActivityState.MissionEnded;
+        //updateCurrrentActivityState({state:LearnerActivityState.MissionEnded, data:null});
+    }
 
     switch (activityState.state)
     {
@@ -116,18 +99,40 @@ const TopChatBotComponent = React.forwardRef((props, ref) =>{
         break;
 
         case LearnerActivityState.MissionStarted:
+            const MissionAvailableBlock = [
+                {type: "TM", message: "Hey, mission<b> " + activityState.data.name + "</b> is in progress"  },
+                {type: "TM", message: "Click next to go to the mission dashboard"},
+                {id:1, type: "acksp", data: {type:"learnerevent", subtype:"loadmission", data:activityState.data.id}},
+            ];
             return MissionAvailableBlock;
         break;
 
         case LearnerActivityState.ChapterStarted:
+            const ChapterStartedBlock = [
+                {type: "TM", message: "Hey, you recently started the chapter " + activityState.data.name + ", want to go to it now?"},
+                {type: "TM", message: "Click on the next button to go to the chapter"},
+                {id:1, type: "acksp", data: {type:"learnerevent", subtype:"loadchapter", data:activityState.data.id}},
+            ];
             return ChapterStartedBlock;
         break;
 
         case LearnerActivityState.ChapterEnded:
+            const ChapterEndedBlock = [
+                {type: "TM", message: "Hey, great job in completing the chapter " + activityState.data.name},
+                {type: "TM", message: "Click next below to go to the next chapter"},
+                {id:1, type: "acksp", data: {type:"learnerevent", subtype:"loadnextchapter", data:activityState.data.id}},
+            ];
             return ChapterEndedBlock;
         break;
 
         case LearnerActivityState.MissionEnded:
+            const MissionEndedBlock = [
+                {type: "TM", message: "Great job in completing all the missions"},
+                {type: "TM", message: "You can now either retry quizzes or revise concepts in the completed mission"},
+                {type: "donothing", message: "Great job in completing all the missions"},
+                {type: "TM", message: "Click on the missions below to go to their dashboards or click next to go to the first Mission"},
+                {id:1, type: "acksp", data: {type:"learnerevent", subtype:"loadmission", data:0}},
+            ];
             return MissionEndedBlock;
         break;
     }

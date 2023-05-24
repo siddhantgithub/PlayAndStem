@@ -46,6 +46,36 @@ const LearnerSchema = new mongoose.Schema(
             type:Array,
             required: true
         },
+        activityState: {
+            type:Number,
+            required: true
+
+        },
+        activityState: {
+            type:Number,
+            required: true
+
+        },
+        typeWriterDelay: {
+            type:Number,
+            required: true
+
+        },
+        forwardSpeed: {
+            type:Number,
+            required: true
+
+        },
+        isCairoMuted: {
+            type:Boolean,
+            required: true
+
+        },
+        cairoVoice: {
+            type:String,
+            required: true
+
+        },
         salt: String,
     },
     { timestamp: true }

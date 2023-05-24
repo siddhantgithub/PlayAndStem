@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { persist, createJSONStorage } from 'zustand/middleware'
 
 export const LearnerActivityState  = {
     FirstLogin:0,
@@ -8,7 +9,65 @@ export const LearnerActivityState  = {
     ChapterEnded:3,
   };
 
-  const LearnerStore = create((set) => ({
+  export const CairoSpeedPossible = {
+    Slow:.8,
+    Normal: 1.0,
+    Fast: 1.2
+  };
+
+  export var CairoForwardSpeed = 1.0;
+
+  export function isCairoMaxSpeed ()
+  {
+    //console.log ("Returning ", CairoForwardSpeed, CairoForwardSpeed == CairoSpeedPossible.Fast)
+     return CairoForwardSpeed == CairoSpeedPossible.Fast;
+  }
+
+  export function isCairoMinSpeed ()
+  {
+     return CairoForwardSpeed == CairoSpeedPossible.Slow;
+  }
+
+  export function increaseCairoSpeed ()
+  {
+    CairoForwardSpeed += .2;
+
+  }
+
+  export function reduceCairoSpeed ()
+  {
+    CairoForwardSpeed -= .2;
+
+  }
+
+  export function setCairoSpeed (speed)
+  {
+    CairoForwardSpeed = speed;
+
+  }
+
+  /*const updateValueInDb = (config) => (set, get, api) =>
+  config(
+    (...args) => {
+     // console.log(' applying', args)
+      set(...args)
+     // console.log('  new state', get())
+     //Prepare to store
+     var newStateData = get();
+     var reqType = "UPDATECAIRODATA";
+     var _id = session.user._id;
+     var reqObj = {newStateData,_id};
+     GetSetLearnerDataThroughAPI(reqObj).then ((resp) => {
+;
+     });
+
+    },
+    get,
+    api
+  )*/
+
+
+  const LearnerStore = create(persist((set,get) => ({
     userName: '',
     firstName: '',
     lastName: '',
@@ -22,13 +81,21 @@ export const LearnerActivityState  = {
     updateCurrrentActivityState: (newCurrentActivity) => set (() => ({currentActivityState:newCurrentActivity})),
     speechVolume: 1,
     updateSpeechVolume : (newSpeechVolume) => set (() => ({speechVolume:newSpeechVolume})),
-    typeWriterDelay: 60,
+    typeWriterDelay: 50,
     updateTypeWriterDelay : (newDelay) => set (() => ({typeWriterDelay:newDelay})),
+    forwardSpeed: 1,
+    updateForwardSpeed : (newSpeed) => set (() => ({forwardSpeed:newSpeed})),
     isCairoMuted: false,
     updateCairoMuted : (isMuted) => set (() => ({isCairoMuted:isMuted})),
     cairoVoice: 'Google UK English Female',
     updateCairoVoice: (newvoice) => set (() => ({cairoVoice:newvoice})),
 
-  }));
+  }), 
+  {
+    name: 'cairo-settings', // name of the item in the storage (must be unique)
+    storage: createJSONStorage(() => sessionStorage), // (optional) by default, 'localStorage' is used
+  }
+
+  ));
 
 export default LearnerStore

@@ -13,7 +13,7 @@ import Typewriter from 'typewriter-effect';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import { ConvertJsonToComponent } from './JsonToComponent';
 import Typography from '@mui/material/Typography';
-import { CommonChapterEndBlock } from '../../assets/lessons/ZacobiaMission/0_CommonModules';
+import { CommonChapterEndBlock,QuizEndBlock,ConceptEndBlock } from '../../assets/lessons/ZacobiaMission/0_CommonModules';
 import { returnQuizBlockFromText, QuizController } from '../../Controllers/QuizController';
 import { GetSetLearnerDataThroughAPI } from '../../actions/LearnerMissionProgressRequestHandler';
 import { PythonCodeCheckController } from '../../Controllers/PythonCodeCheckController';
@@ -23,7 +23,13 @@ import CairoSettingDialog from '../dialogBoxes/CairoSettingsDialog';
 import LearnerStore from '../../store/LearnerStore';
 import Stack from '@mui/material/Stack';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import { pink } from '@mui/material/colors';
+import FastForwardIcon from '@mui/icons-material/FastForward';
+import FastRewindIcon from '@mui/icons-material/FastRewind';
+import { CairoSpeedPossible } from '../../store/LearnerStore';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 const style = {
     height: 300,
@@ -44,7 +50,7 @@ const ConversationState = {
 };
 export default function LearningConversation(props) {
 
-    const {LessonText, OnLessonEnd, onEventAck,learnerQuizProgress} = props;
+    const {LessonText, OnLessonEnd, onEventAck,learnerQuizProgress,type = "Initial Conversation"} = props;
     const { data: session, status } = useSession();
     const [componentArray,setComponentArray] = React.useState ([]);
     //const [displayNextComponent,setDisplayNextComponent] = React.useState (true);
@@ -52,11 +58,14 @@ export default function LearningConversation(props) {
     const [clearPage,setClearPage] = React.useState (false);
     const [maxWidth, setMaxWidth] = React.useState("lg");
     const [csdOpen, setCSDOpen] = React.useState(false); //CSD stands for Cairo Setting Dialog
-    const [speechVolume,updateSpeechVolume,isCairoMuted,updateCairoMuted, cairoVoice, updateCairoVoice] = LearnerStore (
-        (state) => [state.speechVolume,state.updateSpeechVolume, state.isCairoMuted, state.updateCairoMuted, state.cairoVoice, state.updateCairoVoice]
+    const [speechVolume,updateSpeechVolume,isCairoMuted,updateCairoMuted, cairoVoice, updateCairoVoice,forwardSpeed, updateForwardSpeed] = LearnerStore (
+        (state) => [state.speechVolume,state.updateSpeechVolume, state.isCairoMuted, state.updateCairoMuted, state.cairoVoice, state.updateCairoVoice, state.forwardSpeed, state.updateForwardSpeed]
       );
-    //console.log ("Lesson text is", LessonText);
+    const [cairoSpeedChanged, setCairoSpeedChanged] = React.useState(false);
+    console.log ("Type passed is", type);
     //console.log ("Learner quiz progress got is ", learnerQuizProgress);
+    //console.log ("Value of current speed is", CairoForwardSpeed);
+    
     
 
     
@@ -88,6 +97,7 @@ export default function LearningConversation(props) {
       {
         conversationState.current = newState;
       }
+
 
     useEffect(() => {
       // setComponentArray(setInitialConversation());
@@ -243,7 +253,22 @@ export default function LearningConversation(props) {
 
             if (arrayElem.type == "endmessage")
             {
-                lessonBlock.current = CommonChapterEndBlock;
+                switch (type)
+                {
+                    case "Chapter":
+                        lessonBlock.current = CommonChapterEndBlock;
+                    break
+
+                    case "Quiz":
+                        lessonBlock.current = QuizEndBlock;
+                    break;
+
+                    case "Concept":
+                        lessonBlock.current = ConceptEndBlock;
+                    break;
+
+                }
+                //lessonBlock.current = CommonChapterEndBlock;
                 currentIndexToDisplay.current = 0;
                 addComponentEverySecond(); //calling to avoid initial delay
                 OnLessonEnd();
@@ -493,14 +518,14 @@ export default function LearningConversation(props) {
         }
     }
 
-    function onCairoSettingClosed (volumeValue,voice)
+    function onCairoSettingClosed (volumeValue,voice, speedLevel)
     {
         setCSDOpen(false);
         if (volumeValue == -1)
             return;
         updateSpeechVolume(volumeValue/100);
         updateCairoVoice(voice);
-
+        setCairoSpeed(speedLevel);  
     }
 
     function openCairoSettingDialog ()
@@ -513,6 +538,24 @@ export default function LearningConversation(props) {
         updateCairoMuted(!isCairoMuted);
     }
 
+    function forwardButtonClicked ()
+    {
+       updateForwardSpeed(forwardSpeed + 0.2);
+       //increaseCairoSpeed();
+       //setCairoSpeedChanged(!cairoSpeedChanged);
+    }
+
+    function rewindButtonClicked ()
+    {
+        //reduceCairoSpeed(); 
+        //setCairoSpeedChanged(!cairoSpeedChanged);
+        updateForwardSpeed(forwardSpeed - 0.2);
+    }
+
+    const handleSpeedChange = (event) => {
+        setCairoSpeed(event.target.value);
+      };
+
     return (      
         <Container component="main" maxWidth={maxWidth} sx={{ display: 'flex', flexDirection:'column' }}>
            {/* <TopScreenComponent learnersname = {session.user.username}/>*/}
@@ -521,12 +564,30 @@ export default function LearningConversation(props) {
           <Grid item xs={3} md={3} lg={5}>
             <CairoAnimation/>
             <Stack  direction="row" sx={{ mb: 1, mt:2 }} alignItems="center">
-                <IconButton aria-label="delete" onClick = {openCairoSettingDialog}>
+                <IconButton aria-label="setting" onClick = {openCairoSettingDialog}>
                     <SettingsIcon />
                 </IconButton>
-                <IconButton aria-label="delete" onClick = {muteButtonPress}>
-                    {isCairoMuted? <VolumeOffIcon  sx={{ color: pink[500] }}/> : <VolumeOffIcon/>}
+                <IconButton aria-label="mute" onClick = {muteButtonPress}>
+                    {isCairoMuted? <VolumeOffIcon  sx={{ color: pink[500] }}/> : <VolumeUpIcon/>}
                 </IconButton>
+                <IconButton aria-label="rewind" onClick = {rewindButtonClicked} disabled={forwardSpeed == CairoSpeedPossible.Slow} >
+                    {<FastRewindIcon  />}
+                </IconButton>
+                <IconButton aria-label="forward" onClick = {forwardButtonClicked} disabled = {forwardSpeed == CairoSpeedPossible.Fast}>
+                    {<FastForwardIcon  />}
+                </IconButton>
+               { 
+                /*<Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={CairoForwardSpeed}
+                    label="Voice"
+                    onChange={handleSpeedChange}
+                    >
+                        {Object.entries(CairoSpeedPossible).map((item) => (<MenuItem value={item[1]} key={item[0]}>{item[0]}</MenuItem>))}
+                
+                </Select>*/
+               }
             </Stack>
 
             <CairoSettingDialog open = {csdOpen} onClose = {onCairoSettingClosed} value = {speechVolume*100} currentVoice = {cairoVoice}/>

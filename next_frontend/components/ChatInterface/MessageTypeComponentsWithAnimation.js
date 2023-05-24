@@ -34,6 +34,7 @@ import { CardActionArea } from '@mui/material';
 import ImageShowPopup from '../dialogBoxes/ImageShowPopup';
 import TextToSpeech from './textToSpeech/TextToSpeech';
 import LearnerStore from '../../store/LearnerStore';
+import { CairoForwardSpeed } from '../../store/LearnerStore';
 
 const PythonEditor = dynamic(
   () => import("../ace-editor/PythonEditor"),
@@ -149,9 +150,11 @@ export function PythonCodeComponentWithDialogInSide (props) {
 export  function ChatBotMessage (props) 
 {
     const {message,noTypewriter} = props;
-    const [speechVolume,typewriterDelay,isCairoMuted, cairoVoice] = LearnerStore (
-        (state) => [state.speechVolume,state.typewriterDelay,state.isCairoMuted, state.cairoVoice]
+    const [speechVolume,typeWriterDelay,isCairoMuted, cairoVoice,cairoForwardSpeed] = LearnerStore (
+        (state) => [state.speechVolume,state.typeWriterDelay,state.isCairoMuted, state.cairoVoice, state.forwardSpeed]
       );
+      //const forwardSpeed = LearnerStore.getState().forwardSpeed;
+      //console.log ("Typewriter delay is",typeWriterDelay, CairoForwardSpeed );
 
       const [isPaused, setIsPaused] = React.useState(false);
       const [utterance, setUtterance] = React.useState(null);
@@ -161,10 +164,21 @@ export  function ChatBotMessage (props)
       const [typeWriterEffect, setTypewriterEffect] = React.useState(null);
       const [synth, setSynth] = React.useState(null);
 
+      const cairoSpeedToUse = React.useRef(null);
+
+      if (cairoSpeedToUse.current == null)
+      {
+        console.log ("Current forward speed is", cairoForwardSpeed);
+        cairoSpeedToUse.current = cairoForwardSpeed;
+      }
+
+
 
     useEffect ( () => {
         const synth = window.speechSynthesis;
-        const u = new SpeechSynthesisUtterance(message);
+        const utteranceText = message.replace(/<[^>]+>/g, '');
+        //console.log (utteranceText);
+        const u = new SpeechSynthesisUtterance(utteranceText);
         
     
         /*         // Add an event listener to the speechSynthesis object to listen for the voiceschanged event
@@ -174,9 +188,10 @@ export  function ChatBotMessage (props)
                 }); */
         
                 const voices = synth.getVoices();
+                //console.log ("Voices are ", voices);
                 u.voice = voices.find((v) => v.name === cairoVoice);
                 u.pitch = pitch;
-                u.rate = rate;
+                u.rate = rate*cairoSpeedToUse.current;
                 u.volume = isCairoMuted === true? 0 : speechVolume;
                 setUtterance(u);
                 setSynth(synth);
@@ -194,12 +209,14 @@ export  function ChatBotMessage (props)
     useEffect ( () => {
         if (typeWriterEffect && synth && utterance)
         {
-            console.log ("Calling typewriter effect");
+            //console.log ("Calling typewriter effect");
             typeWriterEffect.typeString(message)
                             .stop()
                             .start();
            // const synth = window.speechSynthesis;
+           //console.log ("utterance is", utterance);
             synth.speak(utterance);
+            //synth.speak(utterance);
         }
 
     }, [typeWriterEffect,synth, utterance, message]
@@ -223,7 +240,6 @@ export  function ChatBotMessage (props)
             
             <Grid container spacing={0} sx={{alignItems: 'center'} }>
                 <Grid item xs={12} md={11} lg={11}>
-                {console.count('counter')}
                     <Paper
                                     sx={{
                                         p: 2,
@@ -235,7 +251,7 @@ export  function ChatBotMessage (props)
                                     >
                 {<Typewriter
                         options={{
-                            delay: 30,
+                            delay: typeWriterDelay/cairoSpeedToUse.current,
                             cursor:""
                         }}
                         onInit={(typewriter) => {
