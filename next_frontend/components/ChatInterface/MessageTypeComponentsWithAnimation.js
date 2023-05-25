@@ -168,7 +168,7 @@ export  function ChatBotMessage (props)
 
       if (cairoSpeedToUse.current == null)
       {
-        console.log ("Current forward speed is", cairoForwardSpeed);
+        //console.log ("Current forward speed is", cairoForwardSpeed);
         cairoSpeedToUse.current = cairoForwardSpeed;
       }
 

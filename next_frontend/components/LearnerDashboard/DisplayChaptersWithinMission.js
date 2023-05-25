@@ -250,7 +250,8 @@ export function AllModuleList (props) {
         <Grid container spacing={0}  alignItems= "center" justifyContent="left">
         { quizProgress && <Grid item xs={12} md={4} lg={4} >
                 <MissionMessageDashboard
-                    chapterProgress= {chapterProgress} chapterlist = {moduleList} onLessonClicked = {onLessonClicked}
+                    chapterProgress= {chapterProgress} chapterlist = {moduleList} onLessonClicked = {onLessonClicked} 
+                    quizProgress={quizProgress}  quizList = {AllQuizList} retryQuizClicked={retryQuizClicked}
                     sx={{ width: 360, height: 350, mt:2}}
                 />
               </Grid>}

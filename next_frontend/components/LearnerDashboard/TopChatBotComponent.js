@@ -33,7 +33,7 @@ const TopChatBotComponent = React.forwardRef((props, ref) =>{
     }, [isUser, loading])
 
     const [activityState,missionProgress, chapterProgress,updateCurrrentActivityState] = LearnerStore ((state) => [state.currentActivityState, state.missionProgress, state.chapterProgress, state.updateCurrrentActivityState]);
-    console.log ("The user activity state", activityState,updateCurrrentActivityState);
+    //console.log ("The user activity state", activityState,updateCurrrentActivityState);
 
     const lessonEndReached = (props) => {
     //setLessonInProgress(false);

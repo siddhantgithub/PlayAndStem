@@ -117,18 +117,68 @@ export function ModuleCardForMessage(props) {
 //If all quiz are 100% then suggest to revise a concept 
 
 export const MissionMessageDashboard = (props) => {
-  const {chapterProgress,chapterlist,sx,onLessonClicked} = props;
+  const {chapterProgress,chapterlist,sx,onLessonClicked,quizProgress, quizList,retryQuizClicked} = props;
 
   const firstAvailableId = chapterProgress.findIndex ((elem) => elem == ChapterState.Available || elem == ChapterState.InProgress);
   if (firstAvailableId != -1)
   {
-    //This should be displayed first
+    //One chapter is available
     return (
       <Paper sx={sx}>
         <CardHeader title="Next Chapter" />
          <ModuleCardForMessage key={firstAvailableId} progress = {chapterProgress[firstAvailableId]} module={chapterlist[firstAvailableId]} onLessonClicked = {onLessonClicked} />
       </Paper>
     );
+  }
+  else
+  {
+    //Look if any quiz is incomplete or the score is < 100%
+    const firstOpenQuiz = quizProgress.findIndex ((elem) => elem != 100);
+    if (firstOpenQuiz != -1)
+    {
+      var quiz = quizList[firstOpenQuiz];
+      var retryClickHandler = () => {
+        //console.log ("Retry quiz handler is", retryQuizClicked);
+        retryQuizClicked(quiz.id);
+      }
+      //Means we have a quiz that is not yet complete
+      if (quizProgress[firstOpenQuiz] == -1)
+      {
+        return (
+        <Paper sx={sx}>
+          <CardHeader title="Time For a Quiz" />
+          <CardContent>
+            <Typography gutterBottom variant="body1" component="div">
+              You haven't tried the quiz {quiz.name} yet
+            </Typography>
+            <Typography gutterBottom variant="body1" component="div">
+              It would be great to complete the quiz just to ensure you have mastered everything
+            </Typography>
+          </CardContent>
+          <Button variant="contained" size="medium" onClick= {retryClickHandler} sx={{ margin: 2 }}>Retry</Button>
+        </Paper>);
+      }
+      else
+      {
+        //Quiz score is < 100. Ask to retry
+        return (
+          <Paper sx={sx}>
+            <CardHeader title="Time For a Quiz" />
+            <CardContent>
+              <Typography gutterBottom variant="body1" component="div" sx={{ fontWeight: 'normal', m: 1 }} >
+               The score for the quiz "{quiz.name}" is {quizProgress[firstOpenQuiz]} %
+              </Typography>
+              <Typography gutterBottom variant="body1" component="div" sx={{ fontWeight: 'normal', m: 1 }} >
+               How about we retry to get the score to 100%?
+              </Typography>
+            </CardContent>
+            <Button variant="contained" size="medium" onClick= {retryClickHandler} sx={{ margin: 2 }}>Retry</Button>
+          </Paper>);
+
+      }
+    }
+    //console.log ("Sorted quiz progress is", sortedQuizProgress);
+
 
   }
   //console.log ("Quiz progress is ", quizProgress);
@@ -137,7 +187,7 @@ export const MissionMessageDashboard = (props) => {
 
   return (
     <Card sx={sx}>
-      <CardHeader title="Welcome" />
+      <CardHeader title="Awesome!" />
       <Typography gutterBottom variant="body1" component="div" sx={{ m: 2 }}>
             Great job in completing all the chapters in the mission
             You can now review the concepts or you can retry few Quizzes

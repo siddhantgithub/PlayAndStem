@@ -62,7 +62,7 @@ export default function LearningConversation(props) {
         (state) => [state.speechVolume,state.updateSpeechVolume, state.isCairoMuted, state.updateCairoMuted, state.cairoVoice, state.updateCairoVoice, state.forwardSpeed, state.updateForwardSpeed]
       );
     const [cairoSpeedChanged, setCairoSpeedChanged] = React.useState(false);
-    console.log ("Type passed is", type);
+    //console.log ("Type passed is", type);
     //console.log ("Learner quiz progress got is ", learnerQuizProgress);
     //console.log ("Value of current speed is", CairoForwardSpeed);
     

@@ -400,10 +400,12 @@ function DashboardContent(props) {
 
   //React useeffect for initial signing up the user
   React.useEffect(() => {
-    //console.log ("Use effect called");
+    console.log ("Use effect called");
     if (loading) return // Do nothing while loading
     if (!isUser) signIn() // If not authenticated, force log in
     //console.log ("The value of session is", session);
+    if (componentState != DashboardState.UserDataLoading)
+      return;
     if (isUser)
     {
       //console.log ("Getting all user progress");
