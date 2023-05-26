@@ -120,7 +120,7 @@ export const MissionMessageDashboard = (props) => {
   const {chapterProgress,chapterlist,sx,onLessonClicked,quizProgress, quizList,retryQuizClicked} = props;
 
   const firstAvailableId = chapterProgress.findIndex ((elem) => elem == ChapterState.Available || elem == ChapterState.InProgress);
-  if (firstAvailableId != -1)
+  if (firstAvailableId != -1 && firstAvailableId < chapterlist.length)
   {
     //One chapter is available
     return (
@@ -133,7 +133,7 @@ export const MissionMessageDashboard = (props) => {
   else
   {
     //Look if any quiz is incomplete or the score is < 100%
-    const firstOpenQuiz = quizProgress.findIndex ((elem) => elem != 100);
+    const firstOpenQuiz = quizProgress.slice(0,quizList.length).findIndex ((elem) => elem != 100);
     if (firstOpenQuiz != -1)
     {
       var quiz = quizList[firstOpenQuiz];
@@ -166,7 +166,7 @@ export const MissionMessageDashboard = (props) => {
             <CardHeader title="Time For a Quiz" />
             <CardContent>
               <Typography gutterBottom variant="body1" component="div" sx={{ fontWeight: 'normal', m: 1 }} >
-               The score for the quiz "{quiz.name}" is {quizProgress[firstOpenQuiz]} %
+               The score for the quiz "{quiz.name}" is {Math.round(quizProgress[firstOpenQuiz])} %
               </Typography>
               <Typography gutterBottom variant="body1" component="div" sx={{ fontWeight: 'normal', m: 1 }} >
                How about we retry to get the score to 100%?
@@ -190,7 +190,9 @@ export const MissionMessageDashboard = (props) => {
       <CardHeader title="Awesome!" />
       <Typography gutterBottom variant="body1" component="div" sx={{ m: 2 }}>
             Great job in completing all the chapters in the mission
-            You can now review the concepts or you can retry few Quizzes
+       </Typography>
+       <Typography gutterBottom variant="body1" component="div" sx={{ m: 2 }}>
+            Feel free to try few chapters again, retry quizzes or revise the concepts covered
        </Typography>
     </Card>
   );

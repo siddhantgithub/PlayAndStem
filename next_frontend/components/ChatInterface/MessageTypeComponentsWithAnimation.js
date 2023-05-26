@@ -461,6 +461,16 @@ export function AcknowledgementQuestion (props)
     );
 }
 
+export function ShowCelebration (props)
+{
+    return (
+        <Box>
+            Great job in completing the mission. Yay!!!
+        </Box>
+
+    );
+}
+
 export function ShowImage (props)
 {
     const {imagePath,altText} = props;

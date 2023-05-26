@@ -65,14 +65,14 @@ const TopChatBotComponent = React.forwardRef((props, ref) =>{
         ];
         return WaitingBlock;
     }
-   // console.log ("hererererereerer", activityState,missionProgress,chapterProgress);
+   console.log ("hererererereerer", activityState,missionProgress,chapterProgress);
     const firstAvailableMissionIndex = missionProgress.findIndex ((elem) => elem == "Available");
     if (firstAvailableMissionIndex != -1 )
     {
-        //console.log ("First available mission Index", firstAvailableMissionIndex);
+        console.log ("First available mission Index", firstAvailableMissionIndex);
         const missionAvailable = AllMissionList[firstAvailableMissionIndex];
         var firstAvailableChapterIndex = chapterProgress[firstAvailableMissionIndex].findIndex ((elem) => elem == ChapterState.Available || elem == ChapterState.InProgress);
-        if (firstAvailableChapterIndex != -1)
+        if (firstAvailableChapterIndex != -1 && firstAvailableChapterIndex < missionAvailable.moduleList.length)
         {
             console.log ("First available chapter index is", firstAvailableChapterIndex);
             var firstAvailableChapter = missionAvailable.moduleList[firstAvailableChapterIndex];

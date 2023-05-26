@@ -15,6 +15,7 @@ const askNextStepQuiz = [
 
 
 export const QuizEndBlock = [
+    {type:"donothing"},
     {id:1, type: "TM", message:"Click next to go to the mission dashboard"},
     {id:1, type: "acksp", data: {type:"learnerevent", subtype:"showmissiondashboard", data:0}},
 ];
@@ -27,5 +28,12 @@ const askNextStepConcept = [
 
 export const ConceptEndBlock = [
     {id:1, type: "TM", message:"That is all for this concept. Click next to go to the mission dashboard"},
+    {id:1, type: "acksp", data: {type:"learnerevent", subtype:"showmissiondashboard", data:0}},
+];
+
+export const LastChapterEndBlock = [
+    {id:1, type: "TM", message:"Congratulations, your mission is complete"},
+    {id:1, type: "missionendcelebration"},
+    {type:"learnerevent", data: {type: "learnerevent", subtype: "changemissionstatus", data:{missionid:-1, newstatus:"Completed"}}},
     {id:1, type: "acksp", data: {type:"learnerevent", subtype:"showmissiondashboard", data:0}},
 ];

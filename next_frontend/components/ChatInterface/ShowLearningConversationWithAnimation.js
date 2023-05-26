@@ -13,7 +13,7 @@ import Typewriter from 'typewriter-effect';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import { ConvertJsonToComponent } from './JsonToComponent';
 import Typography from '@mui/material/Typography';
-import { CommonChapterEndBlock,QuizEndBlock,ConceptEndBlock } from '../../assets/lessons/ZacobiaMission/0_CommonModules';
+import { CommonChapterEndBlock,QuizEndBlock,ConceptEndBlock,LastChapterEndBlock } from '../../assets/lessons/ZacobiaMission/0_CommonModules';
 import { returnQuizBlockFromText, QuizController } from '../../Controllers/QuizController';
 import { GetSetLearnerDataThroughAPI } from '../../actions/LearnerMissionProgressRequestHandler';
 import { PythonCodeCheckController } from '../../Controllers/PythonCodeCheckController';
@@ -279,6 +279,19 @@ export default function LearningConversation(props) {
                 return;
             }
 
+            if (arrayElem.type == "endmessage_last")
+            {
+                lessonBlock.current = LastChapterEndBlock;
+                //lessonBlock.current = CommonChapterEndBlock;
+                currentIndexToDisplay.current = 0;
+                addComponentEverySecond(); //calling to avoid initial delay
+                OnLessonEnd();
+                //setDisplayNextComponent(false);
+                /*Router.push({
+                    pathname: '/parent/ParentDashboard',
+                });*/
+                return;
+            }
             if (arrayElem.type == "clearpage")
             {
                 setClearPage(true);

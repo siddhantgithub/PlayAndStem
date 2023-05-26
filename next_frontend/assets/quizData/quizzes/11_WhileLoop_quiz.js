@@ -7,10 +7,12 @@ D. while [condition]
 Answer: A
 
 Question: What will be the output of the following code snippet?
+codestart:
 i = 1
 while i < 5:
-print(i)
-i = i + 1
+    print(i)
+    i = i + 1
+codeend:
 
 A. 1 2 3 4
 B. 1 2 3 4 5

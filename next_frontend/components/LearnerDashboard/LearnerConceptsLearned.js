@@ -49,7 +49,7 @@ export const LearnerConceptsLearned = (props) => {
                     ? (
                       <Box
                         component="img"
-                        src={product.image}
+                        src={`/lessonImages/${product.image}`}
                         sx={{
                           borderRadius: 1,
                           height: 48,
@@ -120,7 +120,7 @@ export const LearnerConceptsLearned = (props) => {
               <Card sx={{ width: 200, height: 270,margin: 1}}>
               <CardActionArea onClick = {reviewClickHandler}>
         
-              <Image alt = {product.name} src = {product.image}  width={200} height={150}></Image>
+              <Image alt = {product.name} src={`/lessonImages/${product.image}`}  width={200} height={150}></Image>
               
               <CardContent>
                 <Typography gutterBottom variant="body1" component="div">

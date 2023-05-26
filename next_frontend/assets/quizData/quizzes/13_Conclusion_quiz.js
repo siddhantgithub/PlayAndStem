@@ -39,7 +39,7 @@ D. To display information on the screen
 
 Answer: B
 
-What is the correct syntax for a Python comment?
+Question:What is the correct syntax for a Python comment?
 A. #
 B. //
 C. <!--

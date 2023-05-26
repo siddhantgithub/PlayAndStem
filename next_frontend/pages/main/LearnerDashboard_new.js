@@ -400,7 +400,7 @@ function DashboardContent(props) {
 
   //React useeffect for initial signing up the user
   React.useEffect(() => {
-    console.log ("Use effect called");
+    //console.log ("Use effect called");
     if (loading) return // Do nothing while loading
     if (!isUser) signIn() // If not authenticated, force log in
     //console.log ("The value of session is", session);
@@ -521,9 +521,12 @@ function DashboardContent(props) {
       break;
 
       case "changemissionstatus":
-        changeMissionStatusForTheUser(eventDetails.data.missionid,eventDetails.data.newstatus)
-        //changeMissionStatusForTheUser(eventDetails.data.missionid,eventDetails.data.newstatus).then((res) => {
-         // console.log ("The response is",res);});
+        {
+          const missionid = eventDetails.data.missionid == -1? clickedMission.id : eventDetails.data.missionid;
+          changeMissionStatusForTheUser(missionid,eventDetails.data.newstatus);
+          //changeMissionStatusForTheUser(eventDetails.data.missionid,eventDetails.data.newstatus).then((res) => {
+          // console.log ("The response is",res);});
+        }
       break;
 
       case "loadnextchapter":

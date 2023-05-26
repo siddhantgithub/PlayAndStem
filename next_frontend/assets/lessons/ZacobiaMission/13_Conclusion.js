@@ -59,5 +59,5 @@ while True:
     {id:1, type: "ack"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
-    {id:1, type: "endmessage"}
+    {id:1, type: "endmessage_last"}
 ];

@@ -108,7 +108,7 @@ export class QuizController
 
     performQuizEndTask()
     {
-        var finalPScore = (this.quizScore/this.numQuestions) * 100;
+        var finalPScore = Math.round((this.quizScore/this.numQuestions) * 100);
         this.learnerScoreUpdater(this.quizId, finalPScore);
         return finalPScore;
     }
