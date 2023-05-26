@@ -20,7 +20,7 @@ import DisplayMissionsInCategories from "../../components/LearnerDashboard/Displ
 import QuizAndScore from '../../components/LearnerDashboard/QuizAndScore';
 import { LearnerScores } from '../../components/LearnerDashboard/LearnerScores';
 import { LearnerConceptsLearned } from '../../components/LearnerDashboard/LearnerConceptsLearned';
-import { AllModuleList, ChapterState } from '../../components/LearnerDashboard/DisplayChaptersWithinMission';
+import { MissionDashboard, ChapterState } from '../../components/LearnerDashboard/DisplayChaptersWithinMission';
 import {AllMissionList} from '../../assets/moduleList/AllMissionChapterList'
 import { UpdateLearnerMissionProgress } from '../../actions/LearnerMissionProgressRequestHandler';
 import { GetLearnerMissionProgress } from '../../actions/LearnerMissionProgressRequestHandler';
@@ -322,7 +322,7 @@ function ShowLearningConversation({chapterText, chapterEndReached, onLearnerEven
   ); 
 }
 
-function ShowAllQuizScreen({showInitialDashboard,quizProgress,retryQuizClicked})
+function ShowAllQuizScreen({quizList, showInitialDashboard,quizProgress,retryQuizClicked})
 {
   return (
     <Grid container spacing={2}  alignItems= "left" sx={{ display: 'flex', flexDirection:'column' }}>   
@@ -331,7 +331,7 @@ function ShowAllQuizScreen({showInitialDashboard,quizProgress,retryQuizClicked})
     </Grid>
     <Grid item xs={12} md={12} lg={12}>   
       <LearnerScores
-            products={AllQuizList}
+            products={quizList}
             quizProgress={quizProgress}
             sx={{ width: 360}}
             retryQuizClicked={retryQuizClicked} 
@@ -342,7 +342,7 @@ function ShowAllQuizScreen({showInitialDashboard,quizProgress,retryQuizClicked})
   ); 
 }
 
-function ShowAllConceptsScreen({showInitialDashboard,quizProgress,reviewConceptClicked})
+function ShowAllConceptsScreen({showInitialDashboard,quizProgress,reviewConceptClicked, conceptList})
 {
   return (
     <Grid container spacing={2}  alignItems= "left" sx={{ display: 'flex', flexDirection:'column' }}>   
@@ -351,7 +351,7 @@ function ShowAllConceptsScreen({showInitialDashboard,quizProgress,reviewConceptC
     </Grid>
     <Grid item xs={12} md={12} lg={12}>   
       <LearnerConceptsLearned
-            products={AllKeyConceptList}
+            products={conceptList}
             quizProgress={quizProgress}
             sx={{ width: 360}}
             reviewConceptClicked={reviewConceptClicked} 
@@ -469,7 +469,7 @@ function DashboardContent(props) {
   {
     //console.log ("Retry quiz clicked", quizId);
     setComponentState(DashboardState.ShowRetryQuiz);
-    var chapterTextForQuiz = [{type:"quiz", id: quizId},{id:1, type: "endmessage"}];
+    var chapterTextForQuiz = [{type:"quiz", id: quizId, quizList: clickedMission.quizList},{id:1, type: "endmessage"}];
     setChapterText(chapterTextForQuiz);
   }
 
@@ -564,8 +564,16 @@ function DashboardContent(props) {
   //Currently called from TopChatbotComponent 
   function changeMissionStatusForTheUser (missionid, newstatus)
   {
+
     //learnerMissionProgress[missionid - 1] = newstatus;
-    setLearnerMissionProgress((learnerMissionProgress) =>  {learnerMissionProgress[missionid] = newstatus; 
+    setLearnerMissionProgress((learnerMissionProgress) =>  {
+      learnerMissionProgress[missionid] = newstatus; 
+      //If a mission is completed, need to check whether we can open the next mission
+      if (newstatus == "Completed" && missionid + 1 < learnerMissionProgress.length)
+      {
+        if (learnerMissionProgress[missionid + 1] != "Completed")
+        learnerMissionProgress[missionid + 1] = "Available";
+      }
       var dataObj = {_id: session.user._id, missions:learnerMissionProgress}
       //console.log ("New learnermission progress is",learnerMissionProgress);
       UpdateLearnerMissionProgress(dataObj);
@@ -621,6 +629,7 @@ function DashboardContent(props) {
     
     setChapterProgress((chapterProgress) => {
       chapterProgress[clickedMission.id][currentChapter.id] = ChapterState.Completed; 
+      //Mark next chapter in progress
       if (chapterProgress[clickedMission.id].length > currentChapter.id - 1 && chapterProgress[clickedMission.id][currentChapter.id + 1] != ChapterState.Completed)
         chapterProgress[clickedMission.id][currentChapter.id + 1] = ChapterState.InProgress;
       updateChapterProgressForLearner(chapterProgress); 
@@ -697,10 +706,10 @@ function DashboardContent(props) {
             }
             { 
               (componentState == DashboardState.ShowChaptersInMission) && 
-              <AllModuleList retryQuizClicked = {retryQuizClicked} showInitialDashboard={showInitialDashboard} quizProgress = {quizProgress} 
+              <MissionDashboard retryQuizClicked = {retryQuizClicked} showInitialDashboard={showInitialDashboard} quizProgress = {quizProgress} 
               onLessonClicked = {onChapterClicked} moduleList = {clickedMission.moduleList} chapterProgress={chapterProgress[clickedMission.id]}
                       viewAllQuizClicked = {viewAllQuizClicked} learnerId = {session.user._id}
-                      reviewConceptClicked = {reviewConceptClicked} viewAllConceptsClicked = {viewAllConceptsClicked} />  
+                      reviewConceptClicked = {reviewConceptClicked} viewAllConceptsClicked = {viewAllConceptsClicked} quizList = {clickedMission.quizList} conceptList = {clickedMission.conceptList}/>  
             }
             { 
               (componentState == DashboardState.ChapterInprogress) && 
@@ -716,7 +725,7 @@ function DashboardContent(props) {
             }
             { 
               (componentState == DashboardState.ShowAllQuiz) && 
-                <ShowAllQuizScreen showInitialDashboard ={showMissionDashboard} quizProgress={quizProgress} retryQuizClicked={retryQuizClicked}/>
+                <ShowAllQuizScreen showInitialDashboard ={showMissionDashboard} quizProgress={quizProgress} retryQuizClicked={retryQuizClicked} quizList = {clickedMission.quizList}/>
             }
             { 
               (componentState == DashboardState.ShowReviseConcepts) && 
@@ -724,7 +733,7 @@ function DashboardContent(props) {
             }
             { 
               (componentState == DashboardState.ShowAllConcepts) && 
-                <ShowAllConceptsScreen showInitialDashboard ={showMissionDashboard} quizProgress={quizProgress} reviewConceptClicked={reviewConceptClicked}/>
+                <ShowAllConceptsScreen showInitialDashboard ={showMissionDashboard} quizProgress={quizProgress} reviewConceptClicked={reviewConceptClicked} conceptList = {clickedMission.conceptList}/>
             }           
       </DashboardAppBar>}
     </React.Fragment>

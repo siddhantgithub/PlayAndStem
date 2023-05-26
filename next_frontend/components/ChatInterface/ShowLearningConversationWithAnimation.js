@@ -191,7 +191,7 @@ export default function LearningConversation(props) {
             if (arrayElem.type == "quiz")
             {
                 
-                quizController.current = new QuizController(arrayElem.id,updateQuizProgressForLearner);
+                quizController.current = new QuizController(arrayElem.id,arrayElem.quizList, updateQuizProgressForLearner);
                 setConversationState(ConversationState.Quiz);
                 setComponentArray(componentArray => {
                     //setDisplayNextComponent(true);
@@ -538,7 +538,7 @@ export default function LearningConversation(props) {
             return;
         updateSpeechVolume(volumeValue/100);
         updateCairoVoice(voice);
-        setCairoSpeed(speedLevel);  
+        //setCairoSpeed(speedLevel);  
     }
 
     function openCairoSettingDialog ()

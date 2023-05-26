@@ -167,13 +167,13 @@ export function ModuleCard(props) {
 
 }
 
-export function AllModuleList (props) {
+export function MissionDashboard (props) {
   const messagesEndRef = React.useRef(null);
   var categoryMissionMapG = React.useRef(null);
   const [tabSelected, setTabSelected] = React.useState(ViewState.All);
   const [chapterCompleted, setChapterCompleted] = React.useState(null);
 
-  const {onLessonClicked, showInitialDashboard, moduleList, chapterProgress, quizProgress,retryQuizClicked,viewAllQuizClicked,reviewConceptClicked,viewAllConceptsClicked } = props;
+  const {onLessonClicked, showInitialDashboard, moduleList, chapterProgress, quizProgress,retryQuizClicked,viewAllQuizClicked,reviewConceptClicked,viewAllConceptsClicked,quizList,conceptList } = props;
   const backToModulesClicked = (props) => {
     showInitialDashboard();
   }
@@ -251,13 +251,13 @@ export function AllModuleList (props) {
         { quizProgress && <Grid item xs={12} md={4} lg={4} >
                 <MissionMessageDashboard
                     chapterProgress= {chapterProgress} chapterlist = {moduleList} onLessonClicked = {onLessonClicked} 
-                    quizProgress={quizProgress}  quizList = {AllQuizList} retryQuizClicked={retryQuizClicked}
+                    quizProgress={quizProgress}  quizList = {quizList} retryQuizClicked={retryQuizClicked}
                     sx={{ width: 360, height: 350, mt:2}}
                 />
               </Grid>}
               { quizProgress && <Grid item xs={12} md={4} lg={4} >
                 <LearnerScores
-                    products={AllQuizList.slice(0,3)}
+                    products={quizList.slice(0,3)}
                     quizProgress={quizProgress}
                     sx={{ width: 360, height: 350, mt:2}}
                     retryQuizClicked={retryQuizClicked} 
@@ -266,7 +266,7 @@ export function AllModuleList (props) {
               </Grid>}
               {<Grid item xs={12} md={4} lg={4} >
               <LearnerConceptsLearned
-                products={AllKeyConceptList.slice(0,3)}
+                products={conceptList.slice(0,3)}
                 reviewConceptClicked = {reviewConceptClicked}
                 viewAllConceptsClicked = {viewAllConceptsClicked}
                 sx={{ width: 360, height: 350, mt:2 }}
@@ -309,75 +309,3 @@ export function AllModuleList (props) {
     </React.Fragment>
   );
 }
-
-
-const ModuleListDisplay = ({viewAllQuizClicked, showInitialDashboard, clickedMission,learnerId, onChapterClicked, quizProgress,chapterProgress,retryQuizClicked}) => {
-
-  //const [chapterProgress, setChapterProgress] = React.useState(null);
-
-  
-  function onLessonClicked (lessonName,fileName,id)  {
-    //console.log ("Lesson clicked is", setChapterProgress );
-
-    setChapterProgress((chapterProgress) => {chapterProgress[clickedMission.id - 1][id] = 1; return [...chapterProgress]} );
-    var reqType = "UPDATECHAPTERPROGRESS";
-    var _id = learnerId;
-    var data = chapterProgress;
-    var reqObj = {reqType,_id,data};
-    GetSetLearnerDataThroughAPI(reqObj).then (
-      (resp => {
-        //console.log ("resp is", resp, );
-        setChapterProgress(resp.chapterProgress);
-        //console.log ("Chapter progress xxxxx", chapterProgress, resp.chapterProgress[clickedMission.id]);
-      }));
-    
-    (async function () {
-      const response = await require(`../../assets/lessons/${fileName}`);
-      //console.log ("hereerere",response.LessonText);
-      setLessonText(response.LessonText);
-      setLessonInProgress(true);
-    })()
-    
-  };
-
-
-
-  var moduleList = clickedMission.moduleList;
-
-  const backToModulesClicked = (props) => {
-    setLessonInProgress(false);
-  }
-
-  const lessonEndReached = (props) => {
-    setLessonInProgress(false);
-  }
-
-
-  
-
- /* useEffect(() => {
-    var reqType = "GETCHAPTERPROGRESS";
-    var _id = learnerId;
-    var reqObj = {reqType,_id};
-    GetSetLearnerDataThroughAPI(reqObj).then (
-      (resp => {
-        //console.log ("resp is", resp, );
-        setChapterProgress(resp.chapterProgress);
-        //console.log ("Chapter progress xxxxx", chapterProgress, resp.chapterProgress[clickedMission.id]);
-      }))
-      
-  }, []);*/
-
-    return (  
-      <Grid container spacing={0}  alignItems= "center" justifyContent="left">   
-        <Grid item xs={12} md={12} lg={12}>
-        </Grid>
-        <Grid item xs={12} md={12} lg={12}>   
-          {chapterProgress && <AllModuleList retryQuizClicked = {retryQuizClicked} quizProgress = {quizProgress} viewAllQuizClicked={viewAllQuizClicked}
-                                chapterProgress = {chapterProgress[clickedMission.id]} onLessonClicked={onChapterClicked } moduleList = {moduleList} showInitialDashboard={showInitialDashboard}/> }
-        </Grid>
-      </Grid>         
-    );    
-}
-
-export default ModuleListDisplay;

@@ -1,4 +1,4 @@
-export const AllQuizList = [
+export const ZacobiaQuizList = [
   {id:0, name:"Programming language", path:"quizzes/1_ProgrammingLanguage_quiz.js", image: 'MissionIntroduction.png'},
   {id:1, name:"Breaking It Down", path:"quizzes/2_BreakingItDown_quiz.js", image: "RunCode.jpg"},
   {id:2, name:"Statements and Syntax", path:"quizzes/3_StmtsSyntax_quiz.js", image: "BreakItDown.png"},
@@ -12,4 +12,20 @@ export const AllQuizList = [
   {id:10, name:"While loop", path:"quizzes/11_WhileLoop_quiz.js", image: "ConditionOnOff.png"},
   {id:11, name:"Sleep", path:"quizzes/12_Sleep_quiz.js", image: "Loops.png"},
   {id:12, name:"Conclusion", path:"quizzes/13_Conclusion_quiz.js", image: "Sleep.png"},
+];
+
+export const NoNumQuizList = [
+  {id:0, name:"Programming language", path:"quizzes/1_ProgrammingLanguage_quiz.js", image: 'MissionIntroduction.png'},
+  {id:1, name:"Breaking It Down", path:"quizzes/2_BreakingItDown_quiz.js", image: "RunCode.jpg"},
+  {id:2, name:"Statements and Syntax", path:"quizzes/3_StmtsSyntax_quiz.js", image: "BreakItDown.png"},
+  {id:3, name:"Module Import", path:"quizzes/4_ModuleImport_quiz.js", image: "StmtsAndSyntax.png"},
+  {id:4, name:"Light Level", path:"quizzes/5_LightLevel_quiz.js", image: "Help.png"},
+];
+
+export const SadosQuizList = [
+  {id:0, name:"Programming language", path:"quizzes/1_ProgrammingLanguage_quiz.js", image: 'MissionIntroduction.png'},
+  {id:1, name:"Breaking It Down", path:"quizzes/2_BreakingItDown_quiz.js", image: "RunCode.jpg"},
+  {id:2, name:"Statements and Syntax", path:"quizzes/3_StmtsSyntax_quiz.js", image: "BreakItDown.png"},
+  {id:3, name:"Module Import", path:"quizzes/4_ModuleImport_quiz.js", image: "StmtsAndSyntax.png"},
+  {id:4, name:"Light Level", path:"quizzes/5_LightLevel_quiz.js", image: "Help.png"},
 ];

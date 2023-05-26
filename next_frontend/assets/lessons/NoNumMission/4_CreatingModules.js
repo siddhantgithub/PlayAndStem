@@ -8,7 +8,6 @@ const ForRangeQuestion2 = [
 ];
 
 export const LessonText = [
-    {id:1, type: "endmessage_last"},
     {id:12, type:"TM", message: "Let's learn now how can we easily give our Python code to NoNums so they can use it in the future"},
     {type:"donothing"},
     {id:12, type:"TM", message: "In Python we make modules so that others can use our code or to make our code reusable"},

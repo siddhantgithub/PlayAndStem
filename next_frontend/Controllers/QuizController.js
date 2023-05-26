@@ -84,7 +84,7 @@ export class QuizController
     numQuestions = 0;
     learnerScoreUpdater = null;
     quizId = -1;
-    constructor (id,updateQuizProgressForLearner)
+    constructor (id,quizList, updateQuizProgressForLearner)
     {
         var thisClass = this;
         this.quizId = id;
@@ -92,9 +92,9 @@ export class QuizController
         this.lastClicked = true;
         this.learnerScoreUpdater = updateQuizProgressForLearner;
         (async function () {
-            var completePath = `../assets/quizData/${AllQuizList[id].path}`;
+            var completePath = `../assets/quizData/${quizList[id].path}`;
             //console.log ("Complete path is ", completePath);
-            const response = await require(`../assets/quizData/${AllQuizList[id].path}`);
+            const response = await require(`../assets/quizData/${quizList[id].path}`);
             return response;
             
         }) ().then ((response) => {

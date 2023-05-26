@@ -35,6 +35,8 @@ import ImageShowPopup from '../dialogBoxes/ImageShowPopup';
 import TextToSpeech from './textToSpeech/TextToSpeech';
 import LearnerStore from '../../store/LearnerStore';
 import { CairoForwardSpeed } from '../../store/LearnerStore';
+//import useWindowSize from 'react-use/lib/useWindowSize'
+import Confetti from 'react-confetti'
 
 const PythonEditor = dynamic(
   () => import("../ace-editor/PythonEditor"),
@@ -463,12 +465,20 @@ export function AcknowledgementQuestion (props)
 
 export function ShowCelebration (props)
 {
+    //const { width, height } = useWindowSize()
     return (
         <Box>
-            Great job in completing the mission. Yay!!!
-        </Box>
-
-    );
+      <Confetti
+      confettiSource = {{x:800, y:0} }
+      opacity = {.5}
+      style={{zIndex:10000}}
+        width={1600}
+        height={1400}
+        recycle={false}
+        numberOfPieces={1400}
+      />
+      </Box>
+    )
 }
 
 export function ShowImage (props)
