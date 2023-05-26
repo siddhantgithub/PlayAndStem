@@ -75,6 +75,33 @@ const dontKnowProgrammingBlock = [
   { type: "block", block: introEndBlock },
 ];
 
+//openai : tell a joke
+const openaiBlock = [
+  { id: 1, type: "clearpage" },
+  { id: 1, type: "showpage" },
+  { type: "TM", message: "Here is one" },
+  // { id: 1, type: "ack" },
+  // { id: 1, type: "clearpage" },
+  // { id: 1, type: "showpage" },
+  {
+    id: 1,
+    type: "acksp",
+    data: { type: "openaievent", subtype: "joke", data: 0 },
+  },
+  { id: 1, type: "clearpage" },
+  { id: 1, type: "showpage" },
+  // { type: "TM", message: "What Next--?" },
+  { id: 1, type: "donothing" },
+  { id: 1, type: "donothing" },
+  { id: 1, type: "endmessage" },
+  // {
+  //   type: "TM",
+  //   message: "We will go through the basics of Python programming in detail",
+  // },
+  // { type: "TM", message: "So that you can learn and master the concepts" },
+  // { type: "block", block: introEndBlock },
+];
+
 const continueLittleProgrammingOptions = [
   {
     text: "Make a game in Scratch",
@@ -349,6 +376,23 @@ const firstPythonCodeResponseAction = {
     },
   ],
 };
+
+const jokeOptions = [
+  {
+    text: "Proceed to missions",
+    onClickResponse: {
+      type: "TMR",
+      message:
+        "Not exactly. First we have to specify from where we have to import and then what.",
+    },
+  },
+  {
+    text: "Want a Joke",
+    onClickResponse: { type: "block", block: openaiBlock },
+  },
+  // { id: 1, type: "clearpage" },
+  // { id: 1, type: "showpage" },
+];
 export let LessonText = [
   //{type:"quiz", id: 8},
   //{id:1, type: "ack"},
@@ -356,9 +400,23 @@ export let LessonText = [
   //{id:1, type: "showpage"},
   //{id:1, type: "chpycon", messageStack:firstCodeMessageStack, correctCode:"from microbit import *",responseAction:firstPythonCodeResponseAction},
   //{id:1, type: "acksp", data: {type:"learnerevent", subtype:"loadmission", data:0}}, buttonText
+  // {
+  //   id: 1,
+  //   type: "acksp",
+  //   data: { type: "learnerevent", subtype: "openAIInteraction", data: 0 },
+  // },
+  // {
+  //   id: 1,
+  //   type: "acksp",
+  //   buttonText: "Get Joke",
+  //   data: { type: "openaievent", subtype: "joke", data: 0 },
+  // },
+  { id: 1, type: "clearpage" },
+  { id: 1, type: "showpage" },
   { id: 0, type: "TMR", message: "Meet Cairo, Your Virtual Buddy" },
+
   { id: 1, type: "ack", buttonText: "Say Hi" },
-  { id: 1, type: "ack", buttonText: "Tell me a Joke" }, //Added to get Joke from OpenAI API
+  // { id: 1, type: "ack", buttonText: "Tell me a Joke" }, //Added to get Joke from OpenAI API
   { id: 1, type: "clearpage" },
   { id: 1, type: "showpage" },
   {
@@ -366,6 +424,10 @@ export let LessonText = [
     type: "TMR",
     message: "Hi <learnername>, it is great to see you here",
   },
+  { type: "TM", message: "What are you looking for?" },
+  { id: 8, type: "QWBOL", options: jokeOptions },
+  { id: 1, type: "clearpage" },
+  { id: 1, type: "showpage" },
   {
     id: 5,
     type: "TM",

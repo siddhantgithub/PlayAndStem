@@ -22,25 +22,15 @@ export default function BasicPopover() {
     });
     const result = await response.json();
     console.log("This is the json response : ", result);
-    // .then((res) => {
-    //   console.log("Jokes Response");
-    //   // console.log(res);
-    //   // console.log(response);
-
-    //   // console.log(res.formData.text);
-    //   // setResponse(res.json());
-    //   console.log("This is the json response : ", res.json());
-    // });
-
-    setAnchorEl(event.currentTarget);
+    // setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  // const handleClose = () => {
+  //   setAnchorEl(null);
+  // };
 
-  const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
+  // const open = Boolean(anchorEl);
+  // const id = open ? "simple-popover" : undefined;
 
   return (
     <div>

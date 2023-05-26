@@ -41,6 +41,7 @@ import { MissionWithFriends } from "../../components/LearnerDashboard/JoinMissio
 import { deepPurple, deepOrange, cyan } from "@mui/material/colors";
 import { AllKeyConceptList } from "../../assets/lessons/ZacobiaMission/keyConcepts/AllKeyConceptList";
 import JokePopUp from "../../components/LearnerDashboard/JokePopUp";
+import PyCodeChecker from "../../components/LearnerDashboard/PyCodeChecker";
 
 const drawerWidth = 240;
 function stringToColor(string) {
@@ -187,6 +188,7 @@ function ShowPostLoginContent({
           />
         </Paper>
       </Grid>
+
       {quizProgress && (
         <Grid item xs={12} md={4} lg={4}>
           {/* <JokePopUp /> */}
@@ -199,6 +201,23 @@ function ShowPostLoginContent({
           />
         </Grid>
       )}
+
+      {/* Python Code Checker text field */}
+      <Grid item xs={12} md={8} lg={8} sx={{ minHeight: 400 }}>
+        <Paper
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            height: 350,
+          }}
+        >
+          <PyCodeChecker />
+          {/* <TopChatBotComponent
+            onEventAck={onEventAck}
+            learnerQuizProgress={quizProgress}
+          /> */}
+        </Paper>
+      </Grid>
 
       {
         <Grid item xs={12} md={4} lg={4}>
@@ -595,6 +614,10 @@ function DashboardContent(props) {
         );
         //changeMissionStatusForTheUser(eventDetails.data.missionid,eventDetails.data.newstatus).then((res) => {
         // console.log ("The response is",res);});
+        break;
+
+      case "openAIInteraction":
+        console.log("open Ai interaction has been brought");
         break;
 
       case "loadnextchapter":

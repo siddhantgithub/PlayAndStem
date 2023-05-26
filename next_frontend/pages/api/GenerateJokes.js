@@ -1,7 +1,7 @@
 import openai from "../../utils/OpenAI";
 
 export default async (req, res) => {
-  console.log("OPenAI working!!!!!!!");
+  console.log("OpenAI working!!!!!!!");
 
   // if (req.method !== "POST") {
   //   return res.status(400).json({ error: "Invalid request" });
