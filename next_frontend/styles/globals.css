@@ -1,7 +1,11 @@
 html,
 body {
-  -moz-user-select:none; /* firefox */
-  -webkit-user-select: none; /* Safari */
+  /* background-color: black; */
+
+  /*body background image */
+  background-image: url("../ui_assets/images/background.png");
+  -moz-user-select: none; /*firefox */
+  -webkit-user-select: none; /*Safari*/
   -ms-user-select: none; /* IE */
-  user-select: none; /* Standard syntax */;
+  user-select: none; /* Standard syntax */
 }

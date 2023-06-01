@@ -75,7 +75,7 @@ export default class DiffComponent extends React.Component<
     theme: PropTypes.string,
     value: PropTypes.array,
     width: PropTypes.string,
-    wrapEnabled: PropTypes.bool
+    wrapEnabled: PropTypes.bool,
   };
 
   public static defaultProps: Partial<IDiffEditorProps> = {
@@ -107,12 +107,12 @@ export default class DiffComponent extends React.Component<
     theme: "github",
     value: ["", ""],
     width: "500px",
-    wrapEnabled: true
+    wrapEnabled: true,
   };
   constructor(props: IDiffEditorProps) {
     super(props);
     this.state = {
-      value: this.props.value
+      value: this.props.value,
     };
     this.onChange = this.onChange.bind(this);
     this.diff = this.diff.bind(this);
@@ -128,7 +128,7 @@ export default class DiffComponent extends React.Component<
 
   public onChange(value: any) {
     this.setState({
-      value
+      value,
     });
     if (this.props.onChange) {
       this.props.onChange(value);
@@ -156,17 +156,17 @@ export default class DiffComponent extends React.Component<
     const C = {
       DIFF_EQUAL: 0,
       DIFF_DELETE: -1,
-      DIFF_INSERT: 1
+      DIFF_INSERT: 1,
     };
 
     const diffedLines = {
       left: [] as any[],
-      right: [] as any[]
+      right: [] as any[],
     };
 
     const cursor = {
       left: 1,
-      right: 1
+      right: 1,
     };
 
     diff.forEach((chunk: any) => {
@@ -202,7 +202,7 @@ export default class DiffComponent extends React.Component<
           if (linesToHighlight === 0) {
             diffedLines.right.push({
               startLine: cursor.right,
-              endLine: cursor.right
+              endLine: cursor.right,
             });
           }
 
@@ -213,7 +213,7 @@ export default class DiffComponent extends React.Component<
 
           diffedLines.left.push({
             startLine: cursor.left,
-            endLine: cursor.left + linesToHighlight
+            endLine: cursor.left + linesToHighlight,
           });
 
           cursor.left += lines;
@@ -231,7 +231,7 @@ export default class DiffComponent extends React.Component<
           if (linesToHighlight === 0) {
             diffedLines.left.push({
               startLine: cursor.left,
-              endLine: cursor.left
+              endLine: cursor.left,
             });
           }
 
@@ -242,7 +242,7 @@ export default class DiffComponent extends React.Component<
 
           diffedLines.right.push({
             startLine: cursor.right,
-            endLine: cursor.right + linesToHighlight
+            endLine: cursor.right + linesToHighlight,
           });
 
           cursor.right += lines;
@@ -261,7 +261,7 @@ export default class DiffComponent extends React.Component<
 
     const newMarkerSet = {
       left: [] as any[],
-      right: [] as any[]
+      right: [] as any[],
     };
 
     for (let i = 0; i < diffedLines.left.length; i++) {
@@ -269,7 +269,7 @@ export default class DiffComponent extends React.Component<
         startRow: diffedLines.left[i].startLine - 1,
         endRow: diffedLines.left[i].endLine,
         type: "text",
-        className: "codeMarker"
+        className: "codeMarker",
       };
       newMarkerSet.left.push(markerObj);
     }
@@ -279,7 +279,7 @@ export default class DiffComponent extends React.Component<
         startRow: diffedLines.right[i].startLine - 1,
         endRow: diffedLines.right[i].endLine,
         type: "text",
-        className: "codeMarker"
+        className: "codeMarker",
       };
       newMarkerSet.right.push(markerObj);
     }

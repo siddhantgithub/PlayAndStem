@@ -1,73 +1,75 @@
-import * as React from 'react';
-import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
-import Button from '@mui/material/Button'
-import CssBaseline from '@mui/material/CssBaseline';
-import MuiDrawer from '@mui/material/Drawer';
-import Box from '@mui/material/Box';
-import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import Link from '@mui/material/Link';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import { mainListItems, secondaryListItems } from '../../components/LearnerDashboard/listItems';
-import {HomeDashboard} from '../../components/LearnerDashboard/LearnerHomeDashboard'
-import { signIn, signOut, useSession } from "next-auth/react"
-
+import * as React from "react";
+import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import MuiDrawer from "@mui/material/Drawer";
+import Box from "@mui/material/Box";
+import MuiAppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import List from "@mui/material/List";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import Badge from "@mui/material/Badge";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import Link from "@mui/material/Link";
+import MenuIcon from "@mui/icons-material/Menu";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import {
+  mainListItems,
+  secondaryListItems,
+} from "../../components/LearnerDashboard/listItems";
+import { HomeDashboard } from "../../components/LearnerDashboard/LearnerHomeDashboard";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
+  shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(['width', 'margin'], {
+  transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
+    transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
   }),
 }));
 
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open }) => ({
-    '& .MuiDrawer-paper': {
-      position: 'relative',
-      whiteSpace: 'nowrap',
-      width: drawerWidth,
-      transition: theme.transitions.create('width', {
+const Drawer = styled(MuiDrawer, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  "& .MuiDrawer-paper": {
+    position: "relative",
+    whiteSpace: "nowrap",
+    width: drawerWidth,
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    boxSizing: "border-box",
+    ...(!open && {
+      overflowX: "hidden",
+      transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
+        duration: theme.transitions.duration.leavingScreen,
       }),
-      boxSizing: 'border-box',
-      ...(!open && {
-        overflowX: 'hidden',
-        transition: theme.transitions.create('width', {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.leavingScreen,
-        }),
-        width: theme.spacing(7),
-        [theme.breakpoints.up('sm')]: {
-          width: theme.spacing(9),
-        },
-      }),
-    },
-  }),
-);
+      width: theme.spacing(7),
+      [theme.breakpoints.up("sm")]: {
+        width: theme.spacing(9),
+      },
+    }),
+  },
+}));
 
 const mdTheme = createTheme();
 
@@ -76,26 +78,24 @@ const style = {
 };
 
 const Example = () => {
-  return <Lottie animationData={groovyWalkAnimation} style={style}/>;
+  return <Lottie animationData={groovyWalkAnimation} style={style} />;
 };
 
-function ShowPostLoginContent({signedUser})
-{
+function ShowPostLoginContent({ signedUser }) {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
-  console.log ("Signed User We got is", signedUser);
-
+  console.log("Signed User We got is", signedUser);
 
   return (
     <ThemeProvider theme={mdTheme}>
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <AppBar position="absolute" open={open}>
           <Toolbar
             sx={{
-              pr: '24px', // keep right padding when drawer closed
+              pr: "24px", // keep right padding when drawer closed
             }}
           >
             <IconButton
@@ -104,8 +104,8 @@ function ShowPostLoginContent({signedUser})
               aria-label="open drawer"
               onClick={toggleDrawer}
               sx={{
-                marginRight: '36px',
-                ...(open && { display: 'none' }),
+                marginRight: "36px",
+                ...(open && { display: "none" }),
               }}
             >
               <MenuIcon />
@@ -119,7 +119,9 @@ function ShowPostLoginContent({signedUser})
             >
               Welcome {signedUser.username}
             </Typography>
-            <Button variant="contained" onClick={()=>signOut()}>Log Out</Button>
+            <Button variant="contained" onClick={() => signOut()}>
+              Log Out
+            </Button>
             {/*<IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <NotificationsIcon />
@@ -130,9 +132,9 @@ function ShowPostLoginContent({signedUser})
         <Drawer variant="permanent" open={open}>
           <Toolbar
             sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-end",
               px: [1],
             }}
           >
@@ -141,20 +143,18 @@ function ShowPostLoginContent({signedUser})
             </IconButton>
           </Toolbar>
           <Divider />
-          <List component="nav">
-            {mainListItems}
-          </List>
+          <List component="nav">{mainListItems}</List>
         </Drawer>
         <Box
           component="main"
           sx={{
             backgroundColor: (theme) =>
-              theme.palette.mode === 'light'
+              theme.palette.mode === "light"
                 ? theme.palette.grey[100]
                 : theme.palette.grey[900],
             flexGrow: 1,
-            height: '100vh',
-            overflow: 'auto',
+            height: "100vh",
+            overflow: "auto",
           }}
         >
           <Toolbar />
@@ -165,13 +165,13 @@ function ShowPostLoginContent({signedUser})
                 <Paper
                   sx={{
                     p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    minHeight: "1200px"
+                    display: "flex",
+                    flexDirection: "column",
+                    minHeight: "1200px",
                   }}
                 >
                   {/* <ModuleListDisplay/> */}
-                  <HomeDashboard signedInLearner={signedUser}/>
+                  <HomeDashboard signedInLearner={signedUser} />
                 </Paper>
               </Grid>
               {/* Recent Deposits */}
@@ -181,31 +181,32 @@ function ShowPostLoginContent({signedUser})
       </Box>
     </ThemeProvider>
   );
-
 }
 
 function DashboardContent(props) {
-
   const { data: session, status } = useSession();
   const isUser = !!session && session.user;
-  const loading = status === "loading"
+  const loading = status === "loading";
 
   React.useEffect(() => {
-    if (loading) return // Do nothing while loading
-    if (!isUser) signIn() // If not authenticated, force log in
+    if (loading) return; // Do nothing while loading
+    if (!isUser) signIn(); // If not authenticated, force log in
     //console.log ("The value of session is", session);
-  }, [isUser, loading])
+  }, [isUser, loading]);
 
-  
   return (
     <Box>
-      {!session && <Typography variant="h6" component="h2"> Please Login </Typography>}
-      {session && <ShowPostLoginContent {...props} signedUser = {session.user}/>}
+      {!session && (
+        <Typography variant="h6" component="h2">
+          {" "}
+          Please Login{" "}
+        </Typography>
+      )}
+      {session && <ShowPostLoginContent {...props} signedUser={session.user} />}
     </Box>
-
   );
 }
 
 export default function Dashboard() {
-  return <DashboardContent learnerName = "Daksh"/>;
+  return <DashboardContent learnerName="Daksh" />;
 }

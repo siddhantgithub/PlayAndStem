@@ -2,7 +2,7 @@ import {
   debounce,
   editorEvents,
   editorOptions,
-  getAceInstance
+  getAceInstance,
 } from "./editorOptions";
 const ace = getAceInstance();
 import { Ace, Range } from "ace-builds";
@@ -17,7 +17,7 @@ import {
   IAnnotation,
   ICommand,
   IEditorProps,
-  IMarker
+  IMarker,
 } from "./types";
 
 interface IAceEditorClass extends Editor {
@@ -124,13 +124,13 @@ export default class SplitComponent extends React.Component<
     wrapEnabled: PropTypes.bool,
     enableBasicAutocompletion: PropTypes.oneOfType([
       PropTypes.bool,
-      PropTypes.array
+      PropTypes.array,
     ]),
     enableLiveAutocompletion: PropTypes.oneOfType([
       PropTypes.bool,
-      PropTypes.array
+      PropTypes.array,
     ]),
-    commands: PropTypes.array
+    commands: PropTypes.array,
   };
   public static defaultProps: Partial<ISplitEditorProps> = {
     name: "ace-editor",
@@ -161,7 +161,7 @@ export default class SplitComponent extends React.Component<
     setOptions: {},
     wrapEnabled: false,
     enableBasicAutocompletion: false,
-    enableLiveAutocompletion: false
+    enableLiveAutocompletion: false,
   };
   public editor: IAceEditorClass;
   public refEditor: HTMLElement;
@@ -171,7 +171,7 @@ export default class SplitComponent extends React.Component<
   public debounce: (fn: any, delay: number) => (...args: any) => void;
   constructor(props: ISplitEditorProps) {
     super(props);
-    editorEvents.forEach(method => {
+    editorEvents.forEach((method) => {
       this[method] = this[method].bind(this);
     });
     this.debounce = debounce;
@@ -206,7 +206,7 @@ export default class SplitComponent extends React.Component<
       commands,
       annotations,
       markers,
-      splits
+      splits,
     } = this.props;
 
     this.editor = ace.edit(this.refEditor);
@@ -297,7 +297,7 @@ export default class SplitComponent extends React.Component<
       this.handleOptions(this.props, editor);
 
       if (Array.isArray(commands)) {
-        commands.forEach(command => {
+        commands.forEach((command) => {
           if (typeof command.exec === "string") {
             (editor.commands as any).bindKey(command.bindKey, command.exec);
           } else {
@@ -406,7 +406,7 @@ export default class SplitComponent extends React.Component<
       const appliedClasses = this.refEditor.className;
       const appliedClassesArray = appliedClasses.trim().split(" ");
       const oldClassesArray = oldProps.className.trim().split(" ");
-      oldClassesArray.forEach(oldClass => {
+      oldClassesArray.forEach((oldClass) => {
         const index = appliedClassesArray.indexOf(oldClass);
         appliedClassesArray.splice(index, 1);
       });
@@ -529,7 +529,7 @@ export default class SplitComponent extends React.Component<
         endCol,
         className,
         type,
-        inFront = false
+        inFront = false,
       }) => {
         const range = new Range(startRow, startCol, endRow, endCol);
         editor
