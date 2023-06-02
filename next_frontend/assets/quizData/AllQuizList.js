@@ -15,17 +15,13 @@ export const ZacobiaQuizList = [
 ];
 
 export const NoNumQuizList = [
-  {id:0, name:"Programming language", path:"quizzes/1_ProgrammingLanguage_quiz.js", image: 'MissionIntroduction.png'},
-  {id:1, name:"Breaking It Down", path:"quizzes/2_BreakingItDown_quiz.js", image: "RunCode.jpg"},
-  {id:2, name:"Statements and Syntax", path:"quizzes/3_StmtsSyntax_quiz.js", image: "BreakItDown.png"},
-  {id:3, name:"Module Import", path:"quizzes/4_ModuleImport_quiz.js", image: "StmtsAndSyntax.png"},
-  {id:4, name:"Light Level", path:"quizzes/5_LightLevel_quiz.js", image: "Help.png"},
+  {id:0, name:"For Loops", path:"quizzes/NoNums/1_ForLoop_quiz.js", image: 'MissionIntroduction.png'},
+  {id:1, name:"Functions", path:"quizzes/NoNums/2_Functions_quiz.js", image: "RunCode.jpg"},
+  {id:2, name:"Modules", path:"quizzes/NoNums/3_Module_quiz.js", image: "BreakItDown.png"},
 ];
 
 export const SadosQuizList = [
-  {id:0, name:"Programming language", path:"quizzes/1_ProgrammingLanguage_quiz.js", image: 'MissionIntroduction.png'},
-  {id:1, name:"Breaking It Down", path:"quizzes/2_BreakingItDown_quiz.js", image: "RunCode.jpg"},
-  {id:2, name:"Statements and Syntax", path:"quizzes/3_StmtsSyntax_quiz.js", image: "BreakItDown.png"},
-  {id:3, name:"Module Import", path:"quizzes/4_ModuleImport_quiz.js", image: "StmtsAndSyntax.png"},
-  {id:4, name:"Light Level", path:"quizzes/5_LightLevel_quiz.js", image: "Help.png"},
+  {id:0, name:"Play Music", path:"quizzes/Sados/1_PlayFunctions_quiz.js", image: 'MissionIntroduction.png'},
+  {id:1, name:"Electric Circuits", path:"quizzes/Sados/2_ElectricCircuit_quiz.js", image: "RunCode.jpg"},
+  {id:2, name:"Making a Piano", path:"quizzes/Sados/3_Piano_quiz.js", image: "BreakItDown.png"},
 ];

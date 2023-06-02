@@ -12,5 +12,4 @@ export const quizText = `
     C. C++
     D. All of the above
     Answer: B
-
     `;

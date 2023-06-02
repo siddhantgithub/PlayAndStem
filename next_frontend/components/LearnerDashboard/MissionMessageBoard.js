@@ -123,10 +123,21 @@ export const MissionMessageDashboard = (props) => {
   if (firstAvailableId != -1 && firstAvailableId < chapterlist.length)
   {
     //One chapter is available
+    const onClick = () => {
+      onLessonClicked(chapterlist[firstAvailableId]);
+    };
     return (
       <Paper sx={sx}>
         <CardHeader title="Next Chapter" />
-         <ModuleCardForMessage key={firstAvailableId} progress = {chapterProgress[firstAvailableId]} module={chapterlist[firstAvailableId]} onLessonClicked = {onLessonClicked} />
+        <Grid container spacing={0}  alignItems= "center" justifyContent="left">
+          <Grid item xs={8} md={8} lg={8}>
+            <ModuleCardForMessage key={firstAvailableId} progress = {chapterProgress[firstAvailableId]} module={chapterlist[firstAvailableId]} onLessonClicked = {onLessonClicked} />
+          </Grid>
+          <Grid item xs={4} md={4} lg={4}>
+            <Button variant="contained" size="medium" onClick= {onClick} sx={{ margin: 2 }}>Start</Button>
+            
+          </Grid>
+          </Grid>     
       </Paper>
     );
   }

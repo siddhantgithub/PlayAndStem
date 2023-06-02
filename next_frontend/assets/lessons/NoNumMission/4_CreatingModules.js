@@ -28,7 +28,7 @@ export const LessonText = [
     {id:1, type: "showpage"},
     {id:12, type:"TM", message: "Now to enable NoNums to use our code, we have to write a module for them"},
     {type:"donothing"},
-    {id:12, type:"TM", message: "Now think what that module will have:"},
+    {id:12, type:"TM", message: "Now think what a module can have:"},
     {id:1, type: "QWBOL", message: "Provide your response", options:ModuleContentQuestion},
     {id:12, type:"TM", message: "Module is collection of functions and variables that can be reused by other Python programs"},
     {id:1, type: "ack", message:"Click next to proceed"},

@@ -175,7 +175,6 @@ export default function LearningConversation(props) {
 
             case ConversationState.CHPYCON:
                 return;
-
         }
         //currentPythonCode.current = value;
     }
@@ -189,8 +188,7 @@ export default function LearningConversation(props) {
             var arrayElem = getNextArrayElem();
             //console.log ("Using Index", lessonBlock,arrayElem, currentIndexToDisplay.current);
             if (arrayElem.type == "quiz")
-            {
-                
+            {                
                 quizController.current = new QuizController(arrayElem.id,arrayElem.quizList, updateQuizProgressForLearner);
                 setConversationState(ConversationState.Quiz);
                 setComponentArray(componentArray => {

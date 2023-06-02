@@ -458,7 +458,6 @@ function DashboardContent(props) {
   
   function updateMissionStatusIfAllChaptersCompleted (missionid)
   {
-
     if (chapterProgress[missionid].find(element => element != ChapterState.Completed) === undefined)
     {
       changeMissionStatusForTheUser(missionid,"Completed");
@@ -482,7 +481,7 @@ function DashboardContent(props) {
   {
     console.log ("Concept review clicked with id ", concept);
     (async function () {
-      const response = await require(`../../assets/lessons/ZacobiaMission/keyConcepts/${concept.path}`);
+      const response = await require(`../../assets/lessons/${clickedMission.folderName}/keyConcepts/${concept.path}`);
       console.log ("hereerere",response.LessonText);
       setChapterText([...response.LessonText]);
     })()
@@ -706,7 +705,7 @@ function DashboardContent(props) {
             }
             { 
               (componentState == DashboardState.ShowChaptersInMission) && 
-              <MissionDashboard retryQuizClicked = {retryQuizClicked} showInitialDashboard={showInitialDashboard} quizProgress = {quizProgress} 
+              <MissionDashboard retryQuizClicked = {retryQuizClicked} showInitialDashboard={showInitialDashboard} quizProgress = {quizProgress[clickedMission.id]} 
               onLessonClicked = {onChapterClicked} moduleList = {clickedMission.moduleList} chapterProgress={chapterProgress[clickedMission.id]}
                       viewAllQuizClicked = {viewAllQuizClicked} learnerId = {session.user._id}
                       reviewConceptClicked = {reviewConceptClicked} viewAllConceptsClicked = {viewAllConceptsClicked} quizList = {clickedMission.quizList} conceptList = {clickedMission.conceptList}/>  
@@ -721,11 +720,11 @@ function DashboardContent(props) {
             }
             { 
               (componentState == DashboardState.ShowRetryQuiz) && 
-                <ShowLearningConversation type = "Quiz" chapterText ={chapterText} chapterEndReached={quizEnded} onLearnerEvent={onLearnerEvent} onBackClicked={backToModulesClicked} learnerQuizProgress={quizProgress}/>
+                <ShowLearningConversation type = "Quiz" chapterText ={chapterText} chapterEndReached={quizEnded} onLearnerEvent={onLearnerEvent} onBackClicked={backToModulesClicked} learnerQuizProgress={quizProgress[clickedMission.id]}/>
             }
             { 
               (componentState == DashboardState.ShowAllQuiz) && 
-                <ShowAllQuizScreen showInitialDashboard ={showMissionDashboard} quizProgress={quizProgress} retryQuizClicked={retryQuizClicked} quizList = {clickedMission.quizList}/>
+                <ShowAllQuizScreen showInitialDashboard ={showMissionDashboard} quizProgress={quizProgress[clickedMission.id]} retryQuizClicked={retryQuizClicked} quizList = {clickedMission.quizList}/>
             }
             { 
               (componentState == DashboardState.ShowReviseConcepts) && 

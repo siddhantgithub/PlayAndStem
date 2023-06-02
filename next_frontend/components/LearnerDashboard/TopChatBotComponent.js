@@ -52,8 +52,8 @@ const TopChatBotComponent = React.forwardRef((props, ref) =>{
   //Then depending on the state
   function returnConversationForLearnerState(activityState,missionProgress,chapterProgress,updateCurrrentActivityState)
   { 
-    if (activityState.state == LearnerActivityState.FirstLogin)
-        return LessonText;
+    // if (activityState.state == LearnerActivityState.FirstLogin)
+    //     return LessonText;
     //TODO: Deal with multiple in-progress missions
     //Right now just look for which one is in progress and which chapter is available next
     if (missionProgress.length == 0)
@@ -65,7 +65,7 @@ const TopChatBotComponent = React.forwardRef((props, ref) =>{
         ];
         return WaitingBlock;
     }
-   console.log ("hererererereerer", activityState,missionProgress,chapterProgress);
+   //console.log ("hererererereerer", activityState,missionProgress,chapterProgress);
     const firstAvailableMissionIndex = missionProgress.findIndex ((elem) => elem == "Available");
     if (firstAvailableMissionIndex != -1 )
     {

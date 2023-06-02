@@ -1,6 +1,7 @@
 import { ZacobiaQuizList,NoNumQuizList, SadosQuizList } from "../quizData/AllQuizList";
 import { ZacobiaConceptList } from "../lessons/ZacobiaMission/keyConcepts/AllKeyConceptList";
 import { NoNumConceptList } from "../lessons/NoNumMission/keyConcepts/AllKeyConceptList";
+import { SaddosConceptList } from "../lessons/SaddosMusic/keyConcepts/AllKeyConceptList";
 
 export const ZacobiaModuleList = [
     {id:0, name:"Mission Introduction",   fileName:"ZacobiaMission/1_MissionIntroduction.js",  description: "Planet Zacobia's problem and how we can solve it",topicsCovered:"Problem Introduction",image:"MissionIntroduction.png"},
@@ -26,10 +27,16 @@ export const NoNumModuleList = [
     {id:3,name:"Create A Module",    fileName:"NoNumMission/4_CreatingModules.js",    description: "Creating and sharing our own modules",topicsCovered:"Creating Modules",image:"NoNums4.png"},
 ];
 
+export const SaddosModuleList = [
+    {id:0,name:"Mission Introduction",   fileName:"NoNumMission/1_MissionIntroduction.js",  description: "Problem of numbers for the planet NoNum",topicsCovered:"Problem Introduction",image:"NoNums1.png"},
+    {id:1,name:"Understanding Circuits",    fileName:"NoNumMission/2_ForLoopGeneratingNumbers.js",    description: "Generate numbers in a loop",topicsCovered:"For Loop",image:"NoNums2.png"},
+    {id:2,name:"Building a piano",   fileName:"NoNumMission/3_IntroductionToFunction.js",  description: "Reusing Code",topicsCovered:"Functions",image:"NoNums3.png"},
+];
+
 export const AllMissionList = [
-    {id: 0, dependency: [], category: "Robotics,Intermediate,Python,Micro:bit",name:"Zacobian Lights", image:"/zacobiamission.png", moduleList: ZacobiaModuleList,description:"Solve planet Zacobia's light problems", quizList:ZacobiaQuizList, conceptList: ZacobiaConceptList},
-    {id: 1, dependency: [1], category:"Robotics,Intermediate,Python,Micro:bit",name:"NoNums' Number", image:"/nonummission.png", moduleList: NoNumModuleList,description:"Generate numbers for NoNums", quizList:NoNumQuizList, conceptList: NoNumConceptList},
-    {id: 2, dependency: [],category: "Robotics,Intermediate,Python,Micro:bit",name:"Sados want music", image:"/missionImages/MissionSados.png", moduleList: NoNumModuleList,description:"Make a piano for Planet Sados", quizList:ZacobiaQuizList}
+    {id: 0, dependency: [], category: "Robotics,Intermediate,Python,Micro:bit",name:"Zacobian Lights", image:"/zacobiamission.png", folderName: "ZacobiaMission", moduleList: ZacobiaModuleList,description:"Solve planet Zacobia's light problems", quizList:ZacobiaQuizList, conceptList: ZacobiaConceptList},
+    {id: 1, dependency: [1], category:"Robotics,Intermediate,Python,Micro:bit",name:"NoNums' Number", image:"/nonummission.png", folderName: "NoNumMission", moduleList: NoNumModuleList,description:"Generate numbers for NoNums", quizList:NoNumQuizList, conceptList: NoNumConceptList},
+    {id: 2, dependency: [],category: "Robotics,Intermediate,Python,Micro:bit",name:"Sados want music", image:"/missionImages/MissionSados.png", folderName: "SaddosMusic", moduleList: SaddosModuleList,description:"Make a piano for Planet Sados", quizList:SadosQuizList, conceptList:SaddosConceptList}
 ];
 
 export const CategoryList = ["In Progress", "Robotics"];

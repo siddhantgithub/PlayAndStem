@@ -17,7 +17,7 @@ export const LessonText = [
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
     {id:12, type:"TM", message: "Let's discuss the syntax of <b>for</b> loop in Python, which is"},
-    {id:12, type:"TM", message: "for variable name in set of elements:"},
+    {id:12, type:"TM", message: "for <b>variable_name</b> in <b>set of elements</b>:"},
     {id:12, type:"TM", message: "followed by the block of code that should should be repeated"},
     {id:1, type: "ack", message:"Click next to proceed"},
     {id:1, type: "clearpage"},
@@ -25,7 +25,7 @@ export const LessonText = [
     {id:12, type:"TM", message: "For example"},
     {id:10, type: "pycb", value: 
     `for x in range (0,4):
-    print (x)
+        print (x)
     `},
     {id:12, type:"TM", message: "Here we are using the range function"},
     {id:12, type:"TM", message: "The range() function returns a sequence of numbers, starting from 0 by default, and increments by 1 (by default), and stops before a specified number"},
@@ -60,7 +60,7 @@ export const LessonText = [
     {id:12, type:"TM", message: "What do you think the output of the code below will be:"},
     {id:10, type: "pycb", value: 
     `for x in range (0,4):
-    print (x)
+        print (x)
     `},
     {id:1, type: "QWBOL", message: "Provide your response", options:ForRangeQuestion1},
     {id:12, type:"TM", message: "In range second value, which is stop value, is not included so the output will be 0 1 2 3"},
@@ -70,8 +70,7 @@ export const LessonText = [
     {id:1, type: "showpage"},
     {id:12, type:"TM", message: "What do you think the output of the code below will be:"},
     {id:10, type: "pycb", value: 
-    `
-    for x in range (2,8,3):
+    `for x in range (2,8,3):
         print (x)
     `},
     {id:1, type: "QWBOL", message: "Provide your response", options:ForRangeQuestion2},
