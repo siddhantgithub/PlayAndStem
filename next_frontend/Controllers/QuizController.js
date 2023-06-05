@@ -92,7 +92,7 @@ export class QuizController
         this.lastClicked = true;
         this.learnerScoreUpdater = updateQuizProgressForLearner;
         (async function () {
-            var completePath = `../assets/quizData/${quizList[id].path}`;
+            //var completePath = `../assets/quizData/${quizList[id].path}`;
             //console.log ("Complete path is ", completePath);
             const response = await require(`../assets/quizData/${quizList[id].path}`);
             return response;

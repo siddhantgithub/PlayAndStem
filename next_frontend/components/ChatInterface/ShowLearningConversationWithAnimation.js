@@ -77,7 +77,8 @@ export function breakParagraph(paragraph) {
 
 export default function LearningConversation(props) {
 
-    const {LessonText, OnLessonEnd, onEventAck,learnerQuizProgress,type = "Initial Conversation"} = props;
+    const {LessonText, OnLessonEnd, onEventAck,learnerQuizProgress,type = "Initial Conversation",quizList} = props;
+    console.log ("Quiz list is", quizList);
     const { data: session, status } = useSession();
     const [componentArray,setComponentArray] = React.useState ([]);
     //const [displayNextComponent,setDisplayNextComponent] = React.useState (true);
@@ -264,7 +265,7 @@ export default function LearningConversation(props) {
             //console.log ("Using Index", lessonBlock,arrayElem, currentIndexToDisplay.current);
             if (arrayElem.type == "quiz")
             {                
-                quizController.current = new QuizController(arrayElem.id,arrayElem.quizList, updateQuizProgressForLearner);
+                quizController.current = new QuizController(arrayElem.id,quizList, updateQuizProgressForLearner);
                 setConversationState(ConversationState.Quiz);
                 setComponentArray(componentArray => {
                     //setDisplayNextComponent(true);

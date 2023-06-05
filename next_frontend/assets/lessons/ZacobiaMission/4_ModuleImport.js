@@ -33,7 +33,7 @@ const firstPythonCodeResponseAction = {
 };
 
 export const LessonText = [
-    {id:1, type: "chpycon", messageStack:firstCodeMessageStack, correctCode:`from microbit import *`,responseAction:firstPythonCodeResponseAction},
+    //{id:1, type: "chpycon", messageStack:firstCodeMessageStack, correctCode:`from microbit import *`,responseAction:firstPythonCodeResponseAction},
     {id:15, type: "TM", message: "Hi, welcome to the fourth chapter in our mission"},
     {id:15, type: "TM", message: "In this chapter, we will start writing the Python code for solving the mission"},
     {id:1, type: "ack", message:"Click Next"},

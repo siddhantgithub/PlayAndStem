@@ -1,4 +1,5 @@
 export const LessonText = [
+    {type:"quiz", id: 0},
     {id:0, type: "TMR", message: "Hi <learnername>, we have have a mission to solve"},
     {id:1, type: "TM", message: "Planet Zacobia and its native people Zacobians need our urgent help"},
     {id:1, type: "TM", message: "Zacobians are using too much energy each day"},
