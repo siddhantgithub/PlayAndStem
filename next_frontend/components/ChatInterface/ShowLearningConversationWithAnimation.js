@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import Container from '@mui/material/Container';
-import {QuestionBlockWithAnswerClicked, TopScreenComponent,ChatBotMessage,LearnerMessage,OptionsWithButtons,AcknowledgementQuestion,LongOptionsWithButtons,PythonCodeComponent} from './MessageTypeComponentsWithAnimation'
+import {QuestionBlockWithAnswerClicked, TopScreenComponent,ChatBotMessage,LearnerMessage,OptionsWithButtons,AcknowledgementQuestion,LongOptionsWithButtons,PythonCodeComponent,AskAQuestion} from './MessageTypeComponentsWithAnimation'
 import LayoutForCodeCheck from './CodeCheckLayout'
 import Fade from '@mui/material/Fade';
 import Box from '@mui/material/Box';
@@ -24,12 +24,14 @@ import LearnerStore from '../../store/LearnerStore';
 import Stack from '@mui/material/Stack';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { pink } from '@mui/material/colors';
 import FastForwardIcon from '@mui/icons-material/FastForward';
 import FastRewindIcon from '@mui/icons-material/FastRewind';
 import { CairoSpeedPossible } from '../../store/LearnerStore';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import { GetOpenAIResponse,LearnerEventType } from '../../actions/OpenAIResponseHandler';
 
 const style = {
     height: 300,
@@ -48,6 +50,31 @@ const ConversationState = {
     Quiz:1,
     CHPYCON:2
 };
+
+export function breakParagraph(paragraph) {
+    var statements = [];
+    var currentStatement = '';
+  
+    for (var i = 0; i < paragraph.length; i++) {
+      var char = paragraph[i];
+  
+      if (char === '.' || char === '?' || char === '!') {
+        currentStatement += char;
+        statements.push(currentStatement.trim());
+        currentStatement = '';
+      } else {
+        currentStatement += char;
+      }
+    }
+  
+    if (currentStatement.length > 0) {
+      statements.push(currentStatement.trim());
+    }
+  
+    return statements;
+  }
+
+
 export default function LearningConversation(props) {
 
     const {LessonText, OnLessonEnd, onEventAck,learnerQuizProgress,type = "Initial Conversation"} = props;
@@ -62,13 +89,16 @@ export default function LearningConversation(props) {
         (state) => [state.speechVolume,state.updateSpeechVolume, state.isCairoMuted, state.updateCairoMuted, state.cairoVoice, state.updateCairoVoice, state.forwardSpeed, state.updateForwardSpeed]
       );
     const [cairoSpeedChanged, setCairoSpeedChanged] = React.useState(false);
+    //const [lastOpenAIRequest, setLastOpenAIRequest] = React.useState(null);
+    
     //console.log ("Type passed is", type);
     //console.log ("Learner quiz progress got is ", learnerQuizProgress);
     //console.log ("Value of current speed is", CairoForwardSpeed);
     
     
 
-    
+    var lastOpenAIRequest = React.useRef(null);
+    var openAIResponseBuffer = React.useRef ('');
     var displayNextComponentRef = React.useRef();
     var componentKey = React.useRef(0);
     var lessonBlock = React.useRef(LessonText);
@@ -116,8 +146,7 @@ export default function LearningConversation(props) {
     useEffect(() => {
         scrollToBottom()
       }, [componentArray]);
-
-
+      
     function updateQuizProgressForLearner (quizId, score)
     {
         //console.log ("Learner quiz progress got it", learnerQuizProgress,quizId, score);
@@ -132,6 +161,52 @@ export default function LearningConversation(props) {
             //setChapterProgress(resp.chapterProgress);
             //console.log ("Chapter progress xxxxx", chapterProgress, resp.chapterProgress[clickedMission.id]);
         }));
+    }
+
+    function handleLearnerEvent (data)
+    {
+        lastOpenAIRequest.current = data.subtype;
+        if(data.subtype == LearnerEventType.ShortJoke )
+        {
+            setDisplayNextComponent(false);
+            var reqObj = {reqType: LearnerEventType.ShortJoke, data:null, dataRcvd:onOpeAIResponse };
+            GetOpenAIResponse(reqObj);
+        }
+        else
+            onEventAck(arrayElem.data);
+    }
+
+    function onOpeAIResponse(data,isDone)
+    {
+        if (isDone)
+        {
+            const paragraph = breakParagraph(openAIResponseBuffer.current);
+            var elemArray = paragraph.map ((item) => {
+                    return {type:"TM", message:item}
+            });
+            openAIResponseBuffer.current = '';
+            console.log ("Elem array is", elemArray);
+            switch (lastOpenAIRequest.current)
+            {
+                case LearnerEventType.ShortJoke:
+                    lessonBlockBuffer.current = elemArray;
+                    lessonBlockBuffer.current.unshift({type:"clearpage"},{type:"showpage"});
+                    lessonBlockBuffer.current.push ({type:"ack"});
+                    setDisplayNextComponent(true);
+                    return;
+
+                case LearnerEventType.AnswerQuestion:
+                    lessonBlockBuffer.current = elemArray;
+                    lessonBlockBuffer.current.unshift({type:"clearpage"},{type:"showpage"});
+                    lessonBlockBuffer.current.push ({type:"ack"});
+                    setDisplayNextComponent(true);
+                    return;
+            }
+        }
+        if (data === null)
+            return;
+        //console.log ("Open AI response buffer is", openAIResponseBuffer.current, data);
+        openAIResponseBuffer.current =  openAIResponseBuffer.current + data;
     }
 
     function stopNextComponentDisplayForResponseElements(arrayElem)
@@ -206,8 +281,8 @@ export default function LearningConversation(props) {
             }
             if (arrayElem.type == "chpycon")
             {
-                const {correctCode,messageStack,responseAction} = arrayElem;
-                pythonCodeCheckController.current = new PythonCodeCheckController(correctCode,messageStack, responseAction.correct, responseAction.incorrect);
+                const {correctCode,messageStack,responseAction,purpose} = arrayElem;
+                pythonCodeCheckController.current = new PythonCodeCheckController(purpose,correctCode,messageStack, responseAction.correct, responseAction.incorrect);
                 setConversationState(ConversationState.CHPYCON);
                 addComponentEverySecond(); //calling to avoid initial delay
                 //setDisplayNextComponent(false);
@@ -264,7 +339,6 @@ export default function LearningConversation(props) {
                     case "Concept":
                         lessonBlock.current = ConceptEndBlock;
                     break;
-
                 }
                 //lessonBlock.current = CommonChapterEndBlock;
                 currentIndexToDisplay.current = 0;
@@ -307,7 +381,8 @@ export default function LearningConversation(props) {
                     //return [...componentArray,<ChatBotMessage message = "Loading..." key={componentKey.current++}/>]
                     //return [...componentArray,<ChatBotMessage message = "Loading..." key={componentKey.current++}/>]
                 //});
-                onEventAck(arrayElem.data);
+                
+                handleLearnerEvent(arrayElem.data);
                 //setTimeout (() => {onEventAck(data.data)}, 1000);
                 //addComponentEverySecond(); //calling to avoid initial delay
                // performLearnerActionFromMission("addcourses", arrayElem.missions);
@@ -328,8 +403,6 @@ export default function LearningConversation(props) {
                 addComponentEverySecond(); //calling to avoid initial delay
                 return;
             }
-
-
             stopNextComponentDisplayForResponseElements(arrayElem);
             setComponentArray(componentArray => {
                 return [...componentArray,ConvertJsonToComponent(arrayElem,handleOptionClick,session,componentKey.current++,onChangePythonCode)]});
@@ -421,6 +494,16 @@ export default function LearningConversation(props) {
             return;
         }
 
+        if (response == "askquestion")
+        {
+            console.log ("Question asked is", data);
+            setDisplayNextComponent(false);
+            lastOpenAIRequest.current = LearnerEventType.AnswerQuestion;
+            var reqObj = {reqType: LearnerEventType.AnswerQuestion, question:data, dataRcvd:onOpeAIResponse };
+            GetOpenAIResponse(reqObj);
+            return;
+        }
+
 
         if (response == "ackclick")
         {
@@ -435,6 +518,7 @@ export default function LearningConversation(props) {
             addComponentEverySecond(); //calling to avoid initial delay
             return;
         } 
+        //this block handles the case when a learner event is fired after clicking an option
         if (response != "ackspclick" && data.type == "learnerevent")
         {
             //setDisplayNextComponent(true);
@@ -446,7 +530,7 @@ export default function LearningConversation(props) {
                 return [...componentArray,<LearnerMessage message = {response} key={componentKey.current++}/>,<ChatBotMessage message = "Loading..." key={componentKey.current++}/>]
                 //return [...componentArray,<ChatBotMessage message = "Loading..." key={componentKey.current++}/>]
             });
-            onEventAck(data.data);
+            handleLearnerEvent(data.data);
             //setTimeout (() => {onEventAck(data.data)}, 1000);
             //addComponentEverySecond(); //calling to avoid initial delay
            // performLearnerActionFromMission("addcourses", arrayElem.missions);
@@ -463,7 +547,7 @@ export default function LearningConversation(props) {
                 return [...componentArray,<ChatBotMessage message = "Loading..." key={componentKey.current++}/>]
             });
             addComponentEverySecond(); //calling to avoid initial delay*/
-            onEventAck(data); 
+            handleLearnerEvent(data); 
             return;
         }        
         if (response == "chpyco")
@@ -567,6 +651,11 @@ export default function LearningConversation(props) {
         setCairoSpeed(event.target.value);
       };
 
+    function askQuestionButtonClicked()
+    {
+
+    }
+
     return (      
         <Container component="main" maxWidth={maxWidth} sx={{ display: 'flex', flexDirection:'column' }}>
            {/* <TopScreenComponent learnersname = {session.user.username}/>*/}
@@ -587,6 +676,7 @@ export default function LearningConversation(props) {
                 <IconButton aria-label="forward" onClick = {forwardButtonClicked} disabled = {forwardSpeed == CairoSpeedPossible.Fast}>
                     {<FastForwardIcon  />}
                 </IconButton>
+                
                { 
                 /*<Select
                     labelId="demo-simple-select-label"

@@ -35,6 +35,7 @@ import ImageShowPopup from '../dialogBoxes/ImageShowPopup';
 import TextToSpeech from './textToSpeech/TextToSpeech';
 import LearnerStore from '../../store/LearnerStore';
 import { CairoForwardSpeed } from '../../store/LearnerStore';
+import QuestionAskPopup from '../dialogBoxes/QuestionAskPopup';
 //import useWindowSize from 'react-use/lib/useWindowSize'
 import Confetti from 'react-confetti'
 
@@ -483,8 +484,8 @@ export function ShowCelebration (props)
 
 export function ShowImage (props)
 {
-    const {imagePath,altText} = props;
-    function onImageClicked()
+    const {onQuestionAsk} = props;
+    function onAskQuestionClicked(event)
     {
         console.log ("Show image in a popup here");
     }
@@ -521,6 +522,30 @@ export function ShowImage (props)
                         </Box>
                     </Fade>
             </Grid>
+        </Grid>
+    );
+}
+
+export function AskAQuestion (props)
+{
+    const {imagePath,altText,clickHandler} = props;
+    function onAskButtonClicked(evt)
+    {
+        questionAskClicked
+        console.log ("Show image in a popup here");
+    }
+
+    const [dialogOpen, setDialogOpen] = React.useState (true);
+    function handleDialogClose ()
+    {
+        setDialogOpen(false);
+    }
+
+    return (
+        <Grid container  sx={{alignItems: 'center', pt:2} }>   
+            <QuestionAskPopup open={dialogOpen} imagePath = {imagePath} onClose={handleDialogClose} altText={altText} onQuestionClicked={clickHandler}/> 
+            
+        
         </Grid>
     );
 }

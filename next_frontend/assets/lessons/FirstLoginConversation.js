@@ -13,6 +13,7 @@
 //Also, add other recommendations based on skill level on we know the skill-level
 //Next time a learner logs in - show two options. Start with in-progress or try something new , or listen to a joke -- not a priority for now
 //Need to start implementing backend and recording progress there
+import { LearnerEventType } from "../../actions/OpenAIResponseHandler";
 
 const introEndBlock = [
     {id:1, type: "ack"},
@@ -188,31 +189,60 @@ const quizText = `
     };
 
     const testOptions = [
-        {text:"Tell A Joke", onClickResponse:{type:"learnerevent", data:{subtype:"loadmission", data:0}}},
+        {text:"Tell A Joke", onClickResponse:{type:"learnerevent", data:{subtype:"shortjoke", data:0}}},
         {text:"Proceed", onClickResponse:{type: "TMR", message: "Not exactly. First we have to specify from where we have to import and then what. Since from microbit we want to get everything it should be \"from microbit import *\""}},
     ];
+
+const askNextStep = [
+    {text:"Tell A Joke", onClickResponse:{type:"learnerevent", data: {subtype: LearnerEventType.ShortJoke}}},
+    {text:"Move Forward", onClickResponse:{type:"donothing", message:""}},
+];
+
 export let LessonText = [
-   //{type:"quiz", id: 8},
+   // {type:"askquestion"},
+    //{type:"quiz", id: 8},
     //{id:1, type: "ack"},
     //{id:1, type: "clearpage"},
     //{id:1, type: "showpage"},
-    //{id:1, type: "chpycon", messageStack:firstCodeMessageStack, correctCode:"from microbit import *",responseAction:firstPythonCodeResponseAction},
+    //{id:1, type: "chpycon", purpose: "import everything from microbit module", messageStack:firstCodeMessageStack, correctCode:"from microbit import *",responseAction:firstPythonCodeResponseAction},
     //{id:1, type: "acksp", data: {type:"learnerevent", subtype:"loadmission", data:0}}, buttonText
     //{id:1, type: "image", path:"/lessonImages/Blocks.png", altText:"testImage"},
     //{id:1, type: "acksp", buttonText: "Tell A Joke", data: {type:"openaievent", subtype:"openaievent", data:0}},
+    //{id:1, type: "TM", message:"Our chapter ends now. What would you like to do?"},
+    //{id:8, type: "QWBOL", message: "Provide your response", options:askNextStep},
     {id:0, type: "TM", message:"Meet Cairo, Your Virtual Buddy"},
     {id:1, type: "ack", buttonText: "Say Hi"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
     {id:0, type: "TMR", message:"Hi <learnername>, it is great to see you here"},
-    {id:5, type: "TM", message: "I am cairo and together we will solve exciting missions"},
-    {id:5, type: "TM", message: "To solve the mission we will use Python and Micro:bit"},
+    {id:5, type: "TM", message: "I am cairo and together we will solve exciting missions to help people from other planets"},
+    {id:1, type: "donothing"},
     {id:1, type: "ack"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
-    {id:5, type: "TM", message: "Question - How familiar are you with Python programming?"},
-    {id:8, type: "QWBOL", message: "Provide your response", options:askKnowProgrammingResponseOptions},
+    {id:0, type: "TMR", message:"While solving missions we will not only learn new things but also make cool things like a small piano!!!"},
     {id:1, type: "donothing"},
+    {id:5, type: "TM", message: "Before we start, would you like to listen to a joke?"},
+    {id:8, type: "QWBOL", message: "Provide your response", options:askNextStep},
     {id:1, type: "donothing"},
+    {id:1, type: "ack"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
+    {type: "TM", message: "We will start with \'Zacobian Lights\' mission"},
+    {type: "TM", message: "The next mission \'NoNums' Number\' will become active after we have completed the Zacobia mission"},
+    {id:1, type: "ack"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
+    {type: "TM", message: "A mission is made up of many chapters"},
+    {type: "TM", message: "You will see all the chapter when you will click a mission"},
+    {type: "TM", message: "To finish a mission, please complete all the chapters in it"},
+    {id:1, type: "ack"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
+    {type:"learnerevent", data: {type: "learnerevent", subtype: "changemissionstatus", data:{missionid:0, newstatus:"Available"}}},
+    {type: "TM", message: "It is time to start \'Zacobian Lights\' mission"},
+    {type: "TM", message: "You should see its status now changed to \'Available\'"},
+    {type: "TM", message: "Click on the mission in the section below or click next to begin"},
+    {id:1, type: "acksp", data: {type:"learnerevent", subtype:"loadmission", data:0}},
     {id:1, type: "endmessage"},
 ];

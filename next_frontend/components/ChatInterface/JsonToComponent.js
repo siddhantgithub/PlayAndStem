@@ -1,4 +1,4 @@
-import {QuestionBlock, TopScreenComponent,ChatBotMessage,LearnerMessage,OptionsWithButtons,AcknowledgementQuestion,LongOptionsWithButtons,PythonCodeComponent,ShowImage, ShowCelebration} from './MessageTypeComponentsWithAnimation'
+import {QuestionBlock, TopScreenComponent,ChatBotMessage,LearnerMessage,OptionsWithButtons,AcknowledgementQuestion,LongOptionsWithButtons,PythonCodeComponent,ShowImage, ShowCelebration,AskAQuestion} from './MessageTypeComponentsWithAnimation'
 import Fade from '@mui/material/Fade';
 import LayoutForCodeCheck from './CodeCheckLayout';
 
@@ -114,6 +114,11 @@ export function ConvertJsonToComponent (arrayElem,clickHandler,session,key,onCha
         case "missionendcelebration":
             return <ShowCelebration/>;
             break;
+
+        case "askquestion":
+            {
+                return <AskAQuestion clickHandler={clickHandler}/>;
+            }
             
             //we need to replace the current block with 
     }
