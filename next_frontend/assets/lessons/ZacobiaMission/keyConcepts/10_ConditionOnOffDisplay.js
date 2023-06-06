@@ -1,5 +1,5 @@
 export const LessonText = [
-    {id:15, type: "TM", message: "What is the code for conditionally switching on and off the display of Micro:bit?"},
+    {id:15, type: "TM", message: "What is the code for conditionally switching on and off the display of Microbit?"},
     {id:10, type: "pycb", value: `from microbit import *
 
     lightLevel = display.read_light_level();

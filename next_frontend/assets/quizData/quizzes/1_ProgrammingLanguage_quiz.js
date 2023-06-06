@@ -6,7 +6,7 @@ export const quizText = `
     D. To browse internet
     Answer: B
 
-    Question: What programming language can be used to program a Micro:bit?
+    Question: What programming language can be used to program a Microbit?
     A. Java
     B. Python
     C. C++

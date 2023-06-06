@@ -92,7 +92,7 @@ const Question10 = [
     {answer:1},
     {questionPrompt:{type: "TM", value: `What is a sensor?`},},
 
-    {key:1, option:{id:10, type: "TM", value: `A type of switch used to turn the Micro:bit on and off`},},
+    {key:1, option:{id:10, type: "TM", value: `A type of switch used to turn the Microbit on and off`},},
     {key:1, option:{id:10, type: "TM", value: `A device used to measure a physical quantity and convert it into an electrical signal`},},
     {key:1, option:{id:10, type: "TM", value: `A type of display used to show text and images`},},
     {key:1, option:{id:10, type: "TM", value: `I don't know`},},

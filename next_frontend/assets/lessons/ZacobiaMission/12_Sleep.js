@@ -30,7 +30,7 @@ export const LessonText = [
     {id:1, type: "showpage"},
     {id:12, type:"TM", message: "Do you know how many milli seconds make a second?"},
     {id:1, type: "QWBO", message: "Provide your response", options:milliSecondsToASecond},
-    {id:12, type:"TM", message: "So let's say we want Micro:bit to sleep for two seconds before checking for light again"},
+    {id:12, type:"TM", message: "So let's say we want Microbit to sleep for two seconds before checking for light again"},
     {id:1, type: "donothing"},
     {id:12, type:"TM", message: "To do that we have to call sleep function in our code. The Python code is sleep(2000)"},
     {id:1, type: "donothing"},

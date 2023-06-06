@@ -1,5 +1,5 @@
 export const quizText = `
-    Question: What is the code for displaying a heart on Micro:bit?
+    Question: What is the code for displaying a heart on Microbit?
     A. display = show().HEART
     B. display.HEART
     C. display.show(HEART)
@@ -13,7 +13,7 @@ export const quizText = `
     D. All of the above
     Answer: D
 
-    Question: What is the code for clearing the display of Micro:bit?
+    Question: What is the code for clearing the display of Microbit?
     A. clearDisplay()
     B. clear.display()
     C. dispaly.clear

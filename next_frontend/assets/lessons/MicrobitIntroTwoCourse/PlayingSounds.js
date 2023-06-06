@@ -106,7 +106,7 @@ export const LessonText = [
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
     {id:12, type:"TM", message: "With if statement we can also provide else statment followed by the block to execute when if condition fails"},
-    {id:12, type:"TM", message: "Now that we know how to write if statement, we have learned all the individual pieces to program Micro:bit"},
+    {id:12, type:"TM", message: "Now that we know how to write if statement, we have learned all the individual pieces to program Microbit"},
     {id:12, type:"TM", message: "Next it is time to write the code to conditionally switch on the lights"},
     {id:1, type: "ack", message:"Click next to proceed"},
     {id:1, type: "clearpage"},

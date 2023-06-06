@@ -49,7 +49,7 @@ const dontKnowProgrammingBlock = [
 
 const continueLittleProgrammingOptions = [
     {text:"Make a game in Scratch", onClickResponse:{type: "TM", message: "Awesome!!! Let's get started then"}},
-    {text:"Make a digital piano using Micro:bit", onClickResponse:{type: "TM", message: "Hmmm. Sometimes just fine is good. I think once we get started you will soon start feeling great"}},
+    {text:"Make a digital piano using Microbit", onClickResponse:{type: "TM", message: "Hmmm. Sometimes just fine is good. I think once we get started you will soon start feeling great"}},
 ];
 
 const knowLittleProgrammingBlock = [
@@ -210,6 +210,7 @@ export let LessonText = [
     //{id:1, type: "acksp", buttonText: "Tell A Joke", data: {type:"openaievent", subtype:"openaievent", data:0}},
     //{id:1, type: "TM", message:"Our chapter ends now. What would you like to do?"},
     //{id:8, type: "QWBOL", message: "Provide your response", options:askNextStep},
+   // {id:1, type: "image", path:"/microbitIntroductionImages/SimulatorOpen.png", altText:"testImage"},
     {id:0, type: "TM", message:"Meet Cairo, Your Virtual Buddy"},
     {id:1, type: "ack", buttonText: "Say Hi"},
     {id:1, type: "clearpage"},

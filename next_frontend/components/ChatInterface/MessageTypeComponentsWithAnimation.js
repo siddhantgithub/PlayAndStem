@@ -484,8 +484,8 @@ export function ShowCelebration (props)
 
 export function ShowImage (props)
 {
-    const {onQuestionAsk} = props;
-    function onAskQuestionClicked(event)
+    const {imagePath,altText} = props;
+    function onImageClicked(event)
     {
         console.log ("Show image in a popup here");
     }

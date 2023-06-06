@@ -1,5 +1,5 @@
 export const LessonText = [
-    {id:15, type: "TM", message: "How to read light level in Micro:bit?"},
+    {id:15, type: "TM", message: "How to read light level in Microbit?"},
     {id:15, type: "TM", message: "display.read_light_level()"},
     {id:1, type: "ack", message:"Click Next"},
     {id:1, type: "clearpage"},

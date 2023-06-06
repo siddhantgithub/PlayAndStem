@@ -18,7 +18,7 @@ export const LessonText = [
     {id:1, type: "ack", message:"Click Next"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
-    {id:12, type: "TM", message: "We will again use Micro:bit and Python to solve Nonums problem"},
+    {id:12, type: "TM", message: "We will again use Microbit and Python to solve Nonums problem"},
     {id:12, type: "TM", message: "First we will solve the problem of generating numbers"},
     {id:12, type: "TM", message: "Then we will learn how to share our Python code with Nonums"},
     {id:1, type: "ack", message:"Click Next"},
