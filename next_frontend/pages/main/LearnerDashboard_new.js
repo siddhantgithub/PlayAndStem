@@ -711,7 +711,7 @@ function DashboardContent(props) {
                       reviewConceptClicked = {reviewConceptClicked} viewAllConceptsClicked = {viewAllConceptsClicked} quizList = {clickedMission.quizList} conceptList = {clickedMission.conceptList}/>  
             }
             { 
-              (componentState == DashboardState.ChapterInprogress || console.log ("Clicked mission is", clickedMission)) && 
+              (componentState == DashboardState.ChapterInprogress) && 
                 <ShowLearningConversation type = "Chapter" chapterText ={chapterText} chapterEndReached={chapterEndReached} onLearnerEvent={onLearnerEvent} onBackClicked={backToModulesClicked} quizList= {clickedMission.quizList} learnerQuizProgress={quizProgress}/>
             }
             { 

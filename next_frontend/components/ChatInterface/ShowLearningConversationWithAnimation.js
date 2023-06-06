@@ -78,7 +78,7 @@ export function breakParagraph(paragraph) {
 export default function LearningConversation(props) {
 
     const {LessonText, OnLessonEnd, onEventAck,learnerQuizProgress,type = "Initial Conversation",quizList} = props;
-    console.log ("Quiz list is", quizList);
+    //console.log ("Quiz list is", quizList);
     const { data: session, status } = useSession();
     const [componentArray,setComponentArray] = React.useState ([]);
     //const [displayNextComponent,setDisplayNextComponent] = React.useState (true);
@@ -174,7 +174,7 @@ export default function LearningConversation(props) {
             GetOpenAIResponse(reqObj);
         }
         else
-            onEventAck(arrayElem.data);
+            onEventAck(data);
     }
 
     function onOpeAIResponse(data,isDone)
@@ -190,18 +190,20 @@ export default function LearningConversation(props) {
             switch (lastOpenAIRequest.current)
             {
                 case LearnerEventType.ShortJoke:
+                case LearnerEventType.AnswerQuestion:
+                case LearnerEventType.HaveConversation:
                     lessonBlockBuffer.current = elemArray;
                     lessonBlockBuffer.current.unshift({type:"clearpage"},{type:"showpage"});
                     lessonBlockBuffer.current.push ({type:"ack"});
                     setDisplayNextComponent(true);
                     return;
 
-                case LearnerEventType.AnswerQuestion:
+               /* case LearnerEventType.AnswerQuestion:
                     lessonBlockBuffer.current = elemArray;
                     lessonBlockBuffer.current.unshift({type:"clearpage"},{type:"showpage"});
                     lessonBlockBuffer.current.push ({type:"ack"});
                     setDisplayNextComponent(true);
-                    return;
+                    return;*/
             }
         }
         if (data === null)
@@ -495,12 +497,12 @@ export default function LearningConversation(props) {
             return;
         }
 
-        if (response == "askquestion")
+        if (response == "askquestion" || response == "sharetext")
         {
-            console.log ("Question asked is", data);
+            console.log ("text is", data.text);
             setDisplayNextComponent(false);
-            lastOpenAIRequest.current = LearnerEventType.AnswerQuestion;
-            var reqObj = {reqType: LearnerEventType.AnswerQuestion, question:data, dataRcvd:onOpeAIResponse };
+            lastOpenAIRequest.current = response == "askquestion"? LearnerEventType.AnswerQuestion: LearnerEventType.HaveConversation;
+            var reqObj = {reqType: lastOpenAIRequest.current, data:data, dataRcvd:onOpeAIResponse };
             GetOpenAIResponse(reqObj);
             return;
         }

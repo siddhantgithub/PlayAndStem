@@ -3,7 +3,8 @@ export const LearnerEventType = {
     ShortJoke: "shortjoke",
     CheckPythonCode: "checkpythoncode",
     ComparePythonCode: "comparepythoncode",
-    AnswerQuestion: "answerquestion"
+    AnswerQuestion: "answerquestion",
+    HaveConversation: "haveconversation"
 };
 const ShortJokePrompt = `Generate a short joke for ten year olds related to robotics and computer programming`;
 
@@ -24,6 +25,12 @@ function returnPromptForCodeCompare (basecode, userresponse)
 function returnAnswerQuestionPrompt (question)
 {
   const AnswerQuestionPrompt = `Please answer a question only if the question is related to STEM topic. If the question is not appropriate, please answer not appropriate with the reason. Please make the answer simple so that even a seven year old can understand. Please limit the response to two sentences. Question is ${question}`;
+  return AnswerQuestionPrompt;
+}
+
+function returnHaveConversationPrompt (text, context)
+{
+  const AnswerQuestionPrompt = `Please respond to this text ${text}. The text is from a learner who is sending the text to ${context}. Please keep the response to two sentences and say something encouraging on learning robotics`;
   return AnswerQuestionPrompt;
 }
 
@@ -49,10 +56,14 @@ export const GetOpenAIResponse = async (request) =>
             promptToSend = returnPromptForCodeCompare(request.data.basecode,request.data.userresponse);
             break;
 
-            case LearnerEventType.AnswerQuestion:
-              promptToSend = returnAnswerQuestionPrompt(request.question);
-              break;
-    }
+        case LearnerEventType.AnswerQuestion:
+          promptToSend = returnAnswerQuestionPrompt(request.data.text);
+          break;
+
+          case LearnerEventType.HaveConversation:
+            promptToSend = returnHaveConversationPrompt(request.data.text, request.data.context)
+            break;
+    }   
     const response = await fetch("/api/openAI/generate", {
       method: "POST",
       headers: {

@@ -9,8 +9,8 @@ import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Image from 'next/image';
 
-function QuestionAskPopup(props) {
-    const { onClose, onQuestionClicked} = props;
+function SendTextToAIPopup(props) {
+    const { onClose, onQuestionClicked,interactiontype,context} = props;
     const [questionFieldValue,setQuestionFieldValue] = React.useState("");
 
     const [open, setOpen] = React.useState(true);
@@ -29,17 +29,14 @@ function QuestionAskPopup(props) {
 
     function askQuestion (event) {
       setOpen (false);
-      onQuestionClicked (event, "askquestion",questionFieldValue );
+      onQuestionClicked (event, interactiontype,{text:questionFieldValue,context:context} );
       //open = false;
-
     }
-  
-
   
     return (
       <Dialog onClose={handleClose} open={open} fullWidth={true}
       maxWidth="sm">
-        <DialogTitle>Ask A Question</DialogTitle>
+        <DialogTitle>{context == "askquestion"? "Ask A Question": "Share Your Thoughts"}</DialogTitle>
         <DialogContent>
           <TextField
             id="filled-multiline-flexible"
@@ -53,11 +50,11 @@ function QuestionAskPopup(props) {
           />
         </DialogContent>
         <DialogActions>
-          <Button disabled = {askButtonDisabled} variant="contained" onClick={askQuestion} sx={{textAlign:"left", mt:2, textTransform: "none"}}>Ask</Button>
+          <Button disabled = {askButtonDisabled} variant="contained" onClick={askQuestion} sx={{textAlign:"left", mt:2, textTransform: "none"}}>{context == "askquestion"? "Ask": "Share"}</Button>
         </DialogActions>
 
       </Dialog>
     );
   }
 
-  export default QuestionAskPopup
+  export default SendTextToAIPopup

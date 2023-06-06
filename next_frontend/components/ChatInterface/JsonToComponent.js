@@ -1,4 +1,4 @@
-import {QuestionBlock, TopScreenComponent,ChatBotMessage,LearnerMessage,OptionsWithButtons,AcknowledgementQuestion,LongOptionsWithButtons,PythonCodeComponent,ShowImage, ShowCelebration,AskAQuestion} from './MessageTypeComponentsWithAnimation'
+import {QuestionBlock, TopScreenComponent,ChatBotMessage,LearnerMessage,OptionsWithButtons,AcknowledgementQuestion,LongOptionsWithButtons,PythonCodeComponent,ShowImage, ShowCelebration,SendTextToAIComponent} from './MessageTypeComponentsWithAnimation'
 import Fade from '@mui/material/Fade';
 import LayoutForCodeCheck from './CodeCheckLayout';
 
@@ -117,9 +117,12 @@ export function ConvertJsonToComponent (arrayElem,clickHandler,session,key,onCha
 
         case "askquestion":
             {
-                return <AskAQuestion clickHandler={clickHandler}/>;
+                return <SendTextToAIComponent clickHandler={clickHandler} interactiontype="askquestion"/>;
             }
-            
-            //we need to replace the current block with 
+
+        case "sharetext":
+        {
+            return <SendTextToAIComponent clickHandler={clickHandler} interactiontype="sharetext" context={arrayElem.context}/>;
+        }
     }
 }

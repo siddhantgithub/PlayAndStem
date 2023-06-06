@@ -35,7 +35,7 @@ import ImageShowPopup from '../dialogBoxes/ImageShowPopup';
 import TextToSpeech from './textToSpeech/TextToSpeech';
 import LearnerStore from '../../store/LearnerStore';
 import { CairoForwardSpeed } from '../../store/LearnerStore';
-import QuestionAskPopup from '../dialogBoxes/QuestionAskPopup';
+import SendTextToAIPopup from '../dialogBoxes/SendTextToAIPopup';
 //import useWindowSize from 'react-use/lib/useWindowSize'
 import Confetti from 'react-confetti'
 
@@ -526,9 +526,9 @@ export function ShowImage (props)
     );
 }
 
-export function AskAQuestion (props)
+export function SendTextToAIComponent (props)
 {
-    const {imagePath,altText,clickHandler} = props;
+    const {imagePath,altText,clickHandler,interactiontype, context = null} = props;
     function onAskButtonClicked(evt)
     {
         questionAskClicked
@@ -543,9 +543,8 @@ export function AskAQuestion (props)
 
     return (
         <Grid container  sx={{alignItems: 'center', pt:2} }>   
-            <QuestionAskPopup open={dialogOpen} imagePath = {imagePath} onClose={handleDialogClose} altText={altText} onQuestionClicked={clickHandler}/> 
-            
-        
+            <SendTextToAIPopup open={dialogOpen} imagePath = {imagePath} onClose={handleDialogClose} altText={altText} onQuestionClicked={clickHandler} interactiontype={interactiontype}
+                context = {context}/>
         </Grid>
     );
 }
