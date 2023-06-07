@@ -22,12 +22,15 @@ export function ConvertJsonToComponent (arrayElem,clickHandler,session,key,onCha
     switch (arrayElem.type)
     {
         case "TM":
-            return <ChatBotMessage message = {arrayElem.message} key={key}/>;
-        break;
-
         case "TMR":
-            return <ChatBotMessage message = {replaceTextInMessage(arrayElem,session) }  key={key}/>;
-        break;
+            {
+                if (clickHandler == null)
+                    return <ChatBotMessage message = {arrayElem.type == "TM"? arrayElem.message:replaceTextInMessage(arrayElem,session) } key={key} onComplete={null}/>
+                    
+                const onComplete = () =>    {clickHandler(null,"TMCOMPLETE")};
+                return <ChatBotMessage message = {arrayElem.type == "TM"? arrayElem.message:replaceTextInMessage(arrayElem,session) } key={key} onComplete={onComplete}/>;
+                break;
+            }
 
         case "QWBO":
             var optionsArray = arrayElem.options.map( (option) =>  {return {
@@ -54,11 +57,11 @@ export function ConvertJsonToComponent (arrayElem,clickHandler,session,key,onCha
                     }}
                 );  
                 var codeBlock = null;
-                console.log ("Array elem is", arrayElem);
+                //console.log ("Array elem is", arrayElem);
                 if (arrayElem.codeblock.length > 0)
                 {
                     codeBlock = arrayElem.codeblock.join ("\n");
-                    console.log ("Value of codeblock is",codeBlock);
+                    //console.log ("Value of codeblock is",codeBlock);
                 }
                 reactElement = <Fade in={true} key={key}><QuestionBlock question = {arrayElem.question} options = {optionsArray} codeBlock = {codeBlock}/></Fade>   
             return  reactElement;
@@ -109,7 +112,7 @@ export function ConvertJsonToComponent (arrayElem,clickHandler,session,key,onCha
             return <PythonCodeComponent onChange={onChangePythonCode} value={arrayElem.value}  key={key}/>;
 
         case "image":
-            return <ShowImage imagePath={arrayElem.path} altText = {arrayElem.altText}/>;
+            return <ShowImage imagePath={arrayElem.path} altText = {arrayElem.altText} key={key}/>;
             break;
         case "missionendcelebration":
             return <ShowCelebration/>;
@@ -117,12 +120,12 @@ export function ConvertJsonToComponent (arrayElem,clickHandler,session,key,onCha
 
         case "askquestion":
             {
-                return <SendTextToAIComponent clickHandler={clickHandler} interactiontype="askquestion"/>;
+                return <SendTextToAIComponent clickHandler={clickHandler} interactiontype="askquestion" key={key}/>;
             }
 
         case "sharetext":
         {
-            return <SendTextToAIComponent clickHandler={clickHandler} interactiontype="sharetext" context={arrayElem.context}/>;
+            return <SendTextToAIComponent clickHandler={clickHandler} interactiontype="sharetext" context={arrayElem.context} key={key}/>;
         }
     }
 }

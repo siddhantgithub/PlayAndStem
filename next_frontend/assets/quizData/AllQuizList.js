@@ -17,7 +17,7 @@ export const ZacobiaQuizList = [
 export const NoNumQuizList = [
   {id:0, name:"For Loops", path:"quizzes/NoNums/1_ForLoop_quiz.js", image: 'MissionIntroduction.png'},
   {id:1, name:"Functions", path:"quizzes/NoNums/2_Functions_quiz.js", image: "RunCode.jpg"},
-  {id:2, name:"Modules", path:"quizzes/NoNums/3_Module_quiz.js", image: "BreakItDown.png"},
+  //{id:2, name:"Modules", path:"quizzes/NoNums/3_Module_quiz.js", image: "BreakItDown.png"},
 ];
 
 export const SadosQuizList = [

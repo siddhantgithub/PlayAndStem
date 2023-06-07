@@ -24,7 +24,7 @@ import {
 
 export const LearnerScores = (props) => {
   const { products = [], sx, quizProgress,retryQuizClicked, viewAllQuizClicked, hideViewAll= false} = props;
-  //console.log ("Quiz progress is ", quizProgress);
+  console.log ("Quiz progress is ", quizProgress);
 
 
   if (!hideViewAll) 
@@ -85,14 +85,14 @@ export const LearnerScores = (props) => {
                 secondary={scoreMsg}
                 secondaryTypographyProps={{ variant: 'body2' }}
               />
-              {(scoreMsg != "Not Done") && <Button size="small" onClick = {retryClickHandler}>ReTry</Button>}
+              {<Button size="small" onClick = {retryClickHandler}>{scoreMsg != "Not Done" ? "ReTry": "Try"}</Button>}
             </ListItem>
           );
         })}
       </List>
 
       <Divider />
-      {!hideViewAll && <CardActions sx={{ justifyContent: 'flex-end' }}>
+      {products.length > 3  && <CardActions sx={{ justifyContent: 'flex-end' }}>
         <Button
           color="inherit"
           endIcon={(

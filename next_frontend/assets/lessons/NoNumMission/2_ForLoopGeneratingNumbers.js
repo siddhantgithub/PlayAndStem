@@ -8,7 +8,7 @@ const ForRangeQuestion2 = [
 ];
 
 export const LessonText = [
-    {id:12, type:"TM", message: "In this chapter we will learn to generate all the numbers between two numbers"},
+    {id:12, type:"TM", message: "In this chapter, we will learn to generate all the numbers between two numbers"},
     {id:1, type: "donothin"},
     {id:12, type:"TM", message: "To generate the numbers we will use <b>For</b> loop"},
     {id:12, type:"TM", message: "To refresh, loops are used when we have to perform an operation repeatedly, which is true in this case as we have to generate numbers again and again"},
@@ -18,17 +18,17 @@ export const LessonText = [
     {id:1, type: "showpage"},
     {id:12, type:"TM", message: "Let's discuss the syntax of <b>for</b> loop in Python, which is"},
     {id:12, type:"TM", message: "for <b>variable_name</b> in <b>set of elements</b>:"},
-    {id:12, type:"TM", message: "followed by the block of code that should should be repeated"},
+    {id:12, type:"TM", message: "followed by the block of code that should be repeated"},
     {id:1, type: "ack", message:"Click next to proceed"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
     {id:12, type:"TM", message: "For example"},
     {id:10, type: "pycb", value: 
     `for x in range (0,4):
-        print (x)
+    print (x)
     `},
     {id:12, type:"TM", message: "Here we are using the range function"},
-    {id:12, type:"TM", message: "The range() function returns a sequence of numbers, starting from 0 by default, and increments by 1 (by default), and stops before a specified number"},
+    {id:12, type:"TM", message: "The range() function returns a sequence of numbers, starting from 0 by default, and increments by 1 (by default), and stops before the specified number"},
     {id:1, type: "ack", message:"Click next to proceed"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
@@ -50,17 +50,17 @@ export const LessonText = [
     {id:1, type: "ack", message:"Click next to proceed"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
-    {id:12, type:"TM", message: "The third value <b>step</b> is optional and it is the step or different between the numbers that are generated"},
+    {id:12, type:"TM", message: "The third value <b>step</b> is optional and it is the step or difference between the numbers that are generated"},
     {id:1, type: "donothing"},
     {id:12, type:"TM", message: "Default value for step is 1"},
-    {id:12, type:"TM", message: "Let's go through few examples now"},
+    {id:12, type:"TM", message: "Let's go through a few examples now"},
     {id:1, type: "ack", message:"Click next to proceed"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
     {id:12, type:"TM", message: "What do you think the output of the code below will be:"},
     {id:10, type: "pycb", value: 
-    `for x in range (0,4):
-        print (x)
+`for x in range (0,4):
+    print (x)
     `},
     {id:1, type: "QWBOL", message: "Provide your response", options:ForRangeQuestion1},
     {id:12, type:"TM", message: "In range second value, which is stop value, is not included so the output will be 0 1 2 3"},
@@ -70,8 +70,8 @@ export const LessonText = [
     {id:1, type: "showpage"},
     {id:12, type:"TM", message: "What do you think the output of the code below will be:"},
     {id:10, type: "pycb", value: 
-    `for x in range (2,8,3):
-        print (x)
+`for x in range (2,8,3):
+    print (x)
     `},
     {id:1, type: "QWBOL", message: "Provide your response", options:ForRangeQuestion2},
     {type: "TMR", message: "Since we have provided third value of step 3, numbers starting with 2 will be printed with increase of 3 each time"},
@@ -98,6 +98,14 @@ for n in x:
     sleep (1000)
     `},
     {id:12, type:"TM", message: "Next we will see how we can write our code so that Nonums can also use it"},
-    {id:1, type: "ack", message:"Click next to proceed"},
+    {id:12, type:"TM", message: "But before we end, it is time for a short quiz"},
+    {id:1, type: "ack", message:"Click next to proceed"}, 
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},  
+    {type:"quiz", id: 0},
+    {id:1, type: "ack"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
+    
     {id:1, type: "endmessage"}
 ]

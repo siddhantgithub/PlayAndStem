@@ -77,7 +77,7 @@ export function breakParagraph(paragraph) {
 
 export default function LearningConversation(props) {
 
-    const {LessonText, OnLessonEnd, onEventAck,learnerQuizProgress,type = "Initial Conversation",quizList} = props;
+    const {LessonText, OnLessonEnd, onEventAck,learnerQuizProgress,type = "Initial Conversation",quizList,missionId} = props;
     //console.log ("Quiz list is", quizList);
     const { data: session, status } = useSession();
     const [componentArray,setComponentArray] = React.useState ([]);
@@ -130,6 +130,7 @@ export default function LearningConversation(props) {
       }
 
 
+   
     useEffect(() => {
       // setComponentArray(setInitialConversation());
       //console.log ("Lesson text is ", LessonText1);
@@ -153,7 +154,8 @@ export default function LearningConversation(props) {
         //console.log ("Learner quiz progress got it", learnerQuizProgress,quizId, score);
         var reqType = "UPDATEQUIZPROGRESS";
         var _id = session.user._id;
-        quizProgress.current[quizId] = score;
+        console.log ("Value of quiz progress is ", quizProgress.current)
+        quizProgress.current[missionId][quizId] = score;
         var data = quizProgress.current;
         var reqObj = {reqType,_id,data};
         GetSetLearnerDataThroughAPI(reqObj).then (
@@ -216,7 +218,8 @@ export default function LearningConversation(props) {
     {
         if (arrayElem.type == "QWBO" || arrayElem.type == "QWBOL" || 
         arrayElem.type == "ack" || arrayElem.type == "acksp" || arrayElem.type == "chpyco" || 
-        arrayElem.type == "chpycon" || arrayElem.type == "QUESTION")
+        arrayElem.type == "chpycon" || arrayElem.type == "QUESTION" || arrayElem.type == "TM" || arrayElem.type == "TMR" || 
+        arrayElem.type == "askquestion" || arrayElem.type == "sharetext")
             setDisplayNextComponent(false);
     }
 
@@ -275,7 +278,9 @@ export default function LearningConversation(props) {
                     //console.log ("component array till now",componentArray);
                     //Remove the question, answer block, show the clicked message as Learner's response, then add the response for the option selected
                     //return [...componentArray,<ChatBotMessage message = "Loading..." key={componentKey.current++}/>]
-                    return [...componentArray,<ChatBotMessage message = "Loading Quiz..." key={componentKey.current++}/>]
+                    const tmpArrayElem = {type:"TM", message: "Loading Quiz..."};
+                    return [...componentArray,ConvertJsonToComponent(tmpArrayElem,handleOptionClick,session,componentKey.current++,onChangePythonCode)];
+                    //return [...componentArray,<ChatBotMessage message = "Loading Quiz..." key={componentKey.current++}/>]
                 });
                 addComponentEverySecond(); //calling to avoid initial delay
                 //lessonBlockBuffer.current = returnQuizBlockFromText(arrayElem.text);
@@ -309,7 +314,9 @@ export default function LearningConversation(props) {
                     //console.log ("component array till now",componentArray);
                     //Remove the question, answer block, show the clicked message as Learner's response, then add the response for the option selected
                     //return [...componentArray,<ChatBotMessage message = "Loading..." key={componentKey.current++}/>]
-                    return [...componentArray,<ChatBotMessage message = {"Quiz has ended. Your score is " + arrayElem.data + "%"} key={componentKey.current++}/>]
+                    const messageToDisplay = "Quiz has ended. Your score is " + arrayElem.data + "%";
+                    const tmpArrayElem = {type:"TM", message: messageToDisplay};
+                    return [...componentArray,ConvertJsonToComponent(tmpArrayElem,handleOptionClick,session,componentKey.current++,onChangePythonCode)];
                 });
                 setConversationState(ConversationState.Normal);
                 //addComponentEverySecond();
@@ -322,6 +329,12 @@ export default function LearningConversation(props) {
                 return;
             }
             if (arrayElem.type == "donothing")
+            {
+                addComponentEverySecond(); //calling to avoid initial delay
+                return;
+            }
+
+            if (arrayElem.type == "wait")
             {
                 //addComponentEverySecond(); //calling to avoid initial delay
                 return;
@@ -406,6 +419,7 @@ export default function LearningConversation(props) {
                 addComponentEverySecond(); //calling to avoid initial delay
                 return;
             }
+            
             stopNextComponentDisplayForResponseElements(arrayElem);
             setComponentArray(componentArray => {
                 return [...componentArray,ConvertJsonToComponent(arrayElem,handleOptionClick,session,componentKey.current++,onChangePythonCode)]});
@@ -486,6 +500,13 @@ export default function LearningConversation(props) {
     //data is response obj
     function handleOptionClick(e,response,data)
     {
+        if (response == "TMCOMPLETE")
+        {
+            console.log ("TM Complete rcvd");
+            setDisplayNextComponent(true);
+            return;
+        }
+
         if (conversationState.current == ConversationState.Quiz)
         {
             handleOptionClickInQuizMode(response,data);
@@ -496,6 +517,8 @@ export default function LearningConversation(props) {
             handleOptionClickInPythonCheckMode(response,data);
             return;
         }
+
+
 
         if (response == "askquestion" || response == "sharetext")
         {
@@ -588,7 +611,7 @@ export default function LearningConversation(props) {
             componentArray.pop();
             //console.log ("component array till now",componentArray);
             //Remove the question, answer block, show the clicked message as Learner's response, then add the response for the option selected
-            return [...componentArray,<LearnerMessage message = {response} key={componentKey.current++}/>,ConvertJsonToComponent (data, null,session,componentKey.current++)]
+            return [...componentArray,<ConvertJsonToComponent message = {response} key={componentKey.current++}/>,ConvertJsonToComponent (data, null,session,componentKey.current++)]
         });
         addComponentEverySecond(); //calling to avoid initial delay
     }

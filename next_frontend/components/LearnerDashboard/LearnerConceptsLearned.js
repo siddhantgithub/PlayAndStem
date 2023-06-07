@@ -81,7 +81,7 @@ export const LearnerConceptsLearned = (props) => {
         })}
       </List>
       <Divider />
-      <CardActions sx={{ justifyContent: 'flex-end' }}>
+     { products.length > 3  && <CardActions sx={{ justifyContent: 'flex-end' }}>
         <Button
           color="inherit"
           endIcon={(
@@ -95,7 +95,7 @@ export const LearnerConceptsLearned = (props) => {
         >
           View all
         </Button>
-      </CardActions>
+      </CardActions>}
     </Card>
   );
   else

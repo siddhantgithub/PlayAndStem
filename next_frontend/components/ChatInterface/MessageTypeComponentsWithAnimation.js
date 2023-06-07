@@ -83,7 +83,7 @@ export  function TopScreenComponent (props) {
 
 export function PythonCodeComponent (props) {
     const {value,onChange,height = "150px"} = props;
-    console.log ("Value got is ", value);
+   // console.log ("Value got is ", value);
     return (
 
     <Fade in={true} timeout = {1000}>
@@ -152,7 +152,7 @@ export function PythonCodeComponentWithDialogInSide (props) {
 
 export  function ChatBotMessage (props) 
 {
-    const {message,noTypewriter} = props;
+    const {message,noTypewriter,onComplete = null} = props;
     const [speechVolume,typeWriterDelay,isCairoMuted, cairoVoice,cairoForwardSpeed] = LearnerStore (
         (state) => [state.speechVolume,state.typeWriterDelay,state.isCairoMuted, state.cairoVoice, state.forwardSpeed]
       );
@@ -214,7 +214,7 @@ export  function ChatBotMessage (props)
         {
             //console.log ("Calling typewriter effect");
             typeWriterEffect.typeString(message)
-                            .stop()
+                            .stop().callFunction (()=> {if (onComplete != null) onComplete (); console.log("Typewriter effect complete")})
                             .start();
            // const synth = window.speechSynthesis;
            //console.log ("utterance is", utterance);
@@ -254,7 +254,7 @@ export  function ChatBotMessage (props)
                                     >
                 {<Typewriter
                         options={{
-                            delay: typeWriterDelay/cairoSpeedToUse.current,
+                            delay: onComplete == null? 0: typeWriterDelay/cairoSpeedToUse.current,
                             cursor:""
                         }}
                         onInit={(typewriter) => {

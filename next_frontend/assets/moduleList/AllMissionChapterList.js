@@ -24,7 +24,7 @@ export const NoNumModuleList = [
     {id:0,name:"Mission Introduction",   fileName:"NoNumMission/1_MissionIntroduction.js",  description: "Problem of numbers for the planet NoNum",topicsCovered:"Problem Introduction",image:"NoNums1.png"},
     {id:1,name:"Loop For Numbers",    fileName:"NoNumMission/2_ForLoopGeneratingNumbers.js",    description: "Generate numbers in a loop",topicsCovered:"For Loop",image:"NoNums2.png"},
     {id:2,name:"Functions for Code Reuse",   fileName:"NoNumMission/3_IntroductionToFunction.js",  description: "Reusing Code",topicsCovered:"Functions",image:"NoNums3.png"},
-    {id:3,name:"Create A Module",    fileName:"NoNumMission/4_CreatingModules.js",    description: "Creating and sharing our own modules",topicsCovered:"Creating Modules",image:"NoNums4.png"},
+  //{id:3,name:"Create A Module",    fileName:"NoNumMission/4_CreatingModules.js",    description: "Creating and sharing our own modules",topicsCovered:"Creating Modules",image:"NoNums4.png"},
 ];
 
 export const SaddosModuleList = [

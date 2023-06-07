@@ -307,7 +307,7 @@ function LearnerReviseConcepts ()
   ); 
 }*/
 
-function ShowLearningConversation({chapterText, chapterEndReached, onLearnerEvent,onBackClicked, learnerQuizProgress,type, quizList})
+function ShowLearningConversation({chapterText, chapterEndReached, onLearnerEvent,onBackClicked, learnerQuizProgress,type, quizList,missionId})
 {
   //console.log ("Show learner quiz progress", learnerQuizProgress);
   return (
@@ -316,7 +316,7 @@ function ShowLearningConversation({chapterText, chapterEndReached, onLearnerEven
       <Button variant="outlined" onClick = {onBackClicked} startIcon={<ArrowBackIcon />}>Dashboard</Button>
     </Grid>
     <Grid item xs={12} md={12} lg={12}>   
-      <LearningConversation LessonText={chapterText} OnLessonEnd = {chapterEndReached} onEventAck={onLearnerEvent} learnerQuizProgress={learnerQuizProgress} type={type} quizList={quizList}/>
+      <LearningConversation LessonText={chapterText} OnLessonEnd = {chapterEndReached} onEventAck={onLearnerEvent} learnerQuizProgress={learnerQuizProgress} type={type} quizList={quizList} missionId={missionId}/>
     </Grid>
   </Grid>  
   ); 
@@ -712,15 +712,15 @@ function DashboardContent(props) {
             }
             { 
               (componentState == DashboardState.ChapterInprogress) && 
-                <ShowLearningConversation type = "Chapter" chapterText ={chapterText} chapterEndReached={chapterEndReached} onLearnerEvent={onLearnerEvent} onBackClicked={backToModulesClicked} quizList= {clickedMission.quizList} learnerQuizProgress={quizProgress}/>
+                <ShowLearningConversation type = "Chapter" chapterText ={chapterText} chapterEndReached={chapterEndReached} onLearnerEvent={onLearnerEvent} onBackClicked={backToModulesClicked} quizList= {clickedMission.quizList} learnerQuizProgress={quizProgress} missionId = {clickedMission.id}/>
             }
             { 
               (componentState == DashboardState.ChapterInprogress_New) && 
-                <ShowLearningConversation  type = "Chapter" chapterText ={chapterText} chapterEndReached={chapterEndReached} onLearnerEvent={onLearnerEvent} onBackClicked={backToModulesClicked} quizList= {clickedMission.quizList} learnerQuizProgress={quizProgress}/>
+                <ShowLearningConversation  type = "Chapter" chapterText ={chapterText} chapterEndReached={chapterEndReached} onLearnerEvent={onLearnerEvent} onBackClicked={backToModulesClicked} quizList= {clickedMission.quizList} learnerQuizProgress={quizProgress} missionId = {clickedMission.id}/>
             }
             { 
               (componentState == DashboardState.ShowRetryQuiz) && 
-                <ShowLearningConversation type = "Quiz" chapterText ={chapterText} chapterEndReached={quizEnded} onLearnerEvent={onLearnerEvent} onBackClicked={backToModulesClicked} learnerQuizProgress={quizProgress[clickedMission.id]}/>
+                <ShowLearningConversation type = "Quiz" chapterText ={chapterText} chapterEndReached={quizEnded} onLearnerEvent={onLearnerEvent} onBackClicked={backToModulesClicked} learnerQuizProgress={quizProgress} quizList= {clickedMission.quizList} missionId = {clickedMission.id}/>
             }
             { 
               (componentState == DashboardState.ShowAllQuiz) && 

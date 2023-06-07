@@ -17,7 +17,7 @@ export const LessonText = [
     {type:"donothing"},
     {id:12, type:"TM", message: "Ability to use an existing code is also called code reusability and it is important part of computer programming"},
     {type:"donothing"},
-    {id:12, type:"TM", message: "In fact, any modern software that you use such as different websites, reuses a lot of different codes"},
+    {id:12, type:"TM", message: "In fact, any modern software that you use such as a mobile app, reuses a lot of different codes"},
     {type:"donothing"},
     {id:12, type:"TM", message: "Let's take an example to understand functions and code reusability"},
     {id:1, type: "ack", message:"Click next to proceed"},
@@ -67,7 +67,7 @@ export const LessonText = [
     {id:12, type:"TM", message: "First we write def and after def we write function name. It is up to us what function name we choose"},
     {type:"donothing"},
     {id:12, type:"TM", message: "After function name, we list all the parameters that the function needs between two parantheses and separated by commas"},
-    {id:12, type:"TM", message: "After parameter list, we put <b>:</b>, which completes the first line"},
+    {id:12, type:"TM", message: "After parantheses list, we put <b>:</b>, which completes the first line"},
     {id:1, type: "ack", message:"Click next to proceed"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
@@ -81,7 +81,7 @@ export const LessonText = [
     {id:1, type: "showpage"},
     {id:12, type:"TM", message: "Let's now write a simple function that adds two numbers and scrolls the result on a Microbit screen"},
     {type:"donothing"},
-    {id:12, type:"TM", message: "Function definiton line will be: <b>def addTwoNumbers (number1, number2)</b>:"},
+    {id:12, type:"TM", message: "Function definition line will be: <b>def addTwoNumbers (number1, number2)</b>:"},
     {type:"donothing"},
     {id:12, type:"TM", message: "In the function's code block, the first line will add the numbers and store the result in a new variable"},
     {type:"donothing"},
@@ -105,14 +105,13 @@ def addTwoNumbers (number1, number2):
     {id:1, type: "ack", message:"Click next to proceed"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
-    {id:12, type:"TM", message: "Now run the code and in Microbit and answer the question based on what the code does"},
+    {id:12, type:"TM", message: "Now run the code on Microbit and answer the question based on what the code does"},
     {id:1, type: "QWBOL", message: "Provide your response", options:CodeRunQuestion},
     {id:12, type:"TM", message: "Nothing happens as we have not used the function till now. We will now learn how to use the function"},
     {id:1, type: "ack", message:"Click next to proceed"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
-    {id:12, type:"TM", message: "To use the function, we write the function name, followed by the paranthese, followed by the parameter values"},
-    {type:"donothing"},
+    {id:12, type:"TM", message: "To use the function, we write the function name, followed by the parameter values within parantheses"},
     {id:12, type:"TM", message: "We should provide value for all the parameters in function definitions"},
     {id:12, type:"TM", message: "Otherwise, the Python code will give an error"},
     {id:1, type: "ack", message:"Click next to proceed"},
@@ -128,20 +127,18 @@ def addTwoNumbers (number1, number2):
     {id:12, type:"TM", message: "The complete code that defines and calls the function will be:"},
     {id:10, type: "pycb", value: 
     `# Imports go at the top
-    from microbit import *
+from microbit import *
+# The function adds two numbers and displays the result on screen
+def addTwoNumbers (number1, number2):
+    sum = number1 + number2
+    display.scroll(sum)
     
-    # The function adds two numbers and displays the result on screen
-    def addTwoNumbers (number1, number2):
-        sum = number1 + number2
-        display.scroll(sum)
-    
-    addTwoNumbers(2,3)
-    `},
+addTwoNumbers(2,3)`},
 
     {id:1, type: "ack", message:"Click next to proceed"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
-    {id:12, type:"TM", message: "Now let's write a function that solves NoNums problem of displaying the number"},
+    {id:12, type:"TM", message: "Now let's write a function that solves NoNums problem"},
     {type:"donothing"},
     {id:12, type:"TM", message: "First let's write the function definition"},
     {id:12, type:"TM", message: "Function name will be displayNumbersBetween"},
@@ -157,21 +154,26 @@ def addTwoNumbers (number1, number2):
     {id:12, type:"TM", message: "Within for loop we will display each number. So the function code will be:"},
     {id:10, type: "pycb", value: 
     `# Imports go at the top
-    from microbit import *
+from microbit import *
     
-    # The function displays numbers between two numbers (including both) on the screen
-    def displayNumbersBetween (startNumber, endNumber):
-        for x in range (startNumber, endNumber + 1):
-            display.scroll(x)
+# The function displays numbers between two numbers (including both) on the screen
+def displayNumbersBetween (startNumber, endNumber):
+    for x in range (startNumber, endNumber + 1):
+        display.scroll(x)
     
-    displayNumbersBetween(2,3)
-    `},
+displayNumbersBetween(2,3)`},
     {id:1, type: "ack", message:"Click next to proceed"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
-    {id:12, type:"TM", message: "Now we have written a function that displays the numbers between two numbers"},
+    {id:12, type:"TM", message: "Now we have written a function that displays the numbers between two numbers along with call it"},
     {type:"donothing"},
-    {id:12, type:"TM", message: "In the next section we will learn how to distribute our function"},
+    {id:12, type:"TM", message: "NoNums can easily use the function to generate numbers when they want"},
+    {id:12, type:"TM", message: "Before we end. It is time for a quick quiz"},
+    {type:"quiz", id: 1},
+    {id:1, type: "ack"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
+    {id:12, type:"TM", message: "This completes our mission. Great job!!!"},
     {id:1, type: "ack", message:"Click next to proceed"},
-    {id:1, type: "endmessage"}
+    {id:1, type: "endmessage_last"}
 ]

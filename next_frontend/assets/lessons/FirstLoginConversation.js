@@ -198,6 +198,11 @@ const askNextStep = [
     {text:"Move Forward", onClickResponse:{type:"donothing", message:""}},
 ];
 
+const ForRangeQuestion2 = [
+    {text:"2 3 4 5 6 7", onClickResponse:{type: "TMR", message: "Incorrect"}},
+    {text:"2 5", onClickResponse:{type: "TMR", message: "Correct"}},
+];
+
 export let LessonText = [
     //{type:"askquestion"},
     //{type:"quiz", id: 8},
@@ -211,6 +216,12 @@ export let LessonText = [
     //{id:1, type: "TM", message:"Our chapter ends now. What would you like to do?"},
     //{id:8, type: "QWBOL", message: "Provide your response", options:askNextStep},
    // {id:1, type: "image", path:"/microbitIntroductionImages/SimulatorOpen.png", altText:"testImage"},
+//    {id:12, type:"TM", message: "What do you think the output of the code below will be:"},
+//     {id:10, type: "pycb", value: 
+//     `for x in range (2,8,3):
+//         print (x)
+//     `},
+//     {id:1, type: "QWBOL", message: "Provide your response", options:ForRangeQuestion2},
     {id:0, type: "TM", message:"Meet Cairo, Your Virtual Buddy"},
     {id:1, type: "ack", buttonText: "Say Hi"},
     {id:1, type: "clearpage"},
@@ -227,9 +238,6 @@ export let LessonText = [
     {id:5, type: "TM", message: "Please share what excites you about learning robotics in the pop up"},
     {id:1, type: "donothing"},
     {type:"sharetext", context: "share why learning robotics"},
-    {id:8, type: "QWBOL", message: "Provide your response", options:askNextStep},
-    {id:1, type: "clearpage"},
-    {id:1, type: "showpage"},
     {type: "TM", message: "We will start with \'Zacobian Lights\' mission"},
     {type: "TM", message: "The next mission \'NoNums' Number\' will become active after we have completed the Zacobia mission"},
     {id:1, type: "ack"},

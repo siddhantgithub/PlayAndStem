@@ -116,7 +116,7 @@ export class QuizController
     returnNextQuestion ()
     {
         if (this.waitingForText)
-            return {type:"donothing"};
+            return {type:"wait"};
 
         if (this.lastClicked)
         {

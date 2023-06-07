@@ -13,9 +13,9 @@ export const quizText = `
 
     Question: What will be the output of the following code?
     codestart:
-    x = range(6)
-    for n in x:
-      print(n)
+x = range(6)
+for n in x:
+    print(n)
     codeend:
 
     A. 0 1 2 3 4 5 6

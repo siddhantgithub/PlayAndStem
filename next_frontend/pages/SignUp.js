@@ -47,6 +47,7 @@ export default function SignUp({}) {
           //router.push("/SignIn")
           setSeverity("success");
           setMessage(data.message);
+          setTimeout(router.push("/"),2000);
           reset();
         }
         setOpenSnackBar(true);

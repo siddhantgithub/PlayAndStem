@@ -63,7 +63,7 @@ export const authOptions: NextAuthOptions = {
                       return null;
                   }
                   const { _id, missionProgress, username, firstname, lastname} = learner;
-                  console.log ("found a learner",learner);
+                  //console.log ("found a learner",learner);
                   let returnLearner = { username, firstname, lastname, _id, missionProgress};
                   return returnLearner as any;
                  // return returnLearner;
