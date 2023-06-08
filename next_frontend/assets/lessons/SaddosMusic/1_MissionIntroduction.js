@@ -130,7 +130,7 @@ const runMicrobitCodeHelpText = [
     //{id:1, type: "chpycon", messageStack:firstCodeMessageStack, correctCode:"from microbit import *",responseAction:firstPythonCodeResponseAction},
     //{id:1, type: "acksp", data: {type:"learnerevent", subtype:"loadmission", data:0}}, buttonText
    // {id:1, type: "image", path:"/lessonImages/Blocks.png", altText:"testImage"},
-    {id:5, type: "TM", message: "Hi, in this module we will learn how to run and test your code on Microbit"},
+    {id:5, type: "TM", message: "We will learn how to run and test your code on Microbit"},
     {id:6, type: "donothing"},
     {id:5, type: "TM", message: "You can either run the code on simulator or on an actual Microbit"},
     {id:5, type: "TM", message: "Question - Do you have a Microbit controller?"},
@@ -140,13 +140,12 @@ const runMicrobitCodeHelpText = [
 
 const needHelpInRunningCode = [
     {text:"No. I was able to run the code", onClickResponse:{type: "TM", message:"Awesome!"}},
-    {text:"Yes, I need help in running the code", onClickResponse:{type: "block", block:dontHaveMicrobit}},
+    {text:"Yes, I need help in running the code", onClickResponse:{type: "block", block:runMicrobitCodeHelpText}},
 ];
 
 export const LessonText = [
     {id:0, type: "TMR", message: "Hi <learnername>, we have a new mission"},
-    {id:1, type: "TM", message: "We have to help planet Sados"},
-    {id:1, type: "TM", message: "People living on the planet Sados are always sad"},
+    {id:1, type: "TM", message: "We have to help planet Sados because people living on it are always sad"},
     {id:1, type: "TM", message: "We can make them happy by creating a piano that they can use to play music"},
     {id:1, type: "donothing"},
     {id:1, type: "ack", message:"Click Next"},
@@ -156,8 +155,6 @@ export const LessonText = [
     {id:7, type: "TM", message: "For playing music, we will use the play function of Microbit's music module"},
     {id:7, type: "TM", message: "To use the music module, we will first need to import it"},
     {id:7, type: "TM", message: "The code to import music module will be: <b>import music</b>"},
-    {id:1, type: "donothing"},
-    {id:12, type: "TM", message: ""},
     {id:1, type: "ack", message:"Click Next"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
@@ -176,10 +173,11 @@ export const LessonText = [
     {id:12, type: "TM", message: "It is time to play some music on Microbit now"},
     {id:12, type: "TM", message: "Copy the code below and run it on your Microbit"},
     {id:10, type: "pycb", value: `import music
-    music.play(music.NYAN)`},
+music.play(music.NYAN)`},
     {id:5, type: "TM", message: "Question - Do you need help in running the code?"},
-    {id:8, type: "QWBOL", message: "Provide your response", options:haveMicrobitControllerQ},
+    {id:8, type: "QWBOL", message: "Provide your response", options:needHelpInRunningCode},
     {id:1, type: "ack", message:"Click Next"},
+    {type:"quiz", id: 0},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
     {id:1, type: "endmessage"}

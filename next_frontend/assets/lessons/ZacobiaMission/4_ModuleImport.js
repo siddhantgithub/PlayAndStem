@@ -49,7 +49,7 @@ export const LessonText = [
     {id:1, type: "donothing"},
     {id:11, type: "TM", message: "If you cannot cook or don't want to cook, you will need to get outside help, say from of a Chef"},
     {id:1, type: "donothing"},
-    {id:11, type: "TM", message: "Similarily, When writing computer programs, you need to get additional help to complete different tasks"},
+    {id:11, type: "TM", message: "Similarly, When writing computer programs, you need to get additional help to complete different tasks"},
     {id:1, type: "donothing"},
     {id:11, type: "TM", message: "Let's learn how to bring in additional help in Python"},
     {id:1, type: "ack", message:"Next"},

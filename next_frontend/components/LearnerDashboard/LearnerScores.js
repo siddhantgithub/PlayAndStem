@@ -26,6 +26,9 @@ export const LearnerScores = (props) => {
   const { products = [], sx, quizProgress,retryQuizClicked, viewAllQuizClicked, hideViewAll= false} = props;
   console.log ("Quiz progress is ", quizProgress);
 
+  const newProducts = products.slice (0,3);
+  console.log ("New products are", newProducts)
+
 
   if (!hideViewAll) 
   return (
@@ -33,7 +36,7 @@ export const LearnerScores = (props) => {
       <CardHeader title="Quizzes & Scores" />
       <List>
         {
-        products.map((product, index) => {
+        newProducts.map((product, index) => {
           var score = quizProgress[product.id];
           var retryClickHandler = () => {
             //console.log ("Retry quiz handler is", retryQuizClicked);
@@ -45,7 +48,7 @@ export const LearnerScores = (props) => {
           else
             scoreMsg = "Score - " + Math.round(score) + "%";
 
-          const hasDivider = index < products.length - 1;
+          const hasDivider = index < newProducts.length - 1;
           const ago = "80%";
 
           return (

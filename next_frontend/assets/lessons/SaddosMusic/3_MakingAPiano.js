@@ -15,15 +15,17 @@ const ForRangeQuestion2 = [
 export const LessonText = [
     {id:12, type:"TM", message: "In this chapter, we will make a piano and connect it to Microbit to play sounds"},
     {id:12, type:"TM", message: "To make a piano we will use carboard or thick paper to make the body and aluminium foils to make touch buttons"},
-    {type:"donothing"},
-    {id:12, type:"TM", message: ""},
-    {type:"donothing"},
+    {id:1, type: "ack", message:"Click next to proceed"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
     {id:12, type:"TM", message: "First we should make the piano body"},
     {id:12, type:"TM", message: "Use a carboard, or thick paper and cut out a body for the piano"},
     {id:12, type:"TM", message: "You can also reuse the cereal cardboard boxes or boxes you get from online delivery"},
-    {id:12, type:"TM", message: "The body can take any shape such as a rectangle, guitar or even any animal"},
+    {id:12, type:"TM", message: "The body can take any shape such as a rectangle, guitar or even an animal"},
     {id:12, type:"TM", message: "You should have a body like below"},
-    {type:"donothing"},
+    {id:1, type: "ack", message:"Click next to proceed"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
     {id:12, type:"TM", message: "Now it is time to make touch buttons on piano"},
     {id:1, type: "TM", message:"These buttons will be used to play music"},
     {id:1, type: "TM", message:"Imagine these buttons to be like piano keys"},
@@ -49,15 +51,18 @@ export const LessonText = [
     {id:12, type:"TM", message: "and when we press key 2 a different melody is played"},
     {id:12, type:"TM", message: "Below is the Python code to accomplish what we want"},
     {id:10, type: "pycb", value: `from microbit import *
-    import music
-    
-    while True:
-        if pin1.is_touched():
-            music.play(music.ODE)
-        if pin2.is_touched():
-            music.play(music.BLUES)`},
+import music
+
+while True:
+    if pin1.is_touched():
+        music.play(music.ODE)
+    if pin2.is_touched():
+        music.play(music.BLUES)`},
     {id:12, type:"TM", message: "Run the code on Microbit and try the piano now"},
     {id:1, type: "ack", message:"Click next to proceed"},
+    {id:1, type: "ack", message:"Click next to proceed"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
     {id:12, type:"TM", message: "You will notice that if you just touch the key connected to pin1 no music is played"},
     {id:12, type:"TM", message: "For the music to play, you should touch both the keys - one connected to pin1 and the other connected to GND"},
     {id:12, type:"TM", message: "Once you touch both keys, the music should play now"},
@@ -75,8 +80,11 @@ export const LessonText = [
     {id:12, type:"TM", message: "Because when we touch both keys - pin1 and GND, our body acts as a conductor and completes the connection between the pin1 and GND"},
     {id:1, type: "donothing"},
     {id:12, type:"TM", message: "Allowing the electricity to flow and thus making pin1.is_touched() true"},
-    {id:1, type: "donothing"},
+    {id:12, type:"TM", message: "We have made a piano but before we end it is time for a quiz"},
     {id:1, type: "ack"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
+    {type:"quiz", id: 2},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
     {id:12, type:"TM", message: "This completes our chapter and the mission"},

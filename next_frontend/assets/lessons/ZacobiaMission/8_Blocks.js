@@ -22,7 +22,7 @@ export const LessonText = [
             print ("Line 6 is in code block C")
     `},
     {id:12, type:"TM", message: "Line 1 and 2 are in the same block as they have the same spaces"},
-    {id:12, type:"TM", message: "Similarily line 3 and 4 and so on"},
+    {id:12, type:"TM", message: "Similarly line 3 and 4 and so on"},
     {id:1, type: "ack", message:"Click Next"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},

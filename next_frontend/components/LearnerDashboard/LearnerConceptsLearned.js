@@ -24,14 +24,15 @@ import {
 
 export const LearnerConceptsLearned = (props) => {
   const { products = [], sx,reviewConceptClicked,viewAllConceptsClicked, hideViewAll= false } = props;
+  const newProducts = products.slice (0,3);
 
   if (!hideViewAll) 
   return (
     <Card sx={sx}>
       <CardHeader title="Key Concepts Covered" />
       <List>
-        {products.map((product, index) => {
-          const hasDivider = index < products.length - 1;
+        {newProducts.map((product, index) => {
+          const hasDivider = index < newProducts.length - 1;
           const ago = product.description;
           var reviewClickHandler = () => {
             //console.log ("Retry quiz handler is", retryQuizClicked);
@@ -117,7 +118,7 @@ export const LearnerConceptsLearned = (props) => {
           
           return (
             <Grid item > 
-              <Card sx={{ width: 200, height: 270,margin: 1}}>
+              <Card sx={{ width: 200, height: 300,margin: 1}}>
               <CardActionArea onClick = {reviewClickHandler}>
         
               <Image alt = {product.name} src={`/lessonImages/${product.image}`}  width={200} height={150}></Image>

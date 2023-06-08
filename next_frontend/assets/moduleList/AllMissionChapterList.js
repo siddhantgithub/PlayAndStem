@@ -28,9 +28,9 @@ export const NoNumModuleList = [
 ];
 
 export const SaddosModuleList = [
-    {id:0,name:"Mission Introduction",   fileName:"NoNumMission/1_MissionIntroduction.js",  description: "Problem of numbers for the planet NoNum",topicsCovered:"Problem Introduction",image:"NoNums1.png"},
-    {id:1,name:"Understanding Circuits",    fileName:"NoNumMission/2_ForLoopGeneratingNumbers.js",    description: "Generate numbers in a loop",topicsCovered:"For Loop",image:"NoNums2.png"},
-    {id:2,name:"Building a piano",   fileName:"NoNumMission/3_IntroductionToFunction.js",  description: "Reusing Code",topicsCovered:"Functions",image:"NoNums3.png"},
+    {id:0,name:"Mission Introduction",   fileName:"SaddosMusic/1_MissionIntroduction.js",  description: "Problem of numbers for the planet NoNum",topicsCovered:"Problem Introduction",image:"NoNums1.png"},
+    {id:1,name:"Understanding Circuits",    fileName:"SaddosMusic/2_UnderstandingCircuits.js",    description: "Generate numbers in a loop",topicsCovered:"For Loop",image:"NoNums2.png"},
+    {id:2,name:"Building a piano",   fileName:"SaddosMusic/3_MakingAPiano.js",  description: "Reusing Code",topicsCovered:"Functions",image:"NoNums3.png"},
 ];
 
 export const AllMissionList = [

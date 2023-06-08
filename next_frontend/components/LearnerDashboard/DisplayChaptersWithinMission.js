@@ -257,7 +257,7 @@ export function MissionDashboard (props) {
               </Grid>}
               { quizProgress && <Grid item xs={12} md={4} lg={4} >
                 <LearnerScores
-                    products={quizList.slice(0,3)}
+                    products={quizList}
                     quizProgress={quizProgress}
                     sx={{ width: 360, height: 350, mt:2}}
                     retryQuizClicked={retryQuizClicked} 
@@ -266,7 +266,7 @@ export function MissionDashboard (props) {
               </Grid>}
               {<Grid item xs={12} md={4} lg={4} >
               <LearnerConceptsLearned
-                products={conceptList.slice(0,3)}
+                products={conceptList}
                 reviewConceptClicked = {reviewConceptClicked}
                 viewAllConceptsClicked = {viewAllConceptsClicked}
                 sx={{ width: 360, height: 350, mt:2 }}

@@ -6,14 +6,14 @@ export const quizText = `
 
     Question: Why is While True: important in the code below?
     codestart:
-    from microbit import *
-    import music
+from microbit import *
+import music
     
-    while True:
-        if pin1.is_touched():
-            music.play(music.ODE)
-        if pin2.is_touched():
-            music.play(music.BLUES)
+while True:
+    if pin1.is_touched():
+        music.play(music.ODE)
+    if pin2.is_touched():
+         music.play(music.BLUES)
     codeend:
 
     A. While True ensures that we are always check if the pin1 is touched and plays music accordingly 

@@ -40,7 +40,7 @@ export const LessonText = [
     {id:11, type: "TM", message: "Now if we don't arrange the words in a proper order they will stop making sense"},
     {id:11, type: "TM", message: "For example in the sentence- \'Healthy please don't is eat not food that\'"},
     {id:11, type: "TM", message: "We have used the same words but they don't make much sense"},
-    {id:11, type: "TM", message: "Similarily, statements in computer programming have to follow an order or syntax so that computers can understand them"},
+    {id:11, type: "TM", message: "Similarly, statements in computer programming have to follow an order or syntax so that computers can understand them"},
     {id:13, type: "donothing"},
     {id:1, type: "ack", message:"Next"},
     {id:1, type: "clearpage"},
