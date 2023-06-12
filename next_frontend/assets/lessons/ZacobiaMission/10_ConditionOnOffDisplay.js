@@ -16,7 +16,7 @@ export const LessonText = [
     {id:15, type: "TM", message: "We will implement the Step 1: Get the sunlight level"},
     {id:15, type: "TM", message: "First we will get help by importing everything from microbit using <b>from microbit import *</b> line"},
     {id:15, type: "donothing"},
-    {id:15, type: "TM", message: "Next, We will get the light level using read_light_level() api of display module and store it in lightLevel variable"},
+    {id:15, type: "TM", message: "Next, we will get the light level using read_light_level() api of display module and store it in lightLevel variable"},
     {id:15, type: "donothing"},
     {id:15, type: "TM", message: "So our code becomes"},
     {id:10, type: "pycb", value: 
@@ -29,8 +29,8 @@ lightLevel = display.read_light_level();
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
     {id:12, type:"TM", message: "Now we will implement Step 2: If the light level is low then switch on the lights"},
-    {id:12, type:"TM", message: "First we need to decide what low light level means"},
-    {id:12, type:"TM", message: "read_light_level function returns an integer between 0 and 255, with higher value meaning more light"},
+    {id:12, type:"TM", message: "First, we need to decide what low light level means"},
+    {id:12, type:"TM", message: "read_light_level function returns a number between 0 and 255, with higher value meaning more light"},
     {id:15, type: "donothing"},
     {id:12, type:"TM", message: "Zacobians want to switch on the lights when the light level is less than or equal to 100"},
     {id:1, type: "ack", message:"Click Next"},
@@ -65,7 +65,7 @@ if lightLevel <= 100:
     {id:12, type:"TM", message: "Now we will implement Step 3: Else switch off the lights"},
     {id:12, type:"TM", message: "We will use else statement followed by the indented block of code to clear the display. Remember the code below else statement will run only when the if condition is not true"},
     {id:15, type: "donothing"},
-    {id:12, type:"TM", message: "So the code now becomes"},
+    {id:12, type:"TM", message: "So, the code now becomes"},
     {id:10, type: "pycb", value: `from microbit import *
 
 lightLevel = display.read_light_level();

@@ -58,9 +58,10 @@ export function breakParagraph(paragraph) {
     for (var i = 0; i < paragraph.length; i++) {
       var char = paragraph[i];
   
-      if (char === '.' || char === '?' || char === '!') {
+      if (char === '.' || char === '?' || char === '!' || char ==='\n') {
         currentStatement += char;
-        statements.push(currentStatement.trim());
+        if (currentStatement.length > 1)
+            statements.push(currentStatement.trim());
         currentStatement = '';
       } else {
         currentStatement += char;
@@ -328,6 +329,8 @@ export default function LearningConversation(props) {
                 //addComponentEverySecond();
                 return;
             }
+            //Not needed as we wait for the text to complete before displaying the next element
+
             if (arrayElem.type == "donothing")
             {
                 addComponentEverySecond(); //calling to avoid initial delay

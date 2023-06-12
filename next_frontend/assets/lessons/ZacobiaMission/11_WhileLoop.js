@@ -16,7 +16,7 @@ export const LessonText = [
     {id:1, type: "showpage"},
     {id:15, type: "TM", message: "Till now, we have the code to check the light level and accordingly switch on or clear the display"},
     {id:1, type: "donothing"},
-    {id:15, type: "TM", message: "In our program we are checking the light level only once but checking only once will not solve our problem"},
+    {id:15, type: "TM", message: "In our program we are checking the light level only once, but checking only once will not solve our problem"},
     {id:1, type: "donothing"},
     {id:15, type: "TM", message: "What do you think how often should we check the light level?"},
     {id:1, type: "QWBOL", message: "Provide your response", options:whenShouldCheckDayOrNight},
@@ -33,7 +33,7 @@ export const LessonText = [
     {id:1, type: "showpage"},
     {id:15, type: "TM", message: "Now let's learn how to do somethign repeatedyly or write a loop in Python"},
     {id:1, type: "donothing"},
-    {id:15, type: "TM", message: "There are different ways run loops in Python. For this mission we will use While loop"},
+    {id:15, type: "TM", message: "There are different ways to run a loop in Python. For this mission we will use While loop"},
     {id:1, type: "donothing"},
     {id:15, type: "TM", message: "The syntax of while loop is while 'condition is true', followed by a colon ':', followed by the block that should be repeated"},
     {id:1, type: "donothing"},
@@ -53,19 +53,11 @@ export const LessonText = [
     {id:1, type: "ack", message:"Got It"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
-    {id:15, type: "TM", message: "we will first make a variable x and give it a value of 1. We will use the value of x to print the numbers"},
+    {id:15, type: "TM", message: "We will next start a while loop. We have to run the loop till value of x is less than or equal to 10"},
     {id:1, type: "donothing"},
     {id:15, type: "TM", message: "so our code will be the following"},
     {id:10, type: "pycb", value: `x = 1
-    `},
-    {id:1, type: "ack", message:"Got It"},
-    {id:1, type: "clearpage"},
-    {id:1, type: "showpage"},
-    {id:15, type: "TM", message: "we will next start a while loop. We have to run the loop till value of x is less than or equal to 10"},
-    {id:1, type: "donothing"},
-    {id:15, type: "TM", message: "so our code will be the following"},
-    {id:10, type: "pycb", value: `x = 1
-while (x <= 10)
+while x <= 10
     `},
     {id:1, type: "ack", message:"Got It"},
     {id:1, type: "clearpage"},
@@ -77,7 +69,7 @@ while (x <= 10)
     {id:1, type: "donothing"},
     {id:15, type: "TM", message: "So our code now becomes"},
     {id:10, type: "pycb", value: `x = 1
-while (x <= 10)
+while x <= 10
     print (x)
     `},
     {id:1, type: "ack", message:"Got It"},
@@ -89,7 +81,7 @@ while (x <= 10)
     {id:15, type: "TM", message: "So the statement will be a part of the while loop block"},
     {id:15, type: "TM", message: "So our code now becomes"},
     {id:10, type: "pycb", value: `x = 1
-while (x <= 10)
+while x <= 10
     print (x)
     x = x + 1
     `},
@@ -98,7 +90,7 @@ while (x <= 10)
     {id:1, type: "showpage"},
     {id:15, type: "TM", message: "Here is our final code"},
     {id:10, type: "pycb", value: `x = 1
-while (x <= 10)
+while x <= 10
     print (x)
     x = x + 1
     `},
@@ -144,6 +136,9 @@ else:
     display.clear()
     `},
     {id:12, type:"TM", message: "Now we have to repeat all the statements continuously, so we should put them in a loop"},
+    {id:1, type: "ack", message:"Got It"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
     {id:12, type:"TM", message: "So the code now becomes"},
     {id:10, type: "pycb", value: `from microbit import *
 

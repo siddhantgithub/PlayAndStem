@@ -1,11 +1,11 @@
 export const quizText = `
     Question: Does the following code has any error?
     codestart:
-    from microbit import *
+from microbit import *
 
-    lightLevel = display.read_light_level();
-    if lightLevel <= 100:
-    display.show(Image.HEART)
+lightLevel = display.read_light_level();
+if lightLevel <= 100:
+display.show(Image.HEART)
     codeend:
 
     A. No
@@ -14,15 +14,15 @@ export const quizText = `
 
     Question: What do you think the following code does?
     codestart:
-    from microbit import *
+from microbit import *
 
-    lightLevel = display.read_light_level();
-    if lightLevel <= 100:
-        display.show(Image.HEART)
-    elif lightLevel <= 200:
-        display.show(Image.HAPPY)
-    else
-        display.clear()
+lightLevel = display.read_light_level();
+if lightLevel <= 100:
+    display.show(Image.HEART)
+elif lightLevel <= 200:
+    display.show(Image.HAPPY)
+else
+    display.clear()
     codeend:
 
     A. Displays HEART image if the light level is less than or equal to 100, displays HAPPY image if the light level is between 100 and 200, clears the display if the light level is greater than 200
@@ -33,13 +33,13 @@ export const quizText = `
 
     Question: What error does the following code has?
     codestart:
-    from microbit import *
+from microbit import *
 
-    lightLevel = display.read_light_level();
-    if lightLevel <= 100:
-        display.show(Image.HEART)
-        else
-            display.clear()
+lightLevel = display.read_light_level();
+if lightLevel <= 100:
+    display.show(Image.HEART)
+    else
+        display.clear()
     codeend:
 
     A. display.show(Image.HEART) should have an extra indentation than the else statement

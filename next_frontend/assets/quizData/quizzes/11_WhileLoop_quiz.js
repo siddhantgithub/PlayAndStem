@@ -1,9 +1,7 @@
 export const quizText = `
 Question: What is the correct syntax for a while loop in Python?
 A. while condition:
-B. while (condition):
-C. while {condition}
-D. while [condition]
+B. while if condition:
 Answer: A
 
 Question: What will be the output of the following code snippet?

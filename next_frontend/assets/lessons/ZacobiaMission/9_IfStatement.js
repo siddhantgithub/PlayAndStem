@@ -15,13 +15,13 @@ const IfBlockThirdQuestion = [
 
 export const LessonText = [
     {id:15, type: "TM", message: "Hi, welcome to the ninth chapter in our mission"},
-    {id:15, type: "TM", message: "In this chapter, we will learn how to use the \'if\' statment"},
+    {id:15, type: "TM", message: "In this chapter, we will learn how to use the \'if\' statement"},
     {id:1, type: "ack", message:"Click Next"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
     {id:12, type:"TM", message: "The syntax for if statement is"},
     {id:12, type:"TM", message: "if  <b>condition<b/>:"},
-    {id:12, type:"TM", message: "Followed by the block to execute"},
+    {id:12, type:"TM", message: "Followed by the block to execute when the condition is true"},
     {id:12, type:"TM", message: "Please note that the block to be executed should have extra indentation or spacing than the if statement"},
     {id:12, type:"TM", message: "Let's go through a few examples"},
     {id:1, type: "ack", message:"Click next to proceed"},
@@ -29,11 +29,10 @@ export const LessonText = [
     {id:1, type: "showpage"},
     {id:12, type:"TM", message: "In the code below we are using variables in greater than condition"},
     {id:10, type: "pycb", value: `
-    a = 17
-    b = 10
-    if a > b:
-        print ("A is greater than B")
-    `},
+a = 17
+b = 10
+if a > b:
+    print ("A is greater than B")`},
     {id:12, type:"TM", message: "What do you think the output of the above code will be"},
     {id:1, type: "QWBOL", message: "Provide your response", options:IfBlockFirstQuestion},
     {id:1, type: "ack", message:"Click next to proceed"},
@@ -41,22 +40,22 @@ export const LessonText = [
     {id:1, type: "showpage"},
     {id:12, type:"TM", message: "In the code below we are using variables in greater than condition"},
     {id:10, type: "pycb", value: `
-    a = 7
-    b = 10
-    if a > b:
-        print ("A is greater than B")
-    `},
+a = 7
+b = 10
+if a > b:
+    print ("A is greater than B")
+`},
     {id:12, type:"TM", message: "What do you think the output of the above code will be"},
-    {id:1, type: "QWBO", message: "Provide your response", options:IfBlockSecondQuestion},
+    {id:1, type: "QWBOL", message: "Provide your response", options:IfBlockSecondQuestion},
     {id:1, type: "ack", message:"Click next to proceed"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
     {id:12, type:"TM", message: "In the code below we are using variables in greater than condition"},
     {id:10, type: "pycb", value: `
-    a = 7
-    b = 10
-    if a > b:
-    print ("A is greater than B")
+a = 7
+b = 10
+if a > b:
+print ("A is greater than B")
     `},
     {id:12, type:"TM", message: "What do you think the output of the above code will be"},
     {id:1, type: "QWBOL", message: "Provide your response", options:IfBlockThirdQuestion},
@@ -87,12 +86,12 @@ export const LessonText = [
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
     {id:10, type: "pycb", value: `
-    a = 10
-    b = 10
-    if a > b:
-        print ("A is greater than B")
-    elif a == b:
-        print ("A is equal to B")
+a = 10
+b = 10
+if a > b:
+    print ("A is greater than B")
+elif a == b:
+    print ("A is equal to B")
     `},
     {id:12, type:"TM", message: "The output of the code above will be <b>A is equal to B</b>"},
     {id:12, type:"TM", message: "The block under if statement will not be executed as the condition a > b is not true"},

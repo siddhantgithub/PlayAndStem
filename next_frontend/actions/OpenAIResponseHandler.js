@@ -12,7 +12,7 @@ const CheckPythonCodePrompt = `Please check the Python code for errors. Also, pl
 
 function returnPromptForCodeCheck (code, purpose)
 {
-  const returnPrompt = `Please check the Python code for errors and just answer correct if the code is correct. The purpose of the code is ${purpose}. If there is an error, please provide an explaination to fix the error so that a 10-year old can understand. Here is the code: ${code}`;
+  const returnPrompt = `Please check the Python code for errors and just answer correct if the code is correct. The purpose of the code is ${purpose}. Please explain the error in two sentences. Here is the code: ${code}`;
   return returnPrompt;
 }
 
@@ -49,7 +49,7 @@ export const GetOpenAIResponse = async (request) =>
             break;
 
         case LearnerEventType.CheckPythonCode:
-            promptToSend = returnPromptForCodeCheck (request.code, request.purpose);
+            promptToSend = returnPromptForCodeCheck (request.data.code, request.data.purpose);
             break;
 
         case LearnerEventType.ComparePythonCode:
@@ -64,6 +64,7 @@ export const GetOpenAIResponse = async (request) =>
             promptToSend = returnHaveConversationPrompt(request.data.text, request.data.context)
             break;
     }   
+    console.log ("Prompt to send is", promptToSend);
     const response = await fetch("/api/openAI/generate", {
       method: "POST",
       headers: {

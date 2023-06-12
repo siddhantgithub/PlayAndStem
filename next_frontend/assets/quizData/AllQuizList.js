@@ -15,13 +15,13 @@ export const ZacobiaQuizList = [
 ];
 
 export const NoNumQuizList = [
-  {id:0, name:"For Loops", path:"quizzes/NoNums/1_ForLoop_quiz.js", image: 'MissionIntroduction.png'},
-  {id:1, name:"Functions", path:"quizzes/NoNums/2_Functions_quiz.js", image: "RunCode.jpg"},
+  {id:0, name:"For Loops", path:"quizzes/NoNums/1_ForLoop_quiz.js", image: 'NoNums2.png'},
+  {id:1, name:"Functions", path:"quizzes/NoNums/2_Functions_quiz.js", image: "NoNums3.png"},
   //{id:2, name:"Modules", path:"quizzes/NoNums/3_Module_quiz.js", image: "BreakItDown.png"},
 ];
 
 export const SadosQuizList = [
-  {id:0, name:"Play Music", path:"quizzes/Sados/1_PlayFunctions_quiz.js", image: 'MissionIntroduction.png'},
-  {id:1, name:"Electric Circuits", path:"quizzes/Sados/2_ElectricCircuit_quiz.js", image: "RunCode.jpg"},
-  {id:2, name:"Making a Piano", path:"quizzes/Sados/3_Piano_quiz.js", image: "BreakItDown.png"},
+  {id:0, name:"Play Music", path:"quizzes/Sados/1_PlayFunctions_quiz.js", image: 'SaddosUnhappy.jpg'},
+  {id:1, name:"Electric Circuits", path:"quizzes/Sados/2_ElectricCircuit_quiz.js", image: "SaddosCircuits.jpg"},
+  {id:2, name:"Making a Piano", path:"quizzes/Sados/3_Piano_quiz.js", image: "SaddosPiano.jpg"},
 ];

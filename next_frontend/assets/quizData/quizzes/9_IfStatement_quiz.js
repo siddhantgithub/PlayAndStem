@@ -12,13 +12,13 @@ export const quizText = `
 
     Question: What will be the output of the following code snippet?
     codestart:
-    x = 10
-    if x < 10:
-        print("x is less than 10")
-    elif x == 10:
-        print("x is equal to 10")
-    else:
-        print("x is greater than 10")
+x = 10
+if x < 10:
+    print("x is less than 10")
+elif x == 10:
+    print("x is equal to 10")
+else:
+    print("x is greater than 10")
     codeend:
 
     A. x is less than 10

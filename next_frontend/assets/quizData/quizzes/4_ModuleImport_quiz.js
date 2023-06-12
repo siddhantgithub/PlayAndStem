@@ -13,13 +13,6 @@ export const quizText = `
     D. from function import module
     Answer: B
 
-    Question: How do you import a specific function from a module in Python?
-    A. import module.function
-    B. from module import function
-    C. import function from module
-    D. from function import module
-    Answer: B
-
     Question: What is the use of * in Python import statement?
     A. To import everything or all the names defined in a module
     B. To tell from which module we want to import

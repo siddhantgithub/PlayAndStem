@@ -27,7 +27,7 @@ export const LessonText = [
     {id:12, type:"TM", message: "Conditions are statements that result in a value of true or false"},
     {id:12, type:"TM", message: "A condition statement results in a value of true when the statement is correct and false otherwise"},
     {id:1, type: "donothing"},
-    {id:12, type:"TM", message: "In Python we represent true by \'True\' and false by \'False\'. Please notice, both T and F at the start are capital"},
+    {id:12, type:"TM", message: "In Python, we represent true by \'True\' and false by \'False\'. Please notice, both T and F at the start are capital"},
     {id:1, type: "donothing"},
     {id:12, type:"TM", message: "We write condition statements by using different operators"},
     {id:12, type:"TM", message: "The syntax to use an operator is <b>left-hand side <u>operator</u> right-hand side</b>"},

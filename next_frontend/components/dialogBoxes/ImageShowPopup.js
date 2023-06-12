@@ -18,7 +18,8 @@ function ImageShowPopup(props) {
 
   
     return (
-      <Dialog onClose={handleClose} open={open}>
+      <Dialog onClose={handleClose} open={open} fullWidth={true}
+      maxWidth="md">
         <DialogTitle>Mission Not Avaible</DialogTitle>
         <DialogContent>
         <Image

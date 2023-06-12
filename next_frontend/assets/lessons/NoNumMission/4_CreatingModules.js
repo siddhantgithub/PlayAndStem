@@ -20,7 +20,7 @@ export const LessonText = [
     {type:"donothing"},
     {id:12, type:"TM", message: "And we use functions in modules to get help"},
     {type:"donothing"},
-    {id:12, type:"TM", message: "For example, suppose we need help from \'display\' module to read light level, we use API or function read_light_level"},
+    {id:12, type:"TM", message: "For example, suppose we need help from \'display\' module to read light level, we use  function read_light_level"},
     {type:"donothing"},
     {id:1, type: "TM", message:"The syntax to use it is: \'display.read_light_level()\'"},
     {id:1, type: "ack", message:"Click next to proceed'"},

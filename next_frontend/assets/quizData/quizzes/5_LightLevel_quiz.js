@@ -20,7 +20,7 @@ export const quizText = `
     D. from display import read_light_level
     Answer: C
 
-    Question: What is the use of APIs?
+    Question: What is the use of  API?
     A. Provide a way for computer programs to share informaion with each other
     B. Break down a problem into smaller problems that can be easily solved
     C. Ensure computer program follows the right syntax

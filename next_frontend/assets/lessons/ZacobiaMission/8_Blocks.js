@@ -14,12 +14,12 @@ export const LessonText = [
     {id:1, type: "showpage"},
     {id:12, type:"TM", message: "For example, refer to the following Python code"},
     {id:10, type: "pycb", heading: "Python block example", value: `
-    print ("Line 1 is in code block A")
-    print ("Line 2 is in code block A")
-        print ("Line 3 is in code block B")
-        print ("Line 4 is in code block B")
-            print ("Line 5 is in code block C")
-            print ("Line 6 is in code block C")
+print ("Line 1 is in code block A")
+print ("Line 2 is in code block A")
+    print ("Line 3 is in code block B")
+    print ("Line 4 is in code block B")
+        print ("Line 5 is in code block C")
+        print ("Line 6 is in code block C")
     `},
     {id:12, type:"TM", message: "Line 1 and 2 are in the same block as they have the same spaces"},
     {id:12, type:"TM", message: "Similarly line 3 and 4 and so on"},

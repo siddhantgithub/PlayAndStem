@@ -214,7 +214,7 @@ export  function ChatBotMessage (props)
         {
             //console.log ("Calling typewriter effect");
             typeWriterEffect.typeString(message)
-                            .stop().callFunction (()=> {if (onComplete != null) onComplete (); console.log("Typewriter effect complete")})
+                            .stop().callFunction (()=> {if (onComplete != null) onComplete ();})
                             .start();
            // const synth = window.speechSynthesis;
            //console.log ("utterance is", utterance);

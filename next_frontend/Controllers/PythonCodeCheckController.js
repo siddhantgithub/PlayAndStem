@@ -17,6 +17,7 @@ export class PythonCodeCheckController
     initialMessageStack;
     correctResponseStack;
     incorrectResponseStack;
+    checkingResponseStack;
     correctCode;
     messageStackCounter;
     currentPythonCode;
@@ -90,6 +91,7 @@ export class PythonCodeCheckController
             this.messageStackCounter = 0;
             this.incorrectResponseStack = elemArray;
             this.state = AnswerStatus.Answered_Incorrect;
+            this.openAIBuffer = "";
             return;
         }
         if (data.length == 0)
@@ -100,7 +102,7 @@ export class PythonCodeCheckController
     
     constructor(purpose,answer,initialMessage,correctResponse, incorrectResponse)
     {
-        console.log (answer,initialMessage, correctResponse, incorrectResponse);
+        //console.log (answer,initialMessage, correctResponse, incorrectResponse);
         this.purpose = purpose;
         this.state = AnswerStatus.Not_Answered;
         this.correctResponseStack = correctResponse;
@@ -110,7 +112,9 @@ export class PythonCodeCheckController
         this.messageStackCounter = 0;
         this.currentPythonCode = "";
         this.openAIBuffer = "";
-        console.log ("Open AI buffer is ", this.openAIBuffer);
+        this.checkingResponseStack = [ {id:1, type: "clearpage"},
+        {id:1, type: "showpage"},{id:1, type: "TM", message:"Checking Answer"}];
+        //console.log ("Open AI buffer is ", this.openAIBuffer);
     }
 
     onChangePythonCode (value) {
@@ -125,7 +129,14 @@ export class PythonCodeCheckController
         switch (this.state)
         {
             case AnswerStatus.Checking_Answer:
-                return {type:"donothing"};
+                if (this.messageStackCounter < this.checkingResponseStack.length)
+                {
+                    return this.checkingResponseStack[this.messageStackCounter++];
+                }
+                
+                else
+                    return {type:"wait"};
+                break;
 
             case AnswerStatus.Not_Answered:
                 if (this.messageStackCounter < this.initialMessageStack.length)
@@ -143,7 +154,7 @@ export class PythonCodeCheckController
                     return {type:"ack", buttonText:"Check"};
                 
                 else
-                    return {type:"donothing"};
+                    return {type:"wait"};
                 break;
 
             case AnswerStatus.Answered_Correct:
@@ -157,7 +168,7 @@ export class PythonCodeCheckController
                     return {type:"ack", buttonText:"Next"};
                 }
                 else
-                    return {type:"donothing"};
+                    return {type:"wait"};
                 break;
 
             case AnswerStatus.Answered_Incorrect:
@@ -181,7 +192,7 @@ export class PythonCodeCheckController
                    // return {type:"ack", buttonText:"Retry"};
                 }
                 else
-                    return {type:"donothing"};
+                    return {type:"wait"};
                 break;
         }
     }
@@ -192,6 +203,7 @@ export class PythonCodeCheckController
         {
             case AnswerStatus.Not_Answered:
                 this.checkPythonCode();
+                this.messageStackCounter = 0;
                 //Answer clicked
                 return false;
                 break;

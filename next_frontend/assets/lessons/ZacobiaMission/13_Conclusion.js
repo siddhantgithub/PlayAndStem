@@ -10,7 +10,7 @@ export const LessonText = [
     {id:1, type: "ack", message:"Click Next"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
-    {id:15, type: "TM", message: "Imagine you cook a great pizza and your friends asks for your recipe"},
+    {id:15, type: "TM", message: "Imagine you cook a great pizza and your friends ask for your recipe"},
     {id:15, type: "TM", message: "Apart from writing down your recipe, and giving it to him"},
     {id:15, type: "TM", message: "You would also like to add comments to the recipe, such as, even if you cook for 5 more minutes it is fine, etc.."},
     {id:1, type: "donothing"},
