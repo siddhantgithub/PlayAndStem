@@ -108,7 +108,7 @@ const dontHaveMicrobit = [
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"}, 
     {type: "TM", message: "If you are using the default code, you should see a flashing heart and scrolling Hello on the screen in the Microbit in the simulator panel"},
-    {type: "TM", message: "Anytime you want to make a change, just change the code in the editor and presse the button as we did in step 3"},
+    {type: "TM", message: "Anytime you want to make a change, just change the code in the editor and press the button as we did in step 3"},
     {id:1, type: "ack"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
