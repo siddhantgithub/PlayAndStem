@@ -3,22 +3,7 @@ const crypto = require('crypto');
 
 const userSchema = new mongoose.Schema(
     {
-        username: {
-            type: String,
-            trim: true,
-            required: true,
-            max: 32,
-            unique: true,
-            index: true,
-            lowercase: true
-        },
-        firstName: {
-            type: String,
-            trim: true,
-            required: true,
-            max: 32
-        },
-        lastName: {
+        name: {
             type: String,
             trim: true,
             required: true,
@@ -31,10 +16,6 @@ const userSchema = new mongoose.Schema(
             unique: true,
             lowercase: true
         },
-        profile: {
-            type: String,
-            required: true
-        },
         learners: {
             type:Array,
             trim: true,
@@ -44,22 +25,11 @@ const userSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        salt: String,
-        about: {
-            type: String
-        },
-        role: {
+        id :{
             type: Number,
-            trim: true
         },
-        photo: {
-            data: Buffer,
-            contentType: String
-        },
-        resetPasswordLink: {
-            data: String,
-            default: ''
-        }
+        primarylogintype: {type:String},
+        salt: String,
     },
     { timestamp: true }
 );
@@ -100,4 +70,5 @@ userSchema.methods = {
     }
 };
 
-module.exports = mongoose.model('User', userSchema);
+//module.exports = mongoose.model('Parent', userSchema);
+export default mongoose.models.Parent || mongoose.model('Parent', userSchema)

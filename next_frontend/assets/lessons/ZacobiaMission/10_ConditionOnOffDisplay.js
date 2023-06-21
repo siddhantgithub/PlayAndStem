@@ -32,7 +32,7 @@ lightLevel = display.read_light_level();
     {id:12, type:"TM", message: "First, we need to decide what low light level means"},
     {id:12, type:"TM", message: "read_light_level function returns a number between 0 and 255, with higher value meaning more light"},
     {id:15, type: "donothing"},
-    {id:12, type:"TM", message: "Zacobians want to switch on the lights when the light level is less than or equal to 100"},
+    {id:12, type:"TM", message: "Zacobians want to switch on the lights when the light level is less than or equal to 50"},
     {id:1, type: "ack", message:"Click Next"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
@@ -41,7 +41,7 @@ lightLevel = display.read_light_level();
     `from microbit import *
 
 lightLevel = display.read_light_level();
-if lightLevel <= 100:
+if lightLevel <= 50:
     `},
     {id:1, type: "ack", message:"Click next to proceed"},
     {id:1, type: "clearpage"},
@@ -54,7 +54,7 @@ if lightLevel <= 100:
     `from microbit import *
 
 lightLevel = display.read_light_level();
-if lightLevel <= 100:
+if lightLevel <= 50:
     display.show(Image.HEART)
     `},
     {id:12, type:"TM", message: "Please observe that the display statement has extra spaces than the if statement for the indentation"},
@@ -69,7 +69,7 @@ if lightLevel <= 100:
     {id:10, type: "pycb", value: `from microbit import *
 
 lightLevel = display.read_light_level();
-if lightLevel <= 100:
+if lightLevel <= 50:
     display.show(Image.HEART)
 else:
     display.clear()

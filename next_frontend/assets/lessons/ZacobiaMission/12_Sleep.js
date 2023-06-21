@@ -43,7 +43,7 @@ export const LessonText = [
     {id:10, type: "pycb", value: `from microbit import *
 while True:
     lightLevel = display.read_light_level()
-    if lightLevel <= 100:
+    if lightLevel <= 50:
         display.show(Image.HEART)
     else:
         display.clear()

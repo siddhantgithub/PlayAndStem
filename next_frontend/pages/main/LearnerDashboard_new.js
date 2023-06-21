@@ -408,7 +408,7 @@ function DashboardContent(props) {
       return;
     if (isUser)
     {
-      //console.log ("Getting all user progress");
+      console.log ("Getting all user progress", session);
       var reqType = "GETALLPROGRESS";
       var _id = session.user._id;
       var reqObj = {reqType,_id};

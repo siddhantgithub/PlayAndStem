@@ -6,26 +6,11 @@ import WelcomeParent from '../../components/parentDashboard/WelcomeParent'
 import {getUserDataFromLocalStorage} from "../../actions/authRequestHandlers";
 import ShowLearners from "../../components/parentDashboard/ShowLearners"
 
-//TODO: Use SWR
-//Need to check if able to login with JWT token expired
-function DashboardContent ()
+
+export default function ParentDashboard (props)
 {
-    const [storedUser,setStoredUser] = React.useState(null);
-    React.useEffect(() => {
-        setStoredUser(getUserDataFromLocalStorage());
-    }, []);
-
-    if (storedUser)
-    {
-        return <UserDataAvailable  storedUser={storedUser}/>
-    }
-    return <UserDataNotAvailable/>;
-
-}
-
-function UserDataAvailable (props)
-{
-    const {storedUser} = props;
+    const {parentObj} = props;
+    console.log ("Parent Obj got is", parentObj);
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -42,7 +27,7 @@ function UserDataAvailable (props)
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Welcome {storedUser.email}
+              Welcome {parentObj.name}
             </Typography>
             </Toolbar>
             </AppBar>
@@ -71,13 +56,13 @@ function UserDataAvailable (props)
                             minHeight: 140,
                         }}
                         >
-                            <WelcomeParent storedUser={storedUser}/>
+                            <WelcomeParent parentObj={parentObj}/>
                         </Paper>
                     </Grid>
                     {/* Recent Orders */}
                     <Grid item xs={12}>
                         <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                            <ShowLearners storedUser={storedUser}/>
+                            <ShowLearners parentObj={parentObj}/>
                         </Paper>
                     </Grid>
                     </Grid>
@@ -87,18 +72,4 @@ function UserDataAvailable (props)
         </Box>
     );
 
-}
-
-function UserDataNotAvailable()
-{
-    return (
-        <React.Fragment>
-            User not found. Please signin again
-        </React.Fragment>
-    );
-}
-
-export default function ParentDashboard ()
-{
-    return <DashboardContent/>;
 }

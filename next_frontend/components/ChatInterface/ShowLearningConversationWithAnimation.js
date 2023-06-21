@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import Container from '@mui/material/Container';
 import {QuestionBlockWithAnswerClicked, TopScreenComponent,ChatBotMessage,LearnerMessage,OptionsWithButtons,AcknowledgementQuestion,LongOptionsWithButtons,PythonCodeComponent,AskAQuestion} from './MessageTypeComponentsWithAnimation'
-import LayoutForCodeCheck from './CodeCheckLayout'
+//import LayoutForCodeCheck from './CodeCheckLayout'
 import Fade from '@mui/material/Fade';
 import Box from '@mui/material/Box';
 import Router from 'next/router';

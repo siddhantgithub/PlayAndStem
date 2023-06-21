@@ -32,6 +32,15 @@ export const authOptions: NextAuthOptions = {
       },
     }),
     */
+    FacebookProvider({
+      clientId: process.env.FACEBOOK_ID,
+      clientSecret: process.env.FACEBOOK_SECRET
+    }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_ID,
+      clientSecret: process.env.GOOGLE_SECRET,
+      checks: ['none']
+    }),
     CredentialsProvider({
       // The name to display on the sign in form (e.g. 'Sign in with...')
       name: 'Credentials',
@@ -94,7 +103,6 @@ export const authOptions: NextAuthOptions = {
     },
   },*/
   pages: {
-    signIn: '/',
     signOut: '/',
   },
   session: {

@@ -24,7 +24,7 @@ import MuiAlert from '@mui/material/Alert';
 import { signIn, signOut, useSession } from "next-auth/react"
 
 //TODO: Show loading
-const Alert = React.forwardRef(function Alert(props, ref) {
+ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
@@ -41,13 +41,14 @@ export default function SignIn() {
 
   
   React.useEffect(() => {
-    //console.log ("Use effect called");
+    console.log ("Use effect called");
     if (loading) return // Do nothing while loading
     if (!isUser) return // If not authenticated, force log in
     //console.log ("The value of session is", session);
     if (isUser)
     {
       router.push("/main/LearnerDashboard_new");
+      return;
     }
   }, [isUser, loading])
   

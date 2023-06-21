@@ -12,21 +12,11 @@ import TableRow from '@mui/material/TableRow';
 import Title from '../Title';
 import Button from '@mui/material/Button';
 
+
 export default function ShowLearners (props) {
+    const {parentObj} = props;
+    const [learnersArray, setLearnersArray] = React.useState(parentObj.learners);
 
-    const [learnersArray, setLearnersArray] = React.useState([]);
-    const {storedUser} = props;
-
-    React.useEffect (() => {
-        GetLearnersArray({userid:storedUser._id}).then(data => {
-            if (data.error) {
-                //Ask to login again
-            } else {
-                setLearnersArray(data.learners);
-            }
-        });
-
-    },[])
 
     return (
         <React.Fragment>

@@ -130,7 +130,7 @@ while x <= 10
     {id:10, type: "pycb", value: `from microbit import *
 
 lightLevel = display.read_light_level();
-if lightLevel <= 100:
+if lightLevel <= 50:
     display.show(Image.HEART)
 else:
     display.clear()
@@ -144,11 +144,10 @@ else:
 
 while True:
     lightLevel = display.read_light_level();
-    if lightLevel <= 100:
+    if lightLevel <= 50:
         display.show(Image.HEART)
     else:
-        display.clear()
-        `},
+        display.clear()`},
     {id:12, type:"TM", message: "Please observe that all the statements after while statement have extra spaces than the while block"},
     {id:1, type: "donothing"},
     {id:12, type:"TM", message: "Those extra spaces are important to tell the while block that we have to repeat all those statements"},

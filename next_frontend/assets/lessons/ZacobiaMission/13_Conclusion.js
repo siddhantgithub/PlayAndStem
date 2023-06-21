@@ -35,13 +35,12 @@ export const LessonText = [
 while True:
     lightLevel = display.read_light_level();
     #We use if statement to check whether the light level is low enough to switch on the display
-    if lightLevel <= 100:
+    if lightLevel <= 50:
         display.show(Image.HEART)
     else:
         display.clear()
     #we put a sleep of 2 seconds to give microbit a break between two runs of the loop
-    sleep(2000)
-    `},
+    sleep(2000)`},
     {id:15, type: "TM", message: "Please notice the comments starting with # symbol and how they make our code more readable"},
     {id:1, type: "ack", message:"Click Next"},
     {id:1, type: "clearpage"},
@@ -59,5 +58,5 @@ while True:
     {id:1, type: "ack"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
-    {id:1, type: "endmessage_last"}
+    {id:1, type: "endmessage"}
 ];

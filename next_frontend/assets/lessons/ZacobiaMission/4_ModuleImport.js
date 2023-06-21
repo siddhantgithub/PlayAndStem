@@ -18,7 +18,7 @@ const firstPythonCodeResponseAction = {
         {id:1, type: "showpage"},
         {id:15, type: "TM", message: "Awesome job"},
         {id:15, type: "TM", message: "Congratulations you completed your first line of code"},
-        {id:15, type: "TM", message: "Press Next To proceed further"}
+        {id:15, type: "TM", message: "Press Next To proceed further"},
     ],
     incorrect:[
         {id:1, type: "clearpage"},

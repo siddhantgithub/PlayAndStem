@@ -8,20 +8,55 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Box from '@mui/material/Box';
 import { useForm, Controller } from "react-hook-form";
 import * as React from 'react';
-import {SendAddLearnerPostRequest} from '../../actions/LearnersRequestHandler';
+import { GetSetParentDataThroughAPI } from '../../actions/ParentRequestHandler';
+import { RequestTypeForParentLogin } from '../../constants/AllEnums';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
+
+//TODO: Show loading
+ const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 function AddLearnerDialog (props)
 {
-    const {open, onClose,storedUser } = props;
+    const {open, onClose,parentObj } = props;
+    const [openSnackBar, setOpenSnackBar] = React.useState(false);
+    const [severity, setSeverity] = React.useState('success');
+    const [message, setMessage] = React.useState('');
+
     const handleClose = () => {
         onClose();
     };
 
+    const handleSnackBarClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+  
+      setOpenSnackBar(false);
+    };
+
     const onSubmit = userdata => {
-        userdata.parentid = storedUser._id;
-        console.log(userdata);
-        SendAddLearnerPostRequest(userdata).then(userdata => {});
+      var reqObj = {reqType: RequestTypeForParentLogin.AddLearner, user: parentObj, learner: userdata};
+      console.log ("Will get the learners information from the parent", reqObj);
+      GetSetParentDataThroughAPI(reqObj).then ((resp) => {
+          console.log ("Data got for the learner is", resp);
+          setOpenSnackBar(true);
+          if (!!resp.error) {
+            //setValues({ ...values, error: data.error, loading: false });
+            setSeverity("error");
+            setMessage(resp.error);
+        } else {
+            // save user token to cookie
+            // save user info to localstorage
+            // authenticate user
+            setSeverity("success");
+            setMessage("Learner Added Successfully");
+            onClose();
+        }
+      }); 
     };
 
     const { handleSubmit, control, formState: { errors } } = useForm();
@@ -150,6 +185,11 @@ function AddLearnerDialog (props)
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
         </DialogActions>
+        <Snackbar open={openSnackBar} autoHideDuration={6000} onClose={handleSnackBarClose} anchorOrigin={{ vertical:'top', horizontal:'center' }}>
+            <Alert onClose={handleSnackBarClose} severity={severity} sx={{ width: '100%' }}>
+              {message}
+            </Alert>
+        </Snackbar>
     </Dialog>
     );
 }

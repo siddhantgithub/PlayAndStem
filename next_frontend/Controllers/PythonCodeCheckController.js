@@ -8,7 +8,8 @@ const AnswerStatus = {
     Not_Answered: "notanswered",
     Answered_Incorrect: "answeredincorrect",
     Answered_Correct: "answeredcorrect",
-    Checking_Answer: "checkinganswer"
+    Checking_Answer: "checkinganswer",
+    LoadingPrompt: "loadingprompt"
   };
 
 export class PythonCodeCheckController 
@@ -23,6 +24,7 @@ export class PythonCodeCheckController
     currentPythonCode;
     openAIBuffer;
     purpose;
+    //codeValue;
 
     comparePythonCode(code1, code2) {
         const lines1 = code1.split('\n');
@@ -35,6 +37,43 @@ export class PythonCodeCheckController
           }
         }
         return lines1.length === lines2.length;
+    }
+
+    parseParagraph(paragraph) {
+        var lines = paragraph.split('\n');
+        var result = [];
+      
+        for (var i = 0; i < lines.length; i++) {
+          var line = lines[i].trim();
+      
+          if (line !== '') {
+
+            if (line.includes ("#SPE#"))
+            {
+                result.push({type:"TM", message:"Please type the code in the editor below"});
+                result.push({type:"GETINPUT", value:this.currentPythonCode});
+                result.push ({type:"ack", buttonText:"Done"});
+                result.push ({type:"clearpage"});
+                result.push ({type:"showpage"});
+                continue;
+            }
+            else if (line.includes ("#break#"))
+            {
+                result.push ({type:"ack"});
+                result.push ({type:"clearpage"});
+                result.push ({type:"showpage"});
+                continue;
+
+            }
+            var jsonElement = {
+              type: 'TM',
+              message: line
+            };
+            
+            result.push(jsonElement);
+          }
+        }
+        return result;
       }
 
     checkPythonCode ()
@@ -57,26 +96,6 @@ export class PythonCodeCheckController
             this.state = AnswerStatus.Checking_Answer;
             return;
         }
-        this.currentPythonCode.replace(/(?:\r\n|\r|\n)/g, '');
-        //console.log (currentPythonCode, correctCode);
-        //console.log ("Answer and code match", currentPythonCode.current.localeCompare(data.correctCode));
-        if (this.currentPythonCode.localeCompare(this.correctCode) == 0)
-        { 
-            console.log ("Code is correct");
-            this.state = AnswerStatus.Answered_Correct;
-            this.messageStackCounter = 0;
-            //We can now move on with the next steps
-        }
-        else
-        {
-            console.log ("Code is not correct")
-            this.state = AnswerStatus.Answered_Incorrect;
-            this.messageStackCounter = 0;
-            //The problem, code can be termed incorrect even if the number of spaces don't match
-            //We need to figure out how to overcome that
-            //simple solution can be, 
-        }
-        return;
     }
 
     onOpeAIResponse(data,isDone)
@@ -104,14 +123,15 @@ export class PythonCodeCheckController
     {
         //console.log (answer,initialMessage, correctResponse, incorrectResponse);
         this.purpose = purpose;
-        this.state = AnswerStatus.Not_Answered;
+        this.state = AnswerStatus.LoadingPrompt;
         this.correctResponseStack = correctResponse;
         this.incorrectResponseStack = incorrectResponse;
         this.correctCode = answer;
-        this.initialMessageStack = initialMessage;
+        this.initialMessageStack = typeof initialMessage == "string"? this.parseParagraph (initialMessage): initialMessage ;
         this.messageStackCounter = 0;
         this.currentPythonCode = "";
         this.openAIBuffer = "";
+        this.codeValue = "";
         this.checkingResponseStack = [ {id:1, type: "clearpage"},
         {id:1, type: "showpage"},{id:1, type: "TM", message:"Checking Answer"}];
         //console.log ("Open AI buffer is ", this.openAIBuffer);
@@ -139,13 +159,22 @@ export class PythonCodeCheckController
                 break;
 
             case AnswerStatus.Not_Answered:
+            case AnswerStatus.LoadingPrompt:
                 if (this.messageStackCounter < this.initialMessageStack.length)
                 {
-                    return this.initialMessageStack[this.messageStackCounter++];
+                    var nextElem = this.initialMessageStack[this.messageStackCounter++];
+                    if (nextElem.type == "GETINPUT")
+                    {
+                        var elem = {type:"pycb", value:this.currentPythonCode};
+                        return elem;
+
+                    }
+                    return nextElem;
                 }
                 else if (this.messageStackCounter == this.initialMessageStack.length)
                 {
-                    var elem = {type:"pycb", value:""};
+                    this.state = AnswerStatus.Not_Answered;
+                    var elem = {type:"pycb", value:this.currentPythonCode};
                     this.messageStackCounter++;
                     return elem;
                 }
@@ -180,7 +209,6 @@ export class PythonCodeCheckController
                 {
                     this.messageStackCounter++
                     return {type: "TM", message:"What would you like to do next?"};
-
                 }
                 else if (this.messageStackCounter == this.incorrectResponseStack.length + 1)
                 {
@@ -201,6 +229,9 @@ export class PythonCodeCheckController
     {
         switch (this.state)
         {
+            case AnswerStatus.LoadingPrompt:
+                return;
+
             case AnswerStatus.Not_Answered:
                 this.checkPythonCode();
                 this.messageStackCounter = 0;
@@ -215,7 +246,9 @@ export class PythonCodeCheckController
             case AnswerStatus.Answered_Incorrect:
                 if (response == "Retry")
                 {
-                    this.state = AnswerStatus.Not_Answered;
+                    //No need to go through whole set again
+                    this.initialMessageStack = [{type:"TM", message:"Please fix the errors in the code in the Python editor and click Check when you are done"}];
+                    this.state = AnswerStatus.LoadingPrompt;
                     this.messageStackCounter = 0;
                     return false;
                 }

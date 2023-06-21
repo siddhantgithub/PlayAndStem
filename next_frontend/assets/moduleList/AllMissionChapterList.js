@@ -17,7 +17,8 @@ export const ZacobiaModuleList = [
     {id:10,name:"Switch display only if",fileName:"ZacobiaMission/10_ConditionOnOffDisplay.js",description: "Conditionally switch on and off a display",topicsCovered:"If statement implementation",image:"ConditionOnOff.png"},
     {id:11,name:"Loops - Doing again",fileName:"ZacobiaMission/11_WhileLoop.js",description: "Loops and using While for a loop in Python",topicsCovered:"Problem Introduction",image:"Loops.png"},
     {id:12,name:"Take rest with sleep",fileName:"ZacobiaMission/12_Sleep.js",description: "Adding a dealy using Python sleep statement",topicsCovered:"Sleep statement in Python",image:"Sleep.png"},
-    {id:13,name:"Yay!!! We have done it",fileName:"ZacobiaMission/13_Conclusion.js",description: "Walkthrough of the topcics covered in the mission",topicsCovered:"Problem Introduction",image:"Conclusion.png"},
+    {id:13,name:"Yay!!! We have done it",fileName:"ZacobiaMission/13_Conclusion.js",description: "Walkthrough of the topics covered in the mission",topicsCovered:"Problem Introduction",image:"Conclusion.png"},
+    {id:14,name:"Final Walkthrough",fileName:"ZacobiaMission/14_FinalCodeWalkthrough.js",description: "Practice the Python code from the mission",topicsCovered:"Problem Introduction",image:"FinalWalkthrough.jpg"},
 ];
 
 export const NoNumModuleList = [

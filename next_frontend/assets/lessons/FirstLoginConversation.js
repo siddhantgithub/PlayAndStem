@@ -15,6 +15,70 @@
 //Need to start implementing backend and recording progress there
 import { LearnerEventType } from "../../actions/OpenAIResponseHandler";
 
+const codeMessageStackString = `
+Time to practice writing the whole code again
+
+We will go through the entire code line by line and you should write the code along the way
+
+#break#
+
+First, we should import all the help from microbit. 
+
+The code for the import will be: <b>from microbit import *</b>
+
+#SPE#
+
+Next, start an indefinite while loop by using the following code <b>while True:</b>
+
+#SPE#
+
+Within the while loop, we should first store the value of light level and store it in the variable called lightLevel
+
+The code to store the value will be <b>lightLevel = display.read_light_level()</b>
+
+#SPE#
+
+Next we check whether the light level is below 50 by using if statement so we add the code <b>if lightLevel <= 50:</b>
+
+Please note that the if statement will have an extra indentation than while statement
+
+#SPE#
+
+Next we will write the code to execute if the lightLevel is less than 50
+
+Since we want to show the heart, the code will be <b>display.show (“Image.HEART”)</b>
+
+The code to display the heart will have an extra indentation than the if statement
+
+#SPE# 
+
+With the code for if condition complete, we start the else block to write the code when the light level is greater than 50
+
+The code of the else block will be <b>else:</b>
+
+Remember, the else statement will have the same indentation as the if statement
+
+#SPE# 
+
+Now under else statement, we will write the code to switch off the display
+
+The code will be: display.clear()
+
+The code to clear the display will have an extra indentation than the else statement
+
+#SPE# 
+
+Lastly, we will add a sleep statement to add a delay of 2 seconds before checking again
+
+The code to write will be: sleep (2000)
+
+The sleep statement will have the same indentation as the if statement
+
+#SPE# 
+
+Our code for the mission is complete. Please review the code and click Check when you are done
+`;
+
 const introEndBlock = [
     {id:1, type: "ack"},
     {id:1, type: "clearpage"},
@@ -162,11 +226,19 @@ const quizText = `
     `;
 
     const firstCodeMessageStack =[
-        {id:1, type: "clearpage"},
-        {id:1, type: "showpage"},
         {id:15, type: "TM", message: "Please write the import statement that gets all the help from microbit and click check when you are done"},
         {id:15, type: "TM", message: "Remember the syntax of the import statement is:"},
-        {id:15, type: "TM", message: "from \'where to import\' import \'what to import\'"}
+        {id:15, type: "TM", message: "from \'where to import\' import \'what to import\'"},
+        {type: "ack"},
+        {id:1, type: "clearpage"},
+        {id:1, type: "showpage"},
+        {type:"GETINPUT"},
+        {type: "ack"},
+        {id:1, type: "clearpage"},
+        {id:1, type: "showpage"},
+        {id:15, type: "TM", message: "Next let's do somethin special"},
+        {id:15, type: "TM", message: "Remember the syntax of the import statement is:"},
+        {id:15, type: "TM", message: "from \'where to import\' import \'what to import\'"},
     ];
     
     const firstPythonCodeResponseAction = {
@@ -209,7 +281,7 @@ export let LessonText = [
     //{id:1, type: "ack"},
     //{id:1, type: "clearpage"},
     //{id:1, type: "showpage"},
-    //{id:1, type: "chpycon", purpose: "import everything from microbit module", messageStack:firstCodeMessageStack, correctCode:"from microbit import *",responseAction:firstPythonCodeResponseAction},
+    //{id:1, type: "chpycon", purpose: "import everything from microbit module", messageStack:codeMessageStackString, correctCode:"from microbit import *",responseAction:firstPythonCodeResponseAction},
     //{id:1, type: "acksp", data: {type:"learnerevent", subtype:"loadmission", data:0}}, buttonText
     //{id:1, type: "image", path:"/lessonImages/Blocks.png", altText:"testImage"},
     //{id:1, type: "acksp", buttonText: "Tell A Joke", data: {type:"openaievent", subtype:"openaievent", data:0}},
@@ -219,7 +291,7 @@ export let LessonText = [
 //    {id:12, type:"TM", message: "What do you think the output of the code below will be:"},
 //     {id:10, type: "pycb", value: 
 //     `for x in range (2,8,3):
-//         print (x)
+//         print (x)<
 //     `},
 //     {id:1, type: "QWBOL", message: "Provide your response", options:ForRangeQuestion2},
     {id:0, type: "TM", message:"Meet Cairo, Your Virtual Buddy"},

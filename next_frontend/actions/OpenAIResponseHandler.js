@@ -6,13 +6,13 @@ export const LearnerEventType = {
     AnswerQuestion: "answerquestion",
     HaveConversation: "haveconversation"
 };
-const ShortJokePrompt = `Generate a short joke for ten year olds related to robotics and computer programming`;
+const ShortJokePrompt = `Generate a short joke for ten year olds`;
 
-const CheckPythonCodePrompt = `Please check the Python code for errors. Also, please provide an explaination to fix the error so that a 10-year old can understand. Here is the code: `;
+const CheckPythonCodePrompt = `Please check the Python code for syntax errors. Please only say correct if there are no syntax errors. Please only explain the errors. Also, please provide an explaination to fix the error so that a 10-year old can understand. Here is the code: `;
 
 function returnPromptForCodeCheck (code, purpose)
 {
-  const returnPrompt = `Please check the Python code for errors and just answer correct if the code is correct. The purpose of the code is ${purpose}. Please explain the error in two sentences. Here is the code: ${code}`;
+  const returnPrompt = `Please check the Python code for errors. Please just say correct if the code will fulfill the purpose. The purpose of the code is ${purpose}. Please explain the errors but don't provide the correct code. Here is the code: ${code}`;
   return returnPrompt;
 }
 

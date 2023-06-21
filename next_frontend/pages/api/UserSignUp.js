@@ -1,6 +1,7 @@
 import dbConnect from '../../lib/dbConnect'
 import Learner from '../../models/learnerModel';
 import { AllMissionList } from '../../assets/moduleList/AllMissionChapterList';
+import { AddLearner } from '../../models/CommonFunctions';
 
 export default async (req, res) => {
     try {
@@ -33,7 +34,8 @@ export default async (req, res) => {
             }           
         }
     
-        const { firstname, lastname, username, parentemail, password } = req.body;
+        let newlearner = AddLearner(req.body);
+/*         const { firstname, lastname, username, parentemail, password } = req.body;
         let missionProgress = Array(AllMissionList.length).fill("Not Available");
         
         //let chapterProgress = []; [[2,0,0,0,0,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,0,0,0,0,0,0,0]];
@@ -50,7 +52,7 @@ export default async (req, res) => {
         });
         //let quizProgress = Array(20).fill(-1);
         let newlearner = new Learner({ firstname, lastname, username, password, parentemail,missionProgress,chapterProgress,quizProgress,currentActivityState:0,
-                                        speechVolume:1, typeWriterDealy:50, forwardSpeed:1, isCairoMuted:false, cairoVoice: 'Google UK English Female'});
+                                        speechVolume:1, typeWriterDealy:50, forwardSpeed:1, isCairoMuted:false, cairoVoice: 'Google UK English Female'}); */
 
         try {
             let saveResult = await newlearner.save();

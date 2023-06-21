@@ -1,6 +1,6 @@
 import {QuestionBlock, TopScreenComponent,ChatBotMessage,LearnerMessage,OptionsWithButtons,AcknowledgementQuestion,LongOptionsWithButtons,PythonCodeComponent,ShowImage, ShowCelebration,SendTextToAIComponent} from './MessageTypeComponentsWithAnimation'
 import Fade from '@mui/material/Fade';
-import LayoutForCodeCheck from './CodeCheckLayout';
+//import LayoutForCodeCheck from './CodeCheckLayout';
 
 function replaceTextInMessage (arrayElem,session)
 {

@@ -9,7 +9,7 @@ import * as React from 'react';
 
 export default function WelcomeParent(props) {
   const [open, setOpen] = React.useState(false);
-  const {storedUser} = props;
+  const {parentObj} = props;
  
   const handleClose = (value) => {
     setOpen(false);
@@ -33,7 +33,7 @@ export default function WelcomeParent(props) {
       <AddLearnerDialog
         open={open}
         onClose={handleClose}
-        storedUser = {storedUser}
+        parentObj = {parentObj}
       />
     </React.Fragment>
   );
