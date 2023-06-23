@@ -35,3 +35,19 @@ export async function AddLearner (learnerObj)
 
     return newlearner;
 }
+
+export function GetAllLearnersForParent (parentObj)
+{
+    
+    let learnersArray = parentObj.learners.map (async (item) => {
+        var learnerForId = await Learner.findOne ({_id:item});
+        if (learnerForId)
+        {
+            return learnerForId;
+        }
+        else
+            return {error: "Couldn't find a learner"};
+    });
+    return Promise.all(learnersArray);
+
+}

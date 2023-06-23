@@ -38,6 +38,7 @@ import { MissionWithFriends } from '../../components/LearnerDashboard/JoinMissio
 import { deepPurple, deepOrange, cyan } from '@mui/material/colors';
 import { AllKeyConceptList } from '../../assets/lessons/ZacobiaMission/keyConcepts/AllKeyConceptList';
 import LearnerStore, {LearnerActivityState} from '../../store/LearnerStore';
+import {useRouter} from 'next/router'
 
 
 const drawerWidth = 240;
@@ -66,7 +67,7 @@ function stringAvatar(name) {
     sx: {
       bgcolor: '#AF2BBF',
     },
-    children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+    children: `${name.split(' ')[0][0]}`,
   };
 }
 
@@ -75,6 +76,9 @@ function DashboardAppBar (props)
   const {signedUser} = props;
   const settings = [{text:'Logout',onClick:logoutClicked}];
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [firstName,userName] = LearnerStore (
+    (state) => [state.firstName, state.userName]
+  );
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -88,7 +92,7 @@ function DashboardAppBar (props)
 
   }
 
-  var learnerFullName = signedUser.firstname + " " + signedUser.lastname;
+  var learnerFullName = firstName;
   //console.log ("Learner full name is",learnerFullName);
   return (
     <Box sx={{ display: 'flex' }}>
@@ -103,7 +107,7 @@ function DashboardAppBar (props)
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Welcome {signedUser.username}
+              Welcome {userName}
             </Typography>
             <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
@@ -292,21 +296,6 @@ function LearnerReviseConcepts ()
   );
 }
 
-/*function ShowLearningConversationForAChapter({chapterText, chapterEndReached, onLearnerEvent,backToModulesClicked, learnerQuizProgress})
-{
-  console.log ("Show learner quiz progress", learnerQuizProgress);
-  return (
-    <Grid container spacing={0}  alignItems= "left" sx={{ display: 'flex', flexDirection:'column' }}>   
-    <Grid item xs={12} md={12} lg={12}>
-      <Button variant="outlined" onClick = {backToModulesClicked} startIcon={<ArrowBackIcon />}>Mission Modules</Button>
-    </Grid>
-    <Grid item xs={12} md={12} lg={12}>   
-      <LearningConversation LessonText={chapterText} OnLessonEnd = {chapterEndReached} onEventAck={onLearnerEvent} learnerQuizProgress={learnerQuizProgress}/>
-    </Grid>
-  </Grid>  
-  ); 
-}*/
-
 function ShowLearningConversation({chapterText, chapterEndReached, onLearnerEvent,onBackClicked, learnerQuizProgress,type, quizList,missionId})
 {
   //console.log ("Show learner quiz progress", learnerQuizProgress);
@@ -389,18 +378,21 @@ function DashboardContent(props) {
   const [chapterText, setChapterText] = React.useState(null);
   const [componentState, setComponentState] = React.useState(DashboardState.UserDataLoading);
   const [ currentChapter, setCurrentChapter] = React.useState(0);
+  const [learnerId, setLearnerId] = React.useState("");
 
   var updatedLearnerMissionProgress = React.useRef();
+  const router = useRouter();
 
 
 
-  const [currentActivityState,updateMissionProgress,updateChapterProgress,updateQuizProgress,updateCurrrentActivityState] = LearnerStore (
-    (state) => [state.currentActivityState, state.updateMissionProgress,state.updateChapterProgress, state.updateQuizProgress, state.updateCurrrentActivityState]
+  const [currentActivityState,updateMissionProgress,updateChapterProgress,updateQuizProgress,updateCurrrentActivityState,updateUserName, updateFirstName, updateLastName,updateId] = LearnerStore (
+    (state) => [state.currentActivityState, state.updateMissionProgress,state.updateChapterProgress, state.updateQuizProgress, state.updateCurrrentActivityState, state.updateUserName, state.updateFirstName, 
+      state.updateLastName, state.updateId]
   );
 
   //React useeffect for initial signing up the user
   React.useEffect(() => {
-    //console.log ("Use effect called");
+    console.log ("Use effect called");
     if (loading) return // Do nothing while loading
     if (!isUser) signIn() // If not authenticated, force log in
     //console.log ("The value of session is", session);
@@ -408,38 +400,39 @@ function DashboardContent(props) {
       return;
     if (isUser)
     {
-      console.log ("Getting all user progress", session);
+      var queryObj = router.query;
+      console.log ("Router params are", queryObj);
+      var _id;
       var reqType = "GETALLPROGRESS";
-      var _id = session.user._id;
+      if (queryObj.login === "parent")
+      {
+        _id = queryObj.learnerid;
+        console.log(" id is ", _id);
+        updateId(_id);
+        setLearnerId(_id);
+      }
+      else
+      {
+        _id = session.user._id;
+      }
+
+      console.log ("Getting all user progress", session);
       var reqObj = {reqType,_id};
       GetSetLearnerDataThroughAPI(reqObj).then ((resp) => {
+        console.log ("Resp got is", resp);
         setLearnerMissionProgress(resp.missionProgress);
         setChapterProgress(resp.chapterProgress);
         setQuizProgress(resp.quizProgress);
         updateMissionProgress(resp.missionProgress);
         updateChapterProgress(resp.chapterProgress);
         updateQuizProgress(resp.quizProgress);
+        updateUserName(resp.userName);
+        updateFirstName(resp.firstName);
+        updateLastName(resp.lastname);
         setComponentState(DashboardState.ShowInitialDashboard);
       });
     }
   }, [isUser, loading])
-
-  //React useeffect for gettign chapter progress for all three missions
- /* React.useEffect(() => {
-    if (!!session)
-    {
-    var reqType = "GETCHAPTERPROGRESS";
-    var _id = session.user._id;
-    var reqObj = {reqType,_id};
-    GetSetLearnerDataThroughAPI(reqObj).then (
-      (resp => {
-        //console.log ("resp is", resp, );
-        setChapterProgress(resp.chapterProgress);
-        //console.log ("Chapter progress xxxxx", chapterProgress, resp.chapterProgress[clickedMission.id]);
-      }))
-    }
-      
-  }, [session]);*/
 
   //React useeffect for setting updated mission progress that can be used across renders
   React.useEffect (() => {
@@ -573,7 +566,7 @@ function DashboardContent(props) {
         if (learnerMissionProgress[missionid + 1] != "Completed")
         learnerMissionProgress[missionid + 1] = "Available";
       }
-      var dataObj = {_id: session.user._id, missions:learnerMissionProgress}
+      var dataObj = {_id: learnerId, missions:learnerMissionProgress}
       //console.log ("New learnermission progress is",learnerMissionProgress);
       UpdateLearnerMissionProgress(dataObj);
       return [...learnerMissionProgress]; });
@@ -647,7 +640,7 @@ function DashboardContent(props) {
   function updateChapterProgressForLearner (newChapterProgress)
   {
     var reqType = "UPDATECHAPTERPROGRESS";
-      var _id = session.user._id;
+      var _id = learnerId;
       var data = newChapterProgress;
       var reqObj = {reqType,_id,data};
       GetSetLearnerDataThroughAPI(reqObj).then (

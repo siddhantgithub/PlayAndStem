@@ -7,7 +7,7 @@ function replaceTextInMessage (arrayElem,session)
     switch (arrayElem.type)
     {
         case "TMR":
-            return arrayElem.message.replace("<learnername>",session.user.username);
+            return arrayElem.message.replace("<learnername>",session);
     }
 }
 

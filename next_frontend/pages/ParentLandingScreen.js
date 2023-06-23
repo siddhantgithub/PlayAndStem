@@ -39,7 +39,6 @@ export default function ParentSignupFlow() {
     }
   }, [isUser, loading])
 
-
     async function GoogleSignIn ()
     {
         console.log ("Signing in now");
@@ -49,14 +48,13 @@ export default function ParentSignupFlow() {
     }
 
   return (
-      <Container component="main" maxWidth="xs">
+      <Container component="main" >
         <Box
           sx={{
             marginTop: 18,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            height: "200px"
           }}
         >{
           !parentObj && <>

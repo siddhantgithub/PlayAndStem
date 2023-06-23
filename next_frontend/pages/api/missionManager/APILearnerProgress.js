@@ -38,7 +38,7 @@ function getDataToSendToLearner (learner,reqType)
             break;
 
         case "GETALLPROGRESS":
-            data = {missionProgress: learner.missionProgress,chapterProgress: learner.chapterProgress, quizProgress: learner.quizProgress};
+            data = {firstName:learner.firstname, userName: learner.username, lastName: learner.lastname, missionProgress: learner.missionProgress,chapterProgress: learner.chapterProgress, quizProgress: learner.quizProgress};
             break;    
     }
     return data;
@@ -47,15 +47,18 @@ function getDataToSendToLearner (learner,reqType)
 export default async (req, res) => {
     await dbConnect();
     const { _id, data,reqType} = req.body;
+    console.log ("Request type is ", reqType, "id is ", _id);
     // check if user exist
     try {
         let learner = await Learner.findOne({ _id });
+        console.log ("Found the learner");
         if (learner)
         {
             //Check whether update needs to happen
             if (reqType == "UPDATEMISSIONPROGRESS" || reqType == "UPDATECHAPTERPROGRESS" || reqType == "UPDATEQUIZPROGRESS" )
             {
                 learner = getUpdatedLearnerFromRequest(learner,data,reqType )
+                
                 //learner.missionProgress = missions;
                 try {
                     const updatedLearner = await learner.save();
@@ -67,13 +70,14 @@ export default async (req, res) => {
                     }
                 }
                 catch (err)
-                {
+                {   
                     console.log ("The error is ", err)
                 }
             }
             //Need to send data back
             else{
                 var rdata = getDataToSendToLearner(learner,reqType);
+                console.log ("Data to send for the learner is", rdata);
                 return res.status(200).json(rdata);
             }
         }

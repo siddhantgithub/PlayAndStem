@@ -1,7 +1,7 @@
 import dbConnect from '../../../lib/dbConnect'
 import Parent from '../../../models/parentModel';
 import { RequestTypeForParentLogin } from '../../../constants/AllEnums';
-import { AddLearner } from '../../../models/CommonFunctions';
+import { AddLearner, GetAllLearnersForParent } from '../../../models/CommonFunctions';
 
 function getUpdatedLearnerFromRequest (learner, data, reqType)
 {
@@ -86,15 +86,15 @@ export default async (req, res) => {
                     return res.status(400).json({
                         error: newLearner.error
                     });
-
                 }
                 try {
                     let saveResult = await newLearner.save();
-                    return res.status(200).json({
-                        message: 'Learner Added'
-                    });
-        
-                }catch (e) {
+                    parentObj.learners.push (saveResult._id);
+                    await parentObj.save();
+                    return res.status(200).json(saveResult);
+
+                }
+                catch (e) {
                     console.error(e);
                     return res.status(400).json({
                         error: 'Cannot Add Learner'
@@ -102,6 +102,13 @@ export default async (req, res) => {
                 }
                 //return res.status(200).json(req.body.learner);
                 break;       
+
+            case RequestTypeForParentLogin.GetLearnersData:
+                var allLearners =  await GetAllLearnersForParent(parentObj);
+                return res.status(200).json({
+                    learners: allLearners
+                });
+                break;
         }
     }
     catch (e) 

@@ -25,8 +25,11 @@ function AddLearnerDialog (props)
     const [openSnackBar, setOpenSnackBar] = React.useState(false);
     const [severity, setSeverity] = React.useState('success');
     const [message, setMessage] = React.useState('');
+    const [isDisabled, setIsDisabled] = React.useState(false);
+    const { handleSubmit, control, formState: { errors },reset } = useForm();
 
     const handleClose = () => {
+      reset();
         onClose();
     };
 
@@ -39,6 +42,7 @@ function AddLearnerDialog (props)
     };
 
     const onSubmit = userdata => {
+      setIsDisabled(true);
       var reqObj = {reqType: RequestTypeForParentLogin.AddLearner, user: parentObj, learner: userdata};
       console.log ("Will get the learners information from the parent", reqObj);
       GetSetParentDataThroughAPI(reqObj).then ((resp) => {
@@ -48,18 +52,20 @@ function AddLearnerDialog (props)
             //setValues({ ...values, error: data.error, loading: false });
             setSeverity("error");
             setMessage(resp.error);
+            setIsDisabled(false);
         } else {
             // save user token to cookie
             // save user info to localstorage
             // authenticate user
             setSeverity("success");
             setMessage("Learner Added Successfully");
-            onClose();
+            reset();
+            setTimeout (onClose,1000);
         }
       }); 
     };
 
-    const { handleSubmit, control, formState: { errors } } = useForm();
+    
     
     return (
     <Dialog open={open}>
@@ -175,6 +181,7 @@ function AddLearnerDialog (props)
               type="submit"
               fullWidth
               variant="contained"
+              disabled = {isDisabled}
               sx={{ mt: 3, mb: 2 }}
             >
               Add Learner

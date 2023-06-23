@@ -23,18 +23,6 @@ export default function WelcomeParent(props) {
   return (
     <React.Fragment>
       <Title>Let's Get Started</Title>
-      <Typography component="p" variant="body1" sx={{pb:2}}>
-        Add learners to your account
-      </Typography>
-
-      <div >
-        <Button variant="contained" onClick={AddLearnerClicked}>Add A Learner</Button>
-      </div>
-      <AddLearnerDialog
-        open={open}
-        onClose={handleClose}
-        parentObj = {parentObj}
-      />
     </React.Fragment>
   );
 }

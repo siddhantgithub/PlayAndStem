@@ -87,8 +87,9 @@ export default function LearningConversation(props) {
     const [clearPage,setClearPage] = React.useState (false);
     const [maxWidth, setMaxWidth] = React.useState("lg");
     const [csdOpen, setCSDOpen] = React.useState(false); //CSD stands for Cairo Setting Dialog
-    const [speechVolume,updateSpeechVolume,isCairoMuted,updateCairoMuted, cairoVoice, updateCairoVoice,forwardSpeed, updateForwardSpeed] = LearnerStore (
-        (state) => [state.speechVolume,state.updateSpeechVolume, state.isCairoMuted, state.updateCairoMuted, state.cairoVoice, state.updateCairoVoice, state.forwardSpeed, state.updateForwardSpeed]
+    const [speechVolume,updateSpeechVolume,isCairoMuted,updateCairoMuted, cairoVoice, updateCairoVoice,forwardSpeed, updateForwardSpeed,firstName,userName, learnerId] = LearnerStore (
+        (state) => [state.speechVolume,state.updateSpeechVolume, state.isCairoMuted, state.updateCairoMuted, state.cairoVoice, state.updateCairoVoice, state.forwardSpeed, state.updateForwardSpeed,
+            state.firstName, state.userName, state._id]
       );
     const [cairoSpeedChanged, setCairoSpeedChanged] = React.useState(false);
     //const [lastOpenAIRequest, setLastOpenAIRequest] = React.useState(null);
@@ -154,7 +155,7 @@ export default function LearningConversation(props) {
     {
         //console.log ("Learner quiz progress got it", learnerQuizProgress,quizId, score);
         var reqType = "UPDATEQUIZPROGRESS";
-        var _id = session.user._id;
+        var _id = learnerId;
         console.log ("Value of quiz progress is ", quizProgress.current)
         quizProgress.current[missionId][quizId] = score;
         var data = quizProgress.current;
@@ -280,7 +281,7 @@ export default function LearningConversation(props) {
                     //Remove the question, answer block, show the clicked message as Learner's response, then add the response for the option selected
                     //return [...componentArray,<ChatBotMessage message = "Loading..." key={componentKey.current++}/>]
                     const tmpArrayElem = {type:"TM", message: "Loading Quiz..."};
-                    return [...componentArray,ConvertJsonToComponent(tmpArrayElem,handleOptionClick,session,componentKey.current++,onChangePythonCode)];
+                    return [...componentArray,ConvertJsonToComponent(tmpArrayElem,handleOptionClick,userName,componentKey.current++,onChangePythonCode)];
                     //return [...componentArray,<ChatBotMessage message = "Loading Quiz..." key={componentKey.current++}/>]
                 });
                 addComponentEverySecond(); //calling to avoid initial delay
@@ -317,7 +318,7 @@ export default function LearningConversation(props) {
                     //return [...componentArray,<ChatBotMessage message = "Loading..." key={componentKey.current++}/>]
                     const messageToDisplay = "Quiz has ended. Your score is " + arrayElem.data + "%";
                     const tmpArrayElem = {type:"TM", message: messageToDisplay};
-                    return [...componentArray,ConvertJsonToComponent(tmpArrayElem,handleOptionClick,session,componentKey.current++,onChangePythonCode)];
+                    return [...componentArray,ConvertJsonToComponent(tmpArrayElem,handleOptionClick,userName,componentKey.current++,onChangePythonCode)];
                 });
                 setConversationState(ConversationState.Normal);
                 //addComponentEverySecond();
@@ -425,7 +426,7 @@ export default function LearningConversation(props) {
             
             stopNextComponentDisplayForResponseElements(arrayElem);
             setComponentArray(componentArray => {
-                return [...componentArray,ConvertJsonToComponent(arrayElem,handleOptionClick,session,componentKey.current++,onChangePythonCode)]});
+                return [...componentArray,ConvertJsonToComponent(arrayElem,handleOptionClick,userName,componentKey.current++,onChangePythonCode)]});
         }
     }
 
@@ -440,7 +441,7 @@ export default function LearningConversation(props) {
                 setDisplayNextComponent(true);
                 componentArray.pop();
                 //console.log ("component array till now",componentArray);
-                return [...componentArray,ConvertJsonToComponent (data.responseAction.correct, null,session,componentKey.current++)]
+                return [...componentArray,ConvertJsonToComponent (data.responseAction.correct, null,userName,componentKey.current++)]
             });
         }
         else
@@ -458,7 +459,7 @@ export default function LearningConversation(props) {
                 lessonBlockBuffer.current.push({id:1, type: "clearpage"});
                 lessonBlockBuffer.current.push({id:1, type: "showpage"});
                 let ackElem = {id:1, type: "ack", message:"Click next to proceed"}
-                return [...componentArray,ConvertJsonToComponent (data.responseAction.incorrect, null,session),ConvertJsonToComponent(ackElem,handleOptionClick,session,componentKey.current++)]
+                return [...componentArray,ConvertJsonToComponent (data.responseAction.incorrect, null,userName),ConvertJsonToComponent(ackElem,handleOptionClick,userName,componentKey.current++)]
             });
         }
         return;
@@ -614,7 +615,7 @@ export default function LearningConversation(props) {
             componentArray.pop();
             //console.log ("component array till now",componentArray);
             //Remove the question, answer block, show the clicked message as Learner's response, then add the response for the option selected
-            return [...componentArray,<ConvertJsonToComponent message = {response} key={componentKey.current++}/>,ConvertJsonToComponent (data, null,session,componentKey.current++)]
+            return [...componentArray,<ConvertJsonToComponent message = {response} key={componentKey.current++}/>,ConvertJsonToComponent (data, null,userName,componentKey.current++)]
         });
         addComponentEverySecond(); //calling to avoid initial delay
     }

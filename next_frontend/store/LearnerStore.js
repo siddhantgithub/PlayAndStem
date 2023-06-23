@@ -68,9 +68,14 @@ export const LearnerActivityState  = {
 
 
   const LearnerStore = create(persist((set,get) => ({
+    _id:"",
+    updateId: (id) => set (() => ({_id:id})),
     userName: '',
+    updateUserName: (username) => set (() => ({userName:username})),
     firstName: '',
+    updateFirstName: (firstname) => set (() => ({firstName:firstname})),
     lastName: '',
+    updateLastName: (lastname) => set (() => ({lastName:lastname})),
     missionProgress:[],
     updateMissionProgress: (newMissionProgress) => set (() => ({missionProgress:newMissionProgress})),
     chapterProgress:[],
@@ -89,7 +94,6 @@ export const LearnerActivityState  = {
     updateCairoMuted : (isMuted) => set (() => ({isCairoMuted:isMuted})),
     cairoVoice: 'Google UK English Female',
     updateCairoVoice: (newvoice) => set (() => ({cairoVoice:newvoice})),
-
   }), 
   {
     name: 'cairo-settings', // name of the item in the storage (must be unique)
