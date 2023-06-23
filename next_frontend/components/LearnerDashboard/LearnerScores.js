@@ -6,6 +6,8 @@ import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Image from "next/image";
+import { useStore } from "zustand";
+import LearnerStore from "../../store/LearnerStore";
 
 import {
   Box,
@@ -21,6 +23,11 @@ import {
   ListItemText,
   SvgIcon,
 } from "@mui/material";
+import {
+  backgroundColors,
+  buttonColors,
+  topicColors,
+} from "../../ui_assets/images/UIThemes/colorThemes";
 
 export const LearnerScores = (props) => {
   const {
@@ -31,6 +38,7 @@ export const LearnerScores = (props) => {
     viewAllQuizClicked,
     hideViewAll = false,
   } = props;
+  const { currTheme } = useStore(LearnerStore);
   //console.log ("Quiz progress is ", quizProgress);
 
   if (!hideViewAll)
@@ -38,10 +46,13 @@ export const LearnerScores = (props) => {
       <Card sx={sx}>
         <CardHeader
           title="Quizzes & Scores"
-          sx={{ backgroundColor: "#542E0F", color: "#FFCF71" }}
+          sx={{
+            backgroundColor: topicColors[currTheme],
+            color: backgroundColors[currTheme],
+          }}
           //background color changed : quizzes and scores
         />
-        <List sx={{ backgroundColor: "#FFCF71" }}>
+        <List sx={{ backgroundColor: backgroundColors[currTheme] }}>
           {/* background color changed in quizzes topics */}
           {products.map((product, index) => {
             var score = quizProgress[product.id];
@@ -67,7 +78,6 @@ export const LearnerScores = (props) => {
                         borderRadius: 1,
                         height: 48,
                         width: 48,
-                        // backgroundColor: "#FFCF71",
                       }}
                     />
                   ) : (
@@ -100,7 +110,10 @@ export const LearnerScores = (props) => {
         <Divider />
         {!hideViewAll && (
           <CardActions
-            sx={{ justifyContent: "flex-end", backgroundColor: "#FFCF71" }}
+            sx={{
+              justifyContent: "flex-end",
+              backgroundColor: backgroundColors[currTheme],
+            }}
           >
             <Button
               color="inherit"
@@ -127,21 +140,25 @@ export const LearnerScores = (props) => {
           xs={12}
           md={12}
           lg={12}
-          sx={{ mt: 2, backgroundColor: "#FFCF71" }}
+          sx={{
+            mt: 2,
+            //  backgroundColor: backgroundColors[currTheme]
+          }}
         >
           {/* /* background color of quiz and scores */}
           <Typography
             gutterBottom
             variant="h5"
             component="div"
-            color="#7B3F00"
-            display="flex"
-            justifyContent="center"
+            color={topicColors[currTheme]}
+            // display="flex"
+            // justifyContent="center"
+            paddingLeft={2}
             fontWeight="bolder"
             // vertical-align="middle"
             pt="5px"
           >
-            Quizes & Scores
+            Quizzes & Scores
           </Typography>
         </Grid>
 
@@ -165,7 +182,7 @@ export const LearnerScores = (props) => {
                   width: 200,
                   height: 270,
                   margin: 1,
-                  backgroundColor: "#FFCF71",
+                  backgroundColor: backgroundColors[currTheme],
                 }}
               >
                 <CardActionArea onClick={retryClickHandler}>
@@ -192,7 +209,7 @@ export const LearnerScores = (props) => {
                   variant="contained"
                   sx={{
                     ml: "12px",
-                    backgroundColor: "#7B3F00",
+                    backgroundColor: buttonColors[currTheme],
                   }}
                 >
                   Retry

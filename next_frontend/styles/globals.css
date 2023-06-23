@@ -3,7 +3,7 @@ body {
   /* background-color: black; */
 
   /*body background image */
-  background-image: url("../ui_assets/images/background.png");
+  background-image: none;
   -moz-user-select: none; /*firefox */
   -webkit-user-select: none; /*Safari*/
   -ms-user-select: none; /* IE */

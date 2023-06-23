@@ -23,6 +23,12 @@ import {
   ListItemText,
   SvgIcon,
 } from "@mui/material";
+import {
+  backgroundColors,
+  topicColors,
+} from "../../ui_assets/images/UIThemes/colorThemes";
+import { useStore } from "zustand";
+import LearnerStore from "../../store/LearnerStore";
 
 export function ModuleCardForMessage(props) {
   const { module, onLessonClicked, progress } = props;
@@ -116,6 +122,7 @@ export function ModuleCardForMessage(props) {
 
 export const MissionMessageDashboard = (props) => {
   const { chapterProgress, chapterlist, sx, onLessonClicked } = props;
+  const { currTheme } = useStore(LearnerStore);
 
   const firstAvailableId = chapterProgress.findIndex(
     (elem) => elem == ChapterState.Available || elem == ChapterState.InProgress
@@ -137,13 +144,13 @@ export const MissionMessageDashboard = (props) => {
   //console.log ("Quiz progress is ", quizProgress);
 
   return (
-    <Card sx={{ ...sx, backgroundColor: "#FFCF71" }}>
+    <Card sx={{ ...sx, backgroundColor: backgroundColors[currTheme] }}>
       <CardHeader
         title="Welcome !"
         sx={{
           fontWeight: "bolder",
-          color: "#FFCF71",
-          backgroundColor: "#542E0F",
+          color: backgroundColors[currTheme], //textcolors same as background
+          backgroundColor: topicColors[currTheme],
         }}
       />
       <Typography gutterBottom variant="body1" component="div" sx={{ m: 2 }}>

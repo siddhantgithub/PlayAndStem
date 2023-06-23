@@ -6,6 +6,8 @@ import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Image from "next/image";
+import { useStore } from "zustand";
+import LearnerStore from "../../store/LearnerStore";
 
 import {
   Box,
@@ -21,6 +23,11 @@ import {
   ListItemText,
   SvgIcon,
 } from "@mui/material";
+import {
+  backgroundColors,
+  buttonColors,
+  topicColors,
+} from "../../ui_assets/images/UIThemes/colorThemes";
 
 export const LearnerConceptsLearned = (props) => {
   const {
@@ -31,10 +38,18 @@ export const LearnerConceptsLearned = (props) => {
     hideViewAll = false,
   } = props;
 
+  const { currTheme } = useStore(LearnerStore);
+
   if (!hideViewAll)
     return (
-      <Card sx={sx}>
-        <CardHeader title="Key Concepts Covered" />
+      <Card sx={{ ...sx, backgroundColor: backgroundColors[currTheme] }}>
+        <CardHeader
+          title="Key Concepts Covered"
+          sx={{
+            backgroundColor: topicColors[currTheme],
+            color: backgroundColors[currTheme],
+          }}
+        />
         <List>
           {products.map((product, index) => {
             const hasDivider = index < products.length - 1;
@@ -74,7 +89,11 @@ export const LearnerConceptsLearned = (props) => {
                   secondary={ago}
                   secondaryTypographyProps={{ variant: "body2" }}
                 />
-                <Button size="small" onClick={reviewClickHandler}>
+                <Button
+                  size="small"
+                  onClick={reviewClickHandler}
+                  sx={{ color: topicColors[currTheme] }}
+                >
                   Revise
                 </Button>
               </ListItem>
@@ -107,12 +126,13 @@ export const LearnerConceptsLearned = (props) => {
             gutterBottom
             variant="h5"
             component="div"
+            paddingLeft={2}
             sx={{
               //background color and other updation done
-              backgroundColor: "#FFCF71",
-              color: "#8D4D1A",
-              display: "flex",
-              justifyContent: "center",
+              // backgroundColor: backgroundColors[currTheme],
+              color: topicColors[currTheme],
+              // display: "flex",
+              // justifyContent: "center",
               fontWeight: "bolder",
             }}
           >
@@ -134,7 +154,7 @@ export const LearnerConceptsLearned = (props) => {
                   width: 200,
                   height: 270,
                   margin: 1,
-                  backgroundColor: "#FFCF71",
+                  backgroundColor: backgroundColors[currTheme],
                 }}
               >
                 <CardActionArea onClick={reviewClickHandler}>
@@ -159,7 +179,7 @@ export const LearnerConceptsLearned = (props) => {
                   onClick={reviewClickHandler}
                   variant="contained"
                   sx={{
-                    backgroundColor: "#ed6c02",
+                    backgroundColor: buttonColors[currTheme],
                     ml: "12px",
                     // borderRadius: "2px",
                   }}

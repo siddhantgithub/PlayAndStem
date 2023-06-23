@@ -41,6 +41,15 @@ import { MissionWithFriends } from "../../components/LearnerDashboard/JoinMissio
 import { deepPurple, deepOrange, cyan } from "@mui/material/colors";
 import { AllKeyConceptList } from "../../assets/lessons/ZacobiaMission/keyConcepts/AllKeyConceptList";
 import LearnerStore, { LearnerActivityState } from "../../store/LearnerStore";
+import UIComponent from "../../components/UIComponent";
+import { useStore } from "zustand";
+import {
+  backgroundColors,
+  textColors,
+  buttonColors,
+  cardColors,
+  buttonText,
+} from "../../ui_assets/images/UIThemes/colorThemes";
 
 const drawerWidth = 240;
 function stringToColor(string) {
@@ -73,6 +82,9 @@ function stringAvatar(name) {
 }
 
 function DashboardAppBar(props) {
+  const { currTheme, updateTheme } = useStore(LearnerStore);
+  console.log(currTheme);
+  // console.log(backgroundColors[theme]);
   const { signedUser } = props;
   const settings = [{ text: "Logout", onClick: logoutClicked }];
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -98,14 +110,8 @@ function DashboardAppBar(props) {
           component="nav"
           // max-width="sm"
           sx={{
-            backgroundColor: "#FFCF71",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            width: "40vw",
-            border: 3,
-            borderRadius: 9,
-            borderColor: "#8d4d1a",
+            backgroundColor: backgroundColors[currTheme],
+            width: "100vw",
           }}
         >
           <Toolbar>
@@ -149,10 +155,14 @@ function DashboardAppBar(props) {
             <Typography
               component="h1"
               variant="h6"
-              color="#8d4d1a"
+              color={textColors[currTheme]}
               noWrap
-              sx={{ flexGrow: 1, ml: "10px" }}
-              // fontStyle={}
+              sx={{
+                flexGrow: 1,
+                ml: "10px",
+                mr: "10px",
+                // fontFamily: "Ariel, sans-serif",
+              }}
             >
               Welcome {signedUser.username}!
             </Typography>
@@ -161,21 +171,15 @@ function DashboardAppBar(props) {
                 <NotificationsIcon />
               </Badge>
             </IconButton>*/}
+            {/* Theme selector menu */}
+            <UIComponent />
           </Toolbar>
         </AppBar>
       )}
+
       <Box
         component="main"
         sx={{
-          //change the background colour ui
-          // backgroundColor: (theme) =>
-          //   theme.palette.mode === "light" ? "#FFCF71" : "8d4d1a",
-          // backgroundColor: (theme) =>
-          //   theme.palette.mode === "light"
-          //     ? theme.palette.grey[100]
-          //     : theme.palette.grey[900],
-          // display: "flex",
-          // justifyContent: "center",
           flexGrow: 1,
         }}
       >
@@ -198,6 +202,7 @@ function ShowPostLoginContent({
 }) {
   //callBackHandlers = {[retryQuizClicked, viewAllQuizClicked, reviewConceptClicked, viewAllConceptsClicked]}
   const [open, setOpen] = React.useState(false);
+  const { currTheme, updateTheme } = useStore(LearnerStore);
 
   return (
     <Grid container spacing={3} justifyContent="center">
@@ -206,14 +211,14 @@ function ShowPostLoginContent({
           sx={{
             display: "flex",
             flexDirection: "column",
-            bgcolor: "#FFCF71" /* Updatebackgroundcolor */,
+            bgcolor: backgroundColors[currTheme] /* Updatebackgroundcolor */,
             height: 350,
           }}
         >
           <TopChatBotComponent
             onEventAck={onEventAck}
             learnerQuizProgress={quizProgress}
-            backgroundColor="#FFCF71"
+            backgroundColor={backgroundColors[currTheme]}
           />
         </Paper>
       </Grid>
@@ -264,7 +269,7 @@ function ShowPostLoginContent({
             mt: -4,
             display: "flex",
             flexDirection: "column",
-            bgcolor: "#FFCF71" /* updateBackground */,
+            bgcolor: backgroundColors[currTheme] /* updateBackground */,
           }}
         >
           <DisplayMissionsInCategories
@@ -335,7 +340,7 @@ function LearnerReviseConcepts() {
           id: "5ece2c077e39da27658aa8a9",
           image: "/zacobiamission.jpg",
           name: "Statements & Syntax",
-          updatedAt: "Statements and syntax",
+          updatedAt: "Statements & syntax",
         },
         {
           id: "5ece2c0d16f70bff2cf86cd8",
@@ -378,6 +383,7 @@ function ShowLearningConversation({
   learnerQuizProgress,
   type,
 }) {
+  const { currTheme } = useStore(LearnerStore);
   //console.log ("Show learner quiz progress", learnerQuizProgress);
   return (
     <Grid
@@ -387,8 +393,10 @@ function ShowLearningConversation({
       sx={{ display: "flex", flexDirection: "column" }}
     >
       <Grid item xs={12} md={12} lg={12}>
+        {/* Inner most DashBoard */}
         <Button
-          variant="outlined"
+          variant="contained"
+          sx={{ backgroundColor: buttonColors[currTheme] }}
           onClick={onBackClicked}
           startIcon={<ArrowBackIcon />}
         >
@@ -413,6 +421,7 @@ function ShowAllQuizScreen({
   quizProgress,
   retryQuizClicked,
 }) {
+  const { currTheme } = useStore(LearnerStore);
   return (
     <Grid
       container
@@ -422,7 +431,11 @@ function ShowAllQuizScreen({
     >
       <Grid item xs={12} md={12} lg={12}>
         <Button
-          variant="outlined"
+          variant="contained"
+          sx={{
+            backgroundColor: buttonColors[currTheme],
+            color: buttonText[currTheme],
+          }}
           onClick={showInitialDashboard}
           startIcon={<ArrowBackIcon />}
         >
@@ -447,6 +460,7 @@ function ShowAllConceptsScreen({
   quizProgress,
   reviewConceptClicked,
 }) {
+  const { currTheme } = useStore(LearnerStore);
   return (
     <Grid
       container
@@ -456,7 +470,11 @@ function ShowAllConceptsScreen({
     >
       <Grid item xs={12} md={12} lg={12}>
         <Button
-          variant="outlined"
+          variant="contained"
+          sx={{
+            backgroundColor: buttonColors[currTheme],
+            color: buttonText[currTheme],
+          }}
           onClick={showInitialDashboard}
           startIcon={<ArrowBackIcon />}
         >

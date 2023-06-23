@@ -1,52 +1,44 @@
-import { create } from 'zustand'
-import { persist, createJSONStorage } from 'zustand/middleware'
+import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
 
-export const LearnerActivityState  = {
-    FirstLogin:0,
-    MissionStarted:1,
-    MissionEnded:4,
-    ChapterStarted:2,
-    ChapterEnded:3,
-  };
+export const LearnerActivityState = {
+  FirstLogin: 0,
+  MissionStarted: 1,
+  MissionEnded: 4,
+  ChapterStarted: 2,
+  ChapterEnded: 3,
+};
 
-  export const CairoSpeedPossible = {
-    Slow:.8,
-    Normal: 1.0,
-    Fast: 1.2
-  };
+export const CairoSpeedPossible = {
+  Slow: 0.8,
+  Normal: 1.0,
+  Fast: 1.2,
+};
 
-  export var CairoForwardSpeed = 1.0;
+export var CairoForwardSpeed = 1.0;
 
-  export function isCairoMaxSpeed ()
-  {
-    //console.log ("Returning ", CairoForwardSpeed, CairoForwardSpeed == CairoSpeedPossible.Fast)
-     return CairoForwardSpeed == CairoSpeedPossible.Fast;
-  }
+export function isCairoMaxSpeed() {
+  //console.log ("Returning ", CairoForwardSpeed, CairoForwardSpeed == CairoSpeedPossible.Fast)
+  return CairoForwardSpeed == CairoSpeedPossible.Fast;
+}
 
-  export function isCairoMinSpeed ()
-  {
-     return CairoForwardSpeed == CairoSpeedPossible.Slow;
-  }
+export function isCairoMinSpeed() {
+  return CairoForwardSpeed == CairoSpeedPossible.Slow;
+}
 
-  export function increaseCairoSpeed ()
-  {
-    CairoForwardSpeed += .2;
+export function increaseCairoSpeed() {
+  CairoForwardSpeed += 0.2;
+}
 
-  }
+export function reduceCairoSpeed() {
+  CairoForwardSpeed -= 0.2;
+}
 
-  export function reduceCairoSpeed ()
-  {
-    CairoForwardSpeed -= .2;
+export function setCairoSpeed(speed) {
+  CairoForwardSpeed = speed;
+}
 
-  }
-
-  export function setCairoSpeed (speed)
-  {
-    CairoForwardSpeed = speed;
-
-  }
-
-  /*const updateValueInDb = (config) => (set, get, api) =>
+/*const updateValueInDb = (config) => (set, get, api) =>
   config(
     (...args) => {
      // console.log(' applying', args)
@@ -66,36 +58,47 @@ export const LearnerActivityState  = {
     api
   )*/
 
+const LearnerStore = create(
+  persist(
+    (set, get) => ({
+      userName: "",
+      firstName: "",
+      lastName: "",
+      missionProgress: [],
+      updateMissionProgress: (newMissionProgress) =>
+        set(() => ({ missionProgress: newMissionProgress })),
+      chapterProgress: [],
+      updateChapterProgress: (newChapterProgress) =>
+        set(() => ({ chapterProgress: newChapterProgress })),
+      quizProgress: [],
+      updateQuizProgress: (newQuizProgress) =>
+        set(() => ({ quizProgress: newQuizProgress })),
+      currentActivityState: {
+        state: LearnerActivityState.FirstLogin,
+        data: "NA",
+      },
+      updateCurrrentActivityState: (newCurrentActivity) =>
+        set(() => ({ currentActivityState: newCurrentActivity })),
+      speechVolume: 1,
+      updateSpeechVolume: (newSpeechVolume) =>
+        set(() => ({ speechVolume: newSpeechVolume })),
+      typeWriterDelay: 50,
+      updateTypeWriterDelay: (newDelay) =>
+        set(() => ({ typeWriterDelay: newDelay })),
+      forwardSpeed: 1,
+      updateForwardSpeed: (newSpeed) => set(() => ({ forwardSpeed: newSpeed })),
+      isCairoMuted: false,
+      updateCairoMuted: (isMuted) => set(() => ({ isCairoMuted: isMuted })),
+      cairoVoice: "Google UK English Female",
+      updateCairoVoice: (newvoice) => set(() => ({ cairoVoice: newvoice })),
+      currTheme: 1,
+      updateTheme: (newCurrTheme) => set(() => ({ currTheme: newCurrTheme })),
+    }),
+    {
+      name: "cairo-settings", // name of the item in the storage (must be unique)
+      storage: createJSONStorage(() => sessionStorage), // (optional) by default, 'localStorage' is used
+    }
+  )
+);
 
-  const LearnerStore = create(persist((set,get) => ({
-    userName: '',
-    firstName: '',
-    lastName: '',
-    missionProgress:[],
-    updateMissionProgress: (newMissionProgress) => set (() => ({missionProgress:newMissionProgress})),
-    chapterProgress:[],
-    updateChapterProgress: (newChapterProgress) => set (() => ({chapterProgress:newChapterProgress})),
-    quizProgress:[],
-    updateQuizProgress: (newQuizProgress) => set (() => ({quizProgress:newQuizProgress})),
-    currentActivityState:{state:LearnerActivityState.FirstLogin, data:'NA'},
-    updateCurrrentActivityState: (newCurrentActivity) => set (() => ({currentActivityState:newCurrentActivity})),
-    speechVolume: 1,
-    updateSpeechVolume : (newSpeechVolume) => set (() => ({speechVolume:newSpeechVolume})),
-    typeWriterDelay: 50,
-    updateTypeWriterDelay : (newDelay) => set (() => ({typeWriterDelay:newDelay})),
-    forwardSpeed: 1,
-    updateForwardSpeed : (newSpeed) => set (() => ({forwardSpeed:newSpeed})),
-    isCairoMuted: false,
-    updateCairoMuted : (isMuted) => set (() => ({isCairoMuted:isMuted})),
-    cairoVoice: 'Google UK English Female',
-    updateCairoVoice: (newvoice) => set (() => ({cairoVoice:newvoice})),
-
-  }), 
-  {
-    name: 'cairo-settings', // name of the item in the storage (must be unique)
-    storage: createJSONStorage(() => sessionStorage), // (optional) by default, 'localStorage' is used
-  }
-
-  ));
-
-export default LearnerStore
+export default LearnerStore;

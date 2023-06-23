@@ -35,6 +35,14 @@ import ImageShowPopup from "../dialogBoxes/ImageShowPopup";
 import TextToSpeech from "./textToSpeech/TextToSpeech";
 import LearnerStore from "../../store/LearnerStore";
 import { CairoForwardSpeed } from "../../store/LearnerStore";
+import { useStore } from "zustand";
+import {
+  backgroundColors,
+  buttonColors,
+  buttonText,
+  chatBackground,
+  chatText,
+} from "../../ui_assets/images/UIThemes/colorThemes";
 
 const PythonEditor = dynamic(() => import("../ace-editor/PythonEditor"), {
   ssr: false,
@@ -65,18 +73,13 @@ export function TopScreenComponent(props) {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        // backgroundColor: "#FFCF71",
         p: 2,
       }}
     >
       <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
         <LockOutlinedIcon />
       </Avatar>
-      <Typography
-        component="h1"
-        variant="h5"
-        // sx={{ backgroundColor: " #FFCF71" }}
-      >
+      <Typography component="h1" variant="h5">
         Welcome {learnersname}
       </Typography>
     </Box>
@@ -171,6 +174,8 @@ export function ChatBotMessage(props) {
   //const forwardSpeed = LearnerStore.getState().forwardSpeed;
   //console.log ("Typewriter delay is",typeWriterDelay, CairoForwardSpeed );
 
+  const { currTheme } = useStore(LearnerStore);
+
   const [isPaused, setIsPaused] = React.useState(false);
   const [utterance, setUtterance] = React.useState(null);
   const [voice, setVoice] = React.useState(null);
@@ -248,8 +253,8 @@ export function ChatBotMessage(props) {
               mr: 2,
               display: "flex",
               flexDirection: "column",
-              backgroundColor: "#8D4D1A", //meUpdate chat colour and background
-              color: "white",
+              backgroundColor: chatBackground[currTheme], //meUpdate chat colour and background
+              color: chatText[currTheme],
             }}
             elevation={5}
           >
@@ -275,6 +280,7 @@ export function ChatBotMessage(props) {
 }
 
 export function ChatBotMessageWithoutTypewriter(props) {
+  const { currTheme } = useStore(LearnerStore);
   const { message, noTypewriter } = props;
   return (
     <Grid container spacing={0} sx={{ alignItems: "center" }}>
@@ -286,8 +292,8 @@ export function ChatBotMessageWithoutTypewriter(props) {
             mr: 2,
             display: "flex",
             flexDirection: "column",
-            backgroundColor: "#8D4D1A", //meUpdate auto chat colour and background : noeffect
-            color: "white",
+            backgroundColor: chatBackground[currTheme], //meUpdate auto chat colour and background : noeffect
+            color: chatText[currTheme],
           }}
           elevation={5}
         >
@@ -299,6 +305,7 @@ export function ChatBotMessageWithoutTypewriter(props) {
 }
 
 export function LearnerMessage(props) {
+  const { currTheme } = useStore(LearnerStore);
   const { message } = props;
   return (
     <Fade in={true} timeout={1000}>
@@ -311,11 +318,10 @@ export function LearnerMessage(props) {
               mr: 2,
               display: "flex",
               flexDirection: "column",
-              backgroundColor: "#8D4D1A", //meUpdate response chat colour and background
-              color: "white",
+              backgroundColor: chatBackground[currTheme], //meUpdate response chat colour and background
+              color: chatText[currTheme],
             }}
             elevation={5}
-            // bgcolor="#8D4D1A"
           >
             {message}
           </Paper>
@@ -366,6 +372,7 @@ export const OptionsWithButtons = React.forwardRef((props, ref) => {
 export const LongOptionsWithButtons = React.forwardRef((props, ref) => {
   const { options } = props;
   var key = 10000;
+  const { currTheme } = useStore(LearnerStore);
 
   return (
     <Box ref={ref}>
@@ -377,7 +384,13 @@ export const LongOptionsWithButtons = React.forwardRef((props, ref) => {
                 variant="outlined"
                 key={key++}
                 onClick={option.onClick}
-                sx={{ textAlign: "left", mt: 2, textTransform: "none" }}
+                sx={{
+                  textAlign: "left",
+                  mt: 2,
+                  textTransform: "none",
+                  color: buttonText[currTheme],
+                  backgroundColor: buttonColors[currTheme],
+                }}
               >
                 {option.text}
               </Button>
@@ -411,6 +424,7 @@ export const QuestionBlock = React.forwardRef((props, ref) => {
 
 export const QuestionBlockWithAnswerClicked = React.forwardRef((props, ref) => {
   const { question, options, optionClicked, onClick } = props;
+  const { currTheme } = useStore(LearnerStore);
   var key = 10000;
 
   return (
@@ -458,6 +472,10 @@ export const QuestionBlockWithAnswerClicked = React.forwardRef((props, ref) => {
             variant="contained"
             startIcon={<DoneIcon />}
             onClick={onClick}
+            sx={{
+              backgroundColor: buttonColors[currTheme],
+              color: buttonText[currTheme],
+            }}
           >
             Next
           </Button>
@@ -469,6 +487,7 @@ export const QuestionBlockWithAnswerClicked = React.forwardRef((props, ref) => {
 
 export function AcknowledgementQuestion(props) {
   const { message, onClick, buttonText } = props;
+  const { currTheme } = useStore(LearnerStore);
   return (
     <Grid container sx={{ alignItems: "center", pt: 2 }}>
       <Grid item xs={11} md={11} lg={11}>
@@ -478,7 +497,11 @@ export function AcknowledgementQuestion(props) {
               variant="contained"
               startIcon={<DoneIcon />}
               onClick={onClick}
-              sx={{ textTransform: "none" }}
+              sx={{
+                textTransform: "none",
+                color: buttonText[currTheme],
+                backgroundColor: buttonColors[currTheme],
+              }}
             >
               {buttonText}
             </Button>

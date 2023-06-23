@@ -617,8 +617,7 @@ export default function LearningConversation(props) {
     <Container
       component="main"
       maxWidth={maxWidth}
-      //   bgcolor="#FFCF71"
-      sx={{ display: "flex", flexDirection: "column" }}
+      sx={{ display: "flex", flexDirection: "column" }} //backgroundColor: sets the background of chat
     >
       {/* <TopScreenComponent learnersname = {session.user.username}/>*/}
 

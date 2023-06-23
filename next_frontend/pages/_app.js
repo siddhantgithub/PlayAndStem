@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import Head from "next/head";
 import { ThemeProvider } from "@mui/material/styles";
@@ -9,11 +10,44 @@ import createEmotionCache from "../src/createEmotionCache";
 import { SessionProvider } from "next-auth/react";
 import ScrollTop from "../components/ScrollTop";
 import "../styles/globals.css";
+import "../styles/backgroundStyles.css";
+import LearnerStore from "../store/LearnerStore";
+// import Image from "../ui_assets/images/background.jpg"
 
+// const backgroundImage = {
+//   paperContainer: {
+//     backgroundImage: `url(${Image})`,
+//   },
+// };
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
 export default function MyApp(props) {
+  useEffect(() => {
+    const body = document.querySelector("body");
+
+    LearnerStore.subscribe(() => {
+      const currTheme = LearnerStore.getState().currTheme;
+
+      body.classList.remove(
+        "light-theme",
+        "dark-theme",
+        "grey-theme",
+        "skyBlue-theme"
+      );
+
+      if (currTheme === 1) {
+        body.classList.add("dark-theme");
+      } else if (currTheme === 2) {
+        body.classList.add("grey-theme");
+      } else if (currTheme === 4) {
+        body.classList.add("skyBlue-theme");
+      } else {
+        body.classList.add("light-theme");
+      }
+    });
+  }, []);
+
   const {
     Component,
     emotionCache = clientSideEmotionCache,

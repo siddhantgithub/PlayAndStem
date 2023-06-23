@@ -24,6 +24,16 @@ import { AllQuizList } from "../../assets/quizData/AllQuizList";
 import { AllKeyConceptList } from "../../assets/lessons/ZacobiaMission/keyConcepts/AllKeyConceptList";
 import { MissionMessageDashboard } from "./MissionMessageBoard";
 import { LearnerConceptsLearned } from "./LearnerConceptsLearned";
+import {
+  backgroundColors,
+  buttonColors,
+  buttonText,
+  secondaryTextColors,
+  textColors,
+  topicColors,
+} from "../../ui_assets/images/UIThemes/colorThemes";
+import { useStore } from "zustand";
+import LearnerStore from "../../store/LearnerStore";
 
 export const ChapterState = {
   AvailableLater: 0,
@@ -41,12 +51,16 @@ export const ViewState = {
 };
 
 export const LinearProgressWithLabel = React.forwardRef((props, ref) => {
+  const { currTheme } = useStore(LearnerStore);
   const { completed, total } = props;
   const progress = (completed / total) * 100;
   const compeletedString = `${completed} of ${total}`;
   return (
     <Box sx={{ display: "flex", alignItems: "center", pt: 2 }}>
-      <Typography variant="body2" color="text.secondary">
+      <Typography
+        variant="body2"
+        color={currTheme == 1 ? "white" : "text.secondary"}
+      >
         Progress
       </Typography>
       <Box sx={{ width: "87%", m: 1 }}>
@@ -64,6 +78,7 @@ export const LinearProgressWithLabel = React.forwardRef((props, ref) => {
 export function ModuleCard(props) {
   const { module, onLessonClicked, progress } = props;
   const { name, fileName, image, description, id } = module;
+  const { currTheme } = useStore(LearnerStore);
 
   const onClick = () => {
     onLessonClicked(module);
@@ -160,7 +175,12 @@ export function ModuleCard(props) {
   else
     return (
       <Card
-        sx={{ width: 200, height: 310, margin: 2, backgroundColor: "#FFCF71" }} //background color added to mission cards
+        sx={{
+          width: 200,
+          height: 310,
+          margin: 2,
+          backgroundColor: backgroundColors[currTheme],
+        }} //background color added to mission cards
       >
         <Image
           alt={name}
@@ -175,10 +195,11 @@ export function ModuleCard(props) {
             variant="body1"
             component="div"
             display="flex"
-            borderRadius="2px"
-            justifyContent="center"
-            backgroundColor="#7B3F00"
-            color="white"
+            // borderRadius="2px"
+            // paddingLeft={0.5}
+            // justifyContent="center"
+            // backgroundColor={topicColors[currTheme]}
+            // color={secondaryTextColors[currTheme]}
           >
             {name}
           </Typography>
@@ -189,10 +210,14 @@ export function ModuleCard(props) {
         {
           <Chip
             label={returnChipLabel(progress)}
-            color={returnChipColor(progress)}
+            // color={returnChipColor(progress)}
             variant="contained"
             font-weight="bolder"
-            sx={{ margin: 1 }}
+            sx={{
+              margin: 1,
+              backgroundColor: buttonColors[currTheme],
+              color: buttonText[currTheme],
+            }}
           />
         }
       </Card>
@@ -204,6 +229,7 @@ export function AllModuleList(props) {
   var categoryMissionMapG = React.useRef(null);
   const [tabSelected, setTabSelected] = React.useState(ViewState.All);
   const [chapterCompleted, setChapterCompleted] = React.useState(null);
+  const { currTheme } = useStore(LearnerStore);
 
   const {
     onLessonClicked,
@@ -284,15 +310,14 @@ export function AllModuleList(props) {
     <React.Fragment>
       <Button
         style={{
-          backgroundColor: "#8D4D1A",
+          backgroundColor: buttonColors[currTheme],
+          color: buttonText[currTheme],
         }}
         //added style to change background color of button
         variant="contained"
         ref={messagesEndRef}
         onClick={backToModulesClicked}
         startIcon={<ArrowBackIcon />}
-        // backgroundColor="#8D4D1A"
-        // color="white"
       >
         Learning Home
       </Button>
@@ -338,12 +363,16 @@ export function AllModuleList(props) {
             xs={12}
             md={12}
             lg={12}
-            sx={{ mt: 2, backgroundColor: "#FFCF71" }} //tabs background in mission section
+            sx={{
+              mt: 2,
+              backgroundColor: backgroundColors[currTheme],
+            }} //tabs background in mission section
           >
             <Tabs
               value={tabSelected}
               onChange={handleChange}
               aria-label="basic tabs example"
+              textColor="text.secondary"
             >
               <Tab label="All" value={ViewState.All} {...a11yProps(2)} />
               <Tab label="In Progress/Up Next" value={ViewState.Available} />
@@ -370,7 +399,12 @@ export function AllModuleList(props) {
                     {tabSelected == ViewState.All &&
                       categoryMissionMap.get(category).length > 0 && (
                         <Grid item xs={12} md={12} lg={12} sx={{ mt: 2 }}>
-                          <Typography gutterBottom variant="h5" component="div">
+                          <Typography
+                            gutterBottom
+                            variant="h5"
+                            component="div"
+                            sx={{ color: secondaryTextColors[currTheme] }}
+                          >
                             {category}
                           </Typography>
                         </Grid>
