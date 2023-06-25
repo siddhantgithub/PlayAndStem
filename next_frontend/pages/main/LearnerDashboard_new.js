@@ -39,6 +39,15 @@ import { deepPurple, deepOrange, cyan } from '@mui/material/colors';
 import { AllKeyConceptList } from '../../assets/lessons/ZacobiaMission/keyConcepts/AllKeyConceptList';
 import LearnerStore, {LearnerActivityState} from '../../store/LearnerStore';
 import {useRouter} from 'next/router'
+import UIComponent from "../../components/UIComponent";
+import { useStore } from "zustand";
+import {
+  backgroundColors,
+  textColors,
+  buttonColors,
+  cardColors,
+  buttonText,
+} from "../../ui_assets/images/UIThemes/colorThemes";
 
 
 const drawerWidth = 240;
@@ -73,6 +82,8 @@ function stringAvatar(name) {
 
 function DashboardAppBar (props)
 {
+  const { currTheme, updateTheme } = useStore(LearnerStore);
+  console.log(currTheme);
   const {signedUser} = props;
   const settings = [{text:'Logout',onClick:logoutClicked}];
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -97,15 +108,24 @@ function DashboardAppBar (props)
   return (
     <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        {true && <AppBar component="nav">
+        {true && <AppBar component="nav"
+        sx={{
+          backgroundColor: backgroundColors[currTheme],
+          width: "100vw",
+        }}>
           <Toolbar
           >
             <Typography
               component="h1"
               variant="h6"
-              color="inherit"
+              color={textColors[currTheme]}
               noWrap
-              sx={{ flexGrow: 1 }}
+              sx={{
+                flexGrow: 1,
+                ml: "10px",
+                mr: "10px",
+                // fontFamily: "Ariel, sans-serif",
+              }}
             >
               Welcome {userName}
             </Typography>
@@ -143,6 +163,7 @@ function DashboardAppBar (props)
                 <NotificationsIcon />
               </Badge>
             </IconButton>*/}
+            <UIComponent />
           </Toolbar>
         </AppBar>}
         <Box
@@ -168,6 +189,7 @@ function ShowPostLoginContent({quizProgress, signedUser, onMissionClicked,onEven
 {
   //callBackHandlers = {[retryQuizClicked, viewAllQuizClicked, reviewConceptClicked, viewAllConceptsClicked]}
   const [open, setOpen] = React.useState(false);
+  const { currTheme, updateTheme } = useStore(LearnerStore);
 
   return (
             <Grid container spacing={3} justifyContent="center">
@@ -176,10 +198,11 @@ function ShowPostLoginContent({quizProgress, signedUser, onMissionClicked,onEven
                       sx={{
                         display: 'flex',
                         flexDirection: 'column',
-                        height: 350
+                        height: 350,
+                        bgcolor: backgroundColors[currTheme]
                       }}
                     > 
-                  <TopChatBotComponent onEventAck={onEventAck} learnerQuizProgress={quizProgress}/> 
+                  <TopChatBotComponent onEventAck={onEventAck} learnerQuizProgress={quizProgress} backgroundColor={backgroundColors[currTheme]}/> 
                 </Paper>
               </Grid>
 
@@ -229,6 +252,7 @@ function ShowPostLoginContent({quizProgress, signedUser, onMissionClicked,onEven
                     mt: -4,
                     display: 'flex',
                     flexDirection: 'column',
+                    bgcolor: backgroundColors[currTheme]
                   }}>
                 
                 <TopQuizGames  products={[
@@ -275,7 +299,7 @@ function LearnerReviseConcepts ()
           id: '5ece2c077e39da27658aa8a9',
           image: '/zacobiamission.jpg',
           name: 'Statements & Syntax',
-          updatedAt: 'Statements and syntax'
+          updatedAt: 'Statements & syntax'
         },
         {
           id: '5ece2c0d16f70bff2cf86cd8',
@@ -298,11 +322,17 @@ function LearnerReviseConcepts ()
 
 function ShowLearningConversation({chapterText, chapterEndReached, onLearnerEvent,onBackClicked, learnerQuizProgress,type, quizList,missionId})
 {
+  const { currTheme } = useStore(LearnerStore);
   //console.log ("Show learner quiz progress", learnerQuizProgress);
   return (
     <Grid container spacing={0}  alignItems= "left" sx={{ display: 'flex', flexDirection:'column' }}>   
     <Grid item xs={12} md={12} lg={12}>
-      <Button variant="outlined" onClick = {onBackClicked} startIcon={<ArrowBackIcon />}>Dashboard</Button>
+    <Button
+          variant="contained"
+          sx={{ backgroundColor: buttonColors[currTheme] }}
+          onClick={onBackClicked}
+          startIcon={<ArrowBackIcon />}
+        >Dashboard</Button>
     </Grid>
     <Grid item xs={12} md={12} lg={12}>   
       <LearningConversation LessonText={chapterText} OnLessonEnd = {chapterEndReached} onEventAck={onLearnerEvent} learnerQuizProgress={learnerQuizProgress} type={type} quizList={quizList} missionId={missionId}/>
@@ -313,10 +343,19 @@ function ShowLearningConversation({chapterText, chapterEndReached, onLearnerEven
 
 function ShowAllQuizScreen({quizList, showInitialDashboard,quizProgress,retryQuizClicked})
 {
+  const { currTheme } = useStore(LearnerStore);
   return (
     <Grid container spacing={2}  alignItems= "left" sx={{ display: 'flex', flexDirection:'column' }}>   
     <Grid item xs={12} md={12} lg={12}>
-      <Button variant="outlined" onClick = {showInitialDashboard} startIcon={<ArrowBackIcon />}>Dashboard</Button>
+    <Button
+          variant="contained"
+          sx={{
+            backgroundColor: buttonColors[currTheme],
+            color: buttonText[currTheme],
+          }}
+          onClick={showInitialDashboard}
+          startIcon={<ArrowBackIcon />}
+        >Dashboard</Button>
     </Grid>
     <Grid item xs={12} md={12} lg={12}>   
       <LearnerScores
@@ -333,10 +372,19 @@ function ShowAllQuizScreen({quizList, showInitialDashboard,quizProgress,retryQui
 
 function ShowAllConceptsScreen({showInitialDashboard,quizProgress,reviewConceptClicked, conceptList})
 {
+  const { currTheme } = useStore(LearnerStore);
   return (
     <Grid container spacing={2}  alignItems= "left" sx={{ display: 'flex', flexDirection:'column' }}>   
     <Grid item xs={12} md={12} lg={12}>
-      <Button variant="outlined" onClick = {showInitialDashboard} startIcon={<ArrowBackIcon />}>Dashboard</Button>
+    <Button
+          variant="contained"
+          sx={{
+            backgroundColor: buttonColors[currTheme],
+            color: buttonText[currTheme],
+          }}
+          onClick={showInitialDashboard}
+          startIcon={<ArrowBackIcon />}
+        >Dashboard</Button>
     </Grid>
     <Grid item xs={12} md={12} lg={12}>   
       <LearnerConceptsLearned

@@ -38,6 +38,14 @@ import { CairoForwardSpeed } from '../../store/LearnerStore';
 import SendTextToAIPopup from '../dialogBoxes/SendTextToAIPopup';
 //import useWindowSize from 'react-use/lib/useWindowSize'
 import Confetti from 'react-confetti'
+import { useStore } from "zustand";
+import {
+  backgroundColors,
+  buttonColors,
+  buttonText,
+  chatBackground,
+  chatText,
+} from "../../ui_assets/images/UIThemes/colorThemes";
 
 const PythonEditor = dynamic(
   () => import("../ace-editor/PythonEditor"),
@@ -159,6 +167,7 @@ export  function ChatBotMessage (props)
       //const forwardSpeed = LearnerStore.getState().forwardSpeed;
       //console.log ("Typewriter delay is",typeWriterDelay, CairoForwardSpeed );
 
+      const { currTheme } = useStore(LearnerStore);
       const [isPaused, setIsPaused] = React.useState(false);
       const [utterance, setUtterance] = React.useState(null);
       const [voice, setVoice] = React.useState(null);
@@ -250,6 +259,8 @@ export  function ChatBotMessage (props)
                                         mr:2,
                                         display: 'flex',
                                         flexDirection: 'column',
+                                        backgroundColor: chatBackground[currTheme], //meUpdate chat colour and background
+                                        color: chatText[currTheme],
                                     } } elevation = {5}
                                     >
                 {<Typewriter
@@ -313,6 +324,8 @@ export  function LearnerMessage (props) {
                                     mr: 2,
                                     display: 'flex',
                                     flexDirection: 'column',
+                                    backgroundColor: chatBackground[currTheme], //meUpdate response chat colour and background
+                                    color: chatText[currTheme],
                                 } } elevation = {5}
                                 >
 
@@ -364,6 +377,7 @@ export  const LongOptionsWithButtons = React.forwardRef((props, ref) =>{
 
     const {options} = props;
     var key = 10000;
+    const { currTheme } = useStore(LearnerStore);
 
     return (
         <Box ref={ref}>
@@ -372,7 +386,14 @@ export  const LongOptionsWithButtons = React.forwardRef((props, ref) =>{
                     options.map((option) => {                 
                         return(
                                  <Grid item xs={11} md={11} lg={11} key={key++}>
-                                    <Button variant="outlined" key={key++} onClick={option.onClick} sx={{textAlign:"left", mt:2, textTransform: "none"}}>{option.text}</Button>
+                                    <Button variant="outlined" key={key++} onClick={option.onClick} sx={{
+                                        textAlign: "left",
+                                        mt: 2,
+                                        textTransform: "none",
+                                        color: buttonText[currTheme],
+                                        backgroundColor: buttonColors[currTheme],
+                                      }}>{option.text}
+                                    </Button>
                                 </Grid>              
                     );
                     })}
@@ -449,12 +470,17 @@ export const QuestionBlockWithAnswerClicked = React.forwardRef((props, ref) =>{
 export function AcknowledgementQuestion (props)
 {
     const {message,onClick,buttonText} = props;
+    const { currTheme } = useStore(LearnerStore);
     return (
     <Grid container  sx={{alignItems: 'center', pt:2} }>    
         <Grid item xs={11} md={11} lg={11}>
                 <Fade in={true} timeout = {1000}>
                     <Box sx={{ justifyContent: 'left', width:1, display: 'flex' }}>
-                        <Button variant="contained" startIcon={<DoneIcon />} onClick = {onClick} sx={{textTransform: "none"}}>
+                        <Button variant="contained" startIcon={<DoneIcon />} onClick = {onClick} sx={{
+                            textTransform: "none",
+                            color: buttonText[currTheme],
+                            backgroundColor: buttonColors[currTheme],
+                          }}>
                             {buttonText}
                     </Button>
                     </Box>

@@ -1,0 +1,15 @@
+.light-theme {
+  background-image: url("../ui_assets/images/backgroundLight.png");
+}
+
+.dark-theme {
+  background-image: url("../ui_assets/images/backgroundDark.png");
+}
+
+.grey-theme {
+  background-image: url("../ui_assets/images/backgroundGrey.jpg");
+}
+
+.skyBlue-theme {
+  background-image: url("../ui_assets/images/backgroundSkyBlue.jpg");
+}

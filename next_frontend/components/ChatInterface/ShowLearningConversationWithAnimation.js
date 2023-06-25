@@ -34,21 +34,21 @@ import MenuItem from '@mui/material/MenuItem';
 import { GetOpenAIResponse,LearnerEventType } from '../../actions/OpenAIResponseHandler';
 
 const style = {
-    height: 300,
-  };
-  
-  const CairoAnimation = () => {
-    return <Lottie animationData={groovyWalkAnimation} style={style}/>;
-  };
+  height: 300,
+};
+
+const CairoAnimation = () => {
+  return <Lottie animationData={groovyWalkAnimation} style={style} />;
+};
 
 //TODO: Show loading
 //What is the flow here: read one, show animation
 //UseEffect - Initialize the conversation
 
 const ConversationState = {
-    Normal:0,
-    Quiz:1,
-    CHPYCON:2
+  Normal: 0,
+  Quiz: 1,
+  CHPYCON: 2,
 };
 
 export function breakParagraph(paragraph) {
@@ -116,20 +116,21 @@ export default function LearningConversation(props) {
     var quizProgress = React.useRef(null);
     quizProgress.current = learnerQuizProgress;
 
-    const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block:"end" })
-      }
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+    });
+  };
 
-     function setDisplayNextComponent (shouldDisplay)
-      {
-        displayNextComponentRef.current = shouldDisplay;
-        //console.log ("Seeting display next component to ",shouldDisplay);
-      }
+  function setDisplayNextComponent(shouldDisplay) {
+    displayNextComponentRef.current = shouldDisplay;
+    //console.log ("Seeting display next component to ",shouldDisplay);
+  }
 
-      function setConversationState(newState)
-      {
-        conversationState.current = newState;
-      }
+  function setConversationState(newState) {
+    conversationState.current = newState;
+  }
 
 
    
@@ -225,36 +226,34 @@ export default function LearningConversation(props) {
             setDisplayNextComponent(false);
     }
 
-    function getNextArrayElem()
-    {
-        switch (conversationState.current)
-        {
-            case ConversationState.Quiz:
-                return quizController.current.returnNextQuestion();
+  function getNextArrayElem() {
+    switch (conversationState.current) {
+      case ConversationState.Quiz:
+        return quizController.current.returnNextQuestion();
 
-            case ConversationState.Normal:    
-                var arrayElem = lessonBlockBuffer.current.length > 0 ? 
-                lessonBlockBuffer.current.shift(): 
-                lessonBlock.current[currentIndexToDisplay.current++];
-                return arrayElem;
+      case ConversationState.Normal:
+        var arrayElem =
+          lessonBlockBuffer.current.length > 0
+            ? lessonBlockBuffer.current.shift()
+            : lessonBlock.current[currentIndexToDisplay.current++];
+        return arrayElem;
 
-            case ConversationState.CHPYCON:
-                var arrayElem = pythonCodeCheckController.current.returnNextElem();
-                //console.log ("Array elem got is", arrayElem);
-                return arrayElem;
-        }
+      case ConversationState.CHPYCON:
+        var arrayElem = pythonCodeCheckController.current.returnNextElem();
+        //console.log ("Array elem got is", arrayElem);
+        return arrayElem;
     }
+  }
 
-    function onChangePythonCode (value) {
-        console.log("change", value);
-        //currentPythonCode = value;   
-        switch (conversationState.current)
-        {
-            case ConversationState.Quiz:
-                return quizController.current.onChangePythonCode(value);
+  function onChangePythonCode(value) {
+    console.log("change", value);
+    //currentPythonCode = value;
+    switch (conversationState.current) {
+      case ConversationState.Quiz:
+        return quizController.current.onChangePythonCode(value);
 
-            case ConversationState.Normal:  
-                return;  
+      case ConversationState.Normal:
+        return;
 
             case ConversationState.CHPYCON:
                 return;
@@ -262,9 +261,9 @@ export default function LearningConversation(props) {
         //currentPythonCode.current = value;
     }
 
-    const addComponentEverySecond = () => {
-        //console.log('This will run every second!',displayNextComponentRef.current);
-        //setDisplayNextComponent((displayNextComponent) => !displayNextComponent);
+  const addComponentEverySecond = () => {
+    //console.log('This will run every second!',displayNextComponentRef.current);
+    //setDisplayNextComponent((displayNextComponent) => !displayNextComponent);
 
         if (displayNextComponentRef.current)
         {
@@ -344,31 +343,29 @@ export default function LearningConversation(props) {
                 return;
             }
 
-            if (arrayElem.type == "endmessage")
-            {
-                switch (type)
-                {
-                    case "Chapter":
-                        lessonBlock.current = CommonChapterEndBlock;
-                    break
+            if (arrayElem.type == "endmessage") {
+              switch (type) {
+                case "Chapter":
+                  lessonBlock.current = CommonChapterEndBlock;
+                  break;
 
-                    case "Quiz":
-                        lessonBlock.current = QuizEndBlock;
-                    break;
+                case "Quiz":
+                  lessonBlock.current = QuizEndBlock;
+                  break;
 
-                    case "Concept":
-                        lessonBlock.current = ConceptEndBlock;
-                    break;
-                }
-                //lessonBlock.current = CommonChapterEndBlock;
-                currentIndexToDisplay.current = 0;
-                addComponentEverySecond(); //calling to avoid initial delay
-                OnLessonEnd();
-                //setDisplayNextComponent(false);
-                /*Router.push({
-                    pathname: '/parent/ParentDashboard',
-                });*/
-                return;
+                          case "Concept":
+                              lessonBlock.current = ConceptEndBlock;
+                          break;
+                      }
+                      //lessonBlock.current = CommonChapterEndBlock;
+                      currentIndexToDisplay.current = 0;
+                      addComponentEverySecond(); //calling to avoid initial delay
+                      OnLessonEnd();
+                      //setDisplayNextComponent(false);
+                      /*Router.push({
+                          pathname: '/parent/ParentDashboard',
+                      });*/
+              return;
             }
 
             if (arrayElem.type == "endmessage_last")
@@ -429,6 +426,7 @@ export default function LearningConversation(props) {
                 return [...componentArray,ConvertJsonToComponent(arrayElem,handleOptionClick,userName,componentKey.current++,onChangePythonCode)]});
         }
     }
+  
 
     function checkPythonCode (data)
     {
@@ -465,39 +463,44 @@ export default function LearningConversation(props) {
         return;
     }
 
-    function handleOptionClickInQuizMode (response,data)
-    {
-        if (response == "quiznextclicked")
-        {
-            setDisplayNextComponent(true);
-            addComponentEverySecond();
-            return;
-        }
-        //console.log ("The response is",data);
-        if (quizController.current.optionClicked(data))
-            console.log ("correct clicked");
-
-        setComponentArray(componentArray => {
-            setDisplayNextComponent(false);
-            componentArray.pop();
-            var lastQuestionBlock = quizController.current.currentQuestion;
-            //console.log ("component array till now",componentArray);
-            //Remove the question, answer block, show the clicked message as Learner's response, then add the response for the option selected
-            return [...componentArray,<QuestionBlockWithAnswerClicked optionClicked = {response} key={componentKey.current++}
-                        question={lastQuestionBlock.question} options={lastQuestionBlock.options}
-                        onClick = {(e) =>{handleOptionClick(e,"quiznextclicked")} }/>];
-            //return [...componentArray];
-        });
+  function handleOptionClickInQuizMode(response, data) {
+    if (response == "quiznextclicked") {
+      setDisplayNextComponent(true);
+      addComponentEverySecond();
+      return;
     }
+    //console.log ("The response is",data);
+    if (quizController.current.optionClicked(data))
+      console.log("correct clicked");
 
-    function handleOptionClickInPythonCheckMode (response,data)
-    {
-        if (pythonCodeCheckController.current.onClick(response,data))
-            setConversationState(ConversationState.Normal);;
-        setDisplayNextComponent(true);
-        addComponentEverySecond(); //calling to avoid initial delay
+    setComponentArray((componentArray) => {
+      setDisplayNextComponent(false);
+      componentArray.pop();
+      var lastQuestionBlock = quizController.current.currentQuestion;
+      //console.log ("component array till now",componentArray);
+      //Remove the question, answer block, show the clicked message as Learner's response, then add the response for the option selected
+      return [
+        ...componentArray,
+        <QuestionBlockWithAnswerClicked
+          optionClicked={response}
+          key={componentKey.current++}
+          question={lastQuestionBlock.question}
+          options={lastQuestionBlock.options}
+          onClick={(e) => {
+            handleOptionClick(e, "quiznextclicked");
+          }}
+        />,
+      ];
+      //return [...componentArray];
+    });
+  }
 
-    }
+  function handleOptionClickInPythonCheckMode(response, data) {
+    if (pythonCodeCheckController.current.onClick(response, data))
+      setConversationState(ConversationState.Normal);
+    setDisplayNextComponent(true);
+    addComponentEverySecond(); //calling to avoid initial delay
+  }
 
     //When the question has been answered, remove the question and show the answer as if Learner has answered it
     //response is the text selected
@@ -620,28 +623,27 @@ export default function LearningConversation(props) {
         addComponentEverySecond(); //calling to avoid initial delay
     }
 
-    function setInitialConversation ()
-    {  
-        const returnArray = [<TopScreenComponent learnersname = "Daksh" key={componentKey.current++}/>];
-        return [...returnArray]; 
+  function setInitialConversation() {
+    const returnArray = [
+      <TopScreenComponent learnersname="Daksh" key={componentKey.current++} />,
+    ];
+    return [...returnArray];
+  }
+
+  function onChangePythonCode(value) {
+    // console.log("change", value);
+    //currentPythonCode.current = value;
+    switch (conversationState.current) {
+      case ConversationState.Quiz:
+        return;
+
+      case ConversationState.Normal:
+        return;
+
+      case ConversationState.CHPYCON:
+        return pythonCodeCheckController.current.onChangePythonCode(value);
     }
-
-    function onChangePythonCode (value) {
-       // console.log("change", value);
-        //currentPythonCode.current = value;
-        switch (conversationState.current)
-        {
-            case ConversationState.Quiz:
-                return;
-
-            case ConversationState.Normal:  
-                return;  
-
-            case ConversationState.CHPYCON:
-                return pythonCodeCheckController.current.onChangePythonCode(value);
-
-        }
-    }
+  }
 
     function onCairoSettingClosed (volumeValue,voice, speedLevel)
     {
@@ -653,33 +655,29 @@ export default function LearningConversation(props) {
         //setCairoSpeed(speedLevel);  
     }
 
-    function openCairoSettingDialog ()
-    {
-        setCSDOpen(true);
-    }
+  function openCairoSettingDialog() {
+    setCSDOpen(true);
+  }
 
-    function muteButtonPress()
-    {
-        updateCairoMuted(!isCairoMuted);
-    }
+  function muteButtonPress() {
+    updateCairoMuted(!isCairoMuted);
+  }
 
-    function forwardButtonClicked ()
-    {
-       updateForwardSpeed(forwardSpeed + 0.2);
-       //increaseCairoSpeed();
-       //setCairoSpeedChanged(!cairoSpeedChanged);
-    }
+  function forwardButtonClicked() {
+    updateForwardSpeed(forwardSpeed + 0.2);
+    //increaseCairoSpeed();
+    //setCairoSpeedChanged(!cairoSpeedChanged);
+  }
 
-    function rewindButtonClicked ()
-    {
-        //reduceCairoSpeed(); 
-        //setCairoSpeedChanged(!cairoSpeedChanged);
-        updateForwardSpeed(forwardSpeed - 0.2);
-    }
+  function rewindButtonClicked() {
+    //reduceCairoSpeed();
+    //setCairoSpeedChanged(!cairoSpeedChanged);
+    updateForwardSpeed(forwardSpeed - 0.2);
+  }
 
-    const handleSpeedChange = (event) => {
-        setCairoSpeed(event.target.value);
-      };
+  const handleSpeedChange = (event) => {
+    setCairoSpeed(event.target.value);
+  };
 
     function askQuestionButtonClicked()
     {
@@ -717,23 +715,25 @@ export default function LearningConversation(props) {
                     >
                         {Object.entries(CairoSpeedPossible).map((item) => (<MenuItem value={item[1]} key={item[0]}>{item[0]}</MenuItem>))}
                 
-                </Select>*/
-               }
-            </Stack>
+                </Select>*/}
+          </Stack>
 
-            <CairoSettingDialog open = {csdOpen} onClose = {onCairoSettingClosed} value = {speechVolume*100} currentVoice = {cairoVoice}/>
-          </Grid>
-          <Grid item xs={9} md={9} lg={7}>
-          <Fade in={!clearPage} timeout = {1000}>
-                <Box>
-                    {componentArray}
-                    <div ref={messagesEndRef} autoFocus />
-                </Box>
-            </Fade> 
-            
-          </Grid>
+          <CairoSettingDialog
+            open={csdOpen}
+            onClose={onCairoSettingClosed}
+            value={speechVolume * 100}
+            currentVoice={cairoVoice}
+          />
         </Grid>
-    
-        </Container>
-    );
+        <Grid item xs={9} md={9} lg={7}>
+          <Fade in={!clearPage} timeout={1000}>
+            <Box>
+              {componentArray}
+              <div ref={messagesEndRef} autoFocus />
+            </Box>
+          </Fade>
+        </Grid>
+      </Grid>
+    </Container>
+  );
 }
