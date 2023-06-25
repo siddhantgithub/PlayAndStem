@@ -11,7 +11,7 @@ import { useRouter } from 'next/router'
 import { signIn, signOut, useSession } from "next-auth/react"
 import { RequestTypeForParentLogin } from '../constants/AllEnums';
 import { GetSetParentDataThroughAPI } from '../actions/ParentRequestHandler';
-import ParentDashboard from './parent/ParentDashboard';
+import ParentDashboard from '../components/parentDashboard/ParentDashboard';
 
 
 export default function ParentSignupFlow() {
