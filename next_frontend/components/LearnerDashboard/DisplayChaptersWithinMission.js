@@ -138,7 +138,14 @@ export function ModuleCard(props) {
 
   if (progress != ChapterState.AvailableLater)
     return (
-      <Card sx={{ width: 200, height: 310, margin: 2, backgroundColor: backgroundColors[currTheme] }}>
+      <Card
+        sx={{
+          width: 200,
+          height: 310,
+          margin: 2,
+          backgroundColor: backgroundColors[currTheme],
+        }}
+      >
         <CardActionArea
           onClick={progress != ChapterState.AvailableLater && onClick}
         >
@@ -166,7 +173,7 @@ export function ModuleCard(props) {
           <Chip
             label={returnChipLabel(progress)}
             color={returnChipColor(progress)}
-            variant="outlined"
+            variant="contained"
             sx={{ margin: 1 }}
           />
         }
@@ -224,14 +231,26 @@ export function ModuleCard(props) {
     );
 }
 
-export function MissionDashboard (props) {
+export function MissionDashboard(props) {
   const messagesEndRef = React.useRef(null);
   var categoryMissionMapG = React.useRef(null);
   const [tabSelected, setTabSelected] = React.useState(ViewState.All);
   const [chapterCompleted, setChapterCompleted] = React.useState(null);
   const { currTheme } = useStore(LearnerStore);
 
-  const {onLessonClicked, showInitialDashboard, moduleList, chapterProgress, quizProgress,retryQuizClicked,viewAllQuizClicked,reviewConceptClicked,viewAllConceptsClicked,quizList,conceptList } = props;
+  const {
+    onLessonClicked,
+    showInitialDashboard,
+    moduleList,
+    chapterProgress,
+    quizProgress,
+    retryQuizClicked,
+    viewAllQuizClicked,
+    reviewConceptClicked,
+    viewAllConceptsClicked,
+    quizList,
+    conceptList,
+  } = props;
   const backToModulesClicked = (props) => {
     showInitialDashboard();
   };
@@ -298,43 +317,75 @@ export function MissionDashboard (props) {
   //Third Avalilable later
   return (
     <React.Fragment>
-       <Button variant="outlined" ref = {messagesEndRef} onClick = {backToModulesClicked} startIcon={<ArrowBackIcon />}>Learning Home</Button>
-       <LinearProgressWithLabel completed={chapterCompleted} total={chapterProgress.length}/>        
-       <Fade in={true} timeout = {1000}>
-    
-
-        <Grid container spacing={0}  alignItems= "center" justifyContent="left">
-        { quizProgress && <Grid item xs={12} md={4} lg={4} >
-                <MissionMessageDashboard
-                    chapterProgress= {chapterProgress} chapterlist = {moduleList} onLessonClicked = {onLessonClicked} 
-                    quizProgress={quizProgress}  quizList = {quizList} retryQuizClicked={retryQuizClicked}
-                    sx={{ width: 360, height: 350, mt:2}}
-                />
-              </Grid>}
-              { quizProgress && <Grid item xs={12} md={4} lg={4} >
-                <LearnerScores
-                    products={quizList}
-                    quizProgress={quizProgress}
-                    sx={{ width: 360, height: 350, mt:2}}
-                    retryQuizClicked={retryQuizClicked} 
-                    viewAllQuizClicked={viewAllQuizClicked}
-                />
-              </Grid>}
-              {<Grid item xs={12} md={4} lg={4} >
+      <Button
+        variant="contained"
+        ref={messagesEndRef}
+        onClick={backToModulesClicked}
+        startIcon={<ArrowBackIcon />}
+        sx={{
+          backgroundColor: buttonColors[currTheme],
+          color: buttonText[currTheme],
+        }}
+      >
+        Learning Home
+      </Button>
+      <LinearProgressWithLabel
+        completed={chapterCompleted}
+        total={chapterProgress.length}
+      />
+      <Fade in={true} timeout={1000}>
+        <Grid container spacing={0} alignItems="center" justifyContent="left">
+          {quizProgress && (
+            <Grid item xs={12} md={4} lg={4}>
+              <MissionMessageDashboard
+                chapterProgress={chapterProgress}
+                chapterlist={moduleList}
+                onLessonClicked={onLessonClicked}
+                quizProgress={quizProgress}
+                quizList={quizList}
+                retryQuizClicked={retryQuizClicked}
+                sx={{ width: 360, height: 350, mt: 2 }}
+              />
+            </Grid>
+          )}
+          {quizProgress && (
+            <Grid item xs={12} md={4} lg={4}>
+              <LearnerScores
+                products={quizList}
+                quizProgress={quizProgress}
+                sx={{ width: 360, height: 350, mt: 2 }}
+                retryQuizClicked={retryQuizClicked}
+                viewAllQuizClicked={viewAllQuizClicked}
+              />
+            </Grid>
+          )}
+          {
+            <Grid item xs={12} md={4} lg={4}>
               <LearnerConceptsLearned
                 products={conceptList}
-                reviewConceptClicked = {reviewConceptClicked}
-                viewAllConceptsClicked = {viewAllConceptsClicked}
-                sx={{ width: 360, height: 350, mt:2 }}
-            />
-              </Grid>}
-          <Grid item xs={12} md={12} lg={12} sx ={{mt:2,  backgroundColor: backgroundColors[currTheme]}} >
-          <Tabs value={tabSelected} onChange={handleChange} aria-label="basic tabs example">
-            <Tab label="All" value = {ViewState.All} {...a11yProps(2)} />
-            <Tab label="In Progress/Up Next" value = {ViewState.Available}  />
-            <Tab label="Completed" value = {ViewState.Completed}  />
-            <Tab label="Available Later" value = {ViewState.AvailableLater}  />      
-          </Tabs>
+                reviewConceptClicked={reviewConceptClicked}
+                viewAllConceptsClicked={viewAllConceptsClicked}
+                sx={{ width: 360, height: 350, mt: 2 }}
+              />
+            </Grid>
+          }
+          <Grid
+            item
+            xs={12}
+            md={12}
+            lg={12}
+            sx={{ mt: 2, backgroundColor: backgroundColors[currTheme] }}
+          >
+            <Tabs
+              value={tabSelected}
+              onChange={handleChange}
+              aria-label="basic tabs example"
+            >
+              <Tab label="All" value={ViewState.All} {...a11yProps(2)} />
+              <Tab label="In Progress/Up Next" value={ViewState.Available} />
+              <Tab label="Completed" value={ViewState.Completed} />
+              <Tab label="Available Later" value={ViewState.AvailableLater} />
+            </Tabs>
           </Grid>
           {categoryMissionMapG.current &&
             [

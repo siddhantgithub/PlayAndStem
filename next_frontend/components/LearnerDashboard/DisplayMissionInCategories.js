@@ -23,8 +23,10 @@ import Divider from "@mui/material/Divider";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { GetLearnerMissionProgress } from "../../actions/LearnerMissionProgressRequestHandler";
 import {
+  backgroundColors,
   cardText,
   textColors,
+  topicColors,
 } from "../../ui_assets/images/UIThemes/colorThemes";
 import LearnerStore from "../../store/LearnerStore";
 import { useStore } from "zustand";
@@ -173,13 +175,14 @@ export default function DisplayMissionsInCategories({
         alignItems="center"
         justifyContent="left"
         direction="row"
+        sx={{ backgroundColor: backgroundColors[currTheme] }}
       >
         <Grid item xs={12} md={12} lg={12} sx={{ mb: 0 }}>
           <Typography
             gutterBottom
             variant="h5"
             component="div"
-            sx={{ color: cardText[currTheme] }}
+            sx={{ color: topicColors[currTheme] }}
           >
             Missions & Progress
           </Typography>

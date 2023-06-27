@@ -26,17 +26,24 @@ import {
 import {
   backgroundColors,
   buttonColors,
+  buttonText,
   topicColors,
 } from "../../ui_assets/images/UIThemes/colorThemes";
 
 export const LearnerScores = (props) => {
-  const { products = [], sx, quizProgress,retryQuizClicked, viewAllQuizClicked, hideViewAll= false} = props;
+  const {
+    products = [],
+    sx,
+    quizProgress,
+    retryQuizClicked,
+    viewAllQuizClicked,
+    hideViewAll = false,
+  } = props;
   const { currTheme } = useStore(LearnerStore);
-  console.log ("Quiz progress is ", quizProgress);
+  console.log("Quiz progress is ", quizProgress);
 
-  const newProducts = products.slice (0,3);
-  console.log ("New products are", newProducts)
-
+  const newProducts = products.slice(0, 3);
+  console.log("New products are", newProducts);
 
   if (!hideViewAll)
     return (
@@ -61,70 +68,82 @@ export const LearnerScores = (props) => {
             if (score == -1) scoreMsg = "Not Done";
             else scoreMsg = "Score - " + score + "%";
 
-          const hasDivider = index < newProducts.length - 1;
-          const ago = "80%";
+            const hasDivider = index < newProducts.length - 1;
+            const ago = "80%";
 
-          return (
-            <ListItem
-              divider={hasDivider}
-              key={product.id}
-            >
-              <ListItemAvatar>
+            return (
+              <ListItem divider={hasDivider} key={product.id}>
+                <ListItemAvatar>
+                  {product.image ? (
+                    <Box
+                      component="img"
+                      src={`/lessonImages/${product.image}`}
+                      sx={{
+                        borderRadius: 1,
+                        height: 48,
+                        width: 48,
+                      }}
+                    />
+                  ) : (
+                    <Box
+                      sx={{
+                        borderRadius: 1,
+                        backgroundColor: "neutral.200",
+                        height: 48,
+                        width: 48,
+                      }}
+                    />
+                  )}
+                </ListItemAvatar>
+                <ListItemText
+                  primary={product.name}
+                  primaryTypographyProps={{ variant: "subtitle1" }}
+                  secondary={scoreMsg}
+                  secondaryTypographyProps={{ variant: "body2" }}
+                />
                 {
-                  product.image
-                    ? (
-                      <Box
-                        component="img"
-                        src={`/lessonImages/${product.image}`}
-                        sx={{
-                          borderRadius: 1,
-                          height: 48,
-                          width: 48
-                        }}
-                      />
-                    )
-                    : (
-                      <Box
-                        sx={{
-                          borderRadius: 1,
-                          backgroundColor: 'neutral.200',
-                          height: 48,
-                          width: 48
-                        }}
-                      />
-                    )
+                  <Button
+                    size="small"
+                    variant="contained"
+                    sx={{
+                      color: buttonText[currTheme],
+                      backgroundColor: buttonColors[currTheme],
+                    }}
+                    onClick={retryClickHandler}
+                  >
+                    {scoreMsg != "Not Done" ? "ReTry" : "Try"}
+                  </Button>
                 }
-              </ListItemAvatar>
-              <ListItemText
-                primary={product.name}
-                primaryTypographyProps={{ variant: 'subtitle1' }}
-                secondary={scoreMsg}
-                secondaryTypographyProps={{ variant: 'body2' }}
-              />
-              {<Button size="small" onClick = {retryClickHandler}>{scoreMsg != "Not Done" ? "ReTry": "Try"}</Button>}
-            </ListItem>
-          );
-        })}
-      </List>
+              </ListItem>
+            );
+          })}
+        </List>
 
-      <Divider />
-      {products.length > 3  && <CardActions sx={{ justifyContent: 'flex-end', backgroundColor: backgroundColors[currTheme] }}>
-        <Button
-          color="inherit"
-          endIcon={(
-            <SvgIcon fontSize="small">
-              <ArrowRightIcon />
-            </SvgIcon>
-          )}
-          size="small"
-          variant="text"
-          onClick = {viewAllQuizClicked}
-        >
-          View all
-        </Button>
-      </CardActions>}
-    </Card>
-  );
+        <Divider />
+        {products.length > 3 && (
+          <CardActions
+            sx={{
+              justifyContent: "flex-end",
+              backgroundColor: backgroundColors[currTheme],
+            }}
+          >
+            <Button
+              color="inherit"
+              endIcon={
+                <SvgIcon fontSize="small">
+                  <ArrowRightIcon />
+                </SvgIcon>
+              }
+              size="small"
+              variant="text"
+              onClick={viewAllQuizClicked}
+            >
+              View all
+            </Button>
+          </CardActions>
+        )}
+      </Card>
+    );
   else
     return (
       <Grid container spacing={0} alignItems="flex-start" justifyContent="left">
@@ -162,10 +181,8 @@ export const LearnerScores = (props) => {
             retryQuizClicked(product.id);
           };
           var scoreMsg;
-          if (score == -1)
-            scoreMsg = "Not Done"
-          else
-            scoreMsg = "Score - " + Math.round(score) + "%";
+          if (score == -1) scoreMsg = "Not Done";
+          else scoreMsg = "Score - " + Math.round(score) + "%";
 
           const hasDivider = index < products.length - 1;
           const ago = "80%";

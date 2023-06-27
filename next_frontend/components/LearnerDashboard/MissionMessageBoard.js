@@ -25,6 +25,8 @@ import {
 } from "@mui/material";
 import {
   backgroundColors,
+  buttonColors,
+  buttonText,
   topicColors,
 } from "../../ui_assets/images/UIThemes/colorThemes";
 import { useStore } from "zustand";
@@ -121,81 +123,137 @@ export function ModuleCardForMessage(props) {
 //If all quiz are 100% then suggest to revise a concept
 
 export const MissionMessageDashboard = (props) => {
-  const {chapterProgress,chapterlist,sx,onLessonClicked,quizProgress, quizList,retryQuizClicked} = props;
+  const {
+    chapterProgress,
+    chapterlist,
+    sx,
+    onLessonClicked,
+    quizProgress,
+    quizList,
+    retryQuizClicked,
+  } = props;
   const { currTheme } = useStore(LearnerStore);
 
-  const firstAvailableId = chapterProgress.findIndex ((elem) => elem == ChapterState.Available || elem == ChapterState.InProgress);
-  if (firstAvailableId != -1 && firstAvailableId < chapterlist.length)
-  {
+  const firstAvailableId = chapterProgress.findIndex(
+    (elem) => elem == ChapterState.Available || elem == ChapterState.InProgress
+  );
+  if (firstAvailableId != -1 && firstAvailableId < chapterlist.length) {
     //One chapter is available
     const onClick = () => {
       onLessonClicked(chapterlist[firstAvailableId]);
     };
     return (
-      <Paper sx={sx}>
-        <CardHeader title="Next Chapter" />
-        <Grid container spacing={0}  alignItems= "center" justifyContent="left">
+      <Paper
+        sx={{
+          ...sx,
+          backgroundColor: backgroundColors[currTheme],
+        }}
+      >
+        <CardHeader
+          title="Next Chapter"
+          sx={{
+            backgroundColor: topicColors[currTheme],
+            color: backgroundColors[currTheme],
+          }}
+        />
+        <Grid container spacing={0} alignItems="center" justifyContent="left">
           <Grid item xs={8} md={8} lg={8}>
-            <ModuleCardForMessage key={firstAvailableId} progress = {chapterProgress[firstAvailableId]} module={chapterlist[firstAvailableId]} onLessonClicked = {onLessonClicked} />
+            <ModuleCardForMessage
+              key={firstAvailableId}
+              progress={chapterProgress[firstAvailableId]}
+              module={chapterlist[firstAvailableId]}
+              onLessonClicked={onLessonClicked}
+            />
           </Grid>
           <Grid item xs={4} md={4} lg={4}>
-            <Button variant="contained" size="medium" onClick= {onClick} sx={{ margin: 2 }}>Start</Button>
-            
+            <Button
+              variant="contained"
+              size="medium"
+              onClick={onClick}
+              sx={{
+                margin: 2,
+                backgroundColor: buttonColors[currTheme],
+                color: buttonText[currTheme],
+              }}
+            >
+              Start
+            </Button>
           </Grid>
-          </Grid>     
+        </Grid>
       </Paper>
     );
-  }
-  else
-  {
+  } else {
     //Look if any quiz is incomplete or the score is < 100%
-    const firstOpenQuiz = quizProgress.slice(0,quizList.length).findIndex ((elem) => elem != 100);
-    if (firstOpenQuiz != -1)
-    {
+    const firstOpenQuiz = quizProgress
+      .slice(0, quizList.length)
+      .findIndex((elem) => elem != 100);
+    if (firstOpenQuiz != -1) {
       var quiz = quizList[firstOpenQuiz];
       var retryClickHandler = () => {
         //console.log ("Retry quiz handler is", retryQuizClicked);
         retryQuizClicked(quiz.id);
-      }
+      };
       //Means we have a quiz that is not yet complete
-      if (quizProgress[firstOpenQuiz] == -1)
-      {
+      if (quizProgress[firstOpenQuiz] == -1) {
         return (
-        <Paper sx={sx}>
-          <CardHeader title="Time For a Quiz" />
-          <CardContent>
-            <Typography gutterBottom variant="body1" component="div">
-              You haven't tried the quiz {quiz.name} yet
-            </Typography>
-            <Typography gutterBottom variant="body1" component="div">
-              It would be great to complete the quiz just to ensure you have mastered everything
-            </Typography>
-          </CardContent>
-          <Button variant="contained" size="medium" onClick= {retryClickHandler} sx={{ margin: 2 }}>Retry</Button>
-        </Paper>);
-      }
-      else
-      {
+          <Paper sx={sx}>
+            <CardHeader title="Time For a Quiz" />
+            <CardContent>
+              <Typography gutterBottom variant="body1" component="div">
+                You haven't tried the quiz {quiz.name} yet
+              </Typography>
+              <Typography gutterBottom variant="body1" component="div">
+                It would be great to complete the quiz just to ensure you have
+                mastered everything
+              </Typography>
+            </CardContent>
+            <Button
+              variant="contained"
+              size="medium"
+              onClick={retryClickHandler}
+              sx={{ margin: 2 }}
+            >
+              Retry
+            </Button>
+          </Paper>
+        );
+      } else {
         //Quiz score is < 100. Ask to retry
         return (
           <Paper sx={sx}>
             <CardHeader title="Time For a Quiz" />
             <CardContent>
-              <Typography gutterBottom variant="body1" component="div" sx={{ fontWeight: 'normal', m: 1 }} >
-               The score for the quiz "{quiz.name}" is {Math.round(quizProgress[firstOpenQuiz])} %
+              <Typography
+                gutterBottom
+                variant="body1"
+                component="div"
+                sx={{ fontWeight: "normal", m: 1 }}
+              >
+                The score for the quiz "{quiz.name}" is{" "}
+                {Math.round(quizProgress[firstOpenQuiz])} %
               </Typography>
-              <Typography gutterBottom variant="body1" component="div" sx={{ fontWeight: 'normal', m: 1 }} >
-               How about we retry to get the score to 100%?
+              <Typography
+                gutterBottom
+                variant="body1"
+                component="div"
+                sx={{ fontWeight: "normal", m: 1 }}
+              >
+                How about we retry to get the score to 100%?
               </Typography>
             </CardContent>
-            <Button variant="contained" size="medium" onClick= {retryClickHandler} sx={{ margin: 2 }}>Retry</Button>
-          </Paper>);
-
+            <Button
+              variant="contained"
+              size="medium"
+              onClick={retryClickHandler}
+              sx={{ margin: 2 }}
+            >
+              Retry
+            </Button>
+          </Paper>
+        );
       }
     }
     //console.log ("Sorted quiz progress is", sortedQuizProgress);
-
-
   }
   //console.log ("Quiz progress is ", quizProgress);
 
@@ -210,11 +268,12 @@ export const MissionMessageDashboard = (props) => {
         }}
       />
       <Typography gutterBottom variant="body1" component="div" sx={{ m: 2 }}>
-            Great job in completing all the chapters in the mission
-       </Typography>
-       <Typography gutterBottom variant="body1" component="div" sx={{ m: 2 }}>
-            Feel free to try few chapters again, retry quizzes or revise the concepts covered
-       </Typography>
+        Great job in completing all the chapters in the mission
+      </Typography>
+      <Typography gutterBottom variant="body1" component="div" sx={{ m: 2 }}>
+        Feel free to try few chapters again, retry quizzes or revise the
+        concepts covered
+      </Typography>
     </Card>
   );
 };

@@ -30,8 +30,14 @@ import {
 } from "../../ui_assets/images/UIThemes/colorThemes";
 
 export const LearnerConceptsLearned = (props) => {
-  const { products = [], sx,reviewConceptClicked,viewAllConceptsClicked, hideViewAll= false } = props;
-  const newProducts = products.slice (0,3);
+  const {
+    products = [],
+    sx,
+    reviewConceptClicked,
+    viewAllConceptsClicked,
+    hideViewAll = false,
+  } = props;
+  const newProducts = products.slice(0, 3);
   const { currTheme } = useStore(LearnerStore);
 
   if (!hideViewAll)
@@ -53,66 +59,70 @@ export const LearnerConceptsLearned = (props) => {
               reviewConceptClicked(product);
             };
 
-          return (
-            <ListItem
-              divider={hasDivider}
-              key={product.id}
+            return (
+              <ListItem divider={hasDivider} key={product.id}>
+                <ListItemAvatar>
+                  {product.image ? (
+                    <Box
+                      component="img"
+                      src={`/lessonImages/${product.image}`}
+                      sx={{
+                        borderRadius: 1,
+                        height: 48,
+                        width: 48,
+                      }}
+                    />
+                  ) : (
+                    <Box
+                      sx={{
+                        borderRadius: 1,
+                        backgroundColor: "neutral.200",
+                        height: 48,
+                        width: 48,
+                      }}
+                    />
+                  )}
+                </ListItemAvatar>
+                <ListItemText
+                  primary={product.name}
+                  primaryTypographyProps={{ variant: "subtitle1" }}
+                  secondary={ago}
+                  secondaryTypographyProps={{ variant: "body2" }}
+                />
+                <Button
+                  size="small"
+                  sx={{
+                    backgroundColor: buttonColors[currTheme],
+                  }}
+                  variant="contained"
+                  onClick={reviewClickHandler}
+                >
+                  Revise
+                </Button>
+              </ListItem>
+            );
+          })}
+        </List>
+        <Divider />
+        {products.length > 3 && (
+          <CardActions sx={{ justifyContent: "flex-end" }}>
+            <Button
+              color="inherit"
+              endIcon={
+                <SvgIcon fontSize="small">
+                  <ArrowRightIcon />
+                </SvgIcon>
+              }
+              size="small"
+              variant="text"
+              onClick={viewAllConceptsClicked}
             >
-              <ListItemAvatar>
-                {
-                  product.image
-                    ? (
-                      <Box
-                        component="img"
-                        src={`/lessonImages/${product.image}`}
-                        sx={{
-                          borderRadius: 1,
-                          height: 48,
-                          width: 48
-                        }}
-                      />
-                    )
-                    : (
-                      <Box
-                        sx={{
-                          borderRadius: 1,
-                          backgroundColor: 'neutral.200',
-                          height: 48,
-                          width: 48
-                        }}
-                      />
-                    )
-                }
-              </ListItemAvatar>
-              <ListItemText
-                primary={product.name}
-                primaryTypographyProps={{ variant: 'subtitle1' }}
-                secondary={ago}
-                secondaryTypographyProps={{ variant: 'body2' }}
-              />
-              <Button size="small" onClick={reviewClickHandler}>Revise</Button>
-            </ListItem>
-          );
-        })}
-      </List>
-      <Divider />
-     { products.length > 3  && <CardActions sx={{ justifyContent: 'flex-end' }}>
-        <Button
-          color="inherit"
-          endIcon={(
-            <SvgIcon fontSize="small">
-              <ArrowRightIcon />
-            </SvgIcon>
-          )}
-          size="small"
-          variant="text"
-          onClick = {viewAllConceptsClicked}
-        >
-          View all
-        </Button>
-      </CardActions>}
-    </Card>
-  );
+              View all
+            </Button>
+          </CardActions>
+        )}
+      </Card>
+    );
   else
     return (
       <Grid container spacing={0} alignItems="flex-start" justifyContent="left">
@@ -143,30 +153,46 @@ export const LearnerConceptsLearned = (props) => {
           };
 
           return (
-            <Grid item > 
-              <Card sx={{ width: 200, height: 300,margin: 1, backgroundColor: backgroundColors[currTheme],}}>
-              <CardActionArea onClick = {reviewClickHandler}>
-        
-              <Image alt = {product.name} src={`/lessonImages/${product.image}`}  width={200} height={150}></Image>
-              
-              <CardContent>
-                <Typography gutterBottom variant="body1" component="div">
-                  {product.name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {ago}
-                </Typography>
-              </CardContent>
-              </CardActionArea>
-                <Button size="small" onClick= {reviewClickHandler} variant="contained"
+            <Grid item>
+              <Card
+                sx={{
+                  width: 200,
+                  height: 300,
+                  margin: 1,
+                  backgroundColor: backgroundColors[currTheme],
+                }}
+              >
+                <CardActionArea onClick={reviewClickHandler}>
+                  <Image
+                    alt={product.name}
+                    src={`/lessonImages/${product.image}`}
+                    width={200}
+                    height={150}
+                  ></Image>
+
+                  <CardContent>
+                    <Typography gutterBottom variant="body1" component="div">
+                      {product.name}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {ago}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+                <Button
+                  size="small"
+                  onClick={reviewClickHandler}
+                  variant="contained"
                   sx={{
                     backgroundColor: buttonColors[currTheme],
                     ml: "12px",
                     // borderRadius: "2px",
-                  }}>Review</Button> 
-            </Card>
-          </Grid>
-            
+                  }}
+                >
+                  Review
+                </Button>
+              </Card>
+            </Grid>
           );
         })}
       </Grid>
