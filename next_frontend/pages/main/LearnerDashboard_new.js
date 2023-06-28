@@ -172,13 +172,7 @@ function DashboardAppBar(props) {
       {/* Correction : may not require this. It is giving a blank page. */}
       <Box
         component="main"
-        // sx={{
-        //   backgroundColor: (theme) =>
-        //     theme.palette.mode === "light"
-        //       ? theme.palette.grey[100]
-        //       : theme.palette.grey[900],
-        //   flexGrow: 1,
-        // }}
+         sx={{ flexGrow: 1}}
       >
         <Toolbar />
         <Container sx={{ pt: 2, mt: 1, minHeight: 800 }}>
