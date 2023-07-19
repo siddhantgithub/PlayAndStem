@@ -29,7 +29,7 @@ function AddLearnerDialog (props)
     const { handleSubmit, control, formState: { errors },reset } = useForm();
 
     const handleClose = () => {
-      reset();
+        reset();
         onClose();
     };
 
@@ -60,7 +60,7 @@ function AddLearnerDialog (props)
             setSeverity("success");
             setMessage("Learner Added Successfully");
             reset();
-            setTimeout (onClose,1000);
+            setTimeout (onClose,1000,true);
         }
       }); 
     };

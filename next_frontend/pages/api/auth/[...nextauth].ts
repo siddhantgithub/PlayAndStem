@@ -7,6 +7,7 @@ import Auth0Provider from "next-auth/providers/auth0"
 import CredentialsProvider from "next-auth/providers/credentials"
 import dbConnect from '../../../lib/dbConnect'
 import Learner from '../../../models/learnerModel';
+import Parent from '../../../models/parentModel';
 // import AppleProvider from "next-auth/providers/apple"
 // import EmailProvider from "next-auth/providers/email"
 
@@ -74,7 +75,7 @@ export const authOptions: NextAuthOptions = {
                   }
                   const { _id, missionProgress, username, firstname, lastname} = learner;
                   //console.log ("found a learner",learner);
-                  let returnLearner = { username, firstname, lastname, _id, missionProgress};
+                  let returnLearner = { username, firstname, lastname, _id, missionProgress,loginType:"learner"};
                   return returnLearner as any;
                  // return returnLearner;
               }
@@ -102,7 +103,7 @@ export const authOptions: NextAuthOptions = {
       // e.g. domain, username, password, 2FA token, etc.
       // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
-        username: { label: "Username", type: "text", placeholder: "jsmith" },
+        email: { label: "Email", type: "text", placeholder: "jsmith" },
         password: {  label: "Password", type: "password" }
       },
       async authorize(credentials, req) {
@@ -114,19 +115,19 @@ export const authOptions: NextAuthOptions = {
         // (i.e., the request IP address)
         // Return null if user data could not be retrieved
         await dbConnect();
-          const { username, password } = credentials;
+          const { email, password } = credentials;
           // check if user exist
           try {
             // @ts-ignore
-              let learner = await Learner.findOne({ username });
-              if (learner)
+              let parent = await Parent.findOne({ email });
+              if (parent)
               {
-                  if (!learner.authenticate(password)) {
+                  if (!parent.authenticate(password)) {
                       return null;
                   }
-                  const { _id, missionProgress, username, firstname, lastname} = learner;
+                  const { name,email} = parent;
                   //console.log ("found a learner",learner);
-                  let returnLearner = { username, firstname, lastname, _id, missionProgress};
+                  let returnLearner = { name, email, loginType:"parent"};
                   return returnLearner as any;
                  // return returnLearner;
               }
@@ -157,6 +158,7 @@ export const authOptions: NextAuthOptions = {
   },*/
   pages: {
     signOut: '/',
+    signIn: '/'
   },
   session: {
     // @ts-ignore

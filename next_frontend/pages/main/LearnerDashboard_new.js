@@ -93,7 +93,8 @@ function DashboardAppBar(props) {
   };
 
   function logoutClicked() {
-    signOut();
+    signOut({ callbackUrl: '/' })
+    //signOut();
   }
 
   var learnerFullName = firstName;
@@ -124,10 +125,25 @@ function DashboardAppBar(props) {
             >
               Welcome {userName}
             </Typography>
+            <Typography
+              component="h1"
+              variant="body1"
+              color={textColors[currTheme]}
+              noWrap
+              sx={{
+                //flexGrow: 1,
+                ml: "10px",
+                mr: "10px",
+                // fontFamily: "Ariel, sans-serif",
+              }}
+            >
+              Select Theme
+            </Typography>
+            <UIComponent />
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" {...stringAvatar(learnerFullName)} />
+                  <Avatar alt={learnerFullName} {...stringAvatar(learnerFullName)} />
                 </IconButton>
               </Tooltip>
               <Menu
@@ -158,7 +174,7 @@ function DashboardAppBar(props) {
                 <NotificationsIcon />
               </Badge>
             </IconButton>*/}
-            <UIComponent />
+            
           </Toolbar>
         </AppBar>
       )}
@@ -523,6 +539,7 @@ function DashboardContent(props) {
     if (loading) return; // Do nothing while loading
     if (!isUser) signIn(); // If not authenticated, force log in
     //console.log ("The value of session is", session);
+
     if (componentState != DashboardState.UserDataLoading) return;
     if (isUser) {
       var queryObj = router.query;
@@ -535,6 +552,11 @@ function DashboardContent(props) {
         updateId(_id);
         setLearnerId(_id);
       } else {
+        if (session.user.loginType == "parent")
+        {
+            router.push("/ParentLandingScreen")
+            return;
+        }
         _id = session.user._id;
       }
 

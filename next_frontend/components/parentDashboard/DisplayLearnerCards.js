@@ -169,7 +169,7 @@ export default function DisplayLearnerCards({
             component="div"
             sx={{ ml:2, color:"#757575" }}
           >
-            Please find below learners added to your account. 
+            {(!learners || learners.length == 0)? "No learners found. Add learners to get started.": "Please find below learners added to your account."} 
           </Typography>
 
         </Grid>

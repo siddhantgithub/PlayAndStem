@@ -2,7 +2,8 @@ import * as React from "react";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 const ThemeSwitcher = ({ theme, onThemeChange }) => {
-  const themes = ["Light", "Dark", "Graphite", "Sapphire", "Ocean"];
+  //const themes = ["Light", "Dark", "Graphite", "Sapphire", "Ocean"];
+  const themes = ["Light", "Dark"];
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
   const handleChange = (event) => {
@@ -16,8 +17,7 @@ const ThemeSwitcher = ({ theme, onThemeChange }) => {
 
   return (
     <div>
-      <FormControl sx={{ minWidth: 120 }}>
-        <InputLabel id="demo-simple-select-required-label">Theme</InputLabel>
+      <FormControl sx={{ minWidth: 120, mr:2 }}>
         <Select
           labelId="demo-simple-select-required-label"
           id="demo-simple-select-required"

@@ -56,11 +56,7 @@ export default function SignIn() {
     if (!isUser) return // If not authenticated, force log in
     //console.log ("The value of session is", session);
     if (isUser) {
-      console.log ("user is", session.user);
-      if (session.user.loginType == "parent")
-        router.push("/ParentLandingScreen")
-      else
-        router.push("/main/LearnerDashboard_new");
+      router.push("/main/LearnerDashboard_new");
       return;
     }
   }, [isUser, loading]);
@@ -69,14 +65,15 @@ export default function SignIn() {
     if (reason === "clickaway") {
       return;
     }
+
     setOpenSnackBar(false);
   };
 
   const onSubmit = (userdata) => {
     console.log(userdata);
-    const { email, password } = userdata;
-    signIn("parentlogin", {
-      email: email,
+    const { username, password } = userdata;
+    signIn("learnerlogin", {
+      username: username,
       password: password,
       redirect: false,
     }).then((data) => {
@@ -93,9 +90,9 @@ export default function SignIn() {
         // save user info to localstorage
         // authenticate user
         setSeverity("success");
-        setMessage("Login successful. Redirecting to Parent Dashboard");
+        setMessage("Login successful. Redirecting to Learner Dashboard");
         reset();
-        router.push("/ParentLandingScreen");
+        router.push("/main/LearnerDashboard_new");
       }
     });
   };
@@ -120,8 +117,8 @@ export default function SignIn() {
           alt="Company Logo"
         />
 
-        <Typography component="h1" variant="h5" sx={{mt:3}}>
-          Parent Sign in
+        <Typography component="h1" variant="h5">
+          Sign in
         </Typography>
         <Box
           component="form"
@@ -129,35 +126,25 @@ export default function SignIn() {
           noValidate
           sx={{ mt: 1 }}
         >
-        <Divider sx={{ mt: 3, mb: 3 }}>
-          <Typography variant= "heading1"> Login with social</Typography>
-        </Divider>
-        <FirebaseSocial/>
-        <Divider sx={{ mt: 3, mb: 3 }}>
-          <Typography variant= "body3"> Login with email and password</Typography>
-        </Divider>
           <Controller
-            name="email"
+            name="username"
             control={control}
             defaultValue=""
-            rules={{ required: "Email required", pattern: {
-              value: /\S+@\S+\.\S+/,
-              message: "Entered value does not match email format"
-            }}}
+            rules={{ required: "Username required" }}
             render={({ field: { onChange, value }, fieldState: { error } }) => (
               <TextField
+                margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="Email"
-                name="email"
+                id="username"
+                label="Username"
+                name="username"
+                autoComplete="username"
                 value={value}
                 onChange={onChange}
                 error={!!error}
                 helperText={error ? error.message : null}
                 autoFocus
-                autoComplete='off' 
-                inputProps={{autoComplete: "off"}}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -183,11 +170,16 @@ export default function SignIn() {
                 onChange={onChange}
                 error={!!error}
                 helperText={error ? error.message : null}
+                autoFocus
                 InputLabelProps={{
                   shrink: true,
                 }}
               />
             )}
+          />
+          <FormControlLabel
+            control={<Checkbox value="remember" color="primary" />}
+            label="Remember me"
           />
           <Button
             type="submit"
@@ -197,10 +189,20 @@ export default function SignIn() {
           >
             Sign In
           </Button>
-        </Box>
-        <Link href="/ParentSignUp" variant="body2">
-                {"Signup For Email/Password account"}
+          <Grid container>
+            <Grid item>
+              <Link href="/SignUp" variant="body2">
+                {"Forgot Password or Don't have an account? Sign Up"}
               </Link>
+            </Grid>
+          </Grid>
+          <Grid item>
+            {/*<Divider sx={{ mt: 3, mb: 2 }}>
+                <Typography variant= "body3"> Login with</Typography>
+                </Divider> */}
+          </Grid>
+          {/*<FirebaseSocial />*/}
+        </Box>
       </Box>
       <Snackbar
         open={openSnackBar}
@@ -216,7 +218,7 @@ export default function SignIn() {
           {message}
         </Alert>
       </Snackbar>
-      <Copyright sx={{ mt: 2, mb: 4 }} />
+      <Copyright sx={{ mt: 8, mb: 4 }} />
     </Container>
   );
 }

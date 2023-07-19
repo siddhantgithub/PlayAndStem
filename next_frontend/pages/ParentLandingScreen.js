@@ -17,7 +17,8 @@ import LearnerStore from "../store/LearnerStore";
 import { backgroundImage } from "../ui_assets/images/UIThemes/colorThemes";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-export default function ParentSignupFlow() {
+export default function ParentSignupFlow() 
+{
   const { data: session, status } = useSession();
   const isUser = !!session && session.user;
   const loading = status === "loading";
@@ -64,7 +65,7 @@ export default function ParentSignupFlow() {
   function onBackClicked (e)
   {
     e.preventDefault()
-    router.push("/LandingScreen")
+    router.push("/")
 
   }
 

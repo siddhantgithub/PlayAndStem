@@ -10,7 +10,7 @@ const FirebaseSocial = () => {
     const matchDownSM = useMediaQuery(theme.breakpoints.down('sm'));
 
     const googleHandler = async () => {
-        console.log("Signing in now");
+        console.log("Signing in using google now");
             //var result = signIn("google", { callbackUrl: '/foo' }).then ((result)=> {console.log ("result", result)});
             var result = signIn("google", { callbackUrl: '/ParentLandingScreen' }).then((result) => {
             console.log("result", result);
@@ -25,6 +25,12 @@ const FirebaseSocial = () => {
 
     const facebookHandler = async () => {
         // login || singup
+        console.log("Signing in using Facebook now");
+        //var result = signIn("google", { callbackUrl: '/foo' }).then ((result)=> {console.log ("result", result)});
+        var result = signIn("facebook", { callbackUrl: '/ParentLandingScreen' }).then((result) => {
+        console.log("result", result);
+    });
+    console.log("Result is ", result);
     };
 
     return (

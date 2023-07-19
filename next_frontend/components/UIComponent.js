@@ -15,6 +15,7 @@ const UIComponent = () => {
   const [theme, setTheme] = useState("");
   // const currTheme = useStore(LearnerStore);
   const { currTheme, updateTheme } = useStore(LearnerStore);
+  console.log ("Current theme is", currTheme);
 
   const handleThemeChange = (selectedTheme) => {
     setTheme(selectedTheme);
@@ -31,8 +32,7 @@ const UIComponent = () => {
   // console.log("Updated Current Theme2:", currTheme);
   return (
     <div>
-      <ThemeSwitcher theme={theme} onThemeChange={handleThemeChange} />
-      {console.log("This is the selected theme:", theme)}
+      <ThemeSwitcher theme={currTheme} onThemeChange={handleThemeChange} />
     </div>
   );
 };

@@ -296,7 +296,7 @@ export default function LearnerLogin (props)
         switch (loginState)
         {
             case LearnerLoginState.AskForAccount:
-                router.push("/LandingScreen")
+                router.push("/")
                 //Need to send to Landing screen
                 break;
 
@@ -375,7 +375,7 @@ export default function LearnerLogin (props)
                     <Stack  direction="row" sx={{ mb: 1, mt:2 }} alignItems="center">
                         <Stack spacing={5}>
                             <Typography variant="h5" >
-                                    Please enter your parent's or guardian's email
+                                    Please enter your parent's email
                             </Typography>
                             <Typography variant="body1" >
                                     We will ask them to send you candies, chocolates and many other things
