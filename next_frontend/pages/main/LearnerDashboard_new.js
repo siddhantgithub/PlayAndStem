@@ -567,7 +567,7 @@ function DashboardContent(props) {
         if (Object.keys(resp)[0] == "error")
         {
           console.log ("Error occurred", resp.error);
-          logoutClicked();
+          signOut({ callbackUrl: '/' });
         }
         setLearnerMissionProgress(resp.missionProgress);
         setChapterProgress(resp.chapterProgress);
