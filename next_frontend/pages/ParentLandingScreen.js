@@ -15,6 +15,7 @@ import ParentDashboard from "../components/parentDashboard/ParentDashboard";
 import { useStore } from "zustand";
 import LearnerStore from "../store/LearnerStore";
 import { backgroundImage } from "../ui_assets/images/UIThemes/colorThemes";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export default function ParentSignupFlow() {
   const { data: session, status } = useSession();
@@ -22,6 +23,8 @@ export default function ParentSignupFlow() {
   const loading = status === "loading";
   const [parentObj, setParentObj] = React.useState(null);
   const { currTheme } = useStore(LearnerStore);
+  const [parentImage, setParentImage] = React.useState(null);
+  const router = useRouter()
 
   React.useEffect(() => {
     //console.log ("Use effect called");
@@ -32,6 +35,7 @@ export default function ParentSignupFlow() {
     } // If not authenticated, force log in
     //console.log ("The value of session is", session);
     if (isUser) {
+      setParentImage(session.user.image);
       var reqObj = {
         reqType: RequestTypeForParentLogin.Login,
         user: session.user,
@@ -53,29 +57,56 @@ export default function ParentSignupFlow() {
     console.log("Result is ", result);
   }
 
+  async function FacebookSignIn() {
+    console.log("Facebook Signing in now");
+  }
+
+  function onBackClicked (e)
+  {
+    e.preventDefault()
+    router.push("/LandingScreen")
+
+  }
+
   return (
     <Container component="main">
+      
       <Box
         sx={{
           marginTop: 18,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          flexGrow:1
         }}
       >
+        
         {!parentObj && (
           <>
+          <Button
+          onClick={onBackClicked}
+          startIcon={<ArrowBackIcon />}
+          sx={{ mb: 3, flexDirection: "row", alignItems:"flex-start" }}
+        >
+          Dashboard
+        </Button>
             <Button
               variant="contained"
-              sx={{ mb: 3, flexDirection: "row" }}
+              sx={{ mb: 3, flexDirection: "row", alignItems:"flex-start" }}
               onClick={GoogleSignIn}
             >
               Continue With Google
             </Button>
-            <Button variant="contained">Continue With Facebook</Button>
+            <Button
+              variant="contained"
+              sx={{ mb: 3, flexDirection: "row" }}
+              onClick={FacebookSignIn}
+            >
+              Continue With Facebook
+            </Button>
           </>
         )}
-        {parentObj && <ParentDashboard parentObj={parentObj} />}
+        {parentObj && <ParentDashboard parentObj={parentObj} parentImage = {parentImage} />}
       </Box>
       <Copyright sx={{ mt: 5 }} />
     </Container>

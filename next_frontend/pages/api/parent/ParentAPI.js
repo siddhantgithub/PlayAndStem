@@ -42,17 +42,23 @@ export default async (req, res) => {
     await dbConnect();
     console.log ("Request body is", req.body);
     const { reqType} = req.body;
-    const { id,name, email,provider} = req.body.user;
-
+    const { id,name, email,provider,password} = req.body.user;
     
     // check if user exist
-    try {
-        let parentObj = await Parent.findOne({email });
-        if (!parentObj)
+    try 
+    {
+        let parentObj = await Parent.findOne({email});
+        if (reqType == RequestTypeForParentLogin.CREATEACCOUNT && parentObj)
         {
-            
+            console.log ("Email already exists");
+            return res.status(400).json({
+                error: 'EmailExists'
+            });
+        }
+        if (!parentObj)
+        {  
             const learners = [];
-            const password = "newpassword";
+            //password = password? password: "newpassword";
             let newParent = new Parent({ id, name, email, learners, password});
             try {
                 parentObj = await newParent.save();
@@ -68,6 +74,7 @@ export default async (req, res) => {
         console.log ("Reqtype is ", reqType, " request obj is", parentObj);
         switch (reqType)
         {
+            case RequestTypeForParentLogin.CREATEACCOUNT:    
             case RequestTypeForParentLogin.Login:
                 return res.status(200).json(parentObj);
                 break;

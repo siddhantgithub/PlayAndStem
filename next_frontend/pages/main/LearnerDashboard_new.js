@@ -52,6 +52,8 @@ import {
   buttonText,
 } from "../../ui_assets/images/UIThemes/colorThemes";
 
+import { stringAvatar } from "../../utils/CommonFunctions";
+
 const drawerWidth = 240;
 function stringToColor(string) {
   let hash = 0;
@@ -73,18 +75,9 @@ function stringToColor(string) {
   return color;
 }
 
-function stringAvatar(name) {
-  return {
-    sx: {
-      bgcolor: "#AF2BBF",
-    },
-    children: `${name.split(" ")[0][0]}`,
-  };
-}
-
 function DashboardAppBar(props) {
   const { currTheme, updateTheme } = useStore(LearnerStore);
-  console.log(currTheme);
+  //console.log(currTheme);
   const { signedUser } = props;
   const settings = [{ text: "Logout", onClick: logoutClicked }];
   const [anchorElUser, setAnchorElUser] = React.useState(null);

@@ -43,7 +43,60 @@ export const authOptions: NextAuthOptions = {
     }),
     CredentialsProvider({
       // The name to display on the sign in form (e.g. 'Sign in with...')
-      name: 'Credentials',
+      name: 'Learner Credentials',
+      id:"learnerlogin",
+      // The credentials is used to generate a suitable form on the sign in page.
+      // You can specify whatever fields you are expecting to be submitted.
+      // e.g. domain, username, password, 2FA token, etc.
+      // You can pass any HTML attribute to the <input> tag through the object.
+      credentials: {
+        username: { label: "Username", type: "text", placeholder: "jsmith" },
+        password: {  label: "Password", type: "password" }
+      },
+      async authorize(credentials, req) {
+        // You need to provide your own logic here that takes the credentials
+        // submitted and returns either a object representing a user or value
+        // that is false/null if the credentials are invalid.
+        // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
+        // You can also use the `req` object to obtain additional parameters
+        // (i.e., the request IP address)
+        // Return null if user data could not be retrieved
+        await dbConnect();
+          const { username, password } = credentials;
+          // check if user exist
+          try {
+            // @ts-ignore
+              let learner = await Learner.findOne({ username });
+              if (learner)
+              {
+                  if (!learner.authenticate(password)) {
+                      return null;
+                  }
+                  const { _id, missionProgress, username, firstname, lastname} = learner;
+                  //console.log ("found a learner",learner);
+                  let returnLearner = { username, firstname, lastname, _id, missionProgress};
+                  return returnLearner as any;
+                 // return returnLearner;
+              }
+              else
+              {
+                console.log ("Couldn't find a learner");
+                  return null;
+              }
+          }
+          catch (e) 
+          {
+              console.error(e);
+              return null;
+
+          }
+        return null
+      }
+    }),
+    CredentialsProvider({
+      // The name to display on the sign in form (e.g. 'Sign in with...')
+      name: 'Parent Credentials',
+      id:   "parentlogin",
       // The credentials is used to generate a suitable form on the sign in page.
       // You can specify whatever fields you are expecting to be submitted.
       // e.g. domain, username, password, 2FA token, etc.

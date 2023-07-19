@@ -1,6 +1,7 @@
 export const RequestTypeForParentLogin = {
     Login:"Login",
     AddLearner:"AddLearner",
-    GetLearnersData:"GetLearnersData"
+    GetLearnersData:"GetLearnersData",
+    CREATEACCOUNT:"CreateAccount"
 
 };

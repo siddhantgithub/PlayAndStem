@@ -9,7 +9,6 @@ import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
-import LearningConversation from "../ChatInterface/ShowLearningConversation";
 import { CardActionArea } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Chip from "@mui/material/Chip";

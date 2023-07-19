@@ -34,7 +34,8 @@ export default async (req, res) => {
             }           
         }
     
-        let newlearner = AddLearner(req.body);
+        let newlearner = await AddLearner(req.body);
+        console.log ("New learner got is", newlearner);
 /*         const { firstname, lastname, username, parentemail, password } = req.body;
         let missionProgress = Array(AllMissionList.length).fill("Not Available");
         
@@ -57,7 +58,8 @@ export default async (req, res) => {
         try {
             let saveResult = await newlearner.save();
             return res.status(200).json({
-                message: 'User Created'
+                message: 'User Created',
+                id:saveResult._id
             });
 
         }catch (e) {

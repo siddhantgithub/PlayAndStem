@@ -19,13 +19,15 @@ import { useRouter } from 'next/router'
 import AlertTitle from '@mui/material/AlertTitle';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
-
+import Image from 'next/image';
+import { RequestTypeForParentLogin } from '../constants/AllEnums';
+import { GetSetParentDataThroughAPI } from '../actions/ParentRequestHandler';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-export default function SignUp({}) {
+export default function ParentSignUp({}) {
 
   const { register, handleSubmit, watch, control, formState: { errors },reset } = useForm();
   const router = useRouter();
@@ -34,12 +36,38 @@ export default function SignUp({}) {
   const [message, setMessage] = React.useState('');
 
   const onSubmit = data => {
-      sendSignupPostRequest(data).then(data => {
-        if (Object.keys(data)[0] == "error")
+    console.log ("Data is", data);
+    var reqObj = {
+      reqType: RequestTypeForParentLogin.CREATEACCOUNT,
+      user: data,
+    };
+    GetSetParentDataThroughAPI(reqObj).then((resp) => {
+      console.log("Data got for the parent is", resp);
+      if (Object.keys(resp)[0] == "error")
         {
-          console.log ("Error occurred", data.error)
+          console.log ("Error occurred", resp.error)
           setSeverity("error");
-          setMessage(data.error);
+          setMessage(resp.error);
+        }
+        else
+        {
+          //Operation was successful
+          //router.push("/SignIn")
+          //setParentObj(resp);
+          setSeverity("success");
+          setMessage("Parent account successfully created");
+          //setTimeout(router.push("/"),2000);
+          //reset();
+        }
+        setOpenSnackBar(true);
+    });
+    return;
+    sendParentSignupPostRequest(data).then(resp => {
+        if (Object.keys(resp)[0] == "error")
+        {
+          console.log ("Error occurred", resp.error)
+          setSeverity("error");
+          setMessage(resp.error);
         }
         else
         {
@@ -47,8 +75,8 @@ export default function SignUp({}) {
           //router.push("/SignIn")
           setSeverity("success");
           setMessage(data.message);
-          setTimeout(router.push("/"),2000);
-          reset();
+          //setTimeout(router.push("/"),2000);
+          //reset();
         }
         setOpenSnackBar(true);
       });
@@ -75,86 +103,44 @@ export default function SignUp({}) {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign up
+        <Image
+          src="/PlayAndStemLogo.png"
+          width={75}
+          height={75}
+          alt="Company Logo"
+        />
+          <Typography component="h1" variant="h5" sx={{mt:2}}>
+            Parent Sign up
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-              <Controller
-                name="firstname"
-                control={control}
-                defaultValue=""
-                rules={{ required: 'First name required' }}
-                render={({ field: { onChange, value }, fieldState: { error } }) => (
-                    <TextField
-                      autoComplete="given-name"
-                      required
-                      fullWidth
-                      id="firstName"
-                      label="First Name"
-                      name="firstname"
-                      value={value}
-                      onChange={onChange}
-                      error={!!error}
-                      helperText={error ? error.message : null}
-                      autoFocus
-                    />
-                )}
-              />
+              <Grid item xs={12} sm={12}>
+                <Controller
+                  name="name"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: 'First name required' }}
+                  render={({ field: { onChange, value }, fieldState: { error } }) => (
+                      <TextField
+                        autoComplete="given-name"
+                        required
+                        fullWidth
+                        id="name"
+                        label="Name"
+                        name="name"
+                        value={value}
+                        onChange={onChange}
+                        error={!!error}
+                        helperText={error ? error.message : null}
+                        autoFocus
+                      />
+                  )}
+                />
 
               </Grid>
-              <Grid item xs={12} sm={6}>
-              <Controller
-                name="lastname"
-                control={control}
-                defaultValue=""
-                rules={{ required: 'Last name required' }}
-                render={({ field: { onChange, value }, fieldState: { error } }) => (
-                    <TextField
-                      required
-                      fullWidth
-                      id="lastName"
-                      label="Last Name"
-                      name="lastName"
-                      autoComplete="off"
-                      value={value}
-                      onChange={onChange}
-                      error={!!error}
-                      helperText={error ? error.message : null}
-                      autoFocus
-                    />
-                )}
-              />
-              </Grid>
               <Grid item xs={12}>
               <Controller
-                name="username"
-                control={control}
-                defaultValue=""
-                render={({ field: { onChange, value }, fieldState: { error } }) => (
-                    <TextField
-                      required
-                      fullWidth
-                      id="username"
-                      label="Username"
-                      name="Username"
-                      autoComplete="User Name"
-                      value={value}
-                      onChange={onChange}
-                      error={!!error}
-                      helperText={error ? error.message : null}
-                      autoFocus
-                    />
-                )}
-              />
-              </Grid>
-              <Grid item xs={12}>
-              <Controller
-                name="parentemail"
+                name="email"
                 control={control}
                 defaultValue=""
                 rules={{ required: "Parent's Email required", pattern: {
@@ -165,15 +151,14 @@ export default function SignUp({}) {
                     <TextField
                       required
                       fullWidth
-                      id="peml"
-                      label="Parent's Email Address"
-                      name="parentseml"
-                      autoComplete="Parent's Email"
+                      id="email"
+                      label="Email Address"
+                      name="email"
+                      autoComplete="Email"
                       value={value}
                       onChange={onChange}
                       error={!!error}
                       helperText={error ? error.message : null}
-                      autoFocus
                     />
                 )}
               />
@@ -197,7 +182,6 @@ export default function SignUp({}) {
                         autoComplete="Learner's Password"
                         error={!!error}
                         helperText={error ? error.message : null}
-                        autoFocus
                       />
                   )}
                 />
@@ -219,7 +203,6 @@ export default function SignUp({}) {
                         onChange={onChange}
                         error={!!error}
                         helperText={error ? error.message : null}
-                        autoFocus
                       />
                   )}
                 />
@@ -240,7 +223,7 @@ export default function SignUp({}) {
             </Snackbar>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/" variant="body2">
+                <Link href="/ParentSignIn" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>

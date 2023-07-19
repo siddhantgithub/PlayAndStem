@@ -27,7 +27,7 @@ const UIComponent = () => {
   //   console.log("Current Theme:", currTheme.theme);
   // }, [currTheme]);
 
-  console.log("Updated Current Theme:", useStore(LearnerStore).currTheme);
+  //console.log("Updated Current Theme:", useStore(LearnerStore).currTheme);
   // console.log("Updated Current Theme2:", currTheme);
   return (
     <div>

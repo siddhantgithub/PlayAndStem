@@ -64,12 +64,10 @@ function AddLearnerDialog (props)
         }
       }); 
     };
-
-    
     
     return (
     <Dialog open={open}>
-        <DialogTitle>Add Learner</DialogTitle>
+        <DialogTitle>Add A Learner</DialogTitle>
         <DialogContent>
           <DialogContentText>
             Please provide learner's details below

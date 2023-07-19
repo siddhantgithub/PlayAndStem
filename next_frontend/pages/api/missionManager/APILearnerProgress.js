@@ -44,12 +44,29 @@ function getDataToSendToLearner (learner,reqType)
     return data;
 }
 
+async function getAllUserNamesForLearners ()
+{
+    const projection = {
+        'username': 1, 
+        '_id': 0
+      };
+    var allUserName = await Learner.find({},'username');
+    console.log ("All username got is", allUserName);
+    return allUserName.map ((elem) => elem.username);
+}
+
 export default async (req, res) => {
     await dbConnect();
     const { _id, data,reqType} = req.body;
     console.log ("Request type is ", reqType, "id is ", _id);
+    if (reqType == "GETALLLEARNERUSERNAME")
+    {
+        var usernameArray =  await getAllUserNamesForLearners();
+        return res.status(200).json({usernameArray});
+    }
     // check if user exist
-    try {
+    try 
+    {
         let learner = await Learner.findOne({ _id });
         console.log ("Found the learner");
         if (learner)
@@ -75,7 +92,8 @@ export default async (req, res) => {
                 }
             }
             //Need to send data back
-            else{
+            else
+            {
                 var rdata = getDataToSendToLearner(learner,reqType);
                 console.log ("Data to send for the learner is", rdata);
                 return res.status(200).json(rdata);

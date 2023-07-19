@@ -72,7 +72,7 @@ export default function SignIn() {
   const onSubmit = (userdata) => {
     console.log(userdata);
     const { username, password } = userdata;
-    signIn("learnerlogin", {
+    signIn("credentials", {
       username: username,
       password: password,
       redirect: false,
@@ -117,8 +117,8 @@ export default function SignIn() {
           alt="Company Logo"
         />
 
-        <Typography component="h1" variant="h5">
-          Sign in
+        <Typography component="h1" variant="h5" sx={{mt:3}}>
+          Parent Sign in
         </Typography>
         <Box
           component="form"
@@ -126,25 +126,32 @@ export default function SignIn() {
           noValidate
           sx={{ mt: 1 }}
         >
+        <Divider sx={{ mt: 3, mb: 3 }}>
+          <Typography variant= "heading1"> Login with social</Typography>
+        </Divider>
+        <FirebaseSocial/>
+        <Divider sx={{ mt: 3, mb: 3 }}>
+          <Typography variant= "body3"> Login with email and password</Typography>
+        </Divider>
           <Controller
-            name="username"
+            name="email"
             control={control}
             defaultValue=""
-            rules={{ required: "Username required" }}
+            rules={{ required: "Email required" }}
             render={({ field: { onChange, value }, fieldState: { error } }) => (
               <TextField
-                margin="normal"
                 required
                 fullWidth
-                id="username"
-                label="Username"
-                name="username"
-                autoComplete="username"
+                id="email"
+                label="Email"
+                name="email"
                 value={value}
                 onChange={onChange}
                 error={!!error}
                 helperText={error ? error.message : null}
                 autoFocus
+                autoComplete='off' 
+                inputProps={{autoComplete: "off"}}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -170,16 +177,11 @@ export default function SignIn() {
                 onChange={onChange}
                 error={!!error}
                 helperText={error ? error.message : null}
-                autoFocus
                 InputLabelProps={{
                   shrink: true,
                 }}
               />
             )}
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
           />
           <Button
             type="submit"
@@ -189,20 +191,10 @@ export default function SignIn() {
           >
             Sign In
           </Button>
-          <Grid container>
-            <Grid item>
-              <Link href="/SignUp" variant="body2">
-                {"Forgot Password or Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
-          <Grid item>
-            {/*<Divider sx={{ mt: 3, mb: 2 }}>
-                <Typography variant= "body3"> Login with</Typography>
-                </Divider> */}
-          </Grid>
-          {/*<FirebaseSocial />*/}
         </Box>
+        <Link href="/ParentSignUp" variant="body2">
+                {"Signup For Email/Password account"}
+              </Link>
       </Box>
       <Snackbar
         open={openSnackBar}
@@ -218,7 +210,7 @@ export default function SignIn() {
           {message}
         </Alert>
       </Snackbar>
-      <Copyright sx={{ mt: 8, mb: 4 }} />
+      <Copyright sx={{ mt: 2, mb: 4 }} />
     </Container>
   );
 }

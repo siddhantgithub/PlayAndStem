@@ -1,6 +1,7 @@
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import { useMediaQuery, Button, Stack } from '@mui/material';
+import { signIn, signOut, useSession } from "next-auth/react";
 
 // ==============================|| FIREBASE - SOCIAL BUTTON ||============================== //
 
@@ -9,6 +10,12 @@ const FirebaseSocial = () => {
     const matchDownSM = useMediaQuery(theme.breakpoints.down('sm'));
 
     const googleHandler = async () => {
+        console.log("Signing in now");
+            //var result = signIn("google", { callbackUrl: '/foo' }).then ((result)=> {console.log ("result", result)});
+            var result = signIn("google", { callbackUrl: '/ParentLandingScreen' }).then((result) => {
+            console.log("result", result);
+        });
+        console.log("Result is ", result);
         // login || singup
     };
 
@@ -22,7 +29,7 @@ const FirebaseSocial = () => {
 
     return (
         <Stack
-            direction="row"
+            direction="column"
             spacing={matchDownSM ? 1 : 2}
             justifyContent={matchDownSM ? 'space-around' : 'space-between'}
             sx={{ '& .MuiButton-startIcon': { mr: matchDownSM ? 0 : 1, ml: matchDownSM ? 0 : -0.5 } }}
@@ -35,15 +42,6 @@ const FirebaseSocial = () => {
                 onClick={googleHandler}
             >
                 {!matchDownSM && 'Google'}
-            </Button>
-            <Button
-                variant="outlined"
-                color="secondary"
-                fullWidth={!matchDownSM}
-                startIcon={<img src="/twitter.svg" alt="Twitter" />}
-                onClick={twitterHandler}
-            >
-                {!matchDownSM && 'Twitter'}
             </Button>
             <Button
                 variant="outlined"

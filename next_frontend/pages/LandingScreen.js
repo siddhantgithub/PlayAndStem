@@ -10,6 +10,7 @@ import Container from '@mui/material/Container';
 import Copyright from '../components/Copyright'
 import MuiAlert from '@mui/material/Alert';
 import { useRouter } from 'next/router'
+import Image from 'next/image'
 
 export default function LandingPage({}) {
 
@@ -26,16 +27,18 @@ export default function LandingPage({}) {
             height: "200px"
           }}
         >
-          <Avatar sx={{ m: 3, bgcolor: 'secondary.main' }}>
-            <SupportAgentIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
+        <Image
+                        src="/PlayAndStemLogo.png"
+                        width={75}
+                        height={75}
+                        alt="Company Logo"
+                />
+          <Typography component="h1" variant="h5" sx = {{mt:3}}>
             I am a
           </Typography>
-          <Box  sx={{ mt: 3, flexDirection: 'row' }}>
-            <Button variant="contained" sx={{ m: 3, flexDirection: 'row' }} onClick = {()=> {router.push("/ParentLandingScreen")}}>Parent</Button>
-            <Button variant="contained">Learner</Button>
-            
+          <Box  sx={{ mt: 0, flexDirection: 'row' }}>
+            <Button variant="contained" sx={{ m: 3, flexDirection: 'row' }} onClick = {()=> {router.push("/ParentSignIn")}}>Parent</Button>
+            <Button variant="contained" sx={{ m: 3, flexDirection: 'row' }} onClick = {()=> {router.push("/LearnerLandingScreen")}}>Learner</Button>          
           </Box>
         </Box>
         <Copyright sx={{ mt: 5 }} />

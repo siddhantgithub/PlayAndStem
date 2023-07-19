@@ -101,7 +101,7 @@ export let LessonText = [
     {id:1, type: "ack", message:"Click Next"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
-    {id:1, type: "chpycon", purpose: "code to show a heart on microbit when the light level is less than 50 and clear the display otherwise", messageStack:codeMessageStackString1, correctCode:"from microbit import *",responseAction:firstPythonCodeResponseAction},
+    {id:1, type: "chpycon", purpose: "code to show a heart on microbit when the light level is less than 50 and clear the display otherwise", messageStack:codeMessageStackString, correctCode:"from microbit import *",responseAction:firstPythonCodeResponseAction},
     {id:1, type: "ack"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},

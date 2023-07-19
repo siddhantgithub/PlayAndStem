@@ -87,7 +87,7 @@ function LearnersArrayDiv (props)
                         <TableCell>
                         <Link href={urlToRedirect} target = "_blank" rel="noopener">
                             <Button variant="contained" onClick={learningClicked}>Start Learning</Button>
-                            </Link>
+                        </Link>
                         </TableCell>
                     </TableRow>
                 )})}
