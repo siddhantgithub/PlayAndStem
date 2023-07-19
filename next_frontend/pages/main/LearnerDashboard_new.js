@@ -564,6 +564,11 @@ function DashboardContent(props) {
       var reqObj = { reqType, _id };
       GetSetLearnerDataThroughAPI(reqObj).then((resp) => {
         console.log("Resp got is", resp);
+        if (Object.keys(resp)[0] == "error")
+        {
+          console.log ("Error occurred", resp.error);
+          logoutClicked();
+        }
         setLearnerMissionProgress(resp.missionProgress);
         setChapterProgress(resp.chapterProgress);
         setQuizProgress(resp.quizProgress);
