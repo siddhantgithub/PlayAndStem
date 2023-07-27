@@ -17,7 +17,7 @@ const ThemeSwitcher = ({ theme, onThemeChange }) => {
 
   return (
     <div>
-      <FormControl sx={{ minWidth: 120, mr:2 }}>
+      <FormControl sx={{ minWidth: 120, mr:2 }} size="small">
         <Select
           labelId="demo-simple-select-required-label"
           id="demo-simple-select-required"

@@ -179,11 +179,11 @@ export default function DisplayMissionsInCategories({
         <Grid item xs={12} md={12} lg={12} sx={{ mb: 0 }}>
           <Typography
             gutterBottom
-            variant="h5"
+            variant="h6"
             component="div"
             sx={{ color: topicColors[currTheme] }}
           >
-            Missions & Progress
+            Your Missions & Progress
           </Typography>
         </Grid>
         {categoryMap &&

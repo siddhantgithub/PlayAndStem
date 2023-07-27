@@ -35,9 +35,75 @@ export const SaddosModuleList = [
 ];
 
 export const AllMissionList = [
-    {id: 0, dependency: [], category: "Robotics,Intermediate,Python,Microbit",name:"Zacobian Lights", image:"/zacobiamission.png", folderName: "ZacobiaMission", moduleList: ZacobiaModuleList,description:"Solve planet Zacobia's light problems", quizList:ZacobiaQuizList, conceptList: ZacobiaConceptList},
-    {id: 1, dependency: [1], category:"Robotics,Intermediate,Python,Microbit",name:"NoNums' Number", image:"/nonummission.png", folderName: "NoNumMission", moduleList: NoNumModuleList,description:"Generate numbers for NoNums", quizList:NoNumQuizList, conceptList: NoNumConceptList},
-    {id: 2, dependency: [],category: "Robotics,Intermediate,Python,Microbit",name:"Saddos want music", image:"/missionImages/MissionSados.png", folderName: "SaddosMusic", moduleList: SaddosModuleList,description:"Make a piano for Planet Sados", quizList:SadosQuizList, conceptList:SaddosConceptList}
+    {id: 0, dependency: [], category: "Robotics with Python and Microbit",name:"Zacobian Lights", image:"/zacobiamission.png", folderName: "ZacobiaMission", moduleList: ZacobiaModuleList,description:"Solve planet Zacobia's light problems", quizList:ZacobiaQuizList, conceptList: ZacobiaConceptList},
+    {id: 1, dependency: [1], category:"Robotics with Python and Microbit",name:"NoNums' Number", image:"/nonummission.png", folderName: "NoNumMission", moduleList: NoNumModuleList,description:"Generate numbers for NoNums", quizList:NoNumQuizList, conceptList: NoNumConceptList},
+    {id: 2, dependency: [],category: "Robotics with Python and Microbit",name:"Saddos want music", image:"/missionImages/MissionSados.jpg", folderName: "SaddosMusic", moduleList: SaddosModuleList,description:"Make a piano for Planet Sados", quizList:SadosQuizList, conceptList:SaddosConceptList}
 ];
 
-export const CategoryList = ["In Progress", "Robotics"];
+export const AllDiscoverMissionList = [
+    {id: 0, dependency: [],  status:"Added To Dashboard", category: "Robotics with Python and Microbit",name:"Zacobian Lights", image:"/zacobiamission.png", folderName: "ZacobiaMission", moduleList: ZacobiaModuleList,description:"Solve planet Zacobia's light problems", quizList:ZacobiaQuizList, conceptList: ZacobiaConceptList},
+    {id: 1, dependency: [], status:"Added To Dashboard", category:"Robotics with Python and Microbit",name:"NoNums' Number", image:"/nonummission.png", folderName: "NoNumMission", moduleList: NoNumModuleList,description:"Generate numbers for NoNums", quizList:NoNumQuizList, conceptList: NoNumConceptList},
+    {id: 2, dependency: [],  status:"Added To Dashboard", category: "Robotics with Python and Microbit",name:"Saddos want music", image:"/missionImages/MissionSados.jpg", folderName: "SaddosMusic", moduleList: SaddosModuleList,description:"Make a piano for Planet Sados", quizList:SadosQuizList, conceptList:SaddosConceptList},
+    {id: 3, dependency: [],  status:"Coming Soon", category: "Robotics with Python and Microbit",name:"Advance Piano", image:"/missionImages/AdvancedPiano.jpg", folderName: "SaddosMusic", moduleList: SaddosModuleList,description:"Make a piano for Planet Sados", quizList:SadosQuizList, conceptList:SaddosConceptList},
+    {id: 4, dependency: [],  status:"Coming Soon", category: "Robotics with Block Programming and Microbit",name:"Zacobian Lights", image:"/zacobiamission.png", folderName: "ZacobiaMission", moduleList: ZacobiaModuleList,description:"Solve planet Zacobia's light problems", quizList:ZacobiaQuizList, conceptList: ZacobiaConceptList},
+    {id: 6, dependency: [],  status:"Coming Soon", category: "Robotics with Block Programming and Microbit",name:"Saddos want music", image:"/missionImages/MissionSados.jpg", folderName: "SaddosMusic", moduleList: SaddosModuleList,description:"Make a piano for Planet Sados", quizList:SadosQuizList, conceptList:SaddosConceptList},
+    {id: 2, dependency: [],  status:"Added To Dashboard", category: "Robotics with Block Programming and Microbit",name:"Advance Piano", image:"/missionImages/AdvancedPiano.jpg", folderName: "SaddosMusic", moduleList: SaddosModuleList,description:"Make a piano for Planet Sados", quizList:SadosQuizList, conceptList:SaddosConceptList},
+    {id: 7, dependency: [],  status:"Coming Soon", category: "First Lego Robotics",name:"What is it?", image:"/missionImages/WhatIsIt.jpg", folderName: "ZacobiaMission", moduleList: ZacobiaModuleList,description:"Solve planet Zacobia's light problems", quizList:ZacobiaQuizList, conceptList: ZacobiaConceptList},
+    {id: 8, dependency: [], status:"Coming Soon", category:"First Lego Robotics",name:"Moving A Robot", image:"/missionImages/RoboRun.jpg", folderName: "NoNumMission", moduleList: NoNumModuleList,description:"Generate numbers for NoNums", quizList:NoNumQuizList, conceptList: NoNumConceptList},
+    {id: 9, dependency: [],  status:"Coming Soon", category: "First Lego Robotics",name:"Building Attachements", image:"/missionImages/LegoAttachments.jpg", folderName: "SaddosMusic", moduleList: SaddosModuleList,description:"Make a piano for Planet Sados", quizList:SadosQuizList, conceptList:SaddosConceptList}
+];
+
+export const MissionDetailedDescription = [
+    {
+        details:
+            "Save planet Zacobia by solving its energy problems. While solving the mission, you will have fun while playing with Microbit. You will also learn basics of computer programming and Python language along the way.",
+        level: "Beginner",
+    },
+    {
+        details:
+            "Planet NoNums need your help as they keep forgetting about numbers. Use Micro:bit to generate numbers by learning about Python functions and For loops",
+        level: "Intermediate. Basic Python knowledge is required.",
+    },
+    {
+        details:
+            "Planet Saddos need fun. Use Micro:bit to make a piano for them and learn how to generate music and basics of electric circuits with Micro:bit",
+        level: "Intermediate. Basic Python knowledge is required.",
+    },
+    {
+        details:
+            "Want to improve a slightly advanced piano than what you build for Saddos. This mission is for you.",
+        level: "Advanced. Completing Saddos want music mission is recommended",
+    },    
+    {
+        details:
+            "Save planet Zacobia by solving its energy problems. While solving the mission, you will have fun while playing with Microbit. You will also learn how to use blocks to program Micro:bit",
+        level: "Beginner",
+    },
+    {
+        details:
+            "Planet Saddos need fun. Use Micro:bit to make a piano for them and learn how to generate music and basics of electric circuits with Micro:bit",
+        level: "Intermediate. Basic Python knowledge is required.",
+    },
+    {
+        details:
+            "Want to improve the advanced piano than what you build for Saddos. This mission is for you.",
+        level: "Advanced. Completing Saddos want music mission is recommended",
+    },  
+    {
+        details:
+            "Want to participate in a robotics competition. Learn about First Lego League and how to take part in the competition",
+        level: "Beginner",
+    },
+    {
+        details:
+            "Learn how to move a Lego Spike Prime robot using block programming in this introductory tutorial. You will learn basics of robot movement and color sensors",
+        level: "Beginner",
+    },    {
+        details:
+            "Learn how to make different attachments to enable a Lego Spike Prime robot accomplish different tasks such as moving a level, and lifting an object",
+        level: "Beginner",
+    },
+
+];
+export const CategoryList = ["In Progress", "Robotics with Python and Microbit"];
+export const DiscoverCategoryList = ["Robotics with Python and Microbit", "Robotics with Block Programming and Microbit", "First Lego Robotics"];

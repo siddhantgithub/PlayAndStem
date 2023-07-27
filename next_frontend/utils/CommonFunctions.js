@@ -1,5 +1,7 @@
 import MuiAlert from '@mui/material/Alert';
 import * as React from 'react';
+import { sendLearnerSignupPostRequest } from '../actions/authRequestHandlers';
+import { signIn } from 'next-auth/react';
 
 export function stringAvatar(name) {
     return {
@@ -23,3 +25,44 @@ export const validateEmail = (email) => {
 export const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
+
+export const CreateGuestLearnerAccount = evt => 
+{ 
+    var randomGuestName = "Guest" + Date.now(); 
+    var data = { firstname:"Guest User", lastname:"na", username:randomGuestName, parentemail:'guest@guest.com', password:randomGuestName};
+    sendLearnerSignupPostRequest(data).then(resp => 
+    {
+      if (Object.keys(resp)[0] == "error")
+      {
+        console.log ("Error occurred", resp.error);
+        //setSeverity("error");
+        //setMessage(resp.error);
+      }
+      else
+      {
+        signIn("learnerlogin", {
+          username: randomGuestName,
+          password: randomGuestName,
+          redirect: false,
+        }).then((data) => {
+          console.log("The data received is ", data);
+          //setOpenSnackBar(true);
+          if (!!data.error) {
+            //setValues({ ...values, error: data.error, loading: false });
+            //setSeverity("error");
+            //setMessage(
+              //"Cannot Login now."
+            //);
+          } else {
+            // save user token to cookie
+            // save user info to localstorage
+            // authenticate user
+            //setSeverity("success");
+            //setMessage("Login successful. Redirecting to Learner Dashboard");
+            //router.push("/main/LearnerDashboard_new");
+          }
+        });
+      }
+      //setOpenSnackBar(true);
+    });
+};

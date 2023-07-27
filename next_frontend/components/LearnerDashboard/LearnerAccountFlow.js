@@ -19,7 +19,7 @@ import { GetSetLearnerDataThroughAPI } from '../../actions/LearnerMissionProgres
 import { InputAdornment, IconButton } from "@mui/material"
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { sendSignupPostRequest } from '../../actions/authRequestHandlers';
+import { sendLearnerSignupPostRequest } from '../../actions/authRequestHandlers';
 import { validateEmail, Alert } from '../../utils/CommonFunctions';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
@@ -119,7 +119,7 @@ export default function LearnerLogin (props)
 
     const onCreateAccount = evt => {
         var data = { firstname:name, lastname:"na", username:username, parentemail:parentEmail, password:password }
-        sendSignupPostRequest(data).then(resp => {
+        sendLearnerSignupPostRequest(data).then(resp => {
           if (Object.keys(resp)[0] == "error")
           {
             console.log ("Error occurred", resp.error)

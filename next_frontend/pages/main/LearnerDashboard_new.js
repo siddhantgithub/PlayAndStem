@@ -53,6 +53,10 @@ import {
 } from "../../ui_assets/images/UIThemes/colorThemes";
 
 import { stringAvatar } from "../../utils/CommonFunctions";
+import AskGuestLoginPopup from "../../components/dialogBoxes/GuestLoginPopup";
+import { DiscoverMissions } from "../../components/LearnerDashboard/DiscoverMissions";
+import { FunWithFriends } from "../../components/LearnerDashboard/FunWithFriends";
+import { WeeklyChallenges } from "../../components/LearnerDashboard/WeeklyChallenges";
 
 const drawerWidth = 240;
 function stringToColor(string) {
@@ -75,10 +79,12 @@ function stringToColor(string) {
   return color;
 }
 
+const dashboardPages = ['Home', 'Discover'];
+
 function DashboardAppBar(props) {
   const { currTheme, updateTheme } = useStore(LearnerStore);
   //console.log(currTheme);
-  const { signedUser } = props;
+  const { signedUser,selectedPageChanged } = props;
   const settings = [{ text: "Logout", onClick: logoutClicked }];
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [firstName, userName] = LearnerStore((state) => [
@@ -97,7 +103,19 @@ function DashboardAppBar(props) {
     //signOut();
   }
 
+
+  const [selectedPage,setSelectedPage] = React.useState ("Home"); 
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    //setAnchorElNav(null);
+  };
+
   var learnerFullName = firstName;
+  var textColor = textColors[currTheme];
   //console.log ("Learner full name is",learnerFullName);
   return (
     <Box sx={{ display: "flex" }}>
@@ -111,20 +129,35 @@ function DashboardAppBar(props) {
           }}
         >
           <Toolbar>
-            <Typography
+            {false && <Typography
               component="h1"
               variant="h6"
-              color={textColors[currTheme]}
+              color={textColor}
               noWrap
               sx={{
-                flexGrow: 1,
+                //flexGrow: 1,
                 ml: "10px",
                 mr: "10px",
                 // fontFamily: "Ariel, sans-serif",
               }}
             >
               Welcome {userName}
-            </Typography>
+            </Typography>}
+
+            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            {dashboardPages.map((page) => (
+              <Button
+                key={page}
+                onClick={() => {setSelectedPage(page); selectedPageChanged(page)}}
+                //variant= {selectedPage == page ? "text":"outlined"}
+                disabled = {selectedPage == page }
+                sx={{ ml:2, my: 2, "&.MuiButton-text": selectedPage == page? { borderBottom: "1px solid #000", color: textColor }: { color: textColor }, display: 'block' }}
+              >
+                {page}
+              </Button>
+            ))}
+          </Box>
+            
             <Typography
               component="h1"
               variant="body1"
@@ -140,12 +173,20 @@ function DashboardAppBar(props) {
               Select Theme
             </Typography>
             <UIComponent />
-            <Box sx={{ flexGrow: 0 }}>
+            <Box sx={{ flexGrow: 0, flexDirection: 'row', display: 'flex' }}>
+            
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt={learnerFullName} {...stringAvatar(learnerFullName)} />
+                  <Avatar alt={learnerFullName} {...stringAvatar(learnerFullName)} sx={{  bgcolor: "#AF2BBF", width: 36, height: 36 }} />
                 </IconButton>
               </Tooltip>
+              <Button
+                key="usernametext"
+                onClick={handleOpenUserMenu}
+                sx={{ my: 2, "&.MuiButton-text": { color: textColor }, display: 'block' }}
+              >
+                @{userName}
+              </Button>
               <Menu
                 sx={{ mt: "45px" }}
                 id="menu-appbar"
@@ -179,12 +220,9 @@ function DashboardAppBar(props) {
         </AppBar>
       )}
       {/* Correction : may not require this. It is giving a blank page. */}
-      <Box
-        component="main"
-         sx={{ flexGrow: 1}}
-      >
-        <Toolbar />
-        <Container sx={{ pt: 2, mt: 1, minHeight: 800 }}>
+      <Box component="main" sx={{ display:"flex", flexGrow: 1, justifyContent:"center"} } >
+        <Toolbar/>
+        <Container sx={{ pt: 2, mt: 10, minHeight: 800 }}>
           {props.children}
         </Container>
       </Box>
@@ -223,37 +261,6 @@ function ShowPostLoginContent({
         </Paper>
       </Grid>
 
-      {false && (
-        <Grid item xs={12} md={4} lg={4}>
-          <MissionWithFriends
-            products={[
-              {
-                id: "1",
-                image: "/zacobiamission.jpg",
-                name: "Create a digital piano",
-                updatedAt: "2/3 places available",
-              },
-              {
-                id: "2",
-                image: "/nonummission.png",
-                name: "Make a driving car",
-                updatedAt: "1/2 positions available",
-              },
-              {
-                id: "3",
-                image: "/missionImages/MissionSados.png",
-                name: "Make a dancing robot",
-                updatedAt: "Basic introduction to loops",
-              },
-            ]}
-            quizProgress={quizProgress}
-            sx={{ width: 360, height: 350 }}
-            retryQuizClicked={callBackHandlers[0]}
-            viewAllQuizClicked={callBackHandlers[1]}
-          />
-        </Grid>
-      )}
-
       <Grid item xs={12} md={8} lg={8}>
         <Paper
           sx={{
@@ -270,57 +277,6 @@ function ShowPostLoginContent({
           />
         </Paper>
       </Grid>
-      {false && (
-        <Grid
-          item
-          xs={12}
-          md={4}
-          lg={4}
-          sx={{
-            p: 1,
-            mt: -4,
-            display: "flex",
-            flexDirection: "column",
-            // bgcolor: backgroundColors[currTheme],
-          }}
-        >
-          <TopQuizGames
-            products={[
-              {
-                id: "1",
-                image: "/zacobiamission.jpg",
-                name: "Remid Sharpner",
-                score: "12000",
-                color: deepOrange[500],
-              },
-              {
-                id: "2",
-                image: "/nonummission.png",
-                name: "Travio Hoggards",
-                score: "8000",
-                color: deepPurple[500],
-              },
-              {
-                id: "3",
-                image: "/missionImages/MissionSados.png",
-                name: "Agnes Molarity",
-                score: "7000",
-                color: cyan[500],
-              },
-              {
-                id: "b393ce1b09c1254c3a92c827",
-                image: "/missionImages/MissionSados.png",
-                name: "Clara Montana",
-                score: "6900",
-                color: cyan[500],
-              },
-            ]}
-            sx={{ width: 360, height: 360 }}
-            reviewConceptClicked={callBackHandlers[2]}
-            viewAllConceptsClicked={callBackHandlers[3]}
-          />
-        </Grid>
-      )}
     </Grid>
   );
 }
@@ -489,6 +445,7 @@ function DashboardContent(props) {
     ShowAllConcepts: 6,
     ShowChaptersInMission: 7,
     ChapterInprogress_New: 8,
+    PageClicked: 9
   };
   const { data: session, status } = useSession();
   const isUser = !!session && session.user;
@@ -505,6 +462,7 @@ function DashboardContent(props) {
   const [componentState, setComponentState] = React.useState(
     DashboardState.UserDataLoading
   );
+  const [componentStateBeforePageChange, setComponentStateBeforePageChange] = React.useState(componentState);
   const [currentChapter, setCurrentChapter] = React.useState(0);
   const [learnerId, setLearnerId] = React.useState("");
 
@@ -537,7 +495,7 @@ function DashboardContent(props) {
   React.useEffect(() => {
     console.log("Use effect called");
     if (loading) return; // Do nothing while loading
-    if (!isUser) signIn(); // If not authenticated, force log in
+   // if (!isUser) signIn(); // If not authenticated, force log in
     //console.log ("The value of session is", session);
 
     if (componentState != DashboardState.UserDataLoading) return;
@@ -575,7 +533,7 @@ function DashboardContent(props) {
         updateMissionProgress(resp.missionProgress);
         updateChapterProgress(resp.chapterProgress);
         updateQuizProgress(resp.quizProgress);
-        updateUserName(resp.userName);
+        updateUserName(resp.firstName === "Guest User" ? "Guest User": resp.userName);
         updateFirstName(resp.firstName);
         updateLastName(resp.lastname);
         setComponentState(DashboardState.ShowInitialDashboard);
@@ -858,17 +816,54 @@ function DashboardContent(props) {
     })();
   }
 
+
+  const [ pageSelected, setPageSelected] = React.useState(dashboardPages[0]);
+  function selectedPageChanged(selection)
+  {
+    setPageSelected(selection);
+    if (selection != dashboardPages[0])
+    {
+      setComponentStateBeforePageChange(componentState);
+      setComponentState(DashboardState.PageClicked);
+    }
+    else{
+      setComponentState(componentStateBeforePageChange);
+    }
+    console.log ("Currently selected page is",selection);
+
+  }
+
+  //const dashboardPages = ['Home', 'Discover', 'Weekly Challenge', 'Fun With Friends'];
+
+  const componentForPage = {
+    Discover:DiscoverMissions,
+    'Weekly Challenge':WeeklyChallenges,
+    'Fun With Friends': FunWithFriends
+  };
+
+  var ComponentToUse;
+  if (pageSelected != dashboardPages[0])
+  {
+    ComponentToUse = componentForPage[pageSelected];
+    // return (
+    //   <DashboardAppBar signedUser={session.user} selectedPageChanged={selectedPageChanged}>
+    //     <ComponentToUse/>
+    //   </DashboardAppBar>
+    // );
+  }
+
+
   return (
     <React.Fragment>
       {!session && (
-        <Typography variant="h6" component="h2">
-          {" "}
-          Please Login{" "}
-        </Typography>
+        <AskGuestLoginPopup/>
       )}
 
       {session && (
-        <DashboardAppBar signedUser={session.user}>
+        <DashboardAppBar signedUser={session.user} selectedPageChanged={selectedPageChanged}>
+          {
+            componentState == DashboardState.PageClicked && (<ComponentToUse/>)
+          }
           <MissionLockedDialog
             open={dialogOpen}
             dialogText={dialogText}

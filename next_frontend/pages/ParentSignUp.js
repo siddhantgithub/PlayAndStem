@@ -12,7 +12,6 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useForm, Controller } from "react-hook-form";
-import {sendSignupPostRequest} from "../actions/authRequestHandlers";
 import Link from '../src/Link';
 import Copyright from '../components/Copyright'
 import { useRouter } from 'next/router'
@@ -48,6 +47,7 @@ export default function ParentSignUp({}) {
           console.log ("Error occurred", resp.error)
           setSeverity("error");
           setMessage(resp.error);
+          setTimeout(router.push("/"),2000);
         }
         else
         {
@@ -62,24 +62,6 @@ export default function ParentSignUp({}) {
         setOpenSnackBar(true);
     });
     return;
-    sendParentSignupPostRequest(data).then(resp => {
-        if (Object.keys(resp)[0] == "error")
-        {
-          console.log ("Error occurred", resp.error)
-          setSeverity("error");
-          setMessage(resp.error);
-        }
-        else
-        {
-          //Operation was successful
-          //router.push("/SignIn")
-          setSeverity("success");
-          setMessage(data.message);
-          //setTimeout(router.push("/"),2000);
-          //reset();
-        }
-        setOpenSnackBar(true);
-      });
   };
 
   const handleSnackBarClose = (event, reason) => {

@@ -12,6 +12,7 @@ import ScrollTop from "../components/ScrollTop";
 import "../styles/globals.css";
 import "../styles/backgroundStyles.css";
 import LearnerStore from "../store/LearnerStore";
+import Script from "next/script";
 // import Image from "../ui_assets/images/background.jpg"
 
 // const backgroundImage = {
@@ -60,6 +61,21 @@ export default function MyApp(props) {
         <Head>
           <meta name="viewport" content="initial-scale=1, width=device-width" />
         </Head>
+        <Script
+        strategy="lazyOnload"
+        src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+      />
+
+      <Script id="google-analytics-script" strategy="lazyOnload">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}', {
+          page_path: window.location.pathname,
+          });
+    `}
+      </Script>
         <ThemeProvider theme={theme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />

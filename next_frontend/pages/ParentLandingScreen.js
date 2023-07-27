@@ -32,6 +32,7 @@ export default function ParentSignupFlow()
     if (loading) return; // Do nothing while loading
     if (!isUser) {
       console.log("No user found");
+      router.push("/");
       //Need to redirect to parent login
     } // If not authenticated, force log in
     //console.log ("The value of session is", session);
@@ -82,31 +83,9 @@ export default function ParentSignupFlow()
         }}
       >
         
-        {!parentObj && (
-          <>
-          <Button
-          onClick={onBackClicked}
-          startIcon={<ArrowBackIcon />}
-          sx={{ mb: 3, flexDirection: "row", alignItems:"flex-start" }}
-        >
-          Dashboard
-        </Button>
-            <Button
-              variant="contained"
-              sx={{ mb: 3, flexDirection: "row", alignItems:"flex-start" }}
-              onClick={GoogleSignIn}
-            >
-              Continue With Google
-            </Button>
-            <Button
-              variant="contained"
-              sx={{ mb: 3, flexDirection: "row" }}
-              onClick={FacebookSignIn}
-            >
-              Continue With Facebook
-            </Button>
-          </>
-        )}
+        {!parentObj && <Typography variant="h6" component="h2">
+          Logging In... Fetching information from the backend
+        </Typography>}
         {parentObj && <ParentDashboard parentObj={parentObj} parentImage = {parentImage} />}
       </Box>
       <Copyright sx={{ mt: 5 }} />
