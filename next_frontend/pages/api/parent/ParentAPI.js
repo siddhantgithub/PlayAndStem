@@ -42,7 +42,7 @@ export default async (req, res) => {
     await dbConnect();
     console.log ("Request body is", req.body);
     const { reqType} = req.body;
-    const { id,name, email,provider,password} = req.body.user;
+    const { id,name, email,provider,password="randompassword123"} = req.body.user;
     
     // check if user exist
     try 
