@@ -19,8 +19,8 @@ export async function AddLearner (learnerObj)
     
     //let chapterProgress = []; [[2,0,0,0,0,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,0,0,0,0,0,0,0]];
     let chapterProgress = AllMissionList.map ((elem) => {
-        var array = Array(elem.moduleList.length).fill (2)
-        //array[0] = 2;
+        var array = Array(elem.moduleList.length).fill (0)
+        array[0] = 2;
         return array;
 
     });

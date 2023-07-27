@@ -34,6 +34,7 @@ import {
 } from "../../ui_assets/images/UIThemes/colorThemes";
 import { useStore } from "zustand";
 import LearnerStore from "../../store/LearnerStore";
+import * as gtag from "../../lib/gtag";
 
 export const ChapterState = {
   AvailableLater: 0,
@@ -250,7 +251,11 @@ export function MissionDashboard(props) {
     viewAllConceptsClicked,
     quizList,
     conceptList,
+    missionName
   } = props;
+
+  console.log ("Mission name got is", missionName);
+
   const backToModulesClicked = (props) => {
     showInitialDashboard();
   };
@@ -262,6 +267,17 @@ export function MissionDashboard(props) {
       block: "end",
     });
   }, []);
+
+  React.useEffect(
+    () => {
+      gtag.event({
+        action: 'pageview',
+        category: 'missiondashboard',
+        label: missionName,
+      })
+    },
+    []
+  );
 
   function a11yProps(index) {
     return {

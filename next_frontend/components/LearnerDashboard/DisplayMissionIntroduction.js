@@ -31,6 +31,17 @@ export function MissionIntroduction(props) {
     mission
   } = props;
 
+  React.useEffect(
+    () => {
+      gtag.event({
+        action: 'tabview',
+        category: 'MissionIntroduction',
+        label: mission.name,
+      })
+    },
+    []
+  );
+
   const backToDiscoverClicked = (props) => {
     showAllMissions();
   };

@@ -798,6 +798,12 @@ function DashboardContent(props) {
       data: chapter,
     });
 
+    gtag.event({
+      action: 'pagevisited',
+      category: 'chapterclicked',
+      label: chapter.name,
+    });
+
     if (
       chapterProgress[clickedMission.id][chapter.id] == ChapterState.Available
     ) {
@@ -899,6 +905,7 @@ function DashboardContent(props) {
           )}
           {componentState == DashboardState.ShowChaptersInMission && (
             <MissionDashboard
+              missionName = {clickedMission.name}
               retryQuizClicked={retryQuizClicked}
               showInitialDashboard={showInitialDashboard}
               quizProgress={quizProgress[clickedMission.id]}

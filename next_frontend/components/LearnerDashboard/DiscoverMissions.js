@@ -113,6 +113,17 @@ export  function DiscoverMissions()
     distributeMissionsInCategories();
   }, []);
 
+  React.useEffect(
+    () => {
+      gtag.event({
+        action: 'pageview',
+        category: 'tabview',
+        label: "DiscoverMissions",
+      })
+    },
+    []
+  );
+
   if (clickedMissionObj)
   {
     return (
