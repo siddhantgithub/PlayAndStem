@@ -57,6 +57,7 @@ import AskGuestLoginPopup from "../../components/dialogBoxes/GuestLoginPopup";
 import { DiscoverMissions } from "../../components/LearnerDashboard/DiscoverMissions";
 import { FunWithFriends } from "../../components/LearnerDashboard/FunWithFriends";
 import { WeeklyChallenges } from "../../components/LearnerDashboard/WeeklyChallenges";
+import * as gtag from "../../lib/gtag";
 
 const drawerWidth = 240;
 function stringToColor(string) {
@@ -546,6 +547,17 @@ function DashboardContent(props) {
     updatedLearnerMissionProgress.current = learnerMissionProgress;
     //console.log ("Setting the value of updated mission progress here", learnerMissionProgress);
   }, [learnerMissionProgress]);
+
+  React.useEffect(
+    () => {
+      gtag.event({
+        action: 'pagevisited',
+        category: 'pagevisit',
+        label: "LearnerDashboard_new",
+      })
+    },
+    []
+  );
 
   //React useeffect for changing the temporary state for showing chapter conversation
   React.useEffect(() => {

@@ -13,6 +13,8 @@ import "../styles/globals.css";
 import "../styles/backgroundStyles.css";
 import LearnerStore from "../store/LearnerStore";
 import Script from "next/script";
+import * as gtag from "../lib/gtag"
+import { useRouter } from "next/router";
 // import Image from "../ui_assets/images/background.jpg"
 
 // const backgroundImage = {
@@ -24,6 +26,7 @@ import Script from "next/script";
 const clientSideEmotionCache = createEmotionCache();
 
 export default function MyApp(props) {
+  const router = useRouter();
   useEffect(() => {
     const body = document.querySelector("body");
 
@@ -49,6 +52,16 @@ export default function MyApp(props) {
     });
   }, []);
 
+  useEffect(() => {
+    const handleRouteChange = (url) => {
+      gtag.pageview(url);
+    };
+    router.events.on("routeChangeComplete", handleRouteChange);
+    return () => {
+      router.events.off("routeChangeComplete", handleRouteChange);
+    };
+  }, [router.events]);
+
   const {
     Component,
     emotionCache = clientSideEmotionCache,
@@ -56,26 +69,31 @@ export default function MyApp(props) {
   } = props;
 
   return (
+    <>
+    <Script
+        strategy="afterInteractive"
+        src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
+      />
+      <Script
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${gtag.GA_TRACKING_ID}', {
+              page_path: window.location.pathname,
+            });
+          `,
+        }}
+      />
     <SessionProvider session={session}>
       <CacheProvider value={emotionCache}>
         <Head>
           <meta name="viewport" content="initial-scale=1, width=device-width" />
         </Head>
-        <Script
-        strategy="lazyOnload"
-        src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
-      />
 
-      <Script id="google-analytics-script" strategy="lazyOnload">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}', {
-          page_path: window.location.pathname,
-          });
-    `}
-      </Script>
+
         <ThemeProvider theme={theme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
@@ -83,6 +101,7 @@ export default function MyApp(props) {
         </ThemeProvider>
       </CacheProvider>
     </SessionProvider>
+    </>
   );
 }
 
