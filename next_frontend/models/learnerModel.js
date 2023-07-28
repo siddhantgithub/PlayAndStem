@@ -46,6 +46,10 @@ const LearnerSchema = new mongoose.Schema(
             type:Array,
             required: true
         },
+        activityArray : {
+            type:Array,
+            required: true
+        },
         activityState: {
             type:Number,
             required: false
@@ -69,7 +73,6 @@ const LearnerSchema = new mongoose.Schema(
         cairoVoice: {
             type:String,
             required: false
-
         },
         salt: String,
     },

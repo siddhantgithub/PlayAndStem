@@ -44,6 +44,14 @@ function getDataToSendToLearner (learner,reqType)
     return data;
 }
 
+async function addLearnerActivity (learner, activity)
+{
+    var time = Date.now();
+    var newActivity = {...activity, time};
+    learner.activityArray.push(newActivity);
+    learner.save();
+}
+
 async function getAllUserNamesForLearners ()
 {
     const projection = {
@@ -58,7 +66,9 @@ async function getAllUserNamesForLearners ()
 export default async (req, res) => {
     await dbConnect();
     const { _id, data,reqType} = req.body;
-    console.log ("Request type is ", reqType, "id is ", _id);
+    console.log ("Request type is ", reqType, "id is ", _id, data);
+
+    
     if (reqType == "GETALLLEARNERUSERNAME")
     {
         var usernameArray =  await getAllUserNamesForLearners();
@@ -71,6 +81,11 @@ export default async (req, res) => {
         console.log ("Found the learner");
         if (learner)
         {
+            if (reqType == "ADDLEARNERACTIVITY")
+            {
+                addLearnerActivity(learner, data);
+                return res.status(200).end();
+            }
             //Check whether update needs to happen
             if (reqType == "UPDATEMISSIONPROGRESS" || reqType == "UPDATECHAPTERPROGRESS" || reqType == "UPDATEQUIZPROGRESS" )
             {

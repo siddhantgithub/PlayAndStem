@@ -69,14 +69,14 @@ const TopChatBotComponent = React.forwardRef((props, ref) =>{
     const firstAvailableMissionIndex = missionProgress.findIndex ((elem) => elem == "Available");
     if (firstAvailableMissionIndex != -1 )
     {
-        console.log ("First available mission Index", firstAvailableMissionIndex);
+        //console.log ("First available mission Index", firstAvailableMissionIndex);
         const missionAvailable = AllMissionList[firstAvailableMissionIndex];
         var firstAvailableChapterIndex = chapterProgress[firstAvailableMissionIndex].findIndex ((elem) => elem == ChapterState.Available || elem == ChapterState.InProgress);
         if (firstAvailableChapterIndex != -1 && firstAvailableChapterIndex < missionAvailable.moduleList.length)
         {
-            console.log ("First available chapter index is", firstAvailableChapterIndex);
+            //console.log ("First available chapter index is", firstAvailableChapterIndex);
             var firstAvailableChapter = missionAvailable.moduleList[firstAvailableChapterIndex];
-            console.log ("Firs mission is", missionAvailable.name, " first chapter available is", firstAvailableChapter.name);
+            //console.log ("Firs mission is", missionAvailable.name, " first chapter available is", firstAvailableChapter.name);
             const MissionProgressBlock = [
                 {type: "TM", message: "Hey, mission<b> " + missionAvailable.name + "</b> is in progress"  },
                 {type: "TM", message: "Click next to go to the mission dashboard"},

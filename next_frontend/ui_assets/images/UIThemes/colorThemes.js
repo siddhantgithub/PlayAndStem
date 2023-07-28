@@ -13,6 +13,14 @@ export const backgroundColors = [
   "sapphire", // need to change color combination once sapphire is removed
   "skyblue",
 ]; // Array of bakcgroundColors:
+
+export const cardBodyContrastTextColor = [
+  "#542E0F",
+  "#FFFFFF",
+  "#494F55",
+  "#9c27b0",
+  "#01579B",
+];
 export const textColors = ["#542E0F", "#FFF000", "white", "white", "#000000"]; // Array of textColors
 export const topicColors = [
   "#542E0F",

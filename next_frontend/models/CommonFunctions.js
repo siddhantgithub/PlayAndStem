@@ -18,6 +18,7 @@ export async function AddLearner (learnerObj)
     let missionProgress = Array(AllMissionList.length).fill("Available");
     
     //let chapterProgress = []; [[2,0,0,0,0,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,0,0,0,0,0,0,0]];
+    //TODO: Implementation will change as learners will be able to add mission dynamically
     let chapterProgress = AllMissionList.map ((elem) => {
         var array = Array(elem.moduleList.length).fill (0)
         array[0] = 2;
@@ -29,9 +30,10 @@ export async function AddLearner (learnerObj)
         return array;
 
     });
+    let activityArray = [];
 
     newlearner = new Learner({ firstname, lastname, username, password, parentemail,missionProgress,chapterProgress,quizProgress,currentActivityState:0,
-        speechVolume:1, typeWriterDealy:50, forwardSpeed:1, isCairoMuted:false, cairoVoice: 'Google UK English Female'});
+        speechVolume:1, typeWriterDealy:50, forwardSpeed:1, isCairoMuted:false, cairoVoice: 'Google UK English Female', activityArray});
 
     return newlearner;
 }

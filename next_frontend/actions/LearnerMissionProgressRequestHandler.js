@@ -32,6 +32,19 @@ export const GetSetLearnerDataThroughAPI =  (data) => {
     .catch(err => console.log("here is the error",err));
 };
 
+export function AddLearnerActivity (learnerId,activityType, activityLabel, activityGoal)
+{
+    var reqType = "ADDLEARNERACTIVITY";
+    var _id = learnerId;
+    var data = {activityType, activityLabel, activityGoal};
+    var reqObj = { reqType, _id, data };
+    GetSetLearnerDataThroughAPI(reqObj).then((resp) => {
+      //console.log ("resp is", resp, );
+      //setChapterProgress(resp.chapterProgress);
+      //console.log ("Chapter progress xxxxx", chapterProgress, resp.chapterProgress[clickedMission.id]);
+    });
+}
+
 export const UpdateLearnerMissionProgress = learner => {
     //console.log ("sdfasdfsa",user);
     return fetch(`/api/missionManager/UpdateAssignedMissionToLearner`, {

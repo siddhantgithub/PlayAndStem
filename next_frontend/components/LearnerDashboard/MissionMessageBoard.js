@@ -153,7 +153,7 @@ export const MissionMessageDashboard = (props) => {
           title="Next Chapter"
           sx={{
             backgroundColor: topicColors[currTheme],
-            color: backgroundColors[currTheme],
+            color: buttonText[currTheme],
           }}
         />
         <Grid container spacing={0} alignItems="center" justifyContent="left">

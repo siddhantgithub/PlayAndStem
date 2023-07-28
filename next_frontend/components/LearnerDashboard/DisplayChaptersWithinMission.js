@@ -35,6 +35,7 @@ import {
 import { useStore } from "zustand";
 import LearnerStore from "../../store/LearnerStore";
 import * as gtag from "../../lib/gtag";
+import { styled } from '@mui/material/styles';
 
 export const ChapterState = {
   AvailableLater: 0,
@@ -59,8 +60,8 @@ export const LinearProgressWithLabel = React.forwardRef((props, ref) => {
   return (
     <Box sx={{ display: "flex", alignItems: "center", pt: 2 }}>
       <Typography
-        variant="body2"
-        color={currTheme == 1 ? "white" : "text.secondary"}
+        variant="body1"
+        color={currTheme == 1 ? "white" : "black"}
       >
         Progress
       </Typography>
@@ -68,7 +69,7 @@ export const LinearProgressWithLabel = React.forwardRef((props, ref) => {
         <LinearProgress variant="determinate" value={progress} />
       </Box>
       <Box sx={{ minWidth: 35 }}>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body1" color={currTheme == 1 ? "white" : "black"}>
           {compeletedString}
         </Typography>
       </Box>
@@ -167,7 +168,7 @@ export function ModuleCard(props) {
           </CardContent>
         </CardActionArea>
 
-        <Button size="small" onClick={onClick} sx={{ margin: 1 }}>
+        <Button size="small" onClick={onClick} sx={{ margin: 1, color: buttonText[currTheme] }}>
           {returnButtonText(progress)}
         </Button>
         {
@@ -327,6 +328,17 @@ export function MissionDashboard(props) {
     //console.log ("Distributed chapters are",categoryMissionMap );
   }, [chapterProgress]);
 
+  const AntTab = styled((props) => <Tab disableRipple {...props} />)(({ theme }) => ({
+    minWidth: 0,
+    '&.Mui-selected': {
+      color: '#FFFFFF',
+    },
+    color: 'rgba(0, 0, 0, 0.85)',
+    '&.Mui-focusVisible': {
+      backgroundColor: '#d1eaff',
+    },
+  }));
+
   //Ideal view state should be
   //First should be visible, what is in-progress or up next
   //Second should be visible completed
@@ -397,10 +409,10 @@ export function MissionDashboard(props) {
               onChange={handleChange}
               aria-label="basic tabs example"
             >
-              <Tab label="All" value={ViewState.All} {...a11yProps(2)} />
-              <Tab label="In Progress/Up Next" value={ViewState.Available} />
-              <Tab label="Completed" value={ViewState.Completed} />
-              <Tab label="Available Later" value={ViewState.AvailableLater} />
+              <AntTab label="All" value={ViewState.All} {...a11yProps(2)} />
+              <AntTab label="In Progress/Up Next" value={ViewState.Available} />
+              <AntTab label="Completed" value={ViewState.Completed} />
+              <AntTab label="Available Later" value={ViewState.AvailableLater} />
             </Tabs>
           </Grid>
           {categoryMissionMapG.current &&

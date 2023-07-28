@@ -27,6 +27,8 @@ import {
   backgroundColors,
   buttonColors,
   topicColors,
+  buttonText,
+  cardBodyContrastTextColor,
 } from "../../ui_assets/images/UIThemes/colorThemes";
 
 export const LearnerConceptsLearned = (props) => {
@@ -47,12 +49,12 @@ export const LearnerConceptsLearned = (props) => {
           title="Key Concepts Covered"
           sx={{
             backgroundColor: topicColors[currTheme],
-            color: backgroundColors[currTheme],
+            color: buttonText[currTheme],
           }}
         />
         <List>
           {newProducts.map((product, index) => {
-            const hasDivider = index < products.length - 1;
+            const hasDivider = index < products.length - 1 && index < 2;
             const ago = product.description;
             var reviewClickHandler = () => {
               //console.log ("Retry quiz handler is", retryQuizClicked);
@@ -107,12 +109,16 @@ export const LearnerConceptsLearned = (props) => {
         {products.length > 3 && (
           <CardActions sx={{ justifyContent: "flex-end" }}>
             <Button
-              color="inherit"
+              //color="inherit"
+              //color = {buttonText[currTheme]}
               endIcon={
                 <SvgIcon fontSize="small">
                   <ArrowRightIcon />
                 </SvgIcon>
               }
+              sx={{
+                color: cardBodyContrastTextColor[currTheme],
+              }}
               size="small"
               variant="text"
               onClick={viewAllConceptsClicked}

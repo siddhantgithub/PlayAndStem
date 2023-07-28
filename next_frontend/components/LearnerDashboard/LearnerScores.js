@@ -28,6 +28,7 @@ import {
   buttonColors,
   buttonText,
   topicColors,
+  cardBodyContrastTextColor,
 } from "../../ui_assets/images/UIThemes/colorThemes";
 
 export const LearnerScores = (props) => {
@@ -47,15 +48,17 @@ export const LearnerScores = (props) => {
 
   if (!hideViewAll)
     return (
-      <Card sx={sx}>
+      <Card sx={{ ...sx, backgroundColor: backgroundColors[currTheme] }}>
+        
         <CardHeader
           title="Quizzes & Scores"
           sx={{
             backgroundColor: topicColors[currTheme],
-            color: backgroundColors[currTheme],
+            color: buttonText[currTheme],
           }}
           //background color changed : quizzes and scores
         />
+        
         <List sx={{ backgroundColor: backgroundColors[currTheme] }}>
           {/* background color changed in quizzes topics */}
           {newProducts.map((product, index) => {
@@ -68,7 +71,7 @@ export const LearnerScores = (props) => {
             if (score == -1) scoreMsg = "Not Done";
             else scoreMsg = "Score - " + score + "%";
 
-            const hasDivider = index < newProducts.length - 1;
+            const hasDivider = index < newProducts.length - 1 && index < 2;
             const ago = "80%";
 
             return (
@@ -118,7 +121,6 @@ export const LearnerScores = (props) => {
             );
           })}
         </List>
-
         <Divider />
         {products.length > 3 && (
           <CardActions
@@ -137,6 +139,9 @@ export const LearnerScores = (props) => {
               size="small"
               variant="text"
               onClick={viewAllQuizClicked}
+              sx={{
+                color: cardBodyContrastTextColor[currTheme],
+              }}
             >
               View all
             </Button>

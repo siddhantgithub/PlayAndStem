@@ -58,6 +58,7 @@ import { DiscoverMissions } from "../../components/LearnerDashboard/DiscoverMiss
 import { FunWithFriends } from "../../components/LearnerDashboard/FunWithFriends";
 import { WeeklyChallenges } from "../../components/LearnerDashboard/WeeklyChallenges";
 import * as gtag from "../../lib/gtag";
+import { AddLearnerActivity } from "../../actions/LearnerMissionProgressRequestHandler";
 
 const drawerWidth = 240;
 function stringToColor(string) {
@@ -339,7 +340,7 @@ function ShowLearningConversation({
           Dashboard
         </Button>
       </Grid>
-      <Grid item xs={12} md={12} lg={12}>
+      <Grid item xs={12} md={12} lg={12} sx={{ mt: 2, backgroundColor: backgroundColors[currTheme], minHeight: 450 }}>
         <LearningConversation
           LessonText={chapterText}
           OnLessonEnd={chapterEndReached}
@@ -494,7 +495,7 @@ function DashboardContent(props) {
 
   //React useeffect for initial signing up the user
   React.useEffect(() => {
-    console.log("Use effect called");
+    //console.log("Use effect called");
     if (loading) return; // Do nothing while loading
    // if (!isUser) signIn(); // If not authenticated, force log in
     //console.log ("The value of session is", session);
@@ -508,7 +509,7 @@ function DashboardContent(props) {
       if (queryObj.login === "parent") {
         _id = queryObj.learnerid;
         console.log(" id is ", _id);
-        updateId(_id);
+        
         setLearnerId(_id);
       } else {
         if (session.user.loginType == "parent")
@@ -518,6 +519,8 @@ function DashboardContent(props) {
         }
         _id = session.user._id;
       }
+      updateId(_id);
+      setLearnerId(_id)
 
       console.log("Getting all user progress", session);
       var reqObj = { reqType, _id };
@@ -626,6 +629,7 @@ function DashboardContent(props) {
       case "loadmission":
         //console.log ("mission data is",AllMissionList[eventDetails.data]);
         onMissionClicked(AllMissionList[eventDetails.data]);
+        //AddLearnerActivity(learnerId, "MissionClicked");
         break;
 
       case "changemissionstatus":
@@ -792,6 +796,7 @@ function DashboardContent(props) {
     //console.log ("Chapter clicked is", chapter );
     //console.log ("Chapter progressed is", chapterProgress);
     console.log("Clicked mission is", clickedMission);
+    AddLearnerActivity(learnerId, "Chapter Started",chapter.name, chapter.description);
     setCurrentChapter(chapter);
     updateCurrrentActivityState({
       state: LearnerActivityState.ChapterStarted,

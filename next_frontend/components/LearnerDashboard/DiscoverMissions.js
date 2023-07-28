@@ -22,6 +22,7 @@ import { useStore } from "zustand";
 import Stack from '@mui/system/Stack';
 import Image from 'next/image'
 import { MissionIntroduction } from "./DisplayMissionIntroduction";
+import * as gtag from "../../lib/gtag";
 
 export const MissionState = {
   Available: 0,
@@ -136,7 +137,7 @@ export  function DiscoverMissions()
           <Grid container spacing={3} justifyContent="center">
             <Grid item xs={12} md={8} lg={8} sx={{ minHeight: 400 }}>
               <Box sx={{ backgroundColor: backgroundColors[currTheme]}}>
-                <Typography gutterBottom variant="h5"  sx={{ color: topicColors[currTheme], ml:2 }}>
+                <Typography gutterBottom variant="h5"  sx={{ color: topicColors[currTheme], ml:2, pt:1 }}>
                   Discover Missions
                 </Typography>
                 {categoryMap && DiscoverCategoryList.map((category) => {

@@ -18,6 +18,7 @@ import LearnerStore from "../../store/LearnerStore";
 import Stack from '@mui/system/Stack';
 import Image from 'next/image'
 import { MissionDetailedDescription } from "../../assets/moduleList/AllMissionChapterList";
+import * as gtag from "../../lib/gtag";
 
 
 export function MissionIntroduction(props) {

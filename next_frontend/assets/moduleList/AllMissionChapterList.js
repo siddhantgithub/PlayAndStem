@@ -35,9 +35,9 @@ export const SaddosModuleList = [
 ];
 
 export const AllMissionList = [
-    {id: 0, dependency: [], category: "Robotics with Python and Microbit",name:"Zacobian Lights", image:"/zacobiamission.png", folderName: "ZacobiaMission", moduleList: ZacobiaModuleList,description:"Solve planet Zacobia's light problems", quizList:ZacobiaQuizList, conceptList: ZacobiaConceptList},
-    {id: 1, dependency: [1], category:"Robotics with Python and Microbit",name:"NoNums' Number", image:"/nonummission.png", folderName: "NoNumMission", moduleList: NoNumModuleList,description:"Generate numbers for NoNums", quizList:NoNumQuizList, conceptList: NoNumConceptList},
-    {id: 2, dependency: [],category: "Robotics with Python and Microbit",name:"Saddos want music", image:"/missionImages/MissionSados.jpg", folderName: "SaddosMusic", moduleList: SaddosModuleList,description:"Make a piano for Planet Sados", quizList:SadosQuizList, conceptList:SaddosConceptList}
+    {id: 0, dependency: [], category: "Robotics with Python and Microbit",name:"Zacobian Lights", image:"/zacobiamission.png", folderName: "ZacobiaMission", moduleList: ZacobiaModuleList,description:"Solve planet Zacobia's light problems", quizList:ZacobiaQuizList, conceptList: ZacobiaConceptList, goal:"Basics of Python and Microbit"},
+    {id: 1, dependency: [1], category:"Robotics with Python and Microbit",name:"NoNums' Number", image:"/nonummission.png", folderName: "NoNumMission", moduleList: NoNumModuleList,description:"Generate numbers for NoNums", quizList:NoNumQuizList, conceptList: NoNumConceptList, goal:"Functions and for loops in Python"},
+    {id: 2, dependency: [],category: "Robotics with Python and Microbit",name:"Saddos want music", image:"/missionImages/MissionSados.jpg", folderName: "SaddosMusic", moduleList: SaddosModuleList,description:"Make a piano for Planet Sados", quizList:SadosQuizList, conceptList:SaddosConceptList, goal:"Make a piano using Microbit"}
 ];
 
 export const AllDiscoverMissionList = [
