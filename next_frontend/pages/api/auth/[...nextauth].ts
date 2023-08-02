@@ -8,6 +8,7 @@ import CredentialsProvider from "next-auth/providers/credentials"
 import dbConnect from '../../../lib/dbConnect'
 import Learner from '../../../models/learnerModel';
 import Parent from '../../../models/parentModel';
+import { userAgent } from "next/server"
 // import AppleProvider from "next-auth/providers/apple"
 // import EmailProvider from "next-auth/providers/email"
 
@@ -167,13 +168,23 @@ export const authOptions: NextAuthOptions = {
   },
   
   callbacks: {
-    async session({ session, token }) {
+    async session({ session, token, ...args }) {
+      //console.log ("Things we are getting in session callback", session, " args are", args);
       session.user = token.user;
       return session;
     },
-    async jwt({ token, user }) {
+    async signIn({user, account}) {
+      console.log ("");
+    
+
+      return true // Do different verification for other providers that don't have `email_verified`
+    },
+    async jwt({ token, user,profile, account }) {
       if (user) {
-        token.user = user;
+        //console.log ("User we are getting here is", user);
+        token.user = {...user, provider: account.provider};
+        //console.log ("Things we are getting in JWT", token, user, profile, "args are", account);
+        //.user.provider = 
       }
       return token;
     },

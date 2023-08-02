@@ -1,4 +1,5 @@
 import * as React from "react";
+;
 import { useEffect } from "react";
 import Fade from "@mui/material/Fade";
 import Card from "@mui/material/Card";
@@ -33,6 +34,8 @@ import { stringAvatar } from "../../utils/CommonFunctions";
 import Avatar from "@mui/material/Avatar";
 import IconButton from '@mui/material/IconButton';
 import Link from '@mui/material/Link';
+import LearnerActivityDialog from "../dialogBoxes/LearnerActivity";
+import { GetSetLearnerDataThroughAPI } from "../../actions/LearnerMissionProgressRequestHandler";
 
 export const MissionState = {
   Available: 0,
@@ -40,29 +43,50 @@ export const MissionState = {
   Not_Available: 2,
   Completed: 3,
 };
-//This file displays all the missions displayed across different categories
-//Categories:
-//1) In-progress
-//2) Robotics
-//3) Python
-//4) Block Programming
-//5) Beginner
-//6) Intermediate
-//7) Advanced Block Programming
-//Algorithm:
-//First populate all the categories with Mission ids
-function LearnerCard({firstname,username,urlToRedirect}) {
+
+
+
+function LearnerCard({firstname,username,urlToRedirect,learnerId}) {
+
+  const [learnerActivityDialogOpen, setLearnerActivityDialogOpen] = React.useState(false);
+  const [learnerActivityArray, setLearnerActivityArray] = React.useState ([]);
+
+  function closeLearnerActivityDialog ()
+  {
+    setLearnerActivityDialogOpen(false);
+  }
+
+  
+
+  function GetLearnerActivity() {
+    var reqType = "GETACTIVITYARRAY";
+    var _id = learnerId;
+    var reqObj = { reqType, _id };
+    GetSetLearnerDataThroughAPI(reqObj).then((resp) => {
+      console.log ("resp is", resp.activityArray);
+      setLearnerActivityArray(resp.activityArray);
+      //setChapterProgress(resp.chapterProgress);
+      //console.log ("Chapter progress xxxxx", chapterProgress, resp.chapterProgress[clickedMission.id]);
+    });
+  }
+
+  function onShowLearnerActivityClicked ()
+  {
+    setLearnerActivityDialogOpen(true);
+    GetLearnerActivity();
+
+  }
   
   return (
     <Card sx={{ display: 'flex', ml:2, mr:2, mb:2, p:1 }} variant="outlined">
-      <Grid
+      <LearnerActivityDialog open={learnerActivityDialogOpen} activityArray={learnerActivityArray} 
+      onClose={closeLearnerActivityDialog} learnerName={firstname}/>
+      <Grid 
           container
           spacing={1}
           alignItems="center"
           direction="row"
           sx={{ display: 'flex', flexGrow:1 }}
-    
-          
           //sx={{ backgroundColor: backgroundColors[currTheme] }}
         >
         <Grid item xs={2} md={2} lg={2} sx={{ ml: 2 }}>
@@ -76,7 +100,10 @@ function LearnerCard({firstname,username,urlToRedirect}) {
               {username}
             </Typography>
         </Grid>
-        <Grid item xs={6} md={6} lg={6} sx={{ mb: 0 }} display="flex" justifyContent="flex-end">
+        <Grid item xs={2} md={2} lg={2} sx={{ ml: 0 }} >
+          <Button onClick={onShowLearnerActivityClicked}>View Activity</Button>
+        </Grid>
+        <Grid item xs={4} md={4} lg={4} sx={{ mb: 0 }} display="flex" justifyContent="flex-end">
           <Link href={urlToRedirect} target = "_blank" rel="noopener">
                 <Button>Start Learning</Button>
           </Link>
@@ -84,30 +111,6 @@ function LearnerCard({firstname,username,urlToRedirect}) {
       </Grid>
     </Card>
   );
-  return (
-    <Card sx={{ height: 150, margin: 1, display: 'flex', flexDirection: 'column' }}>
-      
-      <CardActionArea>
-        <CardContent>
-        <Avatar alt="Remy Sharp" {...stringAvatar(firstname)} />
-          <Typography gutterBottom variant="h6" component="div">
-            {firstname}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {firstname}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      {/*
-      <CardActions>
-        <Button size="small" onClick= {onMissionClick}>Start</Button>
-       { <Chip label="Completed" color="success" variant="outlined" sx={{ margin: 1 }}/>}
-      </CardActions>
-    */}
-    </Card>
-  );
-
-  
 }
 
 export default function DisplayLearnerCards({
@@ -116,28 +119,7 @@ export default function DisplayLearnerCards({
 }) {
 
 
-  //const { data: session, status } = useSession();
-  //const { currTheme } = useStore(LearnerStore);
-  //const isUser = !!session && session.user;
-  //const loading = status === "loading";
 
-
-  // const [learnerMissionProgress, setLearnerMissionProgress] = React.useState();
-
-  //console.log ("The user we got is adfadf", session.user);
-
-  //React.useEffect(() => {
-   // if (loading) return; // Do nothing while loading
-    //if (!isUser) signIn(); // If not authenticated, force log in
-
-    //GetLearnerMissionProgress({_id:session.user._id}).then ((resp) => {setLearnerMissionProgress(resp.missionProgress)});
-    //console.log ("Learner mission progress got is",learnerMissionProgress )
-    //setLearnerMissionProgress(learnerMissionProgress);
-    //console.log ("The value of session is", session);
-  //}, [isUser, loading]);
-
-  //const [categoryMap, setCategoryMap] = React.useState(null);
-  //This function distribute missions into different categories
 
   return (
     <Fade in={true} timeout={1000}>
@@ -184,6 +166,7 @@ export default function DisplayLearnerCards({
                           firstname = {learner.firstname}
                           username = {learner.username}
                           urlToRedirect = {urlToRedirect}
+                          learnerId = {learner._id}
                         />
                  </Grid>
                       )

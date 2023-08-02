@@ -32,6 +32,7 @@ import CardMedia from '@mui/material/CardMedia'
 import CardContent from '@mui/material/CardContent'
 import { CardActionArea } from '@mui/material';
 import ImageShowPopup from '../dialogBoxes/ImageShowPopup';
+import VideoShowPopup from '../dialogBoxes/VideoShowPopup';
 import TextToSpeech from './textToSpeech/TextToSpeech';
 import LearnerStore from '../../store/LearnerStore';
 import { CairoForwardSpeed } from '../../store/LearnerStore';
@@ -313,6 +314,7 @@ export  function ChatBotMessageWithoutTypewriter (props) {
 export  function LearnerMessage (props) {
 
     const {message} = props;
+    const { currTheme } = useStore(LearnerStore);
     return (
         <Fade in={true} timeout = {1000}>
         <Grid container spacing={0} sx={{alignItems: 'center'} }>
@@ -531,6 +533,50 @@ export function ShowImage (props)
                                <Card sx={{ width: 152, height: 190}}>
 
                                     <CardActionArea onClick = {onImageClicked}>
+                                    <Image
+                                        src={imagePath}
+                                        width = {150}
+                                        height = {150}
+                                        alt={altText}
+                                        onClick = {() => {setDialogOpen(true);}}
+                                    />
+
+                                        <Typography variant="body2" color="text.secondary">
+                                        Click To Enlarge
+                                        </Typography>
+
+                                    </CardActionArea>
+                                </Card>
+                        </Box>
+                    </Fade>
+            </Grid>
+        </Grid>
+    );
+}
+
+export function ShowVideo (props)
+{
+    const {videoId,altText,imagePath} = props;
+    function onVideoClicked(event)
+    {
+        console.log ("Show image in a popup here");
+    }
+
+    const [dialogOpen, setDialogOpen] = React.useState (false);
+    function handleDialogClose ()
+    {
+        setDialogOpen(false);
+    }
+
+    return (
+        <Grid container  sx={{alignItems: 'center', pt:2} }>   
+        <VideoShowPopup open={dialogOpen} videoId = {videoId} onClose={handleDialogClose} altText={altText}/> 
+            <Grid item xs={11} md={11} lg={11}>
+                    <Fade in={true} timeout = {1000}>
+                        <Box sx={{ justifyContent: 'left', width:1, display: 'flex' }}>
+                               <Card sx={{ width: 152, height: 190}}>
+
+                                    <CardActionArea onClick = {onVideoClicked}>
                                     <Image
                                         src={imagePath}
                                         width = {150}

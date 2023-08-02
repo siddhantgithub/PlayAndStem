@@ -4,6 +4,8 @@ import { sendLearnerSignupPostRequest } from '../actions/authRequestHandlers';
 import { signIn } from 'next-auth/react';
 
 export function stringAvatar(name) {
+  if (!name)
+    return;
     return {
       sx: {
         bgcolor: "#AF2BBF",

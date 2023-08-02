@@ -63,8 +63,13 @@ export const GetOpenAIResponse = async (request) =>
           case LearnerEventType.HaveConversation:
             promptToSend = returnHaveConversationPrompt(request.data.text, request.data.context)
             break;
-    }   
-    console.log ("Prompt to send is", promptToSend);
+    }  
+    
+    const controller = new AbortController() // 5 second timeout:
+    const timeoutId = setTimeout(() => {
+        
+      controller.abort()}, 2000)
+    //console.log ("Prompt to send is", promptToSend);
     const response = await fetch("/api/openAI/generate", {
       method: "POST",
       headers: {
@@ -76,7 +81,9 @@ export const GetOpenAIResponse = async (request) =>
     });
 
     if (!response.ok) {
-      throw new Error(response.statusText);
+      //throw new Error(response.statusText);
+      request.dataRcvd (null, false,true);
+      return;
     }
 
     const data = response.body;
@@ -95,8 +102,5 @@ export const GetOpenAIResponse = async (request) =>
       //setGeneratedBios((prev) => prev + chunkValue);
     }
     request.dataRcvd (null, true);
-
-
-
     //setLoading(false);
   };

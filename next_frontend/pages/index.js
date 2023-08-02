@@ -11,20 +11,41 @@ import Copyright from '../components/Copyright'
 import MuiAlert from '@mui/material/Alert';
 import { useRouter } from 'next/router'
 import Image from 'next/image'
+//import { url } from 'inspector';
+//import { backgroundImage } from '../ui_assets/images/UIThemes/colorThemes';
 
 export default function LandingPage({}) {
 
     const router = useRouter();
 
+    const backgroundImageStyle = {
+      backgroundImage: "url('/backgroundImages/4.png')",
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "0% 0%",
+      backgroundSize: "cover"
+
+    };
+
+    React.useEffect(() => {
+      for( var i in backgroundImageStyle){
+        document.body.style[i] = backgroundImageStyle[i];
+    }
+      //document.body.style = backgroundImageStyle;
+      //document.body.style.backgroundImage = "url('/background_login.png')";
+
+    }, []);
+
   return (
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs" >
         <Box
           sx={{
             marginTop: 18,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            height: "200px"
+            backgroundColor: "white",
+            pb:10, pt:10,
+            borderRadius: 1
           }}
         >
         <Image
@@ -40,8 +61,9 @@ export default function LandingPage({}) {
             <Button variant="contained" sx={{ m: 3, flexDirection: 'row' }} onClick = {()=> {router.push("/ParentSignIn")}}>Parent</Button>
             <Button variant="contained" sx={{ m: 3, flexDirection: 'row' }} onClick = {()=> {router.push("/LearnerLandingScreen")}}>Learner</Button>          
           </Box>
+          <Copyright sx={{ mt: 5 }} />
         </Box>
-        <Copyright sx={{ mt: 5 }} />
+
       </Container>
  );
 }

@@ -31,6 +31,7 @@ import {
   secondaryTextColors,
   textColors,
   topicColors,
+  cardBodyContrastTextColor
 } from "../../ui_assets/images/UIThemes/colorThemes";
 import { useStore } from "zustand";
 import LearnerStore from "../../store/LearnerStore";
@@ -168,7 +169,7 @@ export function ModuleCard(props) {
           </CardContent>
         </CardActionArea>
 
-        <Button size="small" onClick={onClick} sx={{ margin: 1, color: buttonText[currTheme] }}>
+        <Button size="small" onClick={onClick} sx={{ margin: 1, color: cardBodyContrastTextColor[currTheme] }}>
           {returnButtonText(progress)}
         </Button>
         {

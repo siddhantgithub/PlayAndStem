@@ -32,6 +32,8 @@ import { CairoSpeedPossible } from '../../store/LearnerStore';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { GetOpenAIResponse,LearnerEventType } from '../../actions/OpenAIResponseHandler';
+import { AddLearnerActivity } from '../../actions/LearnerMissionProgressRequestHandler';
+import { TimeoutForOpenAI } from '../../constants/AllConstants';
 
 const style = {
   height: 300,
@@ -134,7 +136,7 @@ export default function LearningConversation(props) {
 
 
    
-    useEffect(() => {
+  useEffect(() => {
       // setComponentArray(setInitialConversation());
       //console.log ("Lesson text is ", LessonText1);
      // console.log ("On event ack is ", onEventAck);
@@ -158,6 +160,7 @@ export default function LearningConversation(props) {
         var reqType = "UPDATEQUIZPROGRESS";
         var _id = learnerId;
         console.log ("Value of quiz progress is ", quizProgress.current)
+        AddLearnerActivity(learnerId, "Quiz Completed",quizId, score);
         quizProgress.current[missionId][quizId] = score;
         var data = quizProgress.current;
         var reqObj = {reqType,_id,data};
@@ -169,6 +172,11 @@ export default function LearningConversation(props) {
         }));
     }
 
+    function OpenAIResponseTimedOut()
+    {
+
+    }
+
     function handleLearnerEvent (data)
     {
         lastOpenAIRequest.current = data.subtype;
@@ -176,41 +184,74 @@ export default function LearningConversation(props) {
         {
             setDisplayNextComponent(false);
             var reqObj = {reqType: LearnerEventType.ShortJoke, data:null, dataRcvd:onOpeAIResponse };
+            setTimeout(OpenAIResponseTimedOut,TimeoutForOpenAI);
             GetOpenAIResponse(reqObj);
+        }
+        else if (data.subtype == LearnerEventType.AnswerQuestion)
+        {
+          lessonBlockBuffer.current.unshift({type:"askquestion"});
+          setDisplayNextComponent(true);
         }
         else
             onEventAck(data);
     }
 
-    function onOpeAIResponse(data,isDone)
+    function handleOpenAIResponseError ()
     {
-        if (isDone)
-        {
-            const paragraph = breakParagraph(openAIResponseBuffer.current);
-            var elemArray = paragraph.map ((item) => {
-                    return {type:"TM", message:item}
-            });
-            openAIResponseBuffer.current = '';
-            console.log ("Elem array is", elemArray);
-            switch (lastOpenAIRequest.current)
-            {
-                case LearnerEventType.ShortJoke:
-                case LearnerEventType.AnswerQuestion:
-                case LearnerEventType.HaveConversation:
-                    lessonBlockBuffer.current = elemArray;
-                    lessonBlockBuffer.current.unshift({type:"clearpage"},{type:"showpage"});
-                    lessonBlockBuffer.current.push ({type:"ack"});
-                    setDisplayNextComponent(true);
-                    return;
+      const tmpArrayElem = [{type:"TM", message: "Thanks for the reponse. I am having few issues and will need more time to respond. Meanwhile, let's continue"},
+                            {id:1, type: "ack", buttonText: "Ok"},{type:"clearpage"},
+                            {type:"showpage"}];
+      lessonBlockBuffer.current.unshift(...tmpArrayElem);
+      setDisplayNextComponent(true);
 
-               /* case LearnerEventType.AnswerQuestion:
-                    lessonBlockBuffer.current = elemArray;
-                    lessonBlockBuffer.current.unshift({type:"clearpage"},{type:"showpage"});
-                    lessonBlockBuffer.current.push ({type:"ack"});
-                    setDisplayNextComponent(true);
-                    return;*/
-            }
+      //let tempComponentArray = tmpArrayElem.map ((elem) => ConvertJsonToComponent(elem,handleOptionClick,userName,componentKey.current++,onChangePythonCode))
+      //setComponentArray(componentArray => {
+       // return [...componentArray, ...tempComponentArray];
+      //});
+
+    }
+
+    function onOpeAIResponse(data,isDone, isError=false)
+    {
+      if (isError)
+      {
+        handleOpenAIResponseError ();
+        return;
+        
+      }
+      if (isDone)
+      {
+        if (lastOpenAIRequest.current == LearnerEventType.AnswerQuestion && openAIResponseBuffer.current.toLowerCase().includes("not appropriate"))
+        {
+          openAIResponseBuffer.current = "It looks like you don't have a question related to a STEM topic. No worries, you can ask a question later"
         }
+
+        var  paragraph = breakParagraph(openAIResponseBuffer.current);
+        var elemArray = paragraph.map ((item) => {
+          return {type:"TM", message:item}
+        });
+        openAIResponseBuffer.current = '';
+        console.log ("Elem array is", elemArray);
+
+          switch (lastOpenAIRequest.current)
+          {
+              case LearnerEventType.ShortJoke:
+              case LearnerEventType.AnswerQuestion:
+              case LearnerEventType.HaveConversation:
+                  lessonBlockBuffer.current = elemArray;
+                  lessonBlockBuffer.current.unshift({type:"clearpage"},{type:"showpage"});
+                  lessonBlockBuffer.current.push ({type:"ack"});
+                  setDisplayNextComponent(true);
+                  return;
+
+              /* case LearnerEventType.AnswerQuestion:
+                  lessonBlockBuffer.current = elemArray;
+                  lessonBlockBuffer.current.unshift({type:"clearpage"},{type:"showpage"});
+                  lessonBlockBuffer.current.push ({type:"ack"});
+                  setDisplayNextComponent(true);
+                  return;*/
+          }
+      }
         if (data === null)
             return;
         //console.log ("Open AI response buffer is", openAIResponseBuffer.current, data);
@@ -274,14 +315,8 @@ export default function LearningConversation(props) {
                 quizController.current = new QuizController(arrayElem.id,quizList, updateQuizProgressForLearner);
                 setConversationState(ConversationState.Quiz);
                 setComponentArray(componentArray => {
-                    //setDisplayNextComponent(true);
-                    //componentArray.pop();
-                    //console.log ("component array till now",componentArray);
-                    //Remove the question, answer block, show the clicked message as Learner's response, then add the response for the option selected
-                    //return [...componentArray,<ChatBotMessage message = "Loading..." key={componentKey.current++}/>]
                     const tmpArrayElem = {type:"TM", message: "Loading Quiz..."};
                     return [...componentArray,ConvertJsonToComponent(tmpArrayElem,handleOptionClick,userName,componentKey.current++,onChangePythonCode)];
-                    //return [...componentArray,<ChatBotMessage message = "Loading Quiz..." key={componentKey.current++}/>]
                 });
                 addComponentEverySecond(); //calling to avoid initial delay
                 //lessonBlockBuffer.current = returnQuizBlockFromText(arrayElem.text);
@@ -531,8 +566,17 @@ export default function LearningConversation(props) {
         {
             console.log ("text is", data.text);
             setDisplayNextComponent(false);
+            setComponentArray(componentArray => {
+              //setDisplayNextComponent(true);
+              //componentArray.pop();
+              //console.log ("component array till now",componentArray);
+              //Remove the question, answer block, show the clicked message as Learner's response, then add the response for the option selected
+              return [<ChatBotMessage message = "Thinking..." key={componentKey.current++}/>]
+              //return [...componentArray,<ChatBotMessage message = "Loading..." key={componentKey.current++}/>]
+          });
             lastOpenAIRequest.current = response == "askquestion"? LearnerEventType.AnswerQuestion: LearnerEventType.HaveConversation;
             var reqObj = {reqType: lastOpenAIRequest.current, data:data, dataRcvd:onOpeAIResponse };
+            //TODO - set time out here as well show the message that I am thinking or figuring out your reponse
             GetOpenAIResponse(reqObj);
             return;
         }

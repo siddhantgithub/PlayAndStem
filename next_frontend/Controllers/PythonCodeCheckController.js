@@ -98,8 +98,17 @@ export class PythonCodeCheckController
         }
     }
 
-    onOpeAIResponse(data,isDone)
+    onOpeAIResponse(data,isDone, isError = false)
     {
+        if (isError)
+        {
+            const elemArray = [{type:"TM", message: "Thanks for the reponse. I am having few issues. Please try again"}];
+            this.messageStackCounter = 0;
+            this.incorrectResponseStack = elemArray;
+            this.state = AnswerStatus.Answered_Incorrect;
+            this.openAIBuffer = "";
+            return;
+        }
         if (isDone)
         {
             const paragraph = breakParagraph(this.openAIBuffer);

@@ -80,7 +80,7 @@ export default function SignIn() {
       password: password,
       redirect: false,
     }).then((data) => {
-      console.log("The data received is ", data);
+      //console.log("The data received is ", data);
       setOpenSnackBar(true);
       if (!!data.error) {
         //setValues({ ...values, error: data.error, loading: false });

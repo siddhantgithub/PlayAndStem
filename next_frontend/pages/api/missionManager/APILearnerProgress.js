@@ -39,6 +39,10 @@ function getDataToSendToLearner (learner,reqType)
 
         case "GETALLPROGRESS":
             data = {firstName:learner.firstname, userName: learner.username, lastName: learner.lastname, missionProgress: learner.missionProgress,chapterProgress: learner.chapterProgress, quizProgress: learner.quizProgress};
+            break; 
+            
+        case "GETACTIVITYARRAY":
+            data = {activityArray:learner.activityArray};
             break;    
     }
     return data;

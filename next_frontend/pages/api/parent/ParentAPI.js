@@ -3,44 +3,9 @@ import Parent from '../../../models/parentModel';
 import { RequestTypeForParentLogin } from '../../../constants/AllEnums';
 import { AddLearner, GetAllLearnersForParent } from '../../../models/CommonFunctions';
 
-function getUpdatedLearnerFromRequest (learner, data, reqType)
-{
-    switch (reqType)
-    {
-        case "UPDATEMISSIONPROGRESS":
-            learner.missionProgress = data;
-            break;
-
-        case "UPDATECHAPTERPROGRESS":
-            learner.chapterProgress = data;
-            break;
-
-        case "UPDATEQUIZPROGRESS":
-            learner.quizProgress = data;
-            break;
-    }
-    return learner;
-}
-
-function getParentData (reqType, parentData,res)
-{
-    var data;
-    switch (reqType)
-    {
-        case RequestTypeForParentLogin.Login:
-            data = {missionProgress: learner.missionProgress};
-            break;
-
-        case RequestTypeForParentLogin.AddLearner:
-            break;
-   
-    }
-    return data;
-}
-
 export default async (req, res) => {
     await dbConnect();
-    console.log ("Request body is", req.body);
+    //console.log ("Request body is", req.body);
     const { reqType} = req.body;
     const { id,name, email,provider,password="randompassword123"} = req.body.user;
     
@@ -71,7 +36,7 @@ export default async (req, res) => {
                 });
             }
         }
-        console.log ("Reqtype is ", reqType, " request obj is", parentObj);
+        //console.log ("Reqtype is ", reqType, " request obj is", parentObj);
         switch (reqType)
         {
             case RequestTypeForParentLogin.CREATEACCOUNT:    

@@ -1,4 +1,4 @@
-import {QuestionBlock, TopScreenComponent,ChatBotMessage,LearnerMessage,OptionsWithButtons,AcknowledgementQuestion,LongOptionsWithButtons,PythonCodeComponent,ShowImage, ShowCelebration,SendTextToAIComponent} from './MessageTypeComponentsWithAnimation'
+import {QuestionBlock, TopScreenComponent,ChatBotMessage,LearnerMessage,OptionsWithButtons,AcknowledgementQuestion,LongOptionsWithButtons,PythonCodeComponent,ShowImage, ShowVideo, ShowCelebration,SendTextToAIComponent} from './MessageTypeComponentsWithAnimation'
 import Fade from '@mui/material/Fade';
 //import LayoutForCodeCheck from './CodeCheckLayout';
 
@@ -114,6 +114,11 @@ export function ConvertJsonToComponent (arrayElem,clickHandler,session,key,onCha
         case "image":
             return <ShowImage imagePath={arrayElem.path} altText = {arrayElem.altText} key={key}/>;
             break;
+
+        case "video":
+            return <ShowVideo imagePath={arrayElem.path} altText = {arrayElem.altText} key={key} videoId={arrayElem.videoId}/>;
+            break; 
+
         case "missionendcelebration":
             return <ShowCelebration/>;
             break;

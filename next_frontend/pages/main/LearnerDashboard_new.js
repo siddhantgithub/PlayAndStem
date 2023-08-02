@@ -118,6 +118,10 @@ function DashboardAppBar(props) {
 
   var learnerFullName = firstName;
   var textColor = textColors[currTheme];
+  function createAccountButtonClicked ()
+  {
+    signOut({ callbackUrl: '/' });
+  }
   //console.log ("Learner full name is",learnerFullName);
   return (
     <Box sx={{ display: "flex" }}>
@@ -159,6 +163,13 @@ function DashboardAppBar(props) {
               </Button>
             ))}
           </Box>
+          {firstName == "Guest User" && <Button
+                key="createaccountbutton"
+                onClick={createAccountButtonClicked}
+                sx={{ my: 2, "&.MuiButton-text": { color: textColor }, display: 'block' }}
+              >
+                Create Account
+              </Button>}
             
             <Typography
               component="h1"
@@ -224,7 +235,7 @@ function DashboardAppBar(props) {
       {/* Correction : may not require this. It is giving a blank page. */}
       <Box component="main" sx={{ display:"flex", flexGrow: 1, justifyContent:"center"} } >
         <Toolbar/>
-        <Container sx={{ pt: 2, mt: 10, minHeight: 800 }}>
+        <Container sx={{ pt: 2, mt: 9, minHeight: 800 }}>
           {props.children}
         </Container>
       </Box>
@@ -454,8 +465,7 @@ function DashboardContent(props) {
   const loading = status === "loading";
 
   const [clickedMission, setClickedMission] = React.useState([]);
-  const [learnerMissionProgress, setLearnerMissionProgress] =
-    React.useState(null);
+  const [learnerMissionProgress, setLearnerMissionProgress] = React.useState(null);
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [dialogText, setDialogText] = React.useState("text not set");
   const [chapterProgress, setChapterProgress] = React.useState(null);
@@ -502,6 +512,7 @@ function DashboardContent(props) {
 
     if (componentState != DashboardState.UserDataLoading) return;
     if (isUser) {
+      console.log ("The value of session is", session);
       var queryObj = router.query;
       console.log("Router params are", queryObj);
       var _id;
@@ -512,7 +523,7 @@ function DashboardContent(props) {
         
         setLearnerId(_id);
       } else {
-        if (session.user.loginType == "parent")
+        if (session.user.loginType == "parent" || session.user.provider != "learnerlogin")
         {
             router.push("/ParentLandingScreen")
             return;
@@ -529,7 +540,7 @@ function DashboardContent(props) {
         if (Object.keys(resp)[0] == "error")
         {
           console.log ("Error occurred", resp.error);
-          signOut({ callbackUrl: '/' });
+          //signOut({ callbackUrl: '/' });
         }
         setLearnerMissionProgress(resp.missionProgress);
         setChapterProgress(resp.chapterProgress);
@@ -743,6 +754,7 @@ function DashboardContent(props) {
 
   const chapterEndReached = (props) => {
     updateMissionStatusIfAllChaptersCompleted(clickedMission.id);
+    
 
     if (
       chapterProgress[clickedMission.id][currentChapter.id] ==
@@ -750,6 +762,8 @@ function DashboardContent(props) {
     )
       //Means the chapter was already completed before so nothing to be done here
       return;
+
+    AddLearnerActivity(learnerId, "Chapter Ended",currentChapter.name, currentChapter.description);
 
     updateCurrrentActivityState({
       state: LearnerActivityState.ChapterEnded,

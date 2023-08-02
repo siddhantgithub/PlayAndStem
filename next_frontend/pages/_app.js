@@ -26,7 +26,9 @@ import { useRouter } from "next/router";
 const clientSideEmotionCache = createEmotionCache();
 
 export default function MyApp(props) {
+
   const router = useRouter();
+  
   useEffect(() => {
     const body = document.querySelector("body");
 

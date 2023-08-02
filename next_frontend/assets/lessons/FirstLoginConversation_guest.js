@@ -275,7 +275,7 @@ const quizText = `
         {text:"2 5", onClickResponse:{type: "TMR", message: "Correct"}},
     ];
 
-export let LessonText = [
+export let LessonText_Guest = [
     //{type:"askquestion"},
     //{type:"quiz", id: 8},
     //{id:1, type: "ack"},
@@ -303,12 +303,20 @@ export let LessonText = [
     // {id:1, type: "ack", buttonText: "Say Hi"},
     // {id:1, type: "clearpage"},
     // {id:1, type: "showpage"},
-    {id:0, type: "TMR", message:"Hi <learnername>, it is great to see you here"},
+    {id:0, type: "TMR", message:"Hey, thanks a lot for trying out RoboUni"},
     {id:5, type: "TM", message: "I am cairo and together we will solve exciting missions"},
     {id:1, type: "ack"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
     {id:0, type: "TM", message:"While solving missions, we will not only learn new things but also make cool stuff like a small piano!!!"},
+    {id:1, type: "ack"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
+    {id:5, type: "TM", message: "One thing to note, since you are using a guest account, your progress will not be saved"},
+    {id:5, type: "TM", message: "If you like working with me and want to save your progress, please create an account by clicking <b>Create Account</b> from the top menu"},
+    {id:1, type: "ack"},
+    {id:1, type: "clearpage"},
+    {id:1, type: "showpage"},
     {id:5, type: "TM", message: "Before we start, I would love to know more about you"},
     {id:5, type: "TM", message: "Please share what excites you about learning robotics in the pop up"},
     {id:1, type: "donothing"},
@@ -335,6 +343,7 @@ export let LessonText = [
     {type: "TM", message: "It is time to start \'Zacobian Lights\' mission"},
     {type: "TM", message: "You should see its status now changed to \'Available\'"},
     {type: "TM", message: "Click on the mission in the section below or click next to begin"},
+    {id:5, type: "TM", message: "Please again note, since you are using a guest account, your progress will not be saved"},
     {id:1, type: "acksp", data: {type:"learnerevent", subtype:"loadmission", data:0}},
     {id:1, type: "endmessage"},
 ];

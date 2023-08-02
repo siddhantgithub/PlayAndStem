@@ -8,6 +8,7 @@ import { signIn, signOut, useSession } from "next-auth/react"
 import { ConvertJsonToComponent } from "../ChatInterface/ShowLearningConversationWithAnimation";
 import LearningConversationWithAnimation from '../ChatInterface/ShowLearningConversationWithAnimation';
 import {LessonText} from '../../assets/lessons/FirstLoginConversation'
+import {LessonText_Guest} from '../../assets/lessons/FirstLoginConversation_guest'
 import { UpdateLearnerMissionProgress } from '../../actions/LearnerMissionProgressRequestHandler';
 import LearnerStore, {LearnerActivityState} from "../../store/LearnerStore";
 import {AllMissionList} from '../../assets/moduleList/AllMissionChapterList';
@@ -39,7 +40,7 @@ const TopChatBotComponent = React.forwardRef((props, ref) =>{
     //setLessonInProgress(false);
     }
 
-    const conversationText = returnConversationForLearnerState(activityState,missionProgress, chapterProgress,updateCurrrentActivityState);
+    const conversationText = returnConversationForLearnerState(activityState,missionProgress, chapterProgress,updateCurrrentActivityState,session);
     //console.log ("Conversation text is", conversationText);
 
     return (
@@ -50,10 +51,18 @@ const TopChatBotComponent = React.forwardRef((props, ref) =>{
 
   //Algorithn show a message for in-progress mission first
   //Then depending on the state
-  function returnConversationForLearnerState(activityState,missionProgress,chapterProgress,updateCurrrentActivityState)
+  function returnConversationForLearnerState(activityState,missionProgress,chapterProgress,updateCurrrentActivityState,session)
   { 
-     if (activityState.state == LearnerActivityState.FirstLogin)
-         return LessonText;
+     //if (activityState.state == LearnerActivityState.FirstLogin)
+     {
+        console.log ("Session.user is", session.user);
+        if (session.user.firstname == "Guest User")
+            return LessonText_Guest;
+        else
+            return LessonText;
+
+     }
+         
     //TODO: Deal with multiple in-progress missions
     //Right now just look for which one is in progress and which chapter is available next
     if (missionProgress.length == 0)
