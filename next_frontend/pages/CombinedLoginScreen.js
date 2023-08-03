@@ -14,28 +14,24 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import FirebaseSocial from "./auth-forms/FirebaseSocial";
 import { useForm, Controller } from "react-hook-form";
-import {
-  sendSigninRequest,
-  setLocalDataPostSignIn,
-  isAuth,
-} from "../actions/authRequestHandlers";
-import Router from "next/router";
 import Copyright from "../components/Copyright";
 import { useRouter } from "next/router";
 import AlertTitle from "@mui/material/AlertTitle";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { signIn, signOut, useSession } from "next-auth/react";
-import Image from 'next/image';
+import Image from 'next/image'
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AccountBaseScreen from "../components/AccountCreationLogin/AccountBaseScreen";
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 
 //TODO: Show loading
  const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-export default function SignIn() {
+export default function MainSignIn() {
   const {
     register,
     handleSubmit,
@@ -58,11 +54,7 @@ export default function SignIn() {
     if (!isUser) return // If not authenticated, force log in
     //console.log ("The value of session is", session);
     if (isUser) {
-      console.log ("user is", session.user);
-      if (session.user.loginType == "parent")
-        router.push("/ParentLandingScreen")
-      else
-        router.push("/");
+      router.push("/");
       return;
     }
   }, [isUser, loading]);
@@ -71,18 +63,19 @@ export default function SignIn() {
     if (reason === "clickaway") {
       return;
     }
+
     setOpenSnackBar(false);
   };
 
   const onSubmit = (userdata) => {
     console.log(userdata);
-    const { email, password } = userdata;
-    signIn("parentlogin", {
-      email: email,
+    const { username, password } = userdata;
+    signIn("learnerlogin", {
+      username: username,
       password: password,
       redirect: false,
     }).then((data) => {
-      //console.log("The data received is ", data);
+      console.log("The data received is ", data);
       setOpenSnackBar(true);
       if (!!data.error) {
         //setValues({ ...values, error: data.error, loading: false });
@@ -95,52 +88,52 @@ export default function SignIn() {
         // save user info to localstorage
         // authenticate user
         setSeverity("success");
-        setMessage("Login successful. Redirecting to Parent Dashboard");
+        setMessage("Login successful. Redirecting to Learner Dashboard");
         reset();
-        router.push("/ParentLandingScreen");
+        router.push("/main/LearnerDashboard_new");
       }
     });
   };
 
   useEffect(() => {}, []);
 
-  return (
-    <AccountBaseScreen TitleText={"Parent Sign In"} ShowHomeButton={true}>
-      <Box
+
+  const [value, setValue] = React.useState(0);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+    return (
+      <AccountBaseScreen TitleText={"Learner Login"} ShowHomeButton={true}>
+        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" sx={{mt:3, mb:3}}>
+          <Tab label="Learner Login"  />
+          <Tab label="Parent Login"  />
+        </Tabs>
+       { value == 0 && <Box
           component="form"
           onSubmit={handleSubmit(onSubmit)}
           noValidate
           sx={{ mt: 1 }}
         >
-        <Divider sx={{ mt: 3, mb: 3 }}>
-          <Typography variant= "heading1"> Login with social</Typography>
-        </Divider>
-        <FirebaseSocial/>
-        <Divider sx={{ mt: 3, mb: 3 }}>
-          <Typography variant= "body3"> Login with email and password</Typography>
-        </Divider>
           <Controller
-            name="email"
+            name="username"
             control={control}
             defaultValue=""
-            rules={{ required: "Email required", pattern: {
-              value: /\S+@\S+\.\S+/,
-              message: "Entered value does not match email format"
-            }}}
+            rules={{ required: "Username required" }}
             render={({ field: { onChange, value }, fieldState: { error } }) => (
               <TextField
+                margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="Email"
-                name="email"
+                id="username"
+                label="Username"
+                name="username"
+                autoComplete="username"
                 value={value}
                 onChange={onChange}
                 error={!!error}
                 helperText={error ? error.message : null}
                 autoFocus
-                autoComplete='off' 
-                inputProps={{autoComplete: "off"}}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -166,11 +159,16 @@ export default function SignIn() {
                 onChange={onChange}
                 error={!!error}
                 helperText={error ? error.message : null}
+                autoFocus
                 InputLabelProps={{
                   shrink: true,
                 }}
               />
             )}
+          />
+          <FormControlLabel
+            control={<Checkbox value="remember" color="primary" />}
+            label="Remember me"
           />
           <Button
             type="submit"
@@ -180,7 +178,98 @@ export default function SignIn() {
           >
             Sign In
           </Button>
-        </Box>
+          <Grid container>
+            <Grid item>
+              <Link href="/SignUp" variant="body2">
+                {"Forgot Password"}
+              </Link>
+            </Grid>
+          </Grid>
+          <Grid item>
+            {/*<Divider sx={{ mt: 3, mb: 2 }}>
+                <Typography variant= "body3"> Login with</Typography>
+                </Divider> */}
+          </Grid>
+          {/*<FirebaseSocial />*/}
+        </Box>}
+        {
+          value == 1 && 
+                <Box
+                component="form"
+                onSubmit={handleSubmit(onSubmit)}
+                noValidate
+                sx={{ mt: 1 }}
+              >
+              <Divider sx={{ mt: 3, mb: 3 }}>
+                <Typography variant= "heading1"> Login with social</Typography>
+              </Divider>
+              <FirebaseSocial/>
+              <Divider sx={{ mt: 3, mb: 3 }}>
+                <Typography variant= "body3"> Login with email and password</Typography>
+              </Divider>
+                <Controller
+                  name="email"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: "Email required", pattern: {
+                    value: /\S+@\S+\.\S+/,
+                    message: "Entered value does not match email format"
+                  }}}
+                  render={({ field: { onChange, value }, fieldState: { error } }) => (
+                    <TextField
+                      required
+                      fullWidth
+                      id="email"
+                      label="Email"
+                      name="email"
+                      value={value}
+                      onChange={onChange}
+                      error={!!error}
+                      helperText={error ? error.message : null}
+                      autoFocus
+                      autoComplete='off' 
+                      inputProps={{autoComplete: "off"}}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    />
+                  )}
+                />
+                <Controller
+                  name="password"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: "Password required" }}
+                  render={({ field: { onChange, value }, fieldState: { error } }) => (
+                    <TextField
+                      margin="normal"
+                      required
+                      fullWidth
+                      name="password"
+                      label="Password"
+                      type="password"
+                      id="password"
+                      autoComplete="current-password"
+                      value={value}
+                      onChange={onChange}
+                      error={!!error}
+                      helperText={error ? error.message : null}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    />
+                  )}
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  Sign In
+                </Button>
+              </Box>
+        }
         <Snackbar
         open={openSnackBar}
         autoHideDuration={6000}
@@ -195,8 +284,8 @@ export default function SignIn() {
           {message}
         </Alert>
       </Snackbar>
-
+        
+      
     </AccountBaseScreen>
-
-  );
+    );
 }

@@ -45,7 +45,7 @@ function AskGuestLoginPopup(props) {
     }
   
     return (
-      <Dialog onClose={handleClose} open={open} fullWidth={true} maxWidth="sm">
+      <Dialog onClose={handleClose} open={open} fullWidth={true} maxWidth="sm" >
         <DialogTitle>Guest Login</DialogTitle>
         <DialogContent>
           <Typography  variant="body1">

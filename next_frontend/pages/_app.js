@@ -15,6 +15,7 @@ import LearnerStore from "../store/LearnerStore";
 import Script from "next/script";
 import * as gtag from "../lib/gtag"
 import { useRouter } from "next/router";
+import { useStore } from "zustand";
 // import Image from "../ui_assets/images/background.jpg"
 
 // const backgroundImage = {
@@ -28,12 +29,13 @@ const clientSideEmotionCache = createEmotionCache();
 export default function MyApp(props) {
 
   const router = useRouter();
+  const { currTheme, updateTheme } = useStore(LearnerStore);
   
   useEffect(() => {
     const body = document.querySelector("body");
 
-    LearnerStore.subscribe(() => {
-      const currTheme = LearnerStore.getState().currTheme;
+    //LearnerStore.subscribe(() => {
+      
 
       body.classList.remove(
         "light-theme",
@@ -51,8 +53,8 @@ export default function MyApp(props) {
       } else {
         body.classList.add("light-theme");
       }
-    });
-  }, []);
+//    });
+  }, [currTheme]);
 
   useEffect(() => {
     const handleRouteChange = (url) => {

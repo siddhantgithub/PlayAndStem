@@ -13,3 +13,22 @@
 .skyBlue-theme {
   background-image: url("../ui_assets/images/backgroundSkyBlue.jpg");
 }
+
+.account-theme {
+
+  width: 100%;
+  height: 100%;
+  background-image: url("../ui_assets/images/backgroundLight.png");
+	
+
+  top: 0;
+  left: 0;
+  background-size: cover;
+}
+
+@media screen and (max-width: 1024px) { /* Specific to this particular image */
+  img.bg {
+    left: 50%;
+    margin-left: -512px;   /* 50% */
+  }
+}

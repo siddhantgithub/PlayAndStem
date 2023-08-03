@@ -75,11 +75,14 @@ export default function ParentSignupFlow()
       
       <Box
         sx={{
-          marginTop: 18,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          flexGrow:1
+          marginTop: 15,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          backgroundColor: "white",
+          pb:5, pt:5,
+          borderRadius: 1,
+          opacity: 0.85
         }}
       >
         
@@ -87,8 +90,9 @@ export default function ParentSignupFlow()
           Logging In... Fetching information from the backend
         </Typography>}
         {parentObj && <ParentDashboard parentObj={parentObj} parentImage = {parentImage} />}
+        <Copyright sx={{ mt: 5 }} />
       </Box>
-      <Copyright sx={{ mt: 5 }} />
+      
     </Container>
   );
 }

@@ -27,6 +27,8 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from 'next/image'
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import AccountBaseScreen from "../components/AccountCreationLogin/AccountBaseScreen";
 
 //TODO: Show loading
  const Alert = React.forwardRef(function Alert(props, ref) {
@@ -56,7 +58,7 @@ export default function SignIn() {
     if (!isUser) return // If not authenticated, force log in
     //console.log ("The value of session is", session);
     if (isUser) {
-      router.push("/main/LearnerDashboard_new");
+      router.push("/");
       return;
     }
   }, [isUser, loading]);
@@ -99,16 +101,132 @@ export default function SignIn() {
 
   useEffect(() => {}, []);
 
+  function backButtonClicked (evt)
+    {
+      router.push("/")
+    }
+
+    return (
+      <AccountBaseScreen TitleText={"Learner Login"} ShowHomeButton={true}>
+                <Box
+          component="form"
+          onSubmit={handleSubmit(onSubmit)}
+          noValidate
+          sx={{ mt: 1 }}
+        >
+          <Controller
+            name="username"
+            control={control}
+            defaultValue=""
+            rules={{ required: "Username required" }}
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="username"
+                label="Username"
+                name="username"
+                autoComplete="username"
+                value={value}
+                onChange={onChange}
+                error={!!error}
+                helperText={error ? error.message : null}
+                autoFocus
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            )}
+          />
+          <Controller
+            name="password"
+            control={control}
+            defaultValue=""
+            rules={{ required: "Password required" }}
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                value={value}
+                onChange={onChange}
+                error={!!error}
+                helperText={error ? error.message : null}
+                autoFocus
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            )}
+          />
+          <FormControlLabel
+            control={<Checkbox value="remember" color="primary" />}
+            label="Remember me"
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Sign In
+          </Button>
+          <Grid container>
+            <Grid item>
+              <Link href="/SignUp" variant="body2">
+                {"Forgot Password or Don't have an account? Sign Up"}
+              </Link>
+            </Grid>
+          </Grid>
+          <Grid item>
+            {/*<Divider sx={{ mt: 3, mb: 2 }}>
+                <Typography variant= "body3"> Login with</Typography>
+                </Divider> */}
+          </Grid>
+          {/*<FirebaseSocial />*/}
+        </Box>
+        <Snackbar
+        open={openSnackBar}
+        autoHideDuration={6000}
+        onClose={handleSnackBarClose}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleSnackBarClose}
+          severity={severity}
+          sx={{ width: "100%" }}
+        >
+          {message}
+        </Alert>
+      </Snackbar>
+        
+      
+    </AccountBaseScreen>
+    );
+
   return (
     <Container component="main" maxWidth="xs">
       <Box
         sx={{
-          marginTop: 8,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
+          marginTop: 15,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          backgroundColor: "white",
+          p:5,
+          borderRadius: 1,
+          opacity: 0.85
         }}
       >
+                  <Button startIcon={<ArrowBackIcon />} sx={{ mb: 3, ml:-35, mt:-1, justifyContent:"flex-start" }} onClick={backButtonClicked}>
+                    Home
+          </Button>
 
         <Image
           src="/PlayAndStemLogo.png"
@@ -117,8 +235,8 @@ export default function SignIn() {
           alt="Company Logo"
         />
 
-        <Typography component="h1" variant="h5">
-          Sign in
+        <Typography component="h1" variant="h5" sx={{mt:2}}>
+          Learner Sign In
         </Typography>
         <Box
           component="form"

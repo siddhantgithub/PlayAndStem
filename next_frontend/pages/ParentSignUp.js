@@ -21,6 +21,10 @@ import MuiAlert from '@mui/material/Alert';
 import Image from 'next/image';
 import { RequestTypeForParentLogin } from '../constants/AllEnums';
 import { GetSetParentDataThroughAPI } from '../actions/ParentRequestHandler';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import AccountBaseScreen from '../components/AccountCreationLogin/AccountBaseScreen';
+import FirebaseSocial from './auth-forms/FirebaseSocial';
+import Divider from "@mui/material/Divider";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -76,24 +80,14 @@ export default function ParentSignUp({}) {
   //console.log (watch())
 
   return (
-      <Container component="main" maxWidth="xs">
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-        <Image
-          src="/PlayAndStemLogo.png"
-          width={75}
-          height={75}
-          alt="Company Logo"
-        />
-          <Typography component="h1" variant="h5" sx={{mt:2}}>
-            Parent Sign up
-          </Typography>
+    <AccountBaseScreen TitleText={"Parent Sign Up"} ShowHomeButton={true}>
+        <Divider sx={{ mt: 3, mb: 3 }} variant="fullWidth" style={{width:'100%'}}>
+          <Typography variant= "body1"> Join With Social</Typography>
+        </Divider>
+        <FirebaseSocial/>
+        <Divider sx={{ mt: 3 }} variant="fullWidth" style={{width:'100%'}}>
+          <Typography variant= "body1"> Join With Email & Password</Typography>
+        </Divider>
           <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={12}>
@@ -198,21 +192,20 @@ export default function ParentSignUp({}) {
             >
               Sign Up
             </Button>
+
             <Snackbar open={openSnackBar} autoHideDuration={6000} onClose={handleSnackBarClose} anchorOrigin={{ vertical:'top', horizontal:'center' }}>
               <Alert onClose={handleSnackBarClose} severity={severity} sx={{ width: '100%' }}>
                 {message}
               </Alert>
             </Snackbar>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="/ParentSignIn" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
+
           </Box>
-        </Box>
-        <Copyright sx={{ mt: 5 }} />
-      </Container>
- );
+          <Snackbar open={openSnackBar} autoHideDuration={6000} onClose={handleSnackBarClose} anchorOrigin={{ vertical:'top', horizontal:'center' }}>
+              <Alert onClose={handleSnackBarClose} severity={severity} sx={{ width: '100%' }}>
+                {message}
+              </Alert>
+            </Snackbar>
+
+    </AccountBaseScreen>
+  );
 }

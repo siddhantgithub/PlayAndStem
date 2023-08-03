@@ -1,6 +1,6 @@
 export const ZacobiaConceptList = [
   {id:0, name:"Decomposition", path:"2_Decomposition.js", image: 'MissionIntroduction.png', description:"Breaking down into small parts"},
-  {id:1, name:"Statements and Syntax", path:"3_ProgramStmtsSyntax.js", image: "RunCode.jpg", description:"What makes a computer program"},
+  {id:1, name:"Statements and Syntax", path:"3_ProgramStmtsSyntax.js", image: "RunCode.jpg", description:"What is a computer program"},
   {id:2, name:"Module Import", path:"4_ModuleImport.js", image: "BreakItDown.png", description:"Get help by importing modules"},
   {id:3, name:"Light Level", path:"5_LightLevel.js", image: "StmtsAndSyntax.png", description:"Reading light level from display"},
   {id:4, name:"Show Clear Display", path:"6_ShowClearDisplay.js", image: "Help.png", description:"Show images on display and clearing it"},

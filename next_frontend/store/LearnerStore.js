@@ -86,7 +86,7 @@ export function setCairoSpeed(speed) {
     updateCairoMuted : (isMuted) => set (() => ({isCairoMuted:isMuted})),
     cairoVoice: 'Google UK English Female',
     updateCairoVoice: (newvoice) => set (() => ({cairoVoice:newvoice})),
-    currTheme: 1,
+    currTheme: 0,
       updateTheme: (newCurrTheme) => set(() => ({ currTheme: newCurrTheme })),
   }), 
   {

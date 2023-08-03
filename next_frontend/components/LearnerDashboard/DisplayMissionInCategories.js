@@ -181,7 +181,7 @@ export default function DisplayMissionsInCategories({
             gutterBottom
             variant="h6"
             component="div"
-            sx={{ color: topicColors[currTheme] }}
+            sx={{ color: textColors[currTheme] }}
           >
             Your Missions & Progress
           </Typography>

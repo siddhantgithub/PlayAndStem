@@ -80,7 +80,7 @@ function LearnersArrayDiv (props)
                     rowId ++;
                     console.log("Row is ", row);
                     const learningClicked = (evt) => {StartLearningClicked(row)}  
-                    let urlToRedirect = "/main/LearnerDashboard_new?login=parent&learnerid=" + row._id;
+                    let urlToRedirect = "/?login=parent&learnerid=" + row._id;
                 return(
                     <TableRow key={rowId}>
                         <TableCell>{row.firstname}</TableCell>

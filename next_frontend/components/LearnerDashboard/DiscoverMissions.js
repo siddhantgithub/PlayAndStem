@@ -16,6 +16,7 @@ import {
   cardText,
   textColors,
   topicColors,
+  cardBodyContrastTextColor,
 } from "../../ui_assets/images/UIThemes/colorThemes";
 import LearnerStore from "../../store/LearnerStore";
 import { useStore } from "zustand";
@@ -55,7 +56,7 @@ function DiscoverMissionCard({
     <Box sx={{width:130, cursor:"pointer"}} onClick={onMissionClick}>
       <Stack spacing={2} sx={{ml:2, mb:3}}>
         <Image src={missionImage} alt={missionName} width={100} height={100} />
-          <Typography gutterBottom variant="body1" component="div" sx={{ color: topicColors[currTheme] }} >
+          <Typography gutterBottom variant="body1" component="div" sx={{ color: cardBodyContrastTextColor[currTheme] }} >
             {missionName}
           </Typography>       
       </Stack>
@@ -137,14 +138,14 @@ export  function DiscoverMissions()
           <Grid container spacing={3} justifyContent="center">
             <Grid item xs={12} md={8} lg={8} sx={{ minHeight: 400 }}>
               <Box sx={{ backgroundColor: backgroundColors[currTheme]}}>
-                <Typography gutterBottom variant="h5"  sx={{ color: topicColors[currTheme], ml:2, pt:1 }}>
+                <Typography gutterBottom variant="h5"  sx={{ color: textColors[currTheme], ml:2, pt:1 }}>
                   Discover Missions
                 </Typography>
                 {categoryMap && DiscoverCategoryList.map((category) => {
                   if (categoryMap.has(category)) {
                     return (
                       <React.Fragment key={category}>
-                        <Typography gutterBottom variant="h6" component="div" sx={{ color: topicColors[currTheme], ml:2 }}>
+                        <Typography gutterBottom variant="h6" component="div" sx={{ color: textColors[currTheme], ml:2 }}>
                           {category}
                         </Typography>
                         <Stack direction="row" spacing={2}>

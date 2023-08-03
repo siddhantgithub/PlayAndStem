@@ -26,22 +26,13 @@ import AlertTitle from "@mui/material/AlertTitle";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { signIn, signOut, useSession } from "next-auth/react";
-import LearnerLogin from "../components/LearnerDashboard/LearnerAccountFlow";
+import LearnerAccountFlow from "../components/LearnerDashboard/LearnerAccountFlow";
+import AccountBaseScreen from "../components/AccountCreationLogin/AccountBaseScreen";
 
 
 export default function LearnerLandingScreen ()
 {
-    return (
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="flex-start"
-        //minHeight="100vh"
-        sx = {{mt:10}}
-      >
-        <LearnerLogin/>
-      </Box>
-        
-        
-    );
+  return (
+      <LearnerAccountFlow/>
+  );
 }

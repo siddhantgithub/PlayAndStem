@@ -23,7 +23,7 @@ import { sendLearnerSignupPostRequest } from '../../actions/authRequestHandlers'
 import { validateEmail, Alert } from '../../utils/CommonFunctions';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
-
+import AccountBaseScreen from '../AccountCreationLogin/AccountBaseScreen';
 
 //Need to rethink how TopChatbotComponent works as this is crucial for engagement
 //How the engagement will change. Let's identify different states
@@ -33,7 +33,7 @@ import MuiAlert from '@mui/material/Alert';
 //State 4 - Recently completed a chapter or a quiz 
 //State 5 - Answer a question --> Later
 //Jokes and stories should be at the start of a chapter
-export default function LearnerLogin (props)
+export default function LearnerAccountFlow (props)
 {
     const TextInputIndexes = {
         username:0,
@@ -143,7 +143,7 @@ export default function LearnerLogin (props)
 
     //getAllUserNameList();
 
-    const [loginState, setLoginState] = React.useState(LearnerLoginState.AskForAccount);
+    const [loginState, setLoginState] = React.useState(LearnerLoginState.CreateAccountName);
     //console.log ("Login state is", loginState);
   
     React.useEffect(() => {
@@ -198,7 +198,7 @@ export default function LearnerLogin (props)
             // authenticate user
             setSeverity("success");
             setMessage("Login successful. Redirecting to Learner Dashboard");
-            router.push("/main/LearnerDashboard_new");
+            router.push("/");
           }
         });
       };
@@ -296,13 +296,14 @@ export default function LearnerLogin (props)
         switch (loginState)
         {
             case LearnerLoginState.AskForAccount:
-                router.push("/")
+                router.push("/AccountLandingScreen")
                 //Need to send to Landing screen
                 break;
 
             case LearnerLoginState.CreateAccountName:
             case LearnerLoginState.LoginScreen:
-                setLoginState(LearnerLoginState.AskForAccount);
+                router.push("/")
+                //setLoginState(LearnerLoginState.AskForAccount);
                 break;
 
             case LearnerLoginState.CreateAccountPassword:
@@ -321,27 +322,16 @@ export default function LearnerLogin (props)
     }
 
     return (
-        <Container sx={{width:600}}>
-            <Button startIcon={<ArrowBackIcon />} sx={{ mb: 3, justifyContent:"flex-start" }} onClick={backButtonClicked}>
-                    Back
-            </Button>
+      <AccountBaseScreen TitleText={"LET's CREATE YOUR ACCOUNT"} ShowHomeButton={true} passedBackButtonClicked={backButtonClicked}>
             <Stack  direction="column" sx={{ mb: 1, mt:2 }} alignItems="center">
-                
-                <Image
-                        src="/PlayAndStemLogo.png"
-                        width={75}
-                        height={75}
-                        alt="Company Logo"
-                />
-                <Divider variant="middle" sx={{display:"flex", width:'50%', flexGrow:1, mt:2}}/>
                 {
                     loginState == LearnerLoginState.AskForAccount && 
                     <Stack  direction="row" sx={{ mb: 1, mt:2 }} alignItems="center">
                             <Stack spacing={5}>
                                 <Typography variant="h5" sx={{ px: 5 }}>
-                                    Hi, do you already have an account?
+                                    Do you have an account?
                                 </Typography>
-                                <Button variant="contained" sx={{ mb: 0 }} onClick = {(evt) => {router.push("/")}}>Yes</Button>
+                                <Button variant="contained" sx={{ mb: 0 }} onClick = {(evt) => {router.push("/LearnerLogin")}}>Yes</Button>
                                 <Button variant="contained" sx={{ mb: 0 }} onClick = {(evt) => {setLoginState(LearnerLoginState.CreateAccountName)}}>No</Button>
                             </Stack>
                     </Stack>
@@ -432,6 +422,7 @@ export default function LearnerLogin (props)
                     </Alert>
                 </Snackbar>
             </Stack>
-        </Container>  
+
+      </AccountBaseScreen>
     );
 }
