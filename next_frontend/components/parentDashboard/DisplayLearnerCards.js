@@ -158,7 +158,7 @@ export default function DisplayLearnerCards({
 
         {learners && 
           learners.map((learner) => {
-            let urlToRedirect = "/main/LearnerDashboard_new?login=parent&learnerid=" + learner._id;
+            let urlToRedirect = "/?login=parent&learnerid=" + learner._id;
 
               return (
                 <Grid item xs={12} md={12} lg={12} sx={{ mb: 0 }} key={learner.firstname}>

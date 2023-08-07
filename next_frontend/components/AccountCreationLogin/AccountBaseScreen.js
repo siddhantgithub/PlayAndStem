@@ -85,9 +85,9 @@ export default function AccountBaseScreen(props) {
             </Typography>
 
         <Image
-            src="/PlayAndStemLogo.png"
-            width={75}
-            height={75}
+            src="/Storybotics.png"
+            width={497}
+            height={136}
             alt="Company Logo"
         />
           

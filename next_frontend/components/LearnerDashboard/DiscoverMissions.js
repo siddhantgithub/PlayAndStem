@@ -53,12 +53,15 @@ function DiscoverMissionCard({
   const { currTheme } = useStore(LearnerStore);
 
   return (
-    <Box sx={{width:130, cursor:"pointer"}} onClick={onMissionClick}>
-      <Stack spacing={2} sx={{ml:2, mb:3}}>
-        <Image src={missionImage} alt={missionName} width={100} height={100} />
-          <Typography gutterBottom variant="body1" component="div" sx={{ color: cardBodyContrastTextColor[currTheme] }} >
-            {missionName}
-          </Typography>       
+    <Box sx={{width:160, cursor:"pointer"}} onClick={onMissionClick} >
+      <Stack spacing={2} sx={{ml:2, mb:3, mt:1}}>
+        <div style={{borderRadius: '15px', overflow: 'hidden'}}>
+          <Image src={missionImage} alt={missionName} width={150} height={150}  />
+        </div> 
+        <Typography gutterBottom variant="body1" component="div" sx={{ color: cardBodyContrastTextColor[currTheme] }} >
+          {missionName}
+        </Typography>    
+            
       </Stack>
     </Box>
   );
@@ -145,7 +148,7 @@ export  function DiscoverMissions()
                   if (categoryMap.has(category)) {
                     return (
                       <React.Fragment key={category}>
-                        <Typography gutterBottom variant="h6" component="div" sx={{ color: textColors[currTheme], ml:2 }}>
+                        <Typography gutterBottom variant="h6" component="div" sx={{ color: textColors[currTheme], ml:2, mt:2 }}>
                           {category}
                         </Typography>
                         <Stack direction="row" spacing={2}>

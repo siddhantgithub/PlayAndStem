@@ -70,7 +70,7 @@ async function getAllUserNamesForLearners ()
 export default async (req, res) => {
     await dbConnect();
     const { _id, data,reqType} = req.body;
-    console.log ("Request type is ", reqType, "id is ", _id, data);
+   // console.log ("Request type is ", reqType, "id is ", _id, data);
 
     
     if (reqType == "GETALLLEARNERUSERNAME")
@@ -114,7 +114,7 @@ export default async (req, res) => {
             else
             {
                 var rdata = getDataToSendToLearner(learner,reqType);
-                console.log ("Data to send for the learner is", rdata);
+               // console.log ("Data to send for the learner is", rdata);
                 return res.status(200).json(rdata);
             }
         }

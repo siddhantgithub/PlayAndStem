@@ -30,7 +30,8 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: myFont,
+    //fontFamily: myFont,
+    fontFamily: roboto.style.fontFamily,
   },
 });
 

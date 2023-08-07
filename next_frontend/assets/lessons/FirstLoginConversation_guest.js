@@ -303,7 +303,7 @@ export let LessonText_Guest = [
     // {id:1, type: "ack", buttonText: "Say Hi"},
     // {id:1, type: "clearpage"},
     // {id:1, type: "showpage"},
-    {id:0, type: "TMR", message:"Hey, thanks a lot for trying out RoboUni"},
+    {id:0, type: "TMR", message:"Hey, thanks a lot for trying out StoryBotics"},
     {id:5, type: "TM", message: "I am cairo and together we will solve exciting missions"},
     {id:1, type: "ack"},
     {id:1, type: "clearpage"},

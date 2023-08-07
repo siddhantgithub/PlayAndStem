@@ -94,6 +94,7 @@ export default function MyApp(props) {
     <SessionProvider session={session}>
       <CacheProvider value={emotionCache}>
         <Head>
+          <title>Learn Robotics and Programming</title>
           <meta name="viewport" content="initial-scale=1, width=device-width" />
           <link rel="icon" href="/favicon.ico" sizes="any" />
         </Head>

@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 import Router from 'next/router';
 import { useSession } from "next-auth/react"
 import Lottie from "lottie-react";
+import { Player, Controls } from '@lottiefiles/react-lottie-player';
 import groovyWalkAnimation from "../../assets/lottie-animations/main-buddy.json";
 import Typewriter from 'typewriter-effect';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
@@ -41,6 +42,24 @@ const style = {
 
 const CairoAnimation = () => {
   return <Lottie animationData={groovyWalkAnimation} style={style} />;
+};
+
+const CairAnimation_New = () => {
+  const [lottieInstance, setLottieInstance] = React.useState(null);
+
+  return (
+    <Player
+      lottieRef={instance => {
+        setLottieInstance(instance); // the lottie instance is returned in the argument of this prop. set it to your local state
+      }}
+      autoplay={true}
+      loop={true}
+      controls={true}
+      src="/animations/main-buddy.json"
+      style={{ height: '300px', width: '300px' }}
+    ></Player>
+  );
+
 };
 
 //TODO: Show loading
@@ -217,7 +236,6 @@ export default function LearningConversation(props) {
       {
         handleOpenAIResponseError ();
         return;
-        
       }
       if (isDone)
       {
@@ -227,8 +245,8 @@ export default function LearningConversation(props) {
         }
 
         var  paragraph = breakParagraph(openAIResponseBuffer.current);
-        var elemArray = paragraph.map ((item) => {
-          return {type:"TM", message:item}
+        var elemArray = paragraph.flatMap ((item) => {
+          return [{type:"TM", message:item}, {type:"ack"}, {type:"clearpage"},{type:"showpage"} ]
         });
         openAIResponseBuffer.current = '';
         console.log ("Elem array is", elemArray);
@@ -240,7 +258,7 @@ export default function LearningConversation(props) {
               case LearnerEventType.HaveConversation:
                   lessonBlockBuffer.current = elemArray;
                   lessonBlockBuffer.current.unshift({type:"clearpage"},{type:"showpage"});
-                  lessonBlockBuffer.current.push ({type:"ack"});
+                  //lessonBlockBuffer.current.push ({type:"ack"});
                   setDisplayNextComponent(true);
                   return;
 
@@ -734,7 +752,7 @@ export default function LearningConversation(props) {
 
             <Grid container spacing={0}  alignItems= "top" justifyContent="left">
           <Grid item xs={3} md={3} lg={5}>
-            <CairoAnimation/>
+            <CairAnimation_New/>
             <Stack  direction="row" sx={{ mb: 1, mt:2 }} alignItems="center">
                 <IconButton aria-label="setting" onClick = {openCairoSettingDialog}>
                     <SettingsIcon />

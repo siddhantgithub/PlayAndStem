@@ -37,7 +37,7 @@ export default function MainLandingScreen({}) {
     }
 
     return (
-      <AccountBaseScreen TitleText={"ROBOUNI"} ShowHomeButton={false} showLoginButton={true}>
+      <AccountBaseScreen TitleText={"Welcome to"} ShowHomeButton={false} showLoginButton={true}>
         <Typography component="h1" variant="body1" sx = {{ mb:5, mt:5}}>
             Choose An Option Below To Start Having Fun
         </Typography>
@@ -67,7 +67,7 @@ export default function MainLandingScreen({}) {
           <Box sx = {{ mb:3,  backgroundColor: "#542E0F"}} width="500px" >
 
             <Typography component="h1" variant="h5" align="center" color={"white"}>
-              ROBOUNI
+              StoryBotics
             </Typography>
 
           </Box>
