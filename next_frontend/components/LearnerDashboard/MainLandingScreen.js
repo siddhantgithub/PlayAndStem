@@ -30,12 +30,6 @@ export default function MainLandingScreen({}) {
 
     };
 
-
-    function backButtonClicked (evt)
-    {
-      router.push("/")
-    }
-
     return (
       <AccountBaseScreen TitleText={"Welcome to"} ShowHomeButton={false} showLoginButton={true}>
         <Typography component="h1" variant="body1" sx = {{ mb:5, mt:5}}>
@@ -48,50 +42,4 @@ export default function MainLandingScreen({}) {
         </Box>
       </AccountBaseScreen>
     );
-
-  return (
-      <Container component="main" maxWidth="sm" >
-        <Box
-          sx={{
-            marginTop: 10,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            backgroundColor: "#FFCF71",
-            pb:4, pt:8,
-            borderRadius: 1,
-            opacity: 0.80
-          }}
-        >
-
-          <Box sx = {{ mb:3,  backgroundColor: "#542E0F"}} width="500px" >
-
-            <Typography component="h1" variant="h5" align="center" color={"white"}>
-              StoryBotics
-            </Typography>
-
-          </Box>
-
-
-        <Image
-            src="/PlayAndStemLogo.png"
-            width={75}
-            height={75}
-            alt="Company Logo"
-        />
-          
-          <Typography component="h1" variant="h6" sx = {{ mb:3, mt:3}}>
-            Choose An Option Below To Start Having Fun
-          </Typography>
-          <Box sx={{ mt: 0, flexDirection: 'column'}} display={"flex"}>
-            <Button variant="contained" sx={{ mb: 3, flexDirection: 'row', width:"300px" }} onClick = {()=> {CreateGuestLearnerAccount();}}>Try As A Guest</Button> 
-            <Button variant="contained" sx={{ mb: 3, flexDirection: 'row' , width:"300px"}} onClick = {()=> {router.push("/LearnerLogin")}}>Login As A Learner</Button>   
-            <Button variant="contained" sx={{ mb: 3, flexDirection: 'row' , width:"300px"}} onClick = {()=> {router.push("/AccountLandingScreen")}}>Create A Learner Account</Button>
-            <Button variant="contained" sx={{ mb: 3, flexDirection: 'row' , width:"300px"}} onClick = {()=> {router.push("/ParentSignIn")}}>Login/Join As A Parent</Button>         
-          </Box>
-          <Copyright sx={{ mt: 1 }} />
-        </Box>
-
-      </Container>
- );
 }

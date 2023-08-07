@@ -57,6 +57,8 @@ export default function AccountBaseScreen(props) {
       router.push ("/CombinedLoginScreen")
     }
 
+    const imageStyle = {"max-inline-size": "100%;", "object-fit": "contain;"};
+
   return (
       <Container component="main" maxWidth="sm" >
         
@@ -73,7 +75,7 @@ export default function AccountBaseScreen(props) {
             opacity: 0.9    
           }}
         >
-            {showLoginButton && <Button onClick={loginButtonClicked} startIcon={<LoginIcon/>} color="success" size="small" variant="outlined" sx={{ mb: 3, ml:50, mt:-2, justifyContent:"flex-start" }} >
+            {showLoginButton && <Button onClick={loginButtonClicked} startIcon={<LoginIcon/>} color="success" size="small" variant="outlined" sx={{ mb: 3, mt:-2, justifyContent:"flex-start" }} >
                 Login
             </Button>}
         {ShowHomeButton && <Button startIcon={<ArrowBackIcon />} sx={{ mb: 3, ml:-55, mt:0, justifyContent:"flex-start" }} onClick={onBackButtonClicked}>
@@ -89,6 +91,7 @@ export default function AccountBaseScreen(props) {
             width={497}
             height={136}
             alt="Company Logo"
+            style={imageStyle}
         />
           
           {props.children}
