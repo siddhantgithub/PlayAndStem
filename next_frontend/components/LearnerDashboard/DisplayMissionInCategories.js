@@ -172,7 +172,7 @@ export default function DisplayMissionsInCategories({
         container
         spacing={1}
         alignItems="center"
-        justifyContent="left"
+        justifyContent="center"
         direction="row"
         sx={{ backgroundColor: backgroundColors[currTheme] }}
       >

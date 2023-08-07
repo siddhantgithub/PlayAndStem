@@ -88,8 +88,8 @@ export default function AccountBaseScreen(props) {
 
         <Image
             src="/Storybotics.png"
-            width={497}
-            height={136}
+            width={249}
+            height={68}
             alt="Company Logo"
             style={imageStyle}
         />

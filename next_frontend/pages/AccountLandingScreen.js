@@ -12,6 +12,7 @@ import MuiAlert from '@mui/material/Alert';
 import { useRouter } from 'next/router'
 import Image from 'next/image';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import AccountBaseScreen from '../components/AccountCreationLogin/AccountBaseScreen';
 //import { url } from 'inspector';
 //import { backgroundImage } from '../ui_assets/images/UIThemes/colorThemes';
 
@@ -24,7 +25,6 @@ export default function LandingPage({}) {
       backgroundRepeat: "no-repeat",
       backgroundPosition: "0% 0%",
       backgroundSize: "cover"
-
     };
 
     React.useEffect(() => {
@@ -41,6 +41,17 @@ export default function LandingPage({}) {
       router.push("/")
     }
 
+  return (
+    <AccountBaseScreen TitleText={"Welcome to"} ShowHomeButton={false} showLoginButton={true}>
+      <Typography component="h1" variant="h5" sx = {{mt:3}}>
+            I am a
+          </Typography>
+          <Box  sx={{ mt: 0, flexDirection: 'row' }}>
+            <Button variant="contained" sx={{ m: 3, flexDirection: 'row' }} onClick = {()=> {router.push("/ParentSignUp")}}>Parent</Button>
+            <Button variant="contained" sx={{ m: 3, flexDirection: 'row' }} onClick = {()=> {router.push("//LearnerSignUpFlow")}}>Learner</Button>          
+          </Box>
+    </AccountBaseScreen>
+  );
   return (
       <Container component="main" maxWidth="xs" >
 

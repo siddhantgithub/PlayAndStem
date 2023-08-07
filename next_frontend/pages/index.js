@@ -178,7 +178,6 @@ function DashboardAppBar(props) {
               component="h1"
               variant="body1"
               color={textColors[currTheme]}
-              noWrap
               sx={{
                 //flexGrow: 1,
                 ml: "10px",

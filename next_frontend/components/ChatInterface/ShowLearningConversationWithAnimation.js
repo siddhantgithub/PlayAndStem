@@ -56,7 +56,7 @@ const CairAnimation_New = () => {
       loop={true}
       controls={true}
       src="/animations/main-buddy.json"
-      style={{ height: '300px', width: '300px' }}
+      style={style}
     ></Player>
   );
 
