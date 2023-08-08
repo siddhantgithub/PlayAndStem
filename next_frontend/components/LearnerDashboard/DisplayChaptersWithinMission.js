@@ -355,6 +355,7 @@ export function MissionDashboard(props) {
         sx={{
           backgroundColor: buttonColors[currTheme],
           color: buttonText[currTheme],
+          mt:2
         }}
       >
         Learning Home

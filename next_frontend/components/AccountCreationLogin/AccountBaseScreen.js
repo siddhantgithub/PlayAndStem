@@ -57,7 +57,7 @@ export default function AccountBaseScreen(props) {
       router.push ("/CombinedLoginScreen")
     }
 
-    const imageStyle = {"max-inline-size": "100%;", "object-fit": "contain;"};
+    const imageStyle = {"maxInlineSize": "100%", "objectFit": "contain"};
 
   return (
       <Container component="main" maxWidth="sm" >

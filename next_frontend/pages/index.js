@@ -334,7 +334,7 @@ function ShowLearningConversation({
       <Grid item xs={12} md={12} lg={12}>
         <Button
           variant="contained"
-          sx={{ backgroundColor: buttonColors[currTheme] }}
+          sx={{ backgroundColor: buttonColors[currTheme], mt:2 }}
           onClick={onBackClicked}
           startIcon={<ArrowBackIcon />}
         >
