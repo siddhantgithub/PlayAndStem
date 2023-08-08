@@ -452,7 +452,7 @@ export default function LearningConversation(props) {
                     //return [...componentArray,<ChatBotMessage message = "Loading..." key={componentKey.current++}/>]
                 //});
                 
-                handleLearnerEvent(arrayElem.data);
+              handleLearnerEvent(arrayElem.data);
                 //setTimeout (() => {onEventAck(data.data)}, 1000);
                 //addComponentEverySecond(); //calling to avoid initial delay
                // performLearnerActionFromMission("addcourses", arrayElem.missions);
@@ -477,7 +477,7 @@ export default function LearningConversation(props) {
             stopNextComponentDisplayForResponseElements(arrayElem);
             setComponentArray(componentArray => {
                 return [...componentArray,ConvertJsonToComponent(arrayElem,handleOptionClick,userName,componentKey.current++,onChangePythonCode)]});
-        }
+            }
     }
   
 
@@ -747,39 +747,14 @@ export default function LearningConversation(props) {
     }
 
     return (      
-        <Container component="main" maxWidth={maxWidth} sx={{ display: 'flex', flexDirection:'column' }}>
+        <Container component="main" maxWidth={maxWidth} sx={{ display: 'flex', flexDirection:'column' }} >
            {/* <TopScreenComponent learnersname = {session.user.username}/>*/}
 
-            <Grid container spacing={0}  alignItems= "top" justifyContent="left">
-          <Grid item xs={3} md={3} lg={5}>
-            <CairAnimation_New/>
-            <Stack  direction="row" sx={{ mb: 1, mt:2 }} alignItems="center">
-                <IconButton aria-label="setting" onClick = {openCairoSettingDialog}>
-                    <SettingsIcon />
-                </IconButton>
-                <IconButton aria-label="mute" onClick = {muteButtonPress}>
-                    {isCairoMuted? <VolumeOffIcon  sx={{ color: pink[500] }}/> : <VolumeUpIcon/>}
-                </IconButton>
-                <IconButton aria-label="rewind" onClick = {rewindButtonClicked} disabled={forwardSpeed == CairoSpeedPossible.Slow} >
-                    {<FastRewindIcon  />}
-                </IconButton>
-                <IconButton aria-label="forward" onClick = {forwardButtonClicked} disabled = {forwardSpeed == CairoSpeedPossible.Fast}>
-                    {<FastForwardIcon  />}
-                </IconButton>
-                
-               { 
-                /*<Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={CairoForwardSpeed}
-                    label="Voice"
-                    onChange={handleSpeedChange}
-                    >
-                        {Object.entries(CairoSpeedPossible).map((item) => (<MenuItem value={item[1]} key={item[0]}>{item[0]}</MenuItem>))}
-                
-                </Select>*/}
-          </Stack>
+          <Grid container spacing={0}  alignItems= "top" justifyContent="left">
+            <Grid item xs={3} md={3} lg={5}>
+              <CairAnimation_New/>
 
+            
           <CairoSettingDialog
             open={csdOpen}
             onClose={onCairoSettingClosed}
@@ -789,7 +764,21 @@ export default function LearningConversation(props) {
         </Grid>
         <Grid item xs={9} md={9} lg={7}>
           <Fade in={!clearPage} timeout={1000}>
-            <Box>
+            <Box  sx={{ pb:2}}>
+              <Stack  direction="row" sx={{ mb: 1, mt:2 }} alignItems="center">
+                  <IconButton aria-label="setting" onClick = {openCairoSettingDialog}>
+                      <SettingsIcon />
+                  </IconButton>
+                  <IconButton aria-label="mute" onClick = {muteButtonPress}>
+                      {isCairoMuted? <VolumeOffIcon  sx={{ color: pink[500] }}/> : <VolumeUpIcon/>}
+                  </IconButton>
+                  <IconButton aria-label="rewind" onClick = {rewindButtonClicked} disabled={forwardSpeed == CairoSpeedPossible.Slow} >
+                      {<FastRewindIcon  />}
+                  </IconButton>
+                  <IconButton aria-label="forward" onClick = {forwardButtonClicked} disabled = {forwardSpeed == CairoSpeedPossible.Fast}>
+                      {<FastForwardIcon  />}
+                  </IconButton>
+              </Stack>
               {componentArray}
               <div ref={messagesEndRef} autoFocus />
             </Box>

@@ -89,10 +89,10 @@ function LearnerCard({firstname,username,urlToRedirect,learnerId}) {
           sx={{ display: 'flex', flexGrow:1 }}
           //sx={{ backgroundColor: backgroundColors[currTheme] }}
         >
-        <Grid item xs={2} md={2} lg={2} sx={{ ml: 2 }}>
+        <Grid item xs={4} md={2} lg={2} sx={{ ml: 2 }}>
           <Avatar alt={firstname} {...stringAvatar(firstname)} />
         </Grid>
-        <Grid item xs={3} md={3} lg={3} sx={{ ml: 0 }} >
+        <Grid item xs={4} md={3} lg={3} sx={{ ml: 0 }} >
             <Typography component="div" variant="h6">
               {firstname}
             </Typography>
@@ -100,10 +100,10 @@ function LearnerCard({firstname,username,urlToRedirect,learnerId}) {
               {username}
             </Typography>
         </Grid>
-        <Grid item xs={2} md={2} lg={2} sx={{ ml: 0 }} >
+        <Grid item xs={4} md={2} lg={2} sx={{ ml: 0 }} >
           <Button onClick={onShowLearnerActivityClicked}>View Activity</Button>
         </Grid>
-        <Grid item xs={4} md={4} lg={4} sx={{ mb: 0 }} display="flex" justifyContent="flex-end">
+        <Grid item xs={8} md={4} lg={4} sx={{ mb: 0 }} display="flex" justifyContent="flex-end">
           <Link href={urlToRedirect} target = "_blank" rel="noopener">
                 <Button>Start Learning</Button>
           </Link>

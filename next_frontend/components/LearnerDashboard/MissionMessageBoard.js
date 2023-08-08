@@ -93,7 +93,7 @@ export function ModuleCardForMessage(props) {
   }
 
   return (
-    <Card sx={{ width: 200, height: 250, margin: 2 }}>
+    <Card sx={{ width: 180, height: 275, margin: 2 }}>
       <CardActionArea
         onClick={progress != ChapterState.AvailableLater && onClick}
       >

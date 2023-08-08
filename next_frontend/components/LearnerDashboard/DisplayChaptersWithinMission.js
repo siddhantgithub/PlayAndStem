@@ -222,7 +222,7 @@ export function ModuleCard(props) {
             label={returnChipLabel(progress)}
             // color={returnChipColor(progress)}
             variant="contained"
-            font-weight="bolder"
+            fontWeight="bolder"
             sx={{
               margin: 1,
               backgroundColor: buttonColors[currTheme],
@@ -344,6 +344,7 @@ export function MissionDashboard(props) {
   //First should be visible, what is in-progress or up next
   //Second should be visible completed
   //Third Avalilable later
+  const cardStyle = {m:2, maxWidth:"375px"}
   return (
     <React.Fragment>
       <Button
@@ -365,7 +366,7 @@ export function MissionDashboard(props) {
       <Fade in={true} timeout={1000}>
         <Grid container spacing={0} alignItems="center" justifyContent="left">
           {quizProgress && (
-            <Grid item xs={12} md={4} lg={4}>
+            <Grid item xs={12} md={6} lg={4}>
               <MissionMessageDashboard
                 chapterProgress={chapterProgress}
                 chapterlist={moduleList}
@@ -373,49 +374,55 @@ export function MissionDashboard(props) {
                 quizProgress={quizProgress}
                 quizList={quizList}
                 retryQuizClicked={retryQuizClicked}
-                sx={{ width: 360, height: 350, mt: 2 }}
+                //sx={{ width: 360, height: 350, mt: 2 }}
+                sx ={cardStyle}
               />
             </Grid>
           )}
           {quizProgress && (
-            <Grid item xs={12} md={4} lg={4}>
+            <Grid item xs={12} md={6} lg={4}>
               <LearnerScores
                 products={quizList}
                 quizProgress={quizProgress}
-                sx={{ width: 360, height: 350, mt: 2 }}
+                //sx={{ width: 360, height: 350, mt: 2 }}
+                sx ={cardStyle}
                 retryQuizClicked={retryQuizClicked}
                 viewAllQuizClicked={viewAllQuizClicked}
               />
             </Grid>
           )}
           {
-            <Grid item xs={12} md={4} lg={4}>
+            <Grid item xs={12} md={6} lg={4}>
               <LearnerConceptsLearned
                 products={conceptList}
                 reviewConceptClicked={reviewConceptClicked}
                 viewAllConceptsClicked={viewAllConceptsClicked}
-                sx={{ width: 360, height: 350, mt: 2 }}
+               // sx={{ width: 360, height: 350, mt: 2 }}
+                sx ={cardStyle}
               />
             </Grid>
           }
-          <Grid
+         {false && <Box
             item
             xs={12}
             md={12}
             lg={12}
-            sx={{ mt: 2, backgroundColor: backgroundColors[currTheme] }}
+            sx={{ display: { xs: 'none', md: 'flex' }, mt: 2, backgroundColor: backgroundColors[currTheme] }}
           >
             <Tabs
               value={tabSelected}
               onChange={handleChange}
               aria-label="basic tabs example"
+              allowScrollButtonsMobile
+              variant="scrollable"
+              sx={{maxWidth:"xs"}}
             >
               <AntTab label="All" value={ViewState.All} {...a11yProps(2)} />
               <AntTab label="In Progress/Up Next" value={ViewState.Available} />
               <AntTab label="Completed" value={ViewState.Completed} />
               <AntTab label="Available Later" value={ViewState.AvailableLater} />
             </Tabs>
-          </Grid>
+          </Box>}
           {categoryMissionMapG.current &&
             [
               "In Progress/Up Next",

@@ -148,7 +148,7 @@ function DashboardAppBar(props) {
                 mr: "10px",
                 // fontFamily: "Ariel, sans-serif",
               }}
-            >
+            > 
               Welcome {userName}
             </Typography>}
 
@@ -169,24 +169,12 @@ function DashboardAppBar(props) {
           {firstName == "Guest User" && <Button
                 key="createaccountbutton"
                 onClick={createAccountButtonClicked}
-                sx={{ my: 2, "&.MuiButton-text": { color: textColor }, display: 'block' }}
+
+                sx={{ mr: 2, "&.MuiButton-text": { color: textColor }, display: 'block' }}
               >
                 Create Account
               </Button>}
             
-            <Typography
-              component="h1"
-              variant="body1"
-              color={textColors[currTheme]}
-              sx={{
-                //flexGrow: 1,
-                ml: "10px",
-                mr: "10px",
-                // fontFamily: "Ariel, sans-serif",
-              }}
-            >
-              Select Theme
-            </Typography>
             <UIComponent />
             <Box sx={{ flexGrow: 0, flexDirection: 'row', display: 'flex' }}>
             
@@ -554,6 +542,14 @@ function DashboardContent(props) {
         updateFirstName(resp.firstName);
         updateLastName(resp.lastname);
         setComponentState(DashboardState.ShowInitialDashboard);
+        //There is a need to directly load a mission
+        if (queryObj.actionType == "loadmission")
+        {
+          var missionToLoad = AllMissionList[queryObj.loadMissionId];
+          updatedLearnerMissionProgress.current = resp.missionProgress;
+          onMissionClicked(missionToLoad);
+
+        }
       });
     }
   }, [isUser, loading]);
@@ -584,6 +580,7 @@ function DashboardContent(props) {
   }, [componentState]);
 
   function updateMissionStatusIfAllChaptersCompleted(missionid) {
+    //Setting mission status as completed if all the chapters are completed
     if (
       chapterProgress[missionid].find(
         (element) => element != ChapterState.Completed
@@ -741,6 +738,13 @@ function DashboardContent(props) {
 
     setClickedMission(mission);
     setComponentState(DashboardState.ShowChaptersInMission);
+
+    //If the first chapter is not complete the directly start the mission introduction
+    if (chapterProgress[mission.id][0] != ChapterState.Completed)
+    {
+      //Since the first chapter not complete, directly start the first chapter
+      onChapterClicked(mission.moduleList[0],mission)
+    }
     //updateCurrrentActivityState({state:LearnerActivityState.MissionStarted, data:mission});
     //setShowMission(true);
   }
@@ -808,10 +812,14 @@ function DashboardContent(props) {
     });
   }
 
-  function onChapterClicked(chapter) {
+  function onChapterClicked(chapter, currentMission = null) {
+    if (currentMission == null)
+    {
+      currentMission = clickedMission;
+    }
     //console.log ("Chapter clicked is", chapter );
     //console.log ("Chapter progressed is", chapterProgress);
-    console.log("Clicked mission is", clickedMission);
+    console.log("Clicked mission is", currentMission);
     AddLearnerActivity(learnerId, "Chapter Started",chapter.name, chapter.description);
     setCurrentChapter(chapter);
     updateCurrrentActivityState({
@@ -826,17 +834,17 @@ function DashboardContent(props) {
     });
 
     if (
-      chapterProgress[clickedMission.id][chapter.id] == ChapterState.Available
+      chapterProgress[currentMission.id][chapter.id] == ChapterState.Available
     ) {
       setChapterProgress((chapterProgress) => {
-        chapterProgress[clickedMission.id][chapter.id] =
+        chapterProgress[currentMission.id][chapter.id] =
           ChapterState.InProgress;
         updateChapterProgressForLearner(chapterProgress);
         return [...chapterProgress];
       });
 
-      if (learnerMissionProgress[clickedMission.id] == "Available")
-        changeMissionStatusForTheUser(clickedMission.id, "In Progress");
+      if (learnerMissionProgress[currentMission.id] == "Available")
+        changeMissionStatusForTheUser(currentMission.id, "In Progress");
     }
 
     (async function () {
