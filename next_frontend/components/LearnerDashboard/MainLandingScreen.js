@@ -22,6 +22,7 @@ import LoadingDialogBox from '../dialogBoxes/LoadingBox';
 export default function MainLandingScreen({openLoadingDialogBox}) {
 
     const router = useRouter();
+    const [loadingDialogOpen, setLoadingDialogOpen] = React.useState(false);
 
     const backgroundImageStyle = {
       backgroundImage: "url('/backgroundImages/4.png')",
@@ -33,12 +34,18 @@ export default function MainLandingScreen({openLoadingDialogBox}) {
 
     function onTryGuestAccountClicked ()
     {
-      openLoadingDialogBox ("Creating An Account For You Now ...");
+      //openLoadingDialogBox ("Creating A Guest Account For You Now ...");
+      setLoadingDialogOpen(true);
       CreateGuestLearnerAccount();
     }
 
     return (
       <AccountBaseScreen TitleText={"Welcome to"} ShowHomeButton={false} showLoginButton={true}>
+         <LoadingDialogBox 
+            open = {loadingDialogOpen}
+            loadingText = {"Creating A Guest Account For You Now ..."}
+            onClose = {() => setLoadingDialogOpen(false)}
+          />
         <Typography component="h1" variant="body1" sx = {{ mb:5, mt:5}}>
             Choose An Option Below To Start Having Fun
         </Typography>

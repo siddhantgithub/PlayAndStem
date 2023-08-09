@@ -82,7 +82,7 @@ export default async (req, res) => {
     try 
     {
         let learner = await Learner.findOne({ _id });
-        console.log ("Found the learner");
+        //console.log ("Found the learner");
         if (learner)
         {
             if (reqType == "ADDLEARNERACTIVITY")
