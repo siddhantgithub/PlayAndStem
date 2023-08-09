@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import Image from "next/image";
 import { ChapterState, ModuleCard } from "./DisplayChaptersWithinMission";
 import Paper from "@mui/material/Paper";
+import * as React from 'react';
 
 import {
   Box,
@@ -134,14 +135,44 @@ export const MissionMessageDashboard = (props) => {
   } = props;
   const { currTheme } = useStore(LearnerStore);
 
+  console.log ("Rerendering now");
+
+  
+
+  const [timeToStart, setTimeToStart] = React.useState(20);
+  const timerRunning = React.useRef (timeToStart + 1);
+  //timerRunning.current = timeToStart;
+
   const firstAvailableId = chapterProgress.findIndex(
     (elem) => elem == ChapterState.Available || elem == ChapterState.InProgress
   );
-  if (firstAvailableId != -1 && firstAvailableId < chapterlist.length) {
+
+  const onClick = () => {
+    onLessonClicked(chapterlist[firstAvailableId]);
+  };
+
+  function reduceTimeToStart ()
+  {
+    console.log ("time to start is", timeToStart);
+    if (timerRunning.current > 0)
+    {
+      setTimeToStart((timeToStart) => {timerRunning.current = timeToStart; return timeToStart - 1});
+      setTimeout(() => {reduceTimeToStart()}, 1000);
+    }
+    else
+      onClick();
+  }
+
+  if (firstAvailableId != -1 && firstAvailableId < chapterlist.length) 
+  {
+    if (timerRunning.current == 21)
+    {
+      console.log ("Starting timer")
+      setTimeout(() => {reduceTimeToStart()}, 1000);
+      timerRunning.current -= 1;
+    }
     //One chapter is available
-    const onClick = () => {
-      onLessonClicked(chapterlist[firstAvailableId]);
-    };
+
     return (
       <Paper
         sx={{
@@ -165,7 +196,8 @@ export const MissionMessageDashboard = (props) => {
               onLessonClicked={onLessonClicked}
             />
           </Grid>
-          <Grid item xs={4} md={4} lg={4}>
+          <Grid item xs={3} md={3} lg={3}>
+            <Box display={"flex"} flexDirection="column" alignItems={"flex-start"}>
             <Button
               variant="contained"
               size="medium"
@@ -178,6 +210,10 @@ export const MissionMessageDashboard = (props) => {
             >
               Start
             </Button>
+            <Typography variant="body1" >
+              {(timeToStart <= 0)? "Loading...":`Chapter will start in ${timeToStart} seconds`}
+            </Typography>
+            </Box>
           </Grid>
         </Grid>
       </Paper>

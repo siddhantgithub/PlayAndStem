@@ -36,6 +36,8 @@ export default function CairoSettingDialog(props) {
         setVolumeValue(valueProp);
     }
 
+
+
     const va = window.speechSynthesis.getVoices();
     //console.log ("Voice array is", va);
     if (va.length > 0)
@@ -44,6 +46,24 @@ export default function CairoSettingDialog(props) {
         //setVoice(va[0].name);
     }
   }, [valueProp, open]);
+
+  function utterTestSentence (pVoice, pVolume)
+  {
+    const synth = window.speechSynthesis;
+    const utteranceText = "Hey, I am Cairo";
+    //console.log (utteranceText);
+    const u = new SpeechSynthesisUtterance(utteranceText);
+    const voices = synth.getVoices();
+    //console.log ("Voices are ", voices);
+    u.voice = voices.find((v) => v.name === pVoice);
+   // u.voice = voice;
+    u.pitch = 1;
+    u.rate = 1;
+    u.volume = pVolume;
+    //setUtterance(u);
+    //setSynth(synth);
+    synth.speak(u);
+  }
 
 
   const handleCancel = () => {
@@ -56,10 +76,12 @@ export default function CairoSettingDialog(props) {
 
   const handleVolumeChange = (event, newValue) => {
     setVolumeValue(newValue);
+    //utterTestSentence(voice, newValue);
   };
 
   const handleVoiceChange = (event) => {
     setVoice(event.target.value);
+    utterTestSentence(event.target.value, volumeValue);
   };
 
   const handleSpeedChange = (event) => {

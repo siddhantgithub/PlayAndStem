@@ -53,7 +53,7 @@ const TopChatBotComponent = React.forwardRef((props, ref) =>{
   //Then depending on the state
   function returnConversationForLearnerState(activityState,missionProgress,chapterProgress,updateCurrrentActivityState,session)
   { 
-     //if (activityState.state == LearnerActivityState.FirstLogin)
+     if (activityState.state == LearnerActivityState.FirstLogin)
      {
         console.log ("Session.user is", session.user);
         if (session.user.firstname == "Guest User")

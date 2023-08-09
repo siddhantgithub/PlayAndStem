@@ -47,6 +47,7 @@ import {
   chatBackground,
   chatText,
 } from "../../ui_assets/images/UIThemes/colorThemes";
+import OnDemandVideoIcon from '@mui/icons-material/OndemandVideo'
 
 const PythonEditor = dynamic(
   () => import("../ace-editor/PythonEditor"),
@@ -562,16 +563,32 @@ export function ShowVideo (props)
         console.log ("Show image in a popup here");
     }
 
-    const [dialogOpen, setDialogOpen] = React.useState (false);
+    const [dialogOpen, setDialogOpen] = React.useState (true);
     function handleDialogClose ()
     {
         setDialogOpen(false);
     }
+    const { currTheme } = useStore(LearnerStore);
+
+    return (
+        <Box>
+            <VideoShowPopup open={dialogOpen} videoId = {videoId} onClose={handleDialogClose} altText={altText}/>
+           {false && <Button variant="contained" startIcon={<OnDemandVideoIcon />} onClick = {() => {setDialogOpen(true);}} sx={{
+                            textTransform: "none",
+                            color: buttonText[currTheme],
+                            backgroundColor: buttonColors[currTheme],
+                            mt:2
+                          }}>
+                            "Watch Video"
+                    </Button>}
+        </Box>
+    );
+
 
     return (
         <Grid container  sx={{alignItems: 'center', pt:2} }>   
-        <VideoShowPopup open={dialogOpen} videoId = {videoId} onClose={handleDialogClose} altText={altText}/> 
-            <Grid item xs={11} md={11} lg={11}>
+            <VideoShowPopup open={dialogOpen} videoId = {videoId} onClose={handleDialogClose} altText={altText}/> 
+                <Grid item xs={11} md={11} lg={11}>
                     <Fade in={true} timeout = {1000}>
                         <Box sx={{ justifyContent: 'left', width:1, display: 'flex' }}>
                                <Card sx={{ width: 152, height: 190}}>
@@ -579,15 +596,11 @@ export function ShowVideo (props)
                                     <CardActionArea onClick = {onVideoClicked}>
                                     <Image
                                         src={imagePath}
-                                        width = {150}
-                                        height = {150}
+                                        width = {50}
+                                        height = {50}
                                         alt={altText}
                                         onClick = {() => {setDialogOpen(true);}}
                                     />
-
-                                        <Typography variant="body2" color="text.secondary">
-                                        Click To Enlarge
-                                        </Typography>
 
                                     </CardActionArea>
                                 </Card>

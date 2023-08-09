@@ -35,32 +35,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { GetOpenAIResponse,LearnerEventType } from '../../actions/OpenAIResponseHandler';
 import { AddLearnerActivity } from '../../actions/LearnerMissionProgressRequestHandler';
 import { TimeoutForOpenAI } from '../../constants/AllConstants';
-
-const style = {
-  height: 300,
-};
-
-const CairoAnimation = () => {
-  return <Lottie animationData={groovyWalkAnimation} style={style} />;
-};
-
-const CairAnimation_New = () => {
-  const [lottieInstance, setLottieInstance] = React.useState(null);
-
-  return (
-    <Player
-      lottieRef={instance => {
-        setLottieInstance(instance); // the lottie instance is returned in the argument of this prop. set it to your local state
-      }}
-      autoplay={true}
-      loop={true}
-      controls={true}
-      src="/animations/main-buddy.json"
-      style={style}
-    ></Player>
-  );
-
-};
+import { CairAnimation_New } from './CairoAnimations';
 
 //TODO: Show loading
 //What is the flow here: read one, show animation
@@ -210,6 +185,10 @@ export default function LearningConversation(props) {
         {
           lessonBlockBuffer.current.unshift({type:"askquestion"});
           setDisplayNextComponent(true);
+        }
+        else if (data.subtype == LearnerEventType.OpenCairoSetting)
+        {
+          setCSDOpen(true);
         }
         else
             onEventAck(data);

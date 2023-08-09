@@ -15,10 +15,11 @@ import { CreateGuestLearnerAccount } from '../../utils/CommonFunctions';
 import { topicColors } from '../../ui_assets/images/UIThemes/colorThemes';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AccountBaseScreen from '../AccountCreationLogin/AccountBaseScreen';
+import LoadingDialogBox from '../dialogBoxes/LoadingBox';
 //import { url } from 'inspector';
 //import { backgroundImage } from '../ui_assets/images/UIThemes/colorThemes';
 
-export default function MainLandingScreen({}) {
+export default function MainLandingScreen({openLoadingDialogBox}) {
 
     const router = useRouter();
 
@@ -30,13 +31,19 @@ export default function MainLandingScreen({}) {
 
     };
 
+    function onTryGuestAccountClicked ()
+    {
+      openLoadingDialogBox ("Creating An Account For You Now ...");
+      CreateGuestLearnerAccount();
+    }
+
     return (
       <AccountBaseScreen TitleText={"Welcome to"} ShowHomeButton={false} showLoginButton={true}>
         <Typography component="h1" variant="body1" sx = {{ mb:5, mt:5}}>
             Choose An Option Below To Start Having Fun
         </Typography>
         <Box sx={{ mt: 0, flexDirection: 'column'}} display={"flex"}>
-          <Button variant="contained" sx={{ mb: 3, flexDirection: 'row', width:"300px" }} onClick = {()=> {CreateGuestLearnerAccount();}}>Try As A Guest</Button> 
+          <Button variant="contained" sx={{ mb: 3, flexDirection: 'row', width:"300px" }} onClick = {onTryGuestAccountClicked}>Try As A Guest</Button> 
           <Button variant="contained" sx={{ mb: 3, flexDirection: 'row' , width:"300px"}} onClick = {()=> {router.push("/LearnerSignUpFlow")}}>Join As A Learner</Button>
           <Button variant="contained" sx={{  flexDirection: 'row' , width:"300px"}} onClick = {()=> {router.push("/ParentSignUp")}}>Join As A Parent</Button>        
         </Box>

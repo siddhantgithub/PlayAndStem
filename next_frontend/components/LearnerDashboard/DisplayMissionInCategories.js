@@ -174,7 +174,7 @@ export default function DisplayMissionsInCategories({
         alignItems="center"
         justifyContent="center"
         direction="row"
-        sx={{ backgroundColor: backgroundColors[currTheme] }}
+        sx={{ backgroundColor: backgroundColors[currTheme], pb:1 }}
       >
         <Grid item xs={12} md={12} lg={12} sx={{ mb: 0 }}>
           <Typography

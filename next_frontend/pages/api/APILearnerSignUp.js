@@ -35,7 +35,7 @@ export default async (req, res) => {
         }
     
         let newlearner = await AddLearner(req.body);
-        console.log ("New learner got is", newlearner);
+        //console.log ("New learner got is", newlearner);
 /*         const { firstname, lastname, username, parentemail, password } = req.body;
         let missionProgress = Array(AllMissionList.length).fill("Not Available");
         

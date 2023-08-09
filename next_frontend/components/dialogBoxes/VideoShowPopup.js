@@ -8,6 +8,8 @@ import { Button } from '@mui/material';
 import * as React from 'react';
 import Image from 'next/image';
 import YouTube from 'react-youtube';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 export default function VideoShowPopup(props) {
   console.log ("Video show popup called");
@@ -18,14 +20,34 @@ export default function VideoShowPopup(props) {
       onClose();
     };
 
-    const opts = {
-      height: '390',
-      width: '640',
-      playerVars: {
-        // https://developers.google.com/youtube/player_parameters
-        autoplay: 1,
-      },
-    };
+    const theme = useTheme();
+
+    const isMatch = useMediaQuery(theme.breakpoints.down('sm'))
+
+    var opts;
+
+    if (isMatch)
+    {
+        opts = {
+        height: '180',
+        width:'300',
+        playerVars: {
+          // https://developers.google.com/youtube/player_parameters
+          autoplay: 1,
+        },
+      };
+    }
+    else
+    {
+      opts = {
+        height: '390',
+        width:'640',
+        playerVars: {
+          // https://developers.google.com/youtube/player_parameters
+          autoplay: 1,
+        },
+      };
+    }
 
     function _onReady(event) {
       // access to player in all event handlers via event.target
@@ -33,7 +55,7 @@ export default function VideoShowPopup(props) {
     }
   
     return (
-      <Dialog onClose={handleClose} open={open}  maxWidth="md" sx={{width:800}}>
+      <Dialog onClose={handleClose} open={open}  maxWidth="md" >
         <DialogTitle>Video</DialogTitle>
         <DialogContent>
           <YouTube videoId={videoId} opts={opts} onReady={_onReady} />

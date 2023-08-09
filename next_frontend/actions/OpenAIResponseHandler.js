@@ -4,7 +4,8 @@ export const LearnerEventType = {
     CheckPythonCode: "checkpythoncode",
     ComparePythonCode: "comparepythoncode",
     AnswerQuestion: "answerquestion",
-    HaveConversation: "haveconversation"
+    HaveConversation: "haveconversation",
+    OpenCairoSetting: "opencairosetting"
 };
 const ShortJokePrompt = `Generate a short joke for ten year olds`;
 

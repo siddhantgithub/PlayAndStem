@@ -60,6 +60,7 @@ import { WeeklyChallenges } from "../components/LearnerDashboard/WeeklyChallenge
 import * as gtag from "../lib/gtag";
 import { AddLearnerActivity } from "../actions/LearnerMissionProgressRequestHandler";
 import MainLandingScreen from "../components/LearnerDashboard/MainLandingScreen";
+import LoadingDialogBox from "../components/dialogBoxes/LoadingBox";
 
 const drawerWidth = 240;
 function stringToColor(string) {
@@ -246,13 +247,13 @@ function ShowPostLoginContent({
   const { currTheme, updateTheme } = useStore(LearnerStore);
 
   return (
-    <Grid container spacing={3} justifyContent="center">
-      <Grid item xs={12} md={8} lg={8} sx={{ minHeight: 400 }}>
+    <Grid container spacing={3} justifyContent="center" sx={{mt:1, mb:3}}>
+      <Grid item xs={12} md={8} lg={8} >
         <Paper
           sx={{
             display: "flex",
             flexDirection: "column",
-            height: 350,
+            minHeight: {sm:550, md:450},
             bgcolor: backgroundColors[currTheme],
           }}
         >
@@ -268,7 +269,6 @@ function ShowPostLoginContent({
         <Paper
           sx={{
             p: 1,
-            mt: -4,
             display: "flex",
             flexDirection: "column",
             backgroundColor: backgroundColors[currTheme],
@@ -457,7 +457,9 @@ function DashboardContent(props) {
   const [clickedMission, setClickedMission] = React.useState([]);
   const [learnerMissionProgress, setLearnerMissionProgress] = React.useState(null);
   const [dialogOpen, setDialogOpen] = React.useState(false);
+  const [loadingDialogOpen, setLoadingDialogOpen] = React.useState(false);
   const [dialogText, setDialogText] = React.useState("text not set");
+  const [loadingText, setLoadingText] = React.useState("Loading...");
   const [chapterProgress, setChapterProgress] = React.useState(null);
   const [quizProgress, setQuizProgress] = React.useState(null);
   const [chapterText, setChapterText] = React.useState(null);
@@ -547,9 +549,9 @@ function DashboardContent(props) {
         {
           var missionToLoad = AllMissionList[queryObj.loadMissionId];
           updatedLearnerMissionProgress.current = resp.missionProgress;
-          onMissionClicked(missionToLoad);
-
+          onMissionClicked(missionToLoad,resp.chapterProgress);
         }
+        setLoadingDialogOpen(false);
       });
     }
   }, [isUser, loading]);
@@ -722,9 +724,11 @@ function DashboardContent(props) {
     // return UpdateLearnerMissionProgress(dataObj);
   }
 
-  function onMissionClicked(mission) {
+  function onMissionClicked(mission, passedChapterProgress = null) {
     //console.log ("Module list is", moduleList);
     //console.log ("New learnermission progress is",learnerMissionProgress, updatedLearnerMissionProgress.current);
+    if (passedChapterProgress == null)
+      passedChapterProgress = chapterProgress;
     if (updatedLearnerMissionProgress.current[mission.id] == "Not Available") {
       //return;
       setDialogOpen(true);
@@ -740,17 +744,21 @@ function DashboardContent(props) {
     setComponentState(DashboardState.ShowChaptersInMission);
 
     //If the first chapter is not complete the directly start the mission introduction
-    if (chapterProgress[mission.id][0] != ChapterState.Completed)
+/*     if (passedChapterProgress[mission.id][0] != ChapterState.Completed)
     {
       //Since the first chapter not complete, directly start the first chapter
       onChapterClicked(mission.moduleList[0],mission)
-    }
+    } */
     //updateCurrrentActivityState({state:LearnerActivityState.MissionStarted, data:mission});
     //setShowMission(true);
   }
 
   function handleDialogClose() {
     setDialogOpen(false);
+  }
+
+  function handleLoadingDialogClose() {
+    setLoadingDialogOpen(false);
   }
 
   const backToModulesClicked = (props) => {
@@ -833,9 +841,11 @@ function DashboardContent(props) {
       label: chapter.name,
     });
 
-    if (
-      chapterProgress[currentMission.id][chapter.id] == ChapterState.Available
-    ) {
+
+    //Chapter progress is not available when loading first chapter only during initial application load
+    //this may happen when a mission is clicked outside and there is a need to load the mission directly
+    //If the mission's first chapter is not complete then the first chapter should load
+    if (chapterProgress && chapterProgress[currentMission.id][chapter.id] == ChapterState.Available) {
       setChapterProgress((chapterProgress) => {
         chapterProgress[currentMission.id][chapter.id] =
           ChapterState.InProgress;
@@ -899,11 +909,17 @@ function DashboardContent(props) {
     // );
   }
 
+  function openLoadingDialogBox (text)
+  {
+    setLoadingText(text);
+    setLoadingDialogOpen(true);
+  }
+
 
   return (
     <React.Fragment>
       {!session && (
-        <MainLandingScreen/>
+        <MainLandingScreen openLoadingDialogBox={openLoadingDialogBox}/>
       )}
 
       {session && (
@@ -915,6 +931,11 @@ function DashboardContent(props) {
             open={dialogOpen}
             dialogText={dialogText}
             onClose={handleDialogClose}
+          />
+          <LoadingDialogBox 
+            open = {loadingDialogOpen}
+            loadingText = {loadingText}
+            onClose = {handleLoadingDialogClose}
           />
           {componentState == DashboardState.ShowInitialDashboard && (
             <ShowPostLoginContent
