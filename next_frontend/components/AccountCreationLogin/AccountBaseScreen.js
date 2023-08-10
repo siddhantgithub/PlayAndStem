@@ -78,7 +78,7 @@ export default function AccountBaseScreen(props) {
             {showLoginButton && <Button onClick={loginButtonClicked} startIcon={<LoginIcon/>} color="success" size="small" variant="outlined" sx={{ mb: 3, mt:-2, justifyContent:"flex-start" }} >
                 Login
             </Button>}
-        {ShowHomeButton && <Button startIcon={<ArrowBackIcon />} sx={{ mb: 3, mt:0, justifyContent:"flex-start" }} onClick={onBackButtonClicked}>
+        {ShowHomeButton && <Button startIcon={<ArrowBackIcon />} variant="outlined" sx={{ mb: 3, mt:0, justifyContent:"flex-start" }} onClick={onBackButtonClicked}>
             Home
           </Button>}
 
@@ -97,9 +97,6 @@ export default function AccountBaseScreen(props) {
           {props.children}
           <Copyright sx={{ mt: 8 }} />
         </Box>
-
-        
-
       </Container>
  );
 }

@@ -23,11 +23,12 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import Typography from '@mui/material/Typography';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 
 export default function LoadingDialogBox(props) {
-  const {onClose, loadingText,open } = props;
+  const {onClose, loadingText,open, showLoadingSymbol, showOkButton = false, okButtonText = "Ok", onOkButtonClicked = null } = props;
 
   return (
     <Dialog onClose={onClose} open={open} maxWidth="sm">
@@ -37,10 +38,21 @@ export default function LoadingDialogBox(props) {
             <CairAnimation_Dialog/>
         </Grid>
         <Grid item xs={9} md={9} lg={7}>
-          <Typography gutterBottom variant="h6" component="div" align="center" sx={{color:"#212121"}}>
+          <Box display="flex" alignItems="center"  flexDirection="column" >
+          <Typography gutterBottom variant="body1" component="div" align="center" sx={{color:"#212121", mb:2}}>
               {loadingText}
           </Typography>
+          {showLoadingSymbol && <CircularProgress />}
+          </Box>
         </Grid>
+        {showOkButton && <Grid item xs={12} md={12} lg={12}  display="flex" justifyContent="center">
+        <Button variant="contained"  onClick = {onOkButtonClicked} sx={{
+                            textTransform: "none",
+                          }}>
+                            {okButtonText}
+                    </Button>
+
+        </Grid>}
       </Grid>
       </DialogContent>
     </Dialog>

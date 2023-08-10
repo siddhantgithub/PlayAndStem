@@ -16,6 +16,7 @@ import { topicColors } from '../../ui_assets/images/UIThemes/colorThemes';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AccountBaseScreen from '../AccountCreationLogin/AccountBaseScreen';
 import LoadingDialogBox from '../dialogBoxes/LoadingBox';
+import { isScreenMobileSize } from '../../utils/CommonFunctions';
 //import { url } from 'inspector';
 //import { backgroundImage } from '../ui_assets/images/UIThemes/colorThemes';
 
@@ -23,6 +24,9 @@ export default function MainLandingScreen({openLoadingDialogBox}) {
 
     const router = useRouter();
     const [loadingDialogOpen, setLoadingDialogOpen] = React.useState(false);
+    const [dialogMessage, setDialogMessage] = React.useState ("");
+    const [showLoadingSymbol, setShowLoadingSymbol] = React.useState (true);
+    const acceptedForSmallScreen = React.useRef(false);
 
     const backgroundImageStyle = {
       backgroundImage: "url('/backgroundImages/4.png')",
@@ -32,18 +36,47 @@ export default function MainLandingScreen({openLoadingDialogBox}) {
 
     };
 
+    const isScreenMobile = isScreenMobileSize();
+
+    function acceptedForSmallScreenClicked ()
+    {
+      acceptedForSmallScreen.current = true;
+      setDialogMessage("Creating A Guest Account");
+    }
+
+/*     if (isScreenMobile)
+    {
+      setDialogMessage("StoryRobotics experience will be limited on a mobile device. For the best experience, please access using a Chrome browser on a desktop device")
+      setLoadingDialogOpen(true);
+
+    } */
+
     function onTryGuestAccountClicked ()
     {
-      //openLoadingDialogBox ("Creating A Guest Account For You Now ...");
+      setDialogMessage("Creating A Guest Account")
       setLoadingDialogOpen(true);
       CreateGuestLearnerAccount();
     }
 
     return (
       <AccountBaseScreen TitleText={"Welcome to"} ShowHomeButton={false} showLoginButton={true}>
+        {!acceptedForSmallScreen.current && isScreenMobile &&
+
+          <LoadingDialogBox 
+          open 
+          loadingText = "StoryRobotics experience will be limited on a small-screen device. For the best experience, please access using a Chrome browser on a desktop device"
+          showLoadingSymbol = {false}
+          onClose = {() => setLoadingDialogOpen(false)}
+          showOkButton = {true}
+          okButtonText = {"Continue Anyway"}
+          onOkButtonClicked= {acceptedForSmallScreenClicked}
+          />
+          
+        }
          <LoadingDialogBox 
             open = {loadingDialogOpen}
-            loadingText = {"Creating A Guest Account For You Now ..."}
+            loadingText = {dialogMessage}
+            showLoadingSymbol = {showLoadingSymbol}
             onClose = {() => setLoadingDialogOpen(false)}
           />
         <Typography component="h1" variant="body1" sx = {{ mb:5, mt:5}}>

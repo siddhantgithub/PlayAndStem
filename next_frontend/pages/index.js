@@ -61,6 +61,7 @@ import * as gtag from "../lib/gtag";
 import { AddLearnerActivity } from "../actions/LearnerMissionProgressRequestHandler";
 import MainLandingScreen from "../components/LearnerDashboard/MainLandingScreen";
 import LoadingDialogBox from "../components/dialogBoxes/LoadingBox";
+import Image from 'next/image'
 
 const drawerWidth = 240;
 function stringToColor(string) {
@@ -125,6 +126,7 @@ function DashboardAppBar(props) {
 
   var learnerFullName = firstName;
   var textColor = textColors[currTheme];
+  const imageStyle = {"maxInlineSize": "100%", "objectFit": "contain"};
   //console.log ("Learner full name is",learnerFullName);
   return (
     <Box sx={{ display: "flex" }}>

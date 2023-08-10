@@ -344,7 +344,7 @@ export function MissionDashboard(props) {
   //First should be visible, what is in-progress or up next
   //Second should be visible completed
   //Third Avalilable later
-  const cardStyle = {m:2, maxWidth:"375px"}
+  const cardStyle = {m:2, maxWidth:"375px", minHeight:375}
   return (
     <React.Fragment>
       <Button
@@ -365,7 +365,7 @@ export function MissionDashboard(props) {
         total={chapterProgress.length}
       />
       <Fade in={true} timeout={1000}>
-        <Grid container spacing={0} alignItems="center" justifyContent="left">
+        <Grid container spacing={0} alignItems="flex-start" justifyContent="left">
           {quizProgress && (
             <Grid item xs={12} md={6} lg={4}>
               <MissionMessageDashboard

@@ -2,6 +2,8 @@ import MuiAlert from '@mui/material/Alert';
 import * as React from 'react';
 import { sendLearnerSignupPostRequest } from '../actions/authRequestHandlers';
 import { signIn } from 'next-auth/react';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 export function stringAvatar(name) {
   if (!name)
@@ -68,3 +70,13 @@ export const CreateGuestLearnerAccount = evt =>
       //setOpenSnackBar(true);
     });
 };
+
+export function isScreenMobileSize ()
+{
+  const theme = useTheme();
+
+  const isMatch = useMediaQuery(theme.breakpoints.down('md'))
+
+  return isMatch;
+}
+

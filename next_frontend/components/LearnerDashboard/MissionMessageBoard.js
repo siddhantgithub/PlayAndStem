@@ -197,7 +197,7 @@ export const MissionMessageDashboard = (props) => {
             />
           </Grid>
           <Grid item xs={3} md={3} lg={3}>
-            <Box display={"flex"} flexDirection="column" alignItems={"flex-start"}>
+            <Box display={"flex"} flexDirection="column" alignItems={"center"}>
             <Button
               variant="contained"
               size="medium"
@@ -211,9 +211,12 @@ export const MissionMessageDashboard = (props) => {
               Start
             </Button>
             <Typography variant="body1" >
-              {(timeToStart <= 0)? "Loading...":`Chapter will start in ${timeToStart} seconds`}
+              {(timeToStart <= 0)? "Loading...": `Chapter will start in`}  
             </Typography>
+            {(timeToStart > 0) &&  <Typography variant="h4"  color= {buttonText[currTheme]}> {timeToStart} </Typography>  }
+            {(timeToStart > 0) &&  <Typography variant="body1" > seconds </Typography>  }
             </Box>
+            
           </Grid>
         </Grid>
       </Paper>
