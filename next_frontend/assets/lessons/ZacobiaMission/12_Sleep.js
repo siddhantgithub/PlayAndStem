@@ -4,8 +4,7 @@ const milliSecondsToASecond = [
 ];
 
 export const LessonText = [
-    {id:15, type: "TM", message: "Hi, welcome to the twelth chapter in our mission"},
-    {id:15, type: "TM", message: "This is the second last chapter and we will complete our mission in it"},
+    {id:15, type: "TM", message: "Hi, welcome to the next chapter in our mission"},
     {id:15, type: "TM", message: "In this chapter we will learn about sleep statement"},
     {id:1, type: "ack", message:"Click Next"},
     {id:1, type: "clearpage"},
@@ -56,7 +55,7 @@ while True:
     {id:1, type: "showpage"},
     {id:11, type: "TM", message: "In this chapter, we finally have the code to complete our mission"},
     {id:1, type: "TM", message:  "Also, we learned about sleep statement and how to use it"},
-    {id:1, type: "TM", message: "Time for a short quiz before going to the final chapter of our mission"},
+    {id:1, type: "TM", message: "Time for a short quiz"},
     {id:1, type: "donothing"},
     {id:1, type: "ack"},
     {id:1, type: "clearpage"},

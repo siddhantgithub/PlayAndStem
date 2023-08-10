@@ -118,9 +118,9 @@ const TopChatBotComponent = React.forwardRef((props, ref) =>{
 
         case LearnerActivityState.ChapterStarted:
             const ChapterStartedBlock = [
-                {type: "TM", message: "Hey, you recently started the chapter " + activityState.data.name + ", want to go to it now?"},
+                {type: "TM", message: "Hey, you recently started the chapter " + activityState.data.chapter.name + ", want to go to it now?"},
                 {type: "TM", message: "Click on the next button to go to the chapter"},
-                {id:1, type: "acksp", data: {type:"learnerevent", subtype:"loadchapter", data:activityState.data.id}},
+                {id:1, type: "acksp", data: {type:"learnerevent", subtype:"loadchapter", data:activityState.data}},
             ];
             return ChapterStartedBlock;
         break;

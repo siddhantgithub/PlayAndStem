@@ -353,7 +353,7 @@ export default function LearnerAccountFlow (props)
                     <Stack  direction="row" sx={{ mb: 1, mt:2 }} alignItems="center">
                         <Stack spacing={5}>
                             <Typography variant="h5" >
-                                Please select a username?
+                                Please select a username
                             </Typography>
                             <TextField   helperText = {textInputHelperText[TextInputIndexes.username]} error = {textInputError[TextInputIndexes.username]} name="user-name-learner"  autoComplete='off' inputProps={{autoComplete: "off"}} value={username} onChange={textFieldValueChange} autoFocus/>
                             <Button disabled = {buttonDisableArray[TextInputIndexes.username]} variant="contained" sx={{ mb: 0 }} onClick = {(evt) => {setLoginState(LearnerLoginState.CreateAccountParentEmail)}}>Next</Button>
@@ -364,12 +364,10 @@ export default function LearnerAccountFlow (props)
                     loginState == LearnerLoginState.CreateAccountParentEmail && 
                     <Stack  direction="row" sx={{ mb: 1, mt:2 }} alignItems="center">
                         <Stack spacing={5}>
-                            <Typography variant="h5" >
+                            <Typography variant="h5" align='center'>
                                     Please enter your parent's email
                             </Typography>
-                            <Typography variant="body1" >
-                                    We will ask them to send you candies, chocolates and many other things
-                            </Typography>
+
                             <TextField   helperText = {textInputHelperText[TextInputIndexes.parentEmail]} error = {textInputError[TextInputIndexes.parentEmail]} name="parent-email"  autoComplete='off' inputProps={{autoComplete: "off"}} value={parentEmail} onChange={textFieldValueChange} autoFocus/>
 
                             <Button disabled = {buttonDisableArray[TextInputIndexes.parentEmail]} variant="contained" sx={{ mb: 0 }} onClick = {(evt) => {setLoginState(LearnerLoginState.CreateAccountPassword)}}>Next</Button>

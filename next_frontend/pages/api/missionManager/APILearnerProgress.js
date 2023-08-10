@@ -63,7 +63,7 @@ async function getAllUserNamesForLearners ()
         '_id': 0
       };
     var allUserName = await Learner.find({},'username');
-    console.log ("All username got is", allUserName);
+    //console.log ("All username got is", allUserName);
     return allUserName.map ((elem) => elem.username);
 }
 

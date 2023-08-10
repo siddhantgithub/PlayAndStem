@@ -688,8 +688,9 @@ function DashboardContent(props) {
             break;
 
           default:
-            var nextChapter = clickedMission.moduleList[currentChapter.id];
-            onChapterClicked(nextChapter);
+            setClickedMission(eventDetails.data.mission);
+            var nextChapter = eventDetails.data.chapter;
+            onChapterClicked(nextChapter, eventDetails.data.mission );
         }
         break;
 
@@ -834,7 +835,7 @@ function DashboardContent(props) {
     setCurrentChapter(chapter);
     updateCurrrentActivityState({
       state: LearnerActivityState.ChapterStarted,
-      data: chapter,
+      data: {mission: clickedMission, chapter:chapter}
     });
 
     gtag.event({

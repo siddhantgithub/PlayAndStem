@@ -31,7 +31,7 @@ else
     D. The code has error in it
     Answer: A
 
-    Question: What error does the following code has?
+    Question: What error does the following code have?
     codestart:
 from microbit import *
 

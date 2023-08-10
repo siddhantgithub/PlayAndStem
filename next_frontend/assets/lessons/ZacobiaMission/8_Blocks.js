@@ -1,7 +1,7 @@
 export const LessonText = [
-    {id:15, type: "TM", message: "Hi, welcome to the eighth chapter in our mission"},
+    {id:15, type: "TM", message: "Hi, welcome to the next chapter in our mission"},
     {id:15, type: "TM", message: "In this chapter, we will learn about blocks in Python"},
-    {id:15, type: "TM", message: "This is an important concept in Python as blocks are used in many important features such as fuction, if statements, loops, etc..."},
+    {id:15, type: "TM", message: "This is an important concept in Python as blocks are used in many important features such as functions, if statements, loops, etc..."},
     {id:1, type: "donothing"},
     {id:1, type: "ack", message:"Click Next"},
     {id:1, type: "clearpage"},
@@ -22,7 +22,7 @@ print ("Line 2 is in code block A")
         print ("Line 6 is in code block C")
     `},
     {id:12, type:"TM", message: "Line 1 and 2 are in the same block as they have the same spaces"},
-    {id:12, type:"TM", message: "Similarly line 3 and 4 and so on"},
+    {id:12, type:"TM", message: "Similarly, line 3 and 4 and so on"},
     {id:1, type: "ack", message:"Click Next"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
@@ -50,7 +50,7 @@ print ("Line 2 is in code block A")
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
     {id:15, type: "TM", message: "How do we indent a line of code?"},
-    {id:15, type: "TM", message: "There are two ways:"},
+    {id:15, type: "TM", message: "There are two main ways:"},
     {id:15, type: "TM", message: "By using spaces"},
     {id:15, type: "TM", message: "and by using the tabs"},
     {id:15, type: "TM", message: "Python treats indentation by using space differently than by using tabs"},

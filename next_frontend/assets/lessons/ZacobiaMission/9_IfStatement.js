@@ -14,7 +14,7 @@ const IfBlockThirdQuestion = [
 ];
 
 export const LessonText = [
-    {id:15, type: "TM", message: "Hi, welcome to the ninth chapter in our mission"},
+    {id:15, type: "TM", message: "Hi, welcome to the next chapter in our mission"},
     {id:15, type: "TM", message: "In this chapter, we will learn how to use the \'if\' statement"},
     {id:1, type: "ack", message:"Click Next"},
     {id:1, type: "clearpage"},
@@ -33,7 +33,7 @@ a = 17
 b = 10
 if a > b:
     print ("A is greater than B")`},
-    {id:12, type:"TM", message: "What do you think the output of the above code will be"},
+    {id:12, type:"TM", message: "What do you think the output of the above code will be?"},
     {id:1, type: "QWBOL", message: "Provide your response", options:IfBlockFirstQuestion},
     {id:1, type: "ack", message:"Click next to proceed"},
     {id:1, type: "clearpage"},
@@ -45,7 +45,7 @@ b = 10
 if a > b:
     print ("A is greater than B")
 `},
-    {id:12, type:"TM", message: "What do you think the output of the above code will be"},
+    {id:12, type:"TM", message: "What do you think the output of the above code will be?"},
     {id:1, type: "QWBOL", message: "Provide your response", options:IfBlockSecondQuestion},
     {id:1, type: "ack", message:"Click next to proceed"},
     {id:1, type: "clearpage"},
@@ -57,7 +57,7 @@ b = 10
 if a > b:
 print ("A is greater than B")
     `},
-    {id:12, type:"TM", message: "What do you think the output of the above code will be"},
+    {id:12, type:"TM", message: "What do you think the output of the above code will be?"},
     {id:1, type: "QWBOL", message: "Provide your response", options:IfBlockThirdQuestion},
     {id:1, type: "ack", message:"Click next to proceed"},
     {id:1, type: "clearpage"},

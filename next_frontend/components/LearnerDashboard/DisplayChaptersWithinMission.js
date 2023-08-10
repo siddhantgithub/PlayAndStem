@@ -362,7 +362,7 @@ export function MissionDashboard(props) {
       </Button>
       <LinearProgressWithLabel
         completed={chapterCompleted}
-        total={chapterProgress.length}
+        total={moduleList.length}
       />
       <Fade in={true} timeout={1000}>
         <Grid container spacing={0} alignItems="flex-start" justifyContent="left">

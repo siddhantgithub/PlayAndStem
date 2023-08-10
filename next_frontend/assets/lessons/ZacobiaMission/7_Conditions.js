@@ -4,7 +4,7 @@ export const LessonText = [
     {id:1, type: "ack", message:"Click Next"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
-    {id:12, type:"TM", message: "From the previous section, we learned how to switch on and clear the display"},
+    {id:12, type:"TM", message: "In the previous section, we learned how to switch on and clear the display"},
     {id:1, type: "donothing"},
     {id:12, type:"TM", message: "Now, before we proceed, let's quickly refresh the three steps to solve our mission:"},
     {id:1, type: "donothing"},

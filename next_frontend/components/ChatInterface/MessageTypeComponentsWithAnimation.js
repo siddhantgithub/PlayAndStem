@@ -211,7 +211,7 @@ export  function ChatBotMessage (props)
                 setSynth(synth);
 
                 return () => {
-                    synth.cancel();
+                    //synth.cancel();
                     synth.removeEventListener("voiceschanged", () => {
                       setVoice(null);
                     });
@@ -225,10 +225,11 @@ export  function ChatBotMessage (props)
         {
             //console.log ("Calling typewriter effect");
             typeWriterEffect.typeString(message)
-                            .stop().callFunction (()=> {if (onComplete != null) onComplete ();})
+                            .stop().pauseFor(1000).callFunction (()=> {if (onComplete != null) onComplete ();})
                             .start();
            // const synth = window.speechSynthesis;
            //console.log ("utterance is", utterance);
+           synth.cancel();
             synth.speak(utterance);
             //synth.speak(utterance);
         }
@@ -336,7 +337,7 @@ export  function LearnerMessage (props) {
                 </Paper>
             </Grid>
             <Grid item xs={12} md={1} lg={1} sx={{maxWidth:"40px"} } >
-                <Avatar sx={{ bgcolor: deepOrange[500] }}>D</Avatar>
+                <Avatar sx={{ bgcolor: deepOrange[500] }}>R</Avatar>
             </Grid>
 
         </Grid> 

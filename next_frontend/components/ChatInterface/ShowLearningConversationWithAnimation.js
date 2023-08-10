@@ -54,7 +54,7 @@ export function breakParagraph(paragraph) {
     for (var i = 0; i < paragraph.length; i++) {
       var char = paragraph[i];
   
-      if (char === '.' || char === '?' || char === '!' || char ==='\n') {
+      if (char === '. ' || char === '? ' || char === '! ' || char ==='\n') {
         currentStatement += char;
         if (currentStatement.length > 1)
             statements.push(currentStatement.trim());
@@ -702,6 +702,7 @@ export default function LearningConversation(props) {
 
   function muteButtonPress() {
     updateCairoMuted(!isCairoMuted);
+    window.speechSynthesis.cancel();
   }
 
   function forwardButtonClicked() {

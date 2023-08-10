@@ -34,7 +34,7 @@ const firstPythonCodeResponseAction = {
 
 export const LessonText = [
    // {id:1, type: "chpycon", purpose:"import everything from microbit module",messageStack:firstCodeMessageStack, correctCode:`from microbit import *`,responseAction:firstPythonCodeResponseAction},
-    {id:15, type: "TM", message: "Hi, welcome to the fourth chapter in our mission"},
+    {id:15, type: "TM", message: "Hi, welcome to the next chapter in our mission"},
     {id:15, type: "TM", message: "In this chapter, we will start writing the Python code for solving the mission"},
     {id:1, type: "ack", message:"Click Next"},
     {id:1, type: "clearpage"},
@@ -67,7 +67,7 @@ export const LessonText = [
     {id:12, type:"TM", message: "Now to solve the energy problem for Zacobians, we need help from Microbit"},
     {id:12, type:"TM", message: "So In our case 'from' will be <b>microbit</b>"},
     {id:12, type:"TM", message: "For <b>what help you need</b>, we should ask for all the help we can get or everything"},
-    {id:12, type:"TM", message: "When we need everything instead of writing everything we use the character \'*\'"},
+    {id:12, type:"TM", message: "When we need everything, instead of writing everything we use the character \'*\'"},
     {id:1, type: "ack", message:"Next"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},

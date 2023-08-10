@@ -136,11 +136,12 @@ export const MissionMessageDashboard = (props) => {
   const { currTheme } = useStore(LearnerStore);
 
   console.log ("Rerendering now");
+  const autoStartTime = 30;
 
   
 
-  const [timeToStart, setTimeToStart] = React.useState(20);
-  const timerRunning = React.useRef (timeToStart + 1);
+  const [timeToStart, setTimeToStart] = React.useState(autoStartTime);
+  const timerRunning = React.useRef (autoStartTime + 1);
   //timerRunning.current = timeToStart;
 
   const firstAvailableId = chapterProgress.findIndex(
@@ -165,7 +166,7 @@ export const MissionMessageDashboard = (props) => {
 
   if (firstAvailableId != -1 && firstAvailableId < chapterlist.length) 
   {
-    if (timerRunning.current == 21)
+    if (timerRunning.current == autoStartTime + 1)
     {
       console.log ("Starting timer")
       setTimeout(() => {reduceTimeToStart()}, 1000);
@@ -235,11 +236,14 @@ export const MissionMessageDashboard = (props) => {
       //Means we have a quiz that is not yet complete
       if (quizProgress[firstOpenQuiz] == -1) {
         return (
-          <Paper sx={sx}>
-            <CardHeader title="Time For a Quiz" />
+          <Card sx={{ ...sx, backgroundColor: backgroundColors[currTheme] }}>
+            <CardHeader sx={{
+            backgroundColor: topicColors[currTheme],
+            color: buttonText[currTheme],
+          }} title="Time For a Quiz" />
             <CardContent>
-              <Typography gutterBottom variant="body1" component="div">
-                You haven't tried the quiz {quiz.name} yet
+              <Typography gutterBottom variant="h5" component="div">
+                You haven't tried the quiz '{quiz.name}' yet
               </Typography>
               <Typography gutterBottom variant="body1" component="div">
                 It would be great to complete the quiz just to ensure you have
@@ -250,17 +254,24 @@ export const MissionMessageDashboard = (props) => {
               variant="contained"
               size="medium"
               onClick={retryClickHandler}
-              sx={{ margin: 2 }}
+              sx={{
+                margin: 2,
+                backgroundColor: buttonColors[currTheme],
+                color: buttonText[currTheme],
+              }}
             >
               Retry
             </Button>
-          </Paper>
+          </Card>
         );
       } else {
         //Quiz score is < 100. Ask to retry
         return (
-          <Paper sx={sx}>
-            <CardHeader title="Time For a Quiz" />
+          <Card sx={{ ...sx, backgroundColor: backgroundColors[currTheme] }}>
+            <CardHeader sx={{
+            backgroundColor: topicColors[currTheme],
+            color: buttonText[currTheme],
+          }} title="Time For a Quiz" />
             <CardContent>
               <Typography
                 gutterBottom
@@ -284,11 +295,13 @@ export const MissionMessageDashboard = (props) => {
               variant="contained"
               size="medium"
               onClick={retryClickHandler}
-              sx={{ margin: 2 }}
+              sx={{ margin: 2,
+                backgroundColor: buttonColors[currTheme],
+                color: buttonText[currTheme], }}
             >
               Retry
             </Button>
-          </Paper>
+          </Card>
         );
       }
     }

@@ -24,7 +24,7 @@ const askIfQuestion = [
 ];
 
 export const CommonChapterEndBlock = [
-    {id:1, type: "TM", message:"That is all in this chatper"},
+    {id:1, type: "TM", message:"That is all in this chapter"},
     {id:1, type: "TM", message:"Do you want to ask a question before we end?"},
     {id:8, type: "QWBOL", message: "Provide your response", options:askIfQuestion},
 ];

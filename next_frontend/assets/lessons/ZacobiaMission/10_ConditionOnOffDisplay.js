@@ -16,7 +16,7 @@ export const LessonText = [
     {id:15, type: "TM", message: "We will implement the Step 1: Get the sunlight level"},
     {id:15, type: "TM", message: "First we will get help by importing everything from microbit using <b>from microbit import *</b> line"},
     {id:15, type: "donothing"},
-    {id:15, type: "TM", message: "Next, we will get the light level using read_light_level() api of display module and store it in lightLevel variable"},
+    {id:15, type: "TM", message: "Next, we will get the light level using read_light_level() function of display module and store it in lightLevel variable"},
     {id:15, type: "donothing"},
     {id:15, type: "TM", message: "So our code becomes"},
     {id:10, type: "pycb", value: 
@@ -62,7 +62,7 @@ if lightLevel <= 50:
     {id:1, type: "ack", message:"Click Next"},
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
-    {id:12, type:"TM", message: "Now we will implement Step 3: Else switch off the lights"},
+    {id:12, type:"TM", message: "Now, we will implement Step 3: Else switch off the lights"},
     {id:12, type:"TM", message: "We will use else statement followed by the indented block of code to clear the display. Remember the code below else statement will run only when the if condition is not true"},
     {id:15, type: "donothing"},
     {id:12, type:"TM", message: "So, the code now becomes"},
