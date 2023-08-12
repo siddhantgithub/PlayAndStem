@@ -97,6 +97,7 @@ export default function MyApp(props) {
           <title>Learn Robotics and Programming</title>
           <meta name="viewport" content="initial-scale=1, width=device-width" />
           <link rel="icon" href="/favicon.ico" sizes="any" />
+          <meta property="og:image" content="https://uni.playandstem.com/Storybotics.png" />
         </Head>
 
 
