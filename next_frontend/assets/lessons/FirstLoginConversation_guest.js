@@ -334,7 +334,7 @@ export let LessonText_Guest = [
     {id:1, type: "clearpage"},
     {id:1, type: "showpage"},
     {id:0, type: "TM", message:"We will start with with Zacobian Lights mission"},
-    {id:0, type: "TM", message:"Please click on Close when you are done watching the video"},
+    {id:0, type: "TM", message:"Here is the video to show you what we will make by completing the mission"},
     {id:0, type: "TM", message:"Loadin video now"},
     {id:1, type: "video", path:"/lessonImages/Blocks.png", altText:"testImage", videoId:"6yKUjEokvaA"},
     {id:1, type: "ack"},
