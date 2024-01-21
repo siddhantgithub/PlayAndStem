@@ -1,6 +1,6 @@
 # Repository for PlayAndStem main app. 
 
-## To see in action, please visit the link - uni.playandstem.com
+## To see in action, please visit the link - https://uni.playandstem.com
 
 # mitrobo
 <b>Steps to run:</b>
